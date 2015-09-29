@@ -1,0 +1,46 @@
+class InstrumentsFieldMessage : public FieldMessage
+{
+  public:
+  InstrumentsFieldMessage(const boost::shared_array<char*>& instrus, unsigned int size):
+      instrus_(instrus),
+      size_(size),
+      type_(INSTRUMENTSFIELDMESSAGE)
+    {
+    }
+
+    virtual ~InstrumentsFieldMessage() {}
+
+    virtual MessageType type() const
+    {
+      return type_;
+    }
+
+    virtual Message* toReturnMessage()
+    {
+      throw std::runtime_error("the type InstrumentsFieldMessage not support this function");
+    }
+
+    virtual Message* toResponseMessage()
+    {
+      throw std::runtime_error("the type InstrumentsFieldMessage not support this function");
+    }
+
+  boost::shared_array<char*> instrus_;
+  unsigned int size_;
+
+  private:
+
+    MessageType type_;
+};
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(std::basic_ostream< CharT, TraitsT >& os, InstrumentsFieldMessage const& aInstrumentsFieldMessage)
+{
+    os <<std::endl;
+    os <<"## InstrumentsFieldMessage ##" <<std::endl;
+    for(int i=0; i<aInstrumentsFieldMessage.size_; i++)
+    {
+      os <<"instrument: " <<aInstrumentsFieldMessage.instrus_[i] <<std::endl;
+    }
+    os <<"## end InstrumentsFieldMessage ##" <<std::endl;
+}
