@@ -1439,7 +1439,7 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
-  --with-soil             home path of the soil, defaults to @S|@home_es/soil
+  --with-soil             home path of the soil, defaults to @S|@home_libs/soil
   --with-boost            home path of the boost, defaults to @S|@home_3rd/boost
   --with-ctp              path of the ctp api, defaults to @S|@CTP_HOME
   --with-gtest            home path of the gtest, defaults to @S|@home_3rd/gtest
@@ -15106,15 +15106,23 @@ LT_AGE=0
 
 
 
-home_3rd=`pwd`/../../3rd
-home_es=`pwd`/../../es
+home_3rd=~/3rd
+home_libs=~/libs
+
+if test -d /llj/3rd ; then
+   home_3rd=/llj/3rd
+fi
+
+if test -d /llj/libs ; then
+   home_libs=/llj/libs
+fi
 
 
 @%:@ Check whether --with-soil was given.
 if test "${with_soil+set}" = set; then :
   withval=$with_soil; SOIL_HOME="$withval"
 else
-  SOIL_HOME="$home_es/soil"
+  SOIL_HOME="$home_libs/soil"
 fi
 
 
