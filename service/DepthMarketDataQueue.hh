@@ -48,7 +48,7 @@ class DepthMarketDataQueue
         if( res==boost::queue_op_status::closed)
           break;
 
-        std::auto_ptr<DepthMarketData> p_data(the_data);
+        std::unique_ptr<DepthMarketData> p_data(the_data);
 
         if( callback_ )
           callback_->onRtnMarketData( p_data.get() );

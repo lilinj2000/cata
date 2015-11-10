@@ -9,7 +9,7 @@
 #include "ThostFtdcMdApi.h"
 
 #include <boost/atomic.hpp>
-#include "soil/Condition.hh"
+#include "soil/STimer.hh"
 
 
 namespace cata
@@ -58,15 +58,15 @@ class MDServiceImpl : public MDService
   
   CThostFtdcMdApi* md_api_;
   
-  std::auto_ptr<MDSpiImpl> md_spi_;
+  std::unique_ptr<MDSpiImpl> md_spi_;
 
   MDServiceCallback* callback_;
   
   boost::atomic<int> request_id_;
 
-  std::auto_ptr<DepthMarketDataQueue<MDServiceCallback> > md_queue_;
+  std::unique_ptr<DepthMarketDataQueue<MDServiceCallback> > md_queue_;
 
-  std::auto_ptr<soil::Condition> cond_;
+  std::unique_ptr<soil::STimer> cond_;
 };
 
 

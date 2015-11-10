@@ -7,7 +7,7 @@
 #include "ThostFtdcTraderApi.h"
 
 #include <boost/atomic.hpp>
-#include "soil/Condition.hh"
+#include "soil/STimer.hh"
 
 namespace cata
 {
@@ -71,16 +71,16 @@ class TraderServiceImpl : public TraderService
     
   CThostFtdcTraderApi* trader_api_;
   
-  std::auto_ptr<TraderSpiImpl> trader_spi_;
+  std::unique_ptr<TraderSpiImpl> trader_spi_;
 
   TraderServiceCallback* callback_;
   
   boost::atomic<int> request_id_;
 
-  // std::auto_ptr<TraderResponseQueue> trader_response_queue_;
+  // std::unique_ptr<TraderResponseQueue> trader_response_queue_;
 
   // boost::atomic<int> login_count_;
-  std::auto_ptr<soil::Condition> cond_;
+  std::unique_ptr<soil::STimer> cond_;
 
   int front_id_;
   int session_id_;

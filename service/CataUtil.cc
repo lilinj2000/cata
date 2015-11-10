@@ -13,7 +13,7 @@ CATAUtil::~CATAUtil()
 
 DepthMarketData* CATAUtil::toDepthMarketData(CThostFtdcDepthMarketDataField *pData)
 {
-  std::auto_ptr<DepthMarketData> theData( new DepthMarketData() );
+  std::unique_ptr<DepthMarketData> theData( new DepthMarketData() );
 
   theData->TradingDay = pData->TradingDay;
   theData->InstrumentID = pData->InstrumentID;

@@ -52,7 +52,7 @@ class MDSpiImpl : public CThostFtdcMdSpi
  private:
   MDServiceImpl* service_;
 
-  std::auto_ptr<CATAUtil> util_;
+  std::unique_ptr<CATAUtil> util_;
 };
 
 }; // namesapce cata

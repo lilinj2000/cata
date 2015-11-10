@@ -20,14 +20,14 @@ public:
   {
     options_.reset( MDService::createOptions() );
 
-    std::auto_ptr<soil::Config> config( soil::Config::create() );
+    std::unique_ptr<soil::Config> config( soil::Config::create() );
     config->configFile() = "md.cfg";
     config->registerOptions( options_.get() );
     config->loadConfig();
 
     CATA_LOG_INIT("log.cfg");
     
-    cond_.reset( soil::Condition::create() );
+    cond_.reset( soil::STimer::create() );
     
     service_.reset( MDService::createService(options_.get(), NULL) );
   }
@@ -37,11 +37,11 @@ public:
   }
 
  protected:
-  std::auto_ptr<cata::MDService> service_;
+  std::unique_ptr<cata::MDService> service_;
 
-  std::auto_ptr<soil::Options> options_;
+  std::unique_ptr<soil::Options> options_;
 
-  std::auto_ptr<soil::Condition> cond_;
+  std::unique_ptr<soil::STimer> cond_;
 
 };
 

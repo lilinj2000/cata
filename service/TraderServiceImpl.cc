@@ -18,7 +18,7 @@ TraderServiceImpl::TraderServiceImpl(soil::Options* options, TraderServiceCallba
 {
   CATA_TRACE <<"TraderServiceImpl::TraderServiceImpl()" ;
 
-  cond_.reset( soil::Condition::create() );
+  cond_.reset( soil::STimer::create() );
 
   options_ = dynamic_cast<TraderOptions*>(options);
   
@@ -78,7 +78,7 @@ int TraderServiceImpl::orderOpenBuy(const std::string& instru,
 
   int order_ref = -1;
 
-  std::auto_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
+  std::unique_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
 
   strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
   req->Direction = THOST_FTDC_D_Buy;
@@ -108,7 +108,7 @@ int TraderServiceImpl::orderOpenBuyFAK(const std::string& instru,
 
   int order_ref = -1;
 
-  std::auto_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
+  std::unique_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
 
   strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
   req->Direction = THOST_FTDC_D_Buy;
@@ -142,7 +142,7 @@ int TraderServiceImpl::orderOpenBuyFOK(const std::string& instru,
 
   int order_ref = -1;
 
-  std::auto_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
+  std::unique_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
 
   strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
   req->Direction = THOST_FTDC_D_Buy;
@@ -177,7 +177,7 @@ int TraderServiceImpl::orderOpenSell(const std::string& instru,
 
   int order_ref = -1;
 
-  std::auto_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
+  std::unique_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
 
   strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
   req->Direction = THOST_FTDC_D_Sell;
@@ -207,7 +207,7 @@ int TraderServiceImpl::orderCloseBuy(const std::string& instru,
 
   int order_ref = -1;
 
-  std::auto_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
+  std::unique_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
 
   strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
   req->Direction = THOST_FTDC_D_Buy;
@@ -239,7 +239,7 @@ int TraderServiceImpl::orderCloseSell(const std::string& instru,
 
   int order_ref = -1;
 
-  std::auto_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
+  std::unique_ptr<CThostFtdcInputOrderField> req( orderField(order_ref) );
 
   strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
   req->Direction = THOST_FTDC_D_Sell;
@@ -373,7 +373,7 @@ void TraderServiceImpl::notify()
 
 CThostFtdcInputOrderField* TraderServiceImpl::orderField(int& order_ref)
 {
-  std::auto_ptr<CThostFtdcInputOrderField> req( new CThostFtdcInputOrderField() );
+  std::unique_ptr<CThostFtdcInputOrderField> req( new CThostFtdcInputOrderField() );
 
   order_ref = max_order_ref_++;
   

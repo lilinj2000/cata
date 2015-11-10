@@ -24,7 +24,7 @@ class TraderServiceImplTest : public ::testing::Test
 
     CATA_LOG_INIT("log.cfg");
 
-    cond_.reset( soil::Condition::create() );
+    cond_.reset( soil::STimer::create() );
 
     service_.reset( TraderService::createService(options_.get(), NULL) );
 
@@ -39,7 +39,7 @@ class TraderServiceImplTest : public ::testing::Test
   
   std::auto_ptr<soil::Options> options_;
   
-  std::auto_ptr<soil::Condition> cond_;
+  std::auto_ptr<soil::STimer> cond_;
 
 };
 

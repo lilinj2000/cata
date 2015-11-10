@@ -16,7 +16,7 @@ MDServiceImpl::MDServiceImpl(soil::Options* options, MDServiceCallback* callback
 {
   CATA_TRACE <<"MDServiceImpl::MDServiceImpl()" ;
 
-  cond_.reset( soil::Condition::create() );
+  cond_.reset( soil::STimer::create() );
 
   md_queue_.reset( new DepthMarketDataQueue<MDServiceCallback>(callback_) );
   
