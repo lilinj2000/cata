@@ -64,7 +64,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(std::basic_ostream< CharT, Trai
 {
   os <<std::endl;
   os <<"{" <<std::endl;
-  os <<"    \"CThostFtdcDepthMarketDataField\": {" <<std::endl;
+  os <<"    \"DepthMarketDataField\": {" <<std::endl;
   os <<"        \"TradingDay\": \"" <<aDepthMarketData.TradingDay  <<"\"," <<std::endl;
   os <<"        \"InstrumentID\": \"" <<aDepthMarketData.InstrumentID  <<"\"," <<std::endl;
   os <<"        \"ExchangeID\": \"" <<aDepthMarketData.ExchangeID  <<"\"," <<std::endl;
@@ -108,7 +108,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(std::basic_ostream< CharT, Trai
   os <<"        \"AskPrice5\": \"" <<aDepthMarketData.AskPrice5  <<"\"," <<std::endl;
   os <<"        \"AskVolume5\": \"" <<aDepthMarketData.AskVolume5  <<"\"," <<std::endl;
   os <<"        \"AveragePrice\": \"" <<aDepthMarketData.AveragePrice  <<"\"," <<std::endl;
-  os <<"        \"ActionDay\": \"" <<aDepthMarketData.ActionDay  <<"\"" <<std::endl;
+  os <<"        \"ActionDay\": \"" <<aDepthMarketData.ActionDay  <<"\"," <<std::endl;
   os <<"        \"time_stamp\": \"" <<aDepthMarketData.time_stamp  <<"\"" <<std::endl;
   os <<"    }" <<std::endl;
   os <<"}" <<std::endl;
