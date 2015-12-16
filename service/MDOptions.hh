@@ -26,6 +26,8 @@ class MDOptions : public soil::Options
   std::string user_id;
   std::string password;
 
+  std::string protocol;
+
    private:
 
   boost::program_options::options_description options_;

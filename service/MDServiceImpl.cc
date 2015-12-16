@@ -21,8 +21,14 @@ MDServiceImpl::MDServiceImpl(soil::Options* options, MDServiceCallback* callback
   md_queue_.reset( new DepthMarketDataQueue<MDServiceCallback>(callback_) );
   
   options_ = dynamic_cast<MDOptions*>(options);
-  
-  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data()) ;
+
+  bool is_udp = false;
+  if( options_->protocol=="udp" )
+  {
+    CATA_DEBUG <<"UDP is enabled.";
+    is_udp = true;
+  }
+  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(), is_udp) ;
   
   md_spi_.reset( new MDSpiImpl(this) );
   

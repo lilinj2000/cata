@@ -23,6 +23,8 @@ MDOptions::MDOptions():
        "user id")
       ("cata_md.password", po::value<std::string>(&password), 
        "password")
+      ("cata_md.protocol", po::value<std::string>(&protocol), 
+       "the protocol either udp or tcp")
       ;
 
   return;

@@ -4,7 +4,7 @@
 #include <string>
 #include <ostream>
 #include <set>
-#include "boost/date_time.hpp"
+#include "soil/DateTime.hh"
 
 namespace cata
 {
@@ -56,7 +56,7 @@ struct DepthMarketData
   double AveragePrice;
   std::string ActionDay;
 
-  boost::posix_time::ptime time_stamp;
+  soil::DateTime time_stamp;
 };
 
 template< typename CharT, typename TraitsT >

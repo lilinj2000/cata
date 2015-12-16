@@ -327,6 +327,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = cata service utest
+EXTRA_DIST = deploy.sh
 all: all-recursive
 
 .SUFFIXES:

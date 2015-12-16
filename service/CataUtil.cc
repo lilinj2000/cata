@@ -1,5 +1,7 @@
 #include "CataUtil.hh"
 
+#include <memory>
+
 namespace cata
 {
 
@@ -67,8 +69,6 @@ DepthMarketData* CATAUtil::toDepthMarketData(CThostFtdcDepthMarketDataField *pDa
   theData->AveragePrice = pData->AveragePrice;
   theData->ActionDay = pData->ActionDay;
   
-  theData->time_stamp = boost::posix_time::microsec_clock::local_time();
-
   return theData.release();
 
 }

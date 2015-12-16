@@ -54,7 +54,7 @@ TEST_F(MDServiceImplTest, subMarketDataTest)
 {
   InstrumentSet instruments;
 
-  instruments.insert("cu1511");
+  instruments.insert("cu1602");
 
   service_->subMarketData(instruments);
 
