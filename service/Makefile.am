@@ -27,6 +27,7 @@ noinst_HEADERS = MDOptions.hh MDServiceImpl.hh \
 	TraderServiceImpl.hh \
 	TraderSpiImpl.hh \
 	CataLog.hh \
-	CataUtil.hh
+	CataUtil.hh \
+	ThostFtdcUserApiStructPrint.hh
 
 

@@ -4,12 +4,11 @@
 #include <memory>
 
 #include "cata/MDService.hh"
-#include "DepthMarketDataQueue.hh"
-
 #include "ThostFtdcMdApi.h"
 
 #include <boost/atomic.hpp>
 #include "soil/STimer.hh"
+#include "soil/MsgQueue.hh"
 
 
 namespace cata
@@ -43,14 +42,15 @@ class MDServiceImpl : public MDService
   void notify();
 
   void pushData(DepthMarketData* data);
-  
-  MDServiceCallback* callback() { return callback_; }
-  
- protected:
-  // void  minusInstr(const InstrumentSet& instruments1, const InstrumentSet& instruments2, InstrumentSet& result);
-  
-  // void  intersecInstr(const InstrumentSet& instruments1, const InstrumentSet& instruments2, InstrumentSet& result);
 
+  inline
+  void msgCallback(const DepthMarketData* msg)
+  {
+    if( callback_ )
+      callback_->onRtnMarketData( msg );
+  }
+
+ protected:
   
  private:
 
@@ -64,7 +64,7 @@ class MDServiceImpl : public MDService
   
   boost::atomic<int> request_id_;
 
-  std::unique_ptr<DepthMarketDataQueue<MDServiceCallback> > md_queue_;
+  std::unique_ptr<soil::MsgQueue<DepthMarketData, MDServiceImpl> > md_queue_;
 
   std::unique_ptr<soil::STimer> cond_;
 };

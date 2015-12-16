@@ -18,7 +18,7 @@ MDServiceImpl::MDServiceImpl(soil::Options* options, MDServiceCallback* callback
 
   cond_.reset( soil::STimer::create() );
 
-  md_queue_.reset( new DepthMarketDataQueue<MDServiceCallback>(callback_) );
+  md_queue_.reset( new soil::MsgQueue<DepthMarketData, MDServiceImpl>(this) );
   
   options_ = dynamic_cast<MDOptions*>(options);
 
@@ -144,7 +144,7 @@ void MDServiceImpl::notify()
 
 void MDServiceImpl::pushData(DepthMarketData* data)
 {
-  md_queue_->pushData( data );
+  md_queue_->pushMsg( data );
 }
 
 

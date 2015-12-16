@@ -1,11 +1,8 @@
 AUTOMAKE_OPTIONS = foreign
 
+SUBDIRS = traderflow mdflow
+
 noinst_PROGRAMS = unittest
-
-# ConfigTest.cc 
-# LogTest.cc  
-# FtdcUserApiStructPrintTest.cc 
-
 
 unittest_SOURCES = \
 	MDServiceImplTest.cc \
