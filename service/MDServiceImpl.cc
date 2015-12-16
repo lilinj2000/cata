@@ -23,12 +23,18 @@ MDServiceImpl::MDServiceImpl(soil::Options* options, MDServiceCallback* callback
   options_ = dynamic_cast<MDOptions*>(options);
 
   bool is_udp = false;
+  bool is_multi = false;
   if( options_->protocol=="udp" )
   {
     CATA_DEBUG <<"UDP is enabled.";
     is_udp = true;
   }
-  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(), is_udp) ;
+  else if( options_->protocol=="multi" )
+  {
+    CATA_DEBUG <<"MULTI is enabled.";
+    is_multi = true;
+  }
+  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(), is_udp, is_multi) ;
   
   md_spi_.reset( new MDSpiImpl(this) );
   
