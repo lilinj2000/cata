@@ -84,7 +84,7 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gcov.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -121,7 +121,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libcata_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libcata_la_OBJECTS = libcata_la-MDOptions.lo libcata_la-CataUtil.lo \
 	libcata_la-MDServiceImpl.lo libcata_la-MDSpiImpl.lo \
 	libcata_la-TraderOptions.lo libcata_la-TraderSpiImpl.lo \
@@ -210,6 +210,9 @@ BOOST_LIBADD = @BOOST_LIBADD@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+COVERAGE_CFLAGS = @COVERAGE_CFLAGS@
+COVERAGE_CXXFLAGS = @COVERAGE_CXXFLAGS@
+COVERAGE_LDFLAGS = @COVERAGE_LDFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CTP_CPPFLAGS = @CTP_CPPFLAGS@
@@ -231,6 +234,8 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+GCOV = @GCOV@
+GENHTML = @GENHTML@
 GREP = @GREP@
 GTEST_CPPFLAGS = @GTEST_CPPFLAGS@
 GTEST_HOME = @GTEST_HOME@
@@ -241,6 +246,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -274,6 +280,7 @@ RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SHTOOL = @SHTOOL@
 SOIL_CPPFLAGS = @SOIL_CPPFLAGS@
 SOIL_HOME = @SOIL_HOME@
 SOIL_LIBADD = @SOIL_LIBADD@
@@ -342,11 +349,13 @@ libcata_la_SOURCES = MDOptions.cc CataUtil.cc MDServiceImpl.cc \
 libcata_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(CTP_CPPFLAGS) \
-			$(SOIL_CPPFLAGS)
+			$(SOIL_CPPFLAGS) \
+			$(COVERAGE_CXXFLAGS)
 
 libcata_la_LIBADD = $(CTP_LIBADD) \
 		$(BOOST_LIBADD) \
-		$(SOIL_LIBADD)
+		$(SOIL_LIBADD) \
+		$(COVERAGE_LDFLAGS)
 
 libcata_la_LDFLAGS = \
 	-no-undefined -version-info \

@@ -51,8 +51,8 @@ TEST_F(TraderServiceImplTest, loginTest)
 TEST_F(TraderServiceImplTest, orderOpenBuyTest)
 {
 
-  std::string instru = "IF1510";
-  double price = 2889;
+  std::string instru = "cu1603";
+  double price = 32900;
   int volume = 1;
   
   service_->orderOpenBuy(instru, price, volume);

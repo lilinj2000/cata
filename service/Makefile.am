@@ -9,11 +9,13 @@ libcata_la_SOURCES = MDOptions.cc CataUtil.cc MDServiceImpl.cc \
 libcata_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(CTP_CPPFLAGS) \
-			$(SOIL_CPPFLAGS)
+			$(SOIL_CPPFLAGS) \
+			$(COVERAGE_CXXFLAGS)
 
 libcata_la_LIBADD = $(CTP_LIBADD) \
 		$(BOOST_LIBADD) \
-		$(SOIL_LIBADD)
+		$(SOIL_LIBADD) \
+		$(COVERAGE_LDFLAGS)
 
 libcata_la_LDFLAGS = \
 	-no-undefined -version-info \

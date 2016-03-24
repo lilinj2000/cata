@@ -24,6 +24,8 @@ AC_PROG_RANLIB
 
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 
+AC_CHECK_PROGS(GCOV, [gcov-mp-4.8 gcov], gcov)
+
 # Checks for library functions.
 LT_RELEASE=0.1
 LT_CURRENT=0
@@ -36,14 +38,6 @@ AC_SUBST(LT_AGE)
 
 home_3rd=~/3rd
 home_libs=~/libs
-
-if test -d /llj/3rd ; then
-   home_3rd=/llj/3rd
-fi
-
-if test -d /llj/libs ; then
-   home_libs=/llj/libs
-fi
 
 dnl soil lib
 AC_ARG_WITH([soil],
@@ -94,17 +88,26 @@ AC_SUBST(CTP_CPPFLAGS)
 AC_SUBST(CTP_LIBADD)
 
 dnl gtest lib
+GTEST_HOME=$home/3rd/googletest
 AC_ARG_WITH([gtest],
     [AS_HELP_STRING([--with-gtest],
-        [home path of the gtest, defaults to $home_3rd/gtest])],
+        [home path of the gtest, defaults to $GTEST_HOME])],
     [GTEST_HOME="$withval"],
-    [GTEST_HOME="$home_3rd/gtest"])
+    [])
 AC_SUBST([GTEST_HOME])
 
 GTEST_CPPFLAGS=-I$GTEST_HOME/include
 GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a"
 AC_SUBST(GTEST_CPPFLAGS)
 AC_SUBST(GTEST_LIBADD)
+
+###########################
+# gcov coverage reporting
+###########################
+AC_TDD_GCOV
+AC_SUBST(COVERAGE_CFLAGS)
+AC_SUBST(COVERAGE_CXXFLAGS)
+AC_SUBST(COVERAGE_LDFLAGS)
 
 AC_OUTPUT([
 	Makefile

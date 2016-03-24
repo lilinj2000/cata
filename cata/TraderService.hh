@@ -1,34 +1,31 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef CATA_TRADER_SERVICE_HH
 #define CATA_TRADER_SERVICE_HH
 
 #include <string>
-
 #include "soil/Config.hh"
 #include "cata/CataDef.hh"
 
-namespace cata
-{
+namespace cata {
 
-class TraderServiceCallback
-{
+class TraderServiceCallback {
  public:
-  virtual void onRspError(int errord_id, const std::string& error_msg)= 0;
-  
+  virtual void onRspError(int errord_id, const std::string& error_msg) = 0;
+
   virtual void onRspOrderInsert(int order_ref)= 0;
 
   virtual void onRtnOrder(int order_ref, const std::string& status_msg) = 0;
 
   virtual void onRtnTrade(int order_ref,
                           double price, int volume)= 0;
-  
+
   virtual ~TraderServiceCallback() {}
 };
 
-
-class TraderService
-{
+class TraderService {
  public:
-
   virtual std::string tradingDay() = 0;
 
   virtual int orderOpenBuy(const std::string& instru,
@@ -52,12 +49,12 @@ class TraderService
   virtual ~TraderService() {}
 
   static soil::Options* createOptions();
-  
-  static TraderService* createService(soil::Options* options, TraderServiceCallback* callback);
 
+  static TraderService* createService(soil::Options* options,
+                                      TraderServiceCallback* callback);
 };
 
 
-}; // namesapce cata
+};  // namespace cata
 
-#endif // CATA_TRADER_SERVICE_HH
+#endif  // CATA_TRADER_SERVICE_HH
