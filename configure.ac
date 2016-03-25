@@ -24,7 +24,7 @@ AC_PROG_RANLIB
 
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 
-AC_CHECK_PROGS(GCOV, [gcov-mp-4.8 gcov], gcov)
+AC_CHECK_PROGS(GCOV, [gcov], gcov)
 
 # Checks for library functions.
 LT_RELEASE=0.1

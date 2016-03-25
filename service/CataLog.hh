@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef CATA_LOG_HH
 #define CATA_LOG_HH
 

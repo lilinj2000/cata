@@ -61,9 +61,9 @@ struct DepthMarketData {
 };
 
 template< typename CharT, typename TraitsT >
-std::basic_ostream< CharT, TraitsT >& operator<<
-(std::basic_ostream< CharT, TraitsT >& os,
-  DepthMarketData const& aDepthMarketData) {
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    DepthMarketData const& aDepthMarketData) {
   os <<std::endl;
   os <<"{" <<std::endl;
   os <<"    \"DepthMarketDataField\": {" <<std::endl;

@@ -1,29 +1,27 @@
-#ifndef CATA_TRADER_SERVICE_IMPL_HH
-#define CATA_TRADER_SERVICE_IMPL_HH
+// Copyright (c) 2010
+// All rights reserved.
 
-#include <memory>
+#ifndef CATA_TRADERSERVICE_IMPL_HH
+#define CATA_TRADERSERVICE_IMPL_HH
 
-#include "cata/TraderService.hh"
 #include "ThostFtdcTraderApi.h"
-
-#include <boost/atomic.hpp>
+#include <memory>
+#include <atomic>
+#include <string>
+#include "cata/TraderService.hh"
 #include "soil/STimer.hh"
 
-namespace cata
-{
+namespace cata {
 
 class TraderOptions;
 class TraderSpiImpl;
 
-class TraderServiceImpl : public TraderService
-{
+class TraderServiceImpl : public TraderService {
  public:
-		
   TraderServiceImpl(soil::Options* options, TraderServiceCallback* callback);
-		
   virtual ~TraderServiceImpl();
 
-  virtual std::string tradingDay() ;
+  virtual std::string tradingDay();
 
   virtual int orderOpenBuy(const std::string& instru,
                            double price, int volume);
@@ -48,45 +46,38 @@ class TraderServiceImpl : public TraderService
   void querySettlementInfo();
 
   void querySettlementInfoConfirm();
-  
+
   void settlementInfoConfirm();
 
   void initSession(CThostFtdcRspUserLoginField* pRspUserLogin);
 
-  void wait(const std::string& hint="");
-  
+  void wait(const std::string& hint = "");
   void notify();
 
   TraderServiceCallback* callback() { return callback_; }
-  
- protected:
 
-  CThostFtdcInputOrderField* orderField(int& order_ref);
+ protected:
+  CThostFtdcInputOrderField* orderField(int* order_ref);
 
   void orderGo(CThostFtdcInputOrderField* req);
-  
+
  private:
-  
   TraderOptions* options_;
-    
+
   CThostFtdcTraderApi* trader_api_;
-  
   std::unique_ptr<TraderSpiImpl> trader_spi_;
 
   TraderServiceCallback* callback_;
-  
-  boost::atomic<int> request_id_;
 
-  // std::unique_ptr<TraderResponseQueue> trader_response_queue_;
+  std::atomic<int> request_id_;
 
-  // boost::atomic<int> login_count_;
   std::unique_ptr<soil::STimer> cond_;
 
   int front_id_;
   int session_id_;
-  boost::atomic<int> max_order_ref_;
+  std::atomic<int> max_order_ref_;
 };
 
-}; // namesapce cata
+};  // namespace cata
 
-#endif // CATA_TRADER_SERVICE_IMPL_HH
+#endif  // CATA_TRADERSERVICE_IMPL_HH
