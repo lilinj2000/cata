@@ -58,7 +58,7 @@ void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
   std::unique_ptr<char*> pp_instrus(new char*[size]);
   InstrumentSet::const_iterator i_iter = instruments.begin();
   int i = 0;
-  for (; i_iter != instruments.end(); i_iter++) {
+  for (; i_iter != instruments.end(); ++i_iter) {
     CATA_INFO <<"sub instrument " <<*i_iter;
     pp_instrus.get()[i++] = const_cast<char *>(&(*i_iter)[0u]);
   }

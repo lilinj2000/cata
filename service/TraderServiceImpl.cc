@@ -334,7 +334,7 @@ CThostFtdcInputOrderField* TraderServiceImpl::orderField(int* order_ref) {
           options_->investor_id.data(), sizeof(req->InvestorID));
 
   char OrderRef[13];
-  snprintf(OrderRef, sizeof(OrderRef), "%d", order_ref);
+  snprintf(OrderRef, sizeof(OrderRef), "%d", *order_ref);
   strncpy(req->OrderRef, OrderRef, sizeof(req->OrderRef));
   strncpy(req->UserID, options_->user_id.data(), sizeof(req->UserID));
   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
