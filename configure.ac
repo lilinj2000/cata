@@ -88,7 +88,7 @@ AC_SUBST(CTP_CPPFLAGS)
 AC_SUBST(CTP_LIBADD)
 
 dnl gtest lib
-GTEST_HOME=$home/3rd/googletest
+GTEST_HOME=$home_3rd/googletest
 AC_ARG_WITH([gtest],
     [AS_HELP_STRING([--with-gtest],
         [home path of the gtest, defaults to $GTEST_HOME])],

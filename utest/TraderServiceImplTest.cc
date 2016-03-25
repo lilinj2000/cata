@@ -42,40 +42,40 @@ TEST_F(TraderServiceImplTest, loginTest) {
   ASSERT_TRUE(true);
 }
 
-TEST_F(TraderServiceImplTest, orderOpenBuyTest) {
-  std::string instru = "cu1603";
-  double price = 32900;
-  int volume = 1;
+// TEST_F(TraderServiceImplTest, orderOpenBuyTest) {
+//   std::string instru = "cu1603";
+//   double price = 32900;
+//   int volume = 1;
 
-  service_->orderOpenBuy(instru, price, volume);
+//   service_->orderOpenBuy(instru, price, volume);
 
-  cond_->wait(2000);
+//   cond_->wait(2000);
 
-  ASSERT_TRUE(true);
-}
+//   ASSERT_TRUE(true);
+// }
 
-TEST_F(TraderServiceImplTest, orderOpenBuyFAKTest) {
-  std::string instru = "IF1510";
-  double price = 3000;
-  int volume = 1;
+// TEST_F(TraderServiceImplTest, orderOpenBuyFAKTest) {
+//   std::string instru = "IF1510";
+//   double price = 3000;
+//   int volume = 1;
 
-  service_->orderOpenBuyFAK(instru, price, volume);
+//   service_->orderOpenBuyFAK(instru, price, volume);
 
-  cond_->wait(2000);
+//   cond_->wait(2000);
 
-  ASSERT_TRUE(true);
-}
+//   ASSERT_TRUE(true);
+// }
 
-TEST_F(TraderServiceImplTest, orderOpenBuyFOKTest) {
-  std::string instru = "IF1510";
-  double price = 3000;
-  int volume = 10;
+// TEST_F(TraderServiceImplTest, orderOpenBuyFOKTest) {
+//   std::string instru = "IF1510";
+//   double price = 3000;
+//   int volume = 10;
 
-  service_->orderOpenBuyFOK(instru, price, volume);
+//   service_->orderOpenBuyFOK(instru, price, volume);
 
-  cond_->wait(2000);
+//   cond_->wait(2000);
 
-  ASSERT_TRUE(true);
-}
+//   ASSERT_TRUE(true);
+// }
 
 };  // namespace cata
