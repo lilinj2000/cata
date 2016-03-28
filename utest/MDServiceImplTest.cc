@@ -4,8 +4,8 @@
 #include <boost/thread.hpp>
 #include <memory>
 #include "gtest/gtest.h"
-#include "service/MDServiceImpl.hh"
-#include "service/CataLog.hh"
+#include "md_service/MDServiceImpl.hh"
+#include "com/CataLog.hh"
 
 namespace cata {
 

@@ -2,10 +2,10 @@
 // All rights reserved.
 
 #include "MDSpiImpl.hh"
-#include "CataUtil.hh"
-#include "CataLog.hh"
+#include "MDUtil.hh"
 #include "MDServiceImpl.hh"
-#include "ThostFtdcUserApiStructPrint.hh"
+#include "com/CataLog.hh"
+#include "com/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 
@@ -13,7 +13,7 @@ MDSpiImpl::MDSpiImpl(MDServiceImpl* service) :
     service_(service) {
   CATA_TRACE <<"MDSpiImpl::MDSpiImpl()";
 
-  util_.reset(new CATAUtil());
+  util_.reset(new MDUtil());
 }
 
 MDSpiImpl::~MDSpiImpl() {
@@ -36,10 +36,10 @@ void MDSpiImpl::OnHeartBeatWarning(int nTimeLapse) {
   CATA_ERROR << "--->>> nTimerLapse = " << nTimeLapse;
 }
 
-void MDSpiImpl::OnRspUserLogin
-(CThostFtdcRspUserLoginField *pRspUserLogin,
-  CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspUserLogin(
+    CThostFtdcRspUserLoginField *pRspUserLogin,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspUserLogin()";
 
   try {
@@ -53,23 +53,23 @@ void MDSpiImpl::OnRspUserLogin
   }
 }
 
-void MDSpiImpl::OnRspUserLogout
-(CThostFtdcUserLogoutField *pUserLogout,
-  CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspUserLogout(
+    CThostFtdcUserLogoutField *pUserLogout,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspUserLogout()";
 }
 
-void MDSpiImpl::OnRspError
-(CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspError(
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspError()";
 }
 
-void MDSpiImpl::OnRspSubMarketData
-(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-  CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspSubMarketData(
+    CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspSubMarketData()";
 
   try {
@@ -81,29 +81,29 @@ void MDSpiImpl::OnRspSubMarketData
   }
 }
 
-void MDSpiImpl::OnRspSubForQuoteRsp
-(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-  CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspSubForQuoteRsp(
+    CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspSubForQuoteRsp()";
 }
 
-void MDSpiImpl::OnRspUnSubMarketData
-(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-  CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspUnSubMarketData(
+    CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspUnSubMarketData()";
 }
 
-void MDSpiImpl::OnRspUnSubForQuoteRsp
-(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-  CThostFtdcRspInfoField *pRspInfo,
-  int nRequestID, bool bIsLast) {
+void MDSpiImpl::OnRspUnSubForQuoteRsp(
+    CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
   CATA_TRACE <<"MDSpiImpl::OnRspUnSubForQuoteRsp()";
 }
 
-void MDSpiImpl::OnRtnDepthMarketData
-(CThostFtdcDepthMarketDataField *pDepthMarketData) {
+void MDSpiImpl::OnRtnDepthMarketData(
+    CThostFtdcDepthMarketDataField *pDepthMarketData) {
   CATA_TRACE <<"MDSpiImpl::OnRtnDepthMarketData()";
   CATA_PDU <<*pDepthMarketData;
 

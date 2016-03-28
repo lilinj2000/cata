@@ -1,35 +1,31 @@
 AUTOMAKE_OPTIONS = foreign
 
-lib_LTLIBRARIES = libcata.la
-libcata_la_SOURCES = MDOptions.cc CataUtil.cc MDServiceImpl.cc \
-		MDSpiImpl.cc \
+lib_LTLIBRARIES = libcata_trader.la
+libcata_trader_la_SOURCES = \
 		TraderOptions.cc TraderSpiImpl.cc \
 		TraderServiceImpl.cc
 
-libcata_la_CPPFLAGS = -I$(top_srcdir) \
+libcata_trader_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(CTP_CPPFLAGS) \
 			$(SOIL_CPPFLAGS) \
 			$(COVERAGE_CXXFLAGS)
 
-libcata_la_LIBADD = $(CTP_LIBADD) \
+libcata_trader_la_LIBADD = $(CTP_TRADER_LIBADD) \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
 		$(COVERAGE_LDFLAGS)
 
-libcata_la_LDFLAGS = \
+libcata_trader_la_LDFLAGS = \
 	-no-undefined -version-info \
 	$(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
 	-release $(LT_RELEASE)
 
 # header files
-noinst_HEADERS = MDOptions.hh MDServiceImpl.hh \
-	MDSpiImpl.hh \
+noinst_HEADERS = \
 	TraderOptions.hh \
 	TraderServiceImpl.hh \
-	TraderSpiImpl.hh \
-	CataLog.hh \
-	CataUtil.hh \
-	ThostFtdcUserApiStructPrint.hh
+	TraderSpiImpl.hh
+
 
 

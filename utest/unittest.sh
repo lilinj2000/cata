@@ -2,4 +2,6 @@
 
 . ./env.sh
 
-./unittest
+./unittest_md
+
+./unittest_trader

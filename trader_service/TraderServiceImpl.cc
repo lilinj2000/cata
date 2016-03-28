@@ -2,10 +2,10 @@
 // All rights reserved.
 
 #include "TraderServiceImpl.hh"
-#include "CataLog.hh"
 #include "TraderOptions.hh"
 #include "TraderSpiImpl.hh"
-#include "ThostFtdcUserApiStructPrint.hh"
+#include "com/CataLog.hh"
+#include "com/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 

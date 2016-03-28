@@ -1,19 +1,19 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#ifndef CATA_UTIL_HH
-#define CATA_UTIL_HH
+#ifndef MD_UTIL_HH
+#define MD_UTIL_HH
 
 #include "ThostFtdcUserApiStruct.h"
 #include "cata/CataDef.hh"
 
 namespace cata {
 
-class CATAUtil {
+class MDUtil {
  public:
-  CATAUtil();
+  MDUtil();
 
-  ~CATAUtil();
+  ~MDUtil();
 
   DepthMarketData* toDepthMarketData(CThostFtdcDepthMarketDataField *pData);
 };

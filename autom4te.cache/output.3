@@ -642,7 +642,8 @@ COVERAGE_CFLAGS
 GTEST_LIBADD
 GTEST_CPPFLAGS
 GTEST_HOME
-CTP_LIBADD
+CTP_TRADER_LIBADD
+CTP_MD_LIBADD
 CTP_CPPFLAGS
 CTP_HOME
 BOOST_LIBADD
@@ -15209,7 +15210,9 @@ fi
 
 
 CTP_CPPFLAGS=-I$CTP_HOME
-CTP_LIBADD="-L$CTP_HOME -lthostmduserapi -lthosttraderapi"
+CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi"
+CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi"
+
 
 
 
@@ -15235,7 +15238,7 @@ AC_TDD_GCOV
 
 
 
-ac_config_files="$ac_config_files Makefile cata/Makefile service/Makefile utest/traderflow/Makefile utest/mdflow/Makefile utest/Makefile"
+ac_config_files="$ac_config_files Makefile cata/Makefile com/Makefile md_service/Makefile trader_service/Makefile utest/traderflow/Makefile utest/mdflow/Makefile utest/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16361,7 +16364,9 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "cata/Makefile") CONFIG_FILES="$CONFIG_FILES cata/Makefile" ;;
-    "service/Makefile") CONFIG_FILES="$CONFIG_FILES service/Makefile" ;;
+    "com/Makefile") CONFIG_FILES="$CONFIG_FILES com/Makefile" ;;
+    "md_service/Makefile") CONFIG_FILES="$CONFIG_FILES md_service/Makefile" ;;
+    "trader_service/Makefile") CONFIG_FILES="$CONFIG_FILES trader_service/Makefile" ;;
     "utest/traderflow/Makefile") CONFIG_FILES="$CONFIG_FILES utest/traderflow/Makefile" ;;
     "utest/mdflow/Makefile") CONFIG_FILES="$CONFIG_FILES utest/mdflow/Makefile" ;;
     "utest/Makefile") CONFIG_FILES="$CONFIG_FILES utest/Makefile" ;;

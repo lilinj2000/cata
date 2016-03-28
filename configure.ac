@@ -83,9 +83,11 @@ AC_ARG_WITH([ctp],
 AC_SUBST([CTP_HOME])
 
 CTP_CPPFLAGS=-I$CTP_HOME
-CTP_LIBADD="-L$CTP_HOME -lthostmduserapi -lthosttraderapi"
+CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi"
+CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi"
 AC_SUBST(CTP_CPPFLAGS)
-AC_SUBST(CTP_LIBADD)
+AC_SUBST(CTP_MD_LIBADD)
+AC_SUBST(CTP_TRADER_LIBADD)
 
 dnl gtest lib
 GTEST_HOME=$home_3rd/googletest
@@ -112,7 +114,9 @@ AC_SUBST(COVERAGE_LDFLAGS)
 AC_OUTPUT([
 	Makefile
 	cata/Makefile
-	service/Makefile
+	com/Makefile
+	md_service/Makefile
+	trader_service/Makefile
 	utest/traderflow/Makefile
 	utest/mdflow/Makefile
 	utest/Makefile])

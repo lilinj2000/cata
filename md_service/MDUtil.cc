@@ -2,17 +2,17 @@
 // All rights reserved.
 
 #include <memory>
-#include "CataUtil.hh"
+#include "MDUtil.hh"
 
 namespace cata {
 
-CATAUtil::CATAUtil() {
+MDUtil::MDUtil() {
 }
 
-CATAUtil::~CATAUtil() {
+MDUtil::~MDUtil() {
 }
 
-DepthMarketData* CATAUtil::toDepthMarketData
+DepthMarketData* MDUtil::toDepthMarketData
 (CThostFtdcDepthMarketDataField *pData) {
   std::unique_ptr<DepthMarketData> theData(new DepthMarketData());
 

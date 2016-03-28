@@ -2,8 +2,8 @@
 // All rights reserved.
 
 #include "gtest/gtest.h"
-#include "service/CataLog.hh"
-#include "service/TraderServiceImpl.hh"
+#include "com/CataLog.hh"
+#include "trader_service/TraderServiceImpl.hh"
 
 namespace cata {
 

@@ -3,8 +3,8 @@
 
 #include "TraderSpiImpl.hh"
 #include "TraderServiceImpl.hh"
-#include "CataLog.hh"
-#include "ThostFtdcUserApiStructPrint.hh"
+#include "com/CataLog.hh"
+#include "com/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 

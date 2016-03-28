@@ -10,7 +10,7 @@
 namespace cata {
 
 class MDServiceImpl;
-class CATAUtil;
+class MDUtil;
 
 class MDSpiImpl : public CThostFtdcMdSpi {
  public:
@@ -34,28 +34,28 @@ class MDSpiImpl : public CThostFtdcMdSpi {
                                CThostFtdcRspInfoField *pRspInfo,
                                int nRequestID, bool bIsLast);
 
-  virtual void OnRspSubMarketData
-    (CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-     CThostFtdcRspInfoField *pRspInfo,
-     int nRequestID, bool bIsLast);
+  virtual void OnRspSubMarketData(
+      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
 
-  virtual void OnRspSubForQuoteRsp
-  (CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID, bool bIsLast);
+  virtual void OnRspSubForQuoteRsp(
+      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
 
-  virtual void OnRspUnSubMarketData
-  (CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID, bool bIsLast);
+  virtual void OnRspUnSubMarketData(
+      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
 
-  virtual void OnRspUnSubForQuoteRsp
-  (CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID, bool bIsLast);
+  virtual void OnRspUnSubForQuoteRsp(
+      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
 
-  virtual void OnRtnDepthMarketData
-  (CThostFtdcDepthMarketDataField *pDepthMarketData);
+  virtual void OnRtnDepthMarketData(
+      CThostFtdcDepthMarketDataField *pDepthMarketData);
 
   virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp);
 
@@ -65,7 +65,7 @@ class MDSpiImpl : public CThostFtdcMdSpi {
  private:
   MDServiceImpl* service_;
 
-  std::unique_ptr<CATAUtil> util_;
+  std::unique_ptr<MDUtil> util_;
 };
 
 };  // namespace cata
