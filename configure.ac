@@ -113,6 +113,7 @@ AC_SUBST(COVERAGE_LDFLAGS)
 
 AC_OUTPUT([
 	Makefile
+	test_md/Makefile
 	cata/Makefile
 	com/Makefile
 	md_service/Makefile

@@ -56,11 +56,10 @@ void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
   int size = instruments.size();
 
   std::unique_ptr<char*> pp_instrus(new char*[size]);
-  InstrumentSet::const_iterator i_iter = instruments.begin();
   int i = 0;
-  for (; i_iter != instruments.end(); ++i_iter) {
-    CATA_INFO <<"sub instrument " <<*i_iter;
-    pp_instrus.get()[i++] = const_cast<char *>(&(*i_iter)[0u]);
+  for (auto & instru : instruments ) {
+    CATA_INFO <<"sub instrument " <<instru;
+    pp_instrus.get()[i++] = const_cast<char *>(instru.data());
   }
 
   md_api_->SubscribeMarketData(pp_instrus.get(), size);
