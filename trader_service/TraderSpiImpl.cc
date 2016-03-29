@@ -4,7 +4,7 @@
 #include "TraderSpiImpl.hh"
 #include "TraderServiceImpl.hh"
 #include "com/CataLog.hh"
-#include "com/ThostFtdcUserApiStructPrint.hh"
+#include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 

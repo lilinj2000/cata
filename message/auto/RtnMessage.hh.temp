@@ -1,0 +1,16 @@
+// Copyright (c) 2010
+// All rights reserved.
+
+#ifndef CATA_RTNMESSAGE_HH
+#define CATA_RTNMESSAGE_HH
+
+#include <memory>
+#include "ThostFtdcUserApiStruct.h"
+#include "Message.hh"
+
+namespace cata {
+
+[RTN_MESSAGE]
+};  // namespace cata
+
+#endif

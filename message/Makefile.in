@@ -79,7 +79,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = com
+subdir = message
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(include_HEADERS) $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -307,7 +307,12 @@ AUTOMAKE_OPTIONS = foreign
 
 # header files
 include_HEADERS = 
-noinst_HEADERS = CataLog.hh
+noinst_HEADERS = ThostFtdcUserApiStructPrint.hh \
+		Message.hh \
+		RspMessage.hh \
+		RtnMessage.hh \
+		ReqMessage.hh
+
 EXTRA_DIST = 
 headerdir = $(includedir)/cata
 header_DATA = $(EXTRA_DIST)
@@ -323,9 +328,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign com/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign message/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign com/Makefile
+	  $(AUTOMAKE) --foreign message/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

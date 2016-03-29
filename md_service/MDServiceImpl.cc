@@ -5,7 +5,7 @@
 #include "MDOptions.hh"
 #include "MDSpiImpl.hh"
 #include "com/CataLog.hh"
-#include "com/ThostFtdcUserApiStructPrint.hh"
+#include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 
@@ -57,7 +57,7 @@ void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
 
   std::unique_ptr<char*> pp_instrus(new char*[size]);
   int i = 0;
-  for (auto & instru : instruments ) {
+  for (auto & instru : instruments) {
     CATA_INFO <<"sub instrument " <<instru;
     pp_instrus.get()[i++] = const_cast<char *>(instru.data());
   }

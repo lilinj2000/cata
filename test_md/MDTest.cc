@@ -8,7 +8,7 @@
 #include "ThostFtdcMdApi.h"
 #include "soil/STimer.hh"
 #include "soil/Log.hh"
-#include "com/ThostFtdcUserApiStructPrint.hh"
+#include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 
@@ -27,7 +27,7 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
     SOIL_TRACE <<"SetUp()";
 
     setCaseFailed();
-    
+
     try {
       cond_.reset(soil::STimer::create());
       md_api_ = CThostFtdcMdApi::CreateFtdcMdApi();
@@ -51,7 +51,7 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
     md_api_ = nullptr;
   }
 
-  virtual void OnFrontConnected(){
+  virtual void OnFrontConnected() {
     SOIL_TRACE <<"OnFrontConnected()";
 
     try {
@@ -83,7 +83,7 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
       caseFailed();
     }
   }
-  
+
   virtual void OnRspSubMarketData(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
       CThostFtdcRspInfoField *pRspInfo,
@@ -105,13 +105,13 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
       caseFailed();
     }
   }
-  
+
   virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo,
                           int nRequestID, bool bIsLast) {
     SOIL_TRACE <<"OnRspError()";
 
     SOIL_INFO <<"req_id: " <<nRequestID;
-    
+
     if (pRspInfo)
       SOIL_INFO <<*pRspInfo;
 
@@ -134,14 +134,14 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
       int req_id = ++req_id_;
       SOIL_INFO <<"req id: " <<req_id;
       int ret = md_api_->ReqUserLogin(&req, req_id);
-      if(ret != 0 ) {
+      if (ret != 0) {
         throw std::runtime_error("login failed.");
       }
   }
 
   void checkRspInfo(CThostFtdcRspInfoField *pRspInfo) {
     SOIL_TRACE <<"checkRspInfo()";
-    
+
     if (pRspInfo)
       SOIL_INFO <<*pRspInfo;
 

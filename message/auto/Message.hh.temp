@@ -1,0 +1,40 @@
+// Copyright (c) 2010
+// All rights reserved.
+
+#ifndef CATA_MESSAGE_HH
+#define CATA_MESSAGE_HH
+
+namespace cata {
+
+typedef enum {
+  // REQ ID start
+  [REQ_ID]
+  REQ_ID_MAX = 500,
+  // RSP ID start
+  [RSP_ID]
+  RSP_ID_MAX = 1000,
+  // RTN ID start
+  [RTN_ID]
+  RTN_ID_MAX = 2000
+}MessageID;
+
+class Message {
+ public:
+  explicit Message(MessageID id):
+      id_(id) {
+  }
+
+  virtual MessageID id() const {
+    return id_;
+  }
+
+  virtual ~Message() {
+  }
+
+ private:
+  MessageID id_;
+};
+
+}  // namespace cata
+
+#endif

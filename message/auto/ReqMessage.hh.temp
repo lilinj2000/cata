@@ -1,0 +1,16 @@
+// Copyright (c) 2010
+// All rights reserved.
+
+#ifndef CATA_REQMESSAGE_HH
+#define CATA_REQMESSAGE_HH
+
+#include <memory>
+#include "ThostFtdcUserApiStruct.h"
+#include "Message.hh"
+
+namespace cata {
+
+[REQ_MESSAGE]
+};  // namespace cata
+
+#endif

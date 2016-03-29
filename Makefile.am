@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = test_md cata com md_service trader_service utest
+SUBDIRS = test_md cata com message md_service trader_service utest
 
 EXTRA_DIST = deploy.sh
 

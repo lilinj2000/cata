@@ -116,6 +116,7 @@ AC_OUTPUT([
 	test_md/Makefile
 	cata/Makefile
 	com/Makefile
+	message/Makefile
 	md_service/Makefile
 	trader_service/Makefile
 	utest/traderflow/Makefile

@@ -1,0 +1,49 @@
+// Copyright (c) 2010
+// All rights reserved.
+
+#ifndef CATA_RSPMESSAGE_HH
+#define CATA_RSPMESSAGE_HH
+
+#include <memory>
+#include "ThostFtdcUserApiStruct.h"
+#include "Message.hh"
+
+namespace cata {
+
+class RspMessage : public Message {
+ public:
+  RspMessage(MessageID id,
+             CThostFtdcRspInfoField* pRspInfo,
+             int nRequestID, bool bIsLast):
+      Message(id),
+      request_id_(nRequestID),
+      is_last_(bIsLast) {
+    rsp_info_.reset(new CThostFtdcRspInfoField());
+    std::memcpy(rsp_info.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
+  }
+
+  virtual ~RspMessage() {
+  }
+
+  CThostFtdcRspInfoField* rspInfo() const {
+    return rsp_info_.get();
+  }
+
+  int requestID() const {
+    return request_id_;
+  }
+
+  bool isLast() const {
+    return is_last_;
+  }
+
+ private:
+  std::unqiue_ptr<CThostFtdcRspInfoField> rsp_info_;
+  int request_id_;
+  bool is_last_;
+};
+
+[RSP_MESSAGE]
+};  // namespace cata
+
+#endif

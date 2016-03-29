@@ -3,7 +3,11 @@ AUTOMAKE_OPTIONS = foreign
 # header files
 include_HEADERS = 
 
-noinst_HEADERS = CataLog.hh
+noinst_HEADERS = ThostFtdcUserApiStructPrint.hh \
+		Message.hh \
+		RspMessage.hh \
+		RtnMessage.hh \
+		ReqMessage.hh
 
 EXTRA_DIST = 
 
