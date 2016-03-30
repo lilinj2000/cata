@@ -4,6 +4,10 @@
 #ifndef CATA_MESSAGE_HH
 #define CATA_MESSAGE_HH
 
+#include <string>
+#include "soil/DateTime.hh"
+#include "json/json.hh"
+
 namespace cata {
 
 typedef enum {
@@ -195,15 +199,29 @@ class Message {
       id_(id) {
   }
 
+  virtual ~Message() {
+  }
+
+  virtual std::string toString() const = 0;
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+
+    std::string key = "timestamp";
+    json::addMember(doc, key, timeStamp());
+  }
+
   virtual MessageID id() const {
     return id_;
   }
 
-  virtual ~Message() {
+  std::string timeStamp() const {
+    return timestamp_.toString();
   }
 
  private:
   MessageID id_;
+  soil::DateTime timestamp_;
 };
 
 }  // namespace cata

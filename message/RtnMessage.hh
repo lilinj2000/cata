@@ -5,12 +5,16 @@
 #define CATA_RTNMESSAGE_HH
 
 #include <memory>
+#include <string>
 #include "ThostFtdcUserApiStruct.h"
 #include "Message.hh"
+#include "ThostFtdcUserApiStructPrint.hh"
+#include "json/json.hh"
 
 namespace cata {
 
 class RtnDepthMarketDataMessage : public Message {
+ public:
   explicit RtnDepthMarketDataMessage(
      CThostFtdcDepthMarketDataField* pDepthMarketData):
       Message(RTN_DEPTH_MARKET_DATA_MESSAGE) {
@@ -24,6 +28,25 @@ class RtnDepthMarketDataMessage : public Message {
   virtual ~RtnDepthMarketDataMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (depthmarketdata_.get()) {
+      std::stringstream ss;
+      ss <<(*depthmarketdata_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcDepthMarketDataField*
      depthMarketData() const {
     return depthmarketdata_.get();
@@ -35,6 +58,7 @@ class RtnDepthMarketDataMessage : public Message {
 };
 
 class RtnForQuoteRspMessage : public Message {
+ public:
   explicit RtnForQuoteRspMessage(
      CThostFtdcForQuoteRspField* pForQuoteRsp):
       Message(RTN_FOR_QUOTE_RSP_MESSAGE) {
@@ -48,6 +72,25 @@ class RtnForQuoteRspMessage : public Message {
   virtual ~RtnForQuoteRspMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (forquotersp_.get()) {
+      std::stringstream ss;
+      ss <<(*forquotersp_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcForQuoteRspField*
      forQuoteRsp() const {
     return forquotersp_.get();
@@ -59,6 +102,7 @@ class RtnForQuoteRspMessage : public Message {
 };
 
 class RtnOrderMessage : public Message {
+ public:
   explicit RtnOrderMessage(
      CThostFtdcOrderField* pOrder):
       Message(RTN_ORDER_MESSAGE) {
@@ -72,6 +116,25 @@ class RtnOrderMessage : public Message {
   virtual ~RtnOrderMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (order_.get()) {
+      std::stringstream ss;
+      ss <<(*order_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcOrderField*
      order() const {
     return order_.get();
@@ -83,6 +146,7 @@ class RtnOrderMessage : public Message {
 };
 
 class RtnTradeMessage : public Message {
+ public:
   explicit RtnTradeMessage(
      CThostFtdcTradeField* pTrade):
       Message(RTN_TRADE_MESSAGE) {
@@ -96,6 +160,25 @@ class RtnTradeMessage : public Message {
   virtual ~RtnTradeMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (trade_.get()) {
+      std::stringstream ss;
+      ss <<(*trade_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcTradeField*
      trade() const {
     return trade_.get();
@@ -107,6 +190,7 @@ class RtnTradeMessage : public Message {
 };
 
 class ErrRtnOrderInsertMessage : public Message {
+ public:
   ErrRtnOrderInsertMessage(
      CThostFtdcInputOrderField* pInputOrder,
   CThostFtdcRspInfoField* pRspInfo):
@@ -125,6 +209,25 @@ class ErrRtnOrderInsertMessage : public Message {
   virtual ~ErrRtnOrderInsertMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputorder_.get()) {
+      std::stringstream ss;
+      ss <<(*inputorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -141,6 +244,7 @@ class ErrRtnOrderInsertMessage : public Message {
 };
 
 class ErrRtnOrderActionMessage : public Message {
+ public:
   ErrRtnOrderActionMessage(
      CThostFtdcOrderActionField* pOrderAction,
   CThostFtdcRspInfoField* pRspInfo):
@@ -159,6 +263,25 @@ class ErrRtnOrderActionMessage : public Message {
   virtual ~ErrRtnOrderActionMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (orderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*orderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -175,6 +298,7 @@ class ErrRtnOrderActionMessage : public Message {
 };
 
 class RtnInstrumentStatusMessage : public Message {
+ public:
   explicit RtnInstrumentStatusMessage(
      CThostFtdcInstrumentStatusField* pInstrumentStatus):
       Message(RTN_INSTRUMENT_STATUS_MESSAGE) {
@@ -188,6 +312,25 @@ class RtnInstrumentStatusMessage : public Message {
   virtual ~RtnInstrumentStatusMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (instrumentstatus_.get()) {
+      std::stringstream ss;
+      ss <<(*instrumentstatus_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcInstrumentStatusField*
      instrumentStatus() const {
     return instrumentstatus_.get();
@@ -199,6 +342,7 @@ class RtnInstrumentStatusMessage : public Message {
 };
 
 class RtnTradingNoticeMessage : public Message {
+ public:
   explicit RtnTradingNoticeMessage(
      CThostFtdcTradingNoticeInfoField* pTradingNoticeInfo):
       Message(RTN_TRADING_NOTICE_MESSAGE) {
@@ -212,6 +356,25 @@ class RtnTradingNoticeMessage : public Message {
   virtual ~RtnTradingNoticeMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (tradingnoticeinfo_.get()) {
+      std::stringstream ss;
+      ss <<(*tradingnoticeinfo_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcTradingNoticeInfoField*
      tradingNoticeInfo() const {
     return tradingnoticeinfo_.get();
@@ -223,6 +386,7 @@ class RtnTradingNoticeMessage : public Message {
 };
 
 class RtnErrorConditionalOrderMessage : public Message {
+ public:
   explicit RtnErrorConditionalOrderMessage(
      CThostFtdcErrorConditionalOrderField* pErrorConditionalOrder):
       Message(RTN_ERROR_CONDITIONAL_ORDER_MESSAGE) {
@@ -236,6 +400,25 @@ class RtnErrorConditionalOrderMessage : public Message {
   virtual ~RtnErrorConditionalOrderMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (errorconditionalorder_.get()) {
+      std::stringstream ss;
+      ss <<(*errorconditionalorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcErrorConditionalOrderField*
      errorConditionalOrder() const {
     return errorconditionalorder_.get();
@@ -247,6 +430,7 @@ class RtnErrorConditionalOrderMessage : public Message {
 };
 
 class RtnExecOrderMessage : public Message {
+ public:
   explicit RtnExecOrderMessage(
      CThostFtdcExecOrderField* pExecOrder):
       Message(RTN_EXEC_ORDER_MESSAGE) {
@@ -260,6 +444,25 @@ class RtnExecOrderMessage : public Message {
   virtual ~RtnExecOrderMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (execorder_.get()) {
+      std::stringstream ss;
+      ss <<(*execorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcExecOrderField*
      execOrder() const {
     return execorder_.get();
@@ -271,6 +474,7 @@ class RtnExecOrderMessage : public Message {
 };
 
 class ErrRtnExecOrderInsertMessage : public Message {
+ public:
   ErrRtnExecOrderInsertMessage(
      CThostFtdcInputExecOrderField* pInputExecOrder,
   CThostFtdcRspInfoField* pRspInfo):
@@ -289,6 +493,25 @@ class ErrRtnExecOrderInsertMessage : public Message {
   virtual ~ErrRtnExecOrderInsertMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputexecorder_.get()) {
+      std::stringstream ss;
+      ss <<(*inputexecorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -305,6 +528,7 @@ class ErrRtnExecOrderInsertMessage : public Message {
 };
 
 class ErrRtnExecOrderActionMessage : public Message {
+ public:
   ErrRtnExecOrderActionMessage(
      CThostFtdcExecOrderActionField* pExecOrderAction,
   CThostFtdcRspInfoField* pRspInfo):
@@ -323,6 +547,25 @@ class ErrRtnExecOrderActionMessage : public Message {
   virtual ~ErrRtnExecOrderActionMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (execorderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*execorderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -339,6 +582,7 @@ class ErrRtnExecOrderActionMessage : public Message {
 };
 
 class ErrRtnForQuoteInsertMessage : public Message {
+ public:
   ErrRtnForQuoteInsertMessage(
      CThostFtdcInputForQuoteField* pInputForQuote,
   CThostFtdcRspInfoField* pRspInfo):
@@ -357,6 +601,25 @@ class ErrRtnForQuoteInsertMessage : public Message {
   virtual ~ErrRtnForQuoteInsertMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputforquote_.get()) {
+      std::stringstream ss;
+      ss <<(*inputforquote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -373,6 +636,7 @@ class ErrRtnForQuoteInsertMessage : public Message {
 };
 
 class RtnQuoteMessage : public Message {
+ public:
   explicit RtnQuoteMessage(
      CThostFtdcQuoteField* pQuote):
       Message(RTN_QUOTE_MESSAGE) {
@@ -386,6 +650,25 @@ class RtnQuoteMessage : public Message {
   virtual ~RtnQuoteMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (quote_.get()) {
+      std::stringstream ss;
+      ss <<(*quote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcQuoteField*
      quote() const {
     return quote_.get();
@@ -397,6 +680,7 @@ class RtnQuoteMessage : public Message {
 };
 
 class ErrRtnQuoteInsertMessage : public Message {
+ public:
   ErrRtnQuoteInsertMessage(
      CThostFtdcInputQuoteField* pInputQuote,
   CThostFtdcRspInfoField* pRspInfo):
@@ -415,6 +699,25 @@ class ErrRtnQuoteInsertMessage : public Message {
   virtual ~ErrRtnQuoteInsertMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputquote_.get()) {
+      std::stringstream ss;
+      ss <<(*inputquote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -431,6 +734,7 @@ class ErrRtnQuoteInsertMessage : public Message {
 };
 
 class ErrRtnQuoteActionMessage : public Message {
+ public:
   ErrRtnQuoteActionMessage(
      CThostFtdcQuoteActionField* pQuoteAction,
   CThostFtdcRspInfoField* pRspInfo):
@@ -449,6 +753,25 @@ class ErrRtnQuoteActionMessage : public Message {
   virtual ~ErrRtnQuoteActionMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (quoteaction_.get()) {
+      std::stringstream ss;
+      ss <<(*quoteaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -465,6 +788,7 @@ class ErrRtnQuoteActionMessage : public Message {
 };
 
 class RtnCFMMCTradingAccountTokenMessage : public Message {
+ public:
   explicit RtnCFMMCTradingAccountTokenMessage(
      CThostFtdcCFMMCTradingAccountTokenField* pCFMMCTradingAccountToken):
       Message(RTN_C_F_M_M_C_TRADING_ACCOUNT_TOKEN_MESSAGE) {
@@ -478,6 +802,25 @@ class RtnCFMMCTradingAccountTokenMessage : public Message {
   virtual ~RtnCFMMCTradingAccountTokenMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (cfmmctradingaccounttoken_.get()) {
+      std::stringstream ss;
+      ss <<(*cfmmctradingaccounttoken_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcCFMMCTradingAccountTokenField*
      cFMMCTradingAccountToken() const {
     return cfmmctradingaccounttoken_.get();
@@ -489,6 +832,7 @@ class RtnCFMMCTradingAccountTokenMessage : public Message {
 };
 
 class RtnCombActionMessage : public Message {
+ public:
   explicit RtnCombActionMessage(
      CThostFtdcCombActionField* pCombAction):
       Message(RTN_COMB_ACTION_MESSAGE) {
@@ -502,6 +846,25 @@ class RtnCombActionMessage : public Message {
   virtual ~RtnCombActionMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (combaction_.get()) {
+      std::stringstream ss;
+      ss <<(*combaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcCombActionField*
      combAction() const {
     return combaction_.get();
@@ -513,6 +876,7 @@ class RtnCombActionMessage : public Message {
 };
 
 class ErrRtnCombActionInsertMessage : public Message {
+ public:
   ErrRtnCombActionInsertMessage(
      CThostFtdcInputCombActionField* pInputCombAction,
   CThostFtdcRspInfoField* pRspInfo):
@@ -531,6 +895,25 @@ class ErrRtnCombActionInsertMessage : public Message {
   virtual ~ErrRtnCombActionInsertMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputcombaction_.get()) {
+      std::stringstream ss;
+      ss <<(*inputcombaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -547,6 +930,7 @@ class ErrRtnCombActionInsertMessage : public Message {
 };
 
 class RtnFromBankToFutureByBankMessage : public Message {
+ public:
   explicit RtnFromBankToFutureByBankMessage(
      CThostFtdcRspTransferField* pRspTransfer):
       Message(RTN_FROM_BANK_TO_FUTURE_BY_BANK_MESSAGE) {
@@ -560,6 +944,25 @@ class RtnFromBankToFutureByBankMessage : public Message {
   virtual ~RtnFromBankToFutureByBankMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsptransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*rsptransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspTransferField*
      rspTransfer() const {
     return rsptransfer_.get();
@@ -571,6 +974,7 @@ class RtnFromBankToFutureByBankMessage : public Message {
 };
 
 class RtnFromFutureToBankByBankMessage : public Message {
+ public:
   explicit RtnFromFutureToBankByBankMessage(
      CThostFtdcRspTransferField* pRspTransfer):
       Message(RTN_FROM_FUTURE_TO_BANK_BY_BANK_MESSAGE) {
@@ -584,6 +988,25 @@ class RtnFromFutureToBankByBankMessage : public Message {
   virtual ~RtnFromFutureToBankByBankMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsptransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*rsptransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspTransferField*
      rspTransfer() const {
     return rsptransfer_.get();
@@ -595,6 +1018,7 @@ class RtnFromFutureToBankByBankMessage : public Message {
 };
 
 class RtnRepealFromBankToFutureByBankMessage : public Message {
+ public:
   explicit RtnRepealFromBankToFutureByBankMessage(
      CThostFtdcRspRepealField* pRspRepeal):
       Message(RTN_REPEAL_FROM_BANK_TO_FUTURE_BY_BANK_MESSAGE) {
@@ -608,6 +1032,25 @@ class RtnRepealFromBankToFutureByBankMessage : public Message {
   virtual ~RtnRepealFromBankToFutureByBankMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsprepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*rsprepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspRepealField*
      rspRepeal() const {
     return rsprepeal_.get();
@@ -619,6 +1062,7 @@ class RtnRepealFromBankToFutureByBankMessage : public Message {
 };
 
 class RtnRepealFromFutureToBankByBankMessage : public Message {
+ public:
   explicit RtnRepealFromFutureToBankByBankMessage(
      CThostFtdcRspRepealField* pRspRepeal):
       Message(RTN_REPEAL_FROM_FUTURE_TO_BANK_BY_BANK_MESSAGE) {
@@ -632,6 +1076,25 @@ class RtnRepealFromFutureToBankByBankMessage : public Message {
   virtual ~RtnRepealFromFutureToBankByBankMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsprepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*rsprepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspRepealField*
      rspRepeal() const {
     return rsprepeal_.get();
@@ -643,6 +1106,7 @@ class RtnRepealFromFutureToBankByBankMessage : public Message {
 };
 
 class RtnFromBankToFutureByFutureMessage : public Message {
+ public:
   explicit RtnFromBankToFutureByFutureMessage(
      CThostFtdcRspTransferField* pRspTransfer):
       Message(RTN_FROM_BANK_TO_FUTURE_BY_FUTURE_MESSAGE) {
@@ -656,6 +1120,25 @@ class RtnFromBankToFutureByFutureMessage : public Message {
   virtual ~RtnFromBankToFutureByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsptransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*rsptransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspTransferField*
      rspTransfer() const {
     return rsptransfer_.get();
@@ -667,6 +1150,7 @@ class RtnFromBankToFutureByFutureMessage : public Message {
 };
 
 class RtnFromFutureToBankByFutureMessage : public Message {
+ public:
   explicit RtnFromFutureToBankByFutureMessage(
      CThostFtdcRspTransferField* pRspTransfer):
       Message(RTN_FROM_FUTURE_TO_BANK_BY_FUTURE_MESSAGE) {
@@ -680,6 +1164,25 @@ class RtnFromFutureToBankByFutureMessage : public Message {
   virtual ~RtnFromFutureToBankByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsptransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*rsptransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspTransferField*
      rspTransfer() const {
     return rsptransfer_.get();
@@ -691,6 +1194,7 @@ class RtnFromFutureToBankByFutureMessage : public Message {
 };
 
 class RtnRepealFromBankToFutureByFutureManualMessage : public Message {
+ public:
   explicit RtnRepealFromBankToFutureByFutureManualMessage(
      CThostFtdcRspRepealField* pRspRepeal):
       Message(RTN_REPEAL_FROM_BANK_TO_FUTURE_BY_FUTURE_MANUAL_MESSAGE) {
@@ -704,6 +1208,25 @@ class RtnRepealFromBankToFutureByFutureManualMessage : public Message {
   virtual ~RtnRepealFromBankToFutureByFutureManualMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsprepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*rsprepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspRepealField*
      rspRepeal() const {
     return rsprepeal_.get();
@@ -715,6 +1238,7 @@ class RtnRepealFromBankToFutureByFutureManualMessage : public Message {
 };
 
 class RtnRepealFromFutureToBankByFutureManualMessage : public Message {
+ public:
   explicit RtnRepealFromFutureToBankByFutureManualMessage(
      CThostFtdcRspRepealField* pRspRepeal):
       Message(RTN_REPEAL_FROM_FUTURE_TO_BANK_BY_FUTURE_MANUAL_MESSAGE) {
@@ -728,6 +1252,25 @@ class RtnRepealFromFutureToBankByFutureManualMessage : public Message {
   virtual ~RtnRepealFromFutureToBankByFutureManualMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsprepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*rsprepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspRepealField*
      rspRepeal() const {
     return rsprepeal_.get();
@@ -739,6 +1282,7 @@ class RtnRepealFromFutureToBankByFutureManualMessage : public Message {
 };
 
 class RtnQueryBankBalanceByFutureMessage : public Message {
+ public:
   explicit RtnQueryBankBalanceByFutureMessage(
      CThostFtdcNotifyQueryAccountField* pNotifyQueryAccount):
       Message(RTN_QUERY_BANK_BALANCE_BY_FUTURE_MESSAGE) {
@@ -752,6 +1296,25 @@ class RtnQueryBankBalanceByFutureMessage : public Message {
   virtual ~RtnQueryBankBalanceByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (notifyqueryaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*notifyqueryaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcNotifyQueryAccountField*
      notifyQueryAccount() const {
     return notifyqueryaccount_.get();
@@ -763,6 +1326,7 @@ class RtnQueryBankBalanceByFutureMessage : public Message {
 };
 
 class ErrRtnBankToFutureByFutureMessage : public Message {
+ public:
   ErrRtnBankToFutureByFutureMessage(
      CThostFtdcReqTransferField* pReqTransfer,
   CThostFtdcRspInfoField* pRspInfo):
@@ -781,6 +1345,25 @@ class ErrRtnBankToFutureByFutureMessage : public Message {
   virtual ~ErrRtnBankToFutureByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqtransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*reqtransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -797,6 +1380,7 @@ class ErrRtnBankToFutureByFutureMessage : public Message {
 };
 
 class ErrRtnFutureToBankByFutureMessage : public Message {
+ public:
   ErrRtnFutureToBankByFutureMessage(
      CThostFtdcReqTransferField* pReqTransfer,
   CThostFtdcRspInfoField* pRspInfo):
@@ -815,6 +1399,25 @@ class ErrRtnFutureToBankByFutureMessage : public Message {
   virtual ~ErrRtnFutureToBankByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqtransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*reqtransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -831,6 +1434,7 @@ class ErrRtnFutureToBankByFutureMessage : public Message {
 };
 
 class ErrRtnRepealBankToFutureByFutureManualMessage : public Message {
+ public:
   ErrRtnRepealBankToFutureByFutureManualMessage(
      CThostFtdcReqRepealField* pReqRepeal,
   CThostFtdcRspInfoField* pRspInfo):
@@ -849,6 +1453,25 @@ class ErrRtnRepealBankToFutureByFutureManualMessage : public Message {
   virtual ~ErrRtnRepealBankToFutureByFutureManualMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqrepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*reqrepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -865,6 +1488,7 @@ class ErrRtnRepealBankToFutureByFutureManualMessage : public Message {
 };
 
 class ErrRtnRepealFutureToBankByFutureManualMessage : public Message {
+ public:
   ErrRtnRepealFutureToBankByFutureManualMessage(
      CThostFtdcReqRepealField* pReqRepeal,
   CThostFtdcRspInfoField* pRspInfo):
@@ -883,6 +1507,25 @@ class ErrRtnRepealFutureToBankByFutureManualMessage : public Message {
   virtual ~ErrRtnRepealFutureToBankByFutureManualMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqrepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*reqrepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -899,6 +1542,7 @@ class ErrRtnRepealFutureToBankByFutureManualMessage : public Message {
 };
 
 class ErrRtnQueryBankBalanceByFutureMessage : public Message {
+ public:
   ErrRtnQueryBankBalanceByFutureMessage(
      CThostFtdcReqQueryAccountField* pReqQueryAccount,
   CThostFtdcRspInfoField* pRspInfo):
@@ -917,6 +1561,25 @@ class ErrRtnQueryBankBalanceByFutureMessage : public Message {
   virtual ~ErrRtnQueryBankBalanceByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqqueryaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*reqqueryaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspInfoField* rspInfo() const {
     return rspinfo_.get();
   }
@@ -933,6 +1596,7 @@ class ErrRtnQueryBankBalanceByFutureMessage : public Message {
 };
 
 class RtnRepealFromBankToFutureByFutureMessage : public Message {
+ public:
   explicit RtnRepealFromBankToFutureByFutureMessage(
      CThostFtdcRspRepealField* pRspRepeal):
       Message(RTN_REPEAL_FROM_BANK_TO_FUTURE_BY_FUTURE_MESSAGE) {
@@ -946,6 +1610,25 @@ class RtnRepealFromBankToFutureByFutureMessage : public Message {
   virtual ~RtnRepealFromBankToFutureByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsprepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*rsprepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspRepealField*
      rspRepeal() const {
     return rsprepeal_.get();
@@ -957,6 +1640,7 @@ class RtnRepealFromBankToFutureByFutureMessage : public Message {
 };
 
 class RtnRepealFromFutureToBankByFutureMessage : public Message {
+ public:
   explicit RtnRepealFromFutureToBankByFutureMessage(
      CThostFtdcRspRepealField* pRspRepeal):
       Message(RTN_REPEAL_FROM_FUTURE_TO_BANK_BY_FUTURE_MESSAGE) {
@@ -970,6 +1654,25 @@ class RtnRepealFromFutureToBankByFutureMessage : public Message {
   virtual ~RtnRepealFromFutureToBankByFutureMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (rsprepeal_.get()) {
+      std::stringstream ss;
+      ss <<(*rsprepeal_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcRspRepealField*
      rspRepeal() const {
     return rsprepeal_.get();
@@ -981,6 +1684,7 @@ class RtnRepealFromFutureToBankByFutureMessage : public Message {
 };
 
 class RtnOpenAccountByBankMessage : public Message {
+ public:
   explicit RtnOpenAccountByBankMessage(
      CThostFtdcOpenAccountField* pOpenAccount):
       Message(RTN_OPEN_ACCOUNT_BY_BANK_MESSAGE) {
@@ -994,6 +1698,25 @@ class RtnOpenAccountByBankMessage : public Message {
   virtual ~RtnOpenAccountByBankMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (openaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*openaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcOpenAccountField*
      openAccount() const {
     return openaccount_.get();
@@ -1005,6 +1728,7 @@ class RtnOpenAccountByBankMessage : public Message {
 };
 
 class RtnCancelAccountByBankMessage : public Message {
+ public:
   explicit RtnCancelAccountByBankMessage(
      CThostFtdcCancelAccountField* pCancelAccount):
       Message(RTN_CANCEL_ACCOUNT_BY_BANK_MESSAGE) {
@@ -1018,6 +1742,25 @@ class RtnCancelAccountByBankMessage : public Message {
   virtual ~RtnCancelAccountByBankMessage() {
   }
 
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (cancelaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*cancelaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
+  }
+
   CThostFtdcCancelAccountField*
      cancelAccount() const {
     return cancelaccount_.get();
@@ -1029,6 +1772,7 @@ class RtnCancelAccountByBankMessage : public Message {
 };
 
 class RtnChangeAccountByBankMessage : public Message {
+ public:
   explicit RtnChangeAccountByBankMessage(
      CThostFtdcChangeAccountField* pChangeAccount):
       Message(RTN_CHANGE_ACCOUNT_BY_BANK_MESSAGE) {
@@ -1040,6 +1784,25 @@ class RtnChangeAccountByBankMessage : public Message {
   }
 
   virtual ~RtnChangeAccountByBankMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (changeaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*changeaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   CThostFtdcChangeAccountField*

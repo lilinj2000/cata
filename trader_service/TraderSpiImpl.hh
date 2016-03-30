@@ -61,6 +61,21 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
       CThostFtdcInputOrderField *pInputOrder,
       CThostFtdcRspInfoField *pRspInfo);
 
+  virtual void OnRspQryInstrumentMarginRate(
+      CThostFtdcInstrumentMarginRateField *pInstrumentMarginRate,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
+
+  virtual void OnRspQryExchangeMarginRate(
+      CThostFtdcExchangeMarginRateField *pExchangeMarginRate,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
+
+  virtual void OnRspQryExchangeMarginRateAdjust(
+      CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast);
+
  protected:
     void checkRspInfo(CThostFtdcRspInfoField *pRspInfo);
 

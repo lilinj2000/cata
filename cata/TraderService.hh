@@ -46,6 +46,12 @@ class TraderService {
   virtual int orderCloseSell(const std::string& instru,
                             double price, int volume) = 0;
 
+  virtual int queryExchangeMarginRate(const std::string& instru) = 0;
+
+  virtual int queryExchangeMarginRateAdjust(const std::string& instru) = 0;
+
+  virtual int queryInstruMarginRate(const std::string& instru) = 0;
+
   virtual ~TraderService() {}
 
   static soil::Options* createOptions();

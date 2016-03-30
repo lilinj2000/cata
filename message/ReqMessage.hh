@@ -5,12 +5,16 @@
 #define CATA_REQMESSAGE_HH
 
 #include <memory>
+#include <string>
 #include "ThostFtdcUserApiStruct.h"
 #include "Message.hh"
+#include "ThostFtdcUserApiStructPrint.hh"
+#include "json/json.hh"
 
 namespace cata {
 
 class ReqUserLoginMessage : public Message {
+ public:
   ReqUserLoginMessage(
      CThostFtdcReqUserLoginField*
      pReqUserLoginField,
@@ -25,6 +29,25 @@ class ReqUserLoginMessage : public Message {
   }
 
   virtual ~ReqUserLoginMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (requserloginfield_.get()) {
+      std::stringstream ss;
+      ss <<(*requserloginfield_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -43,6 +66,7 @@ class ReqUserLoginMessage : public Message {
 };
 
 class ReqUserLogoutMessage : public Message {
+ public:
   ReqUserLogoutMessage(
      CThostFtdcUserLogoutField*
      pUserLogout,
@@ -57,6 +81,25 @@ class ReqUserLogoutMessage : public Message {
   }
 
   virtual ~ReqUserLogoutMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (userlogout_.get()) {
+      std::stringstream ss;
+      ss <<(*userlogout_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -75,6 +118,7 @@ class ReqUserLogoutMessage : public Message {
 };
 
 class ReqAuthenticateMessage : public Message {
+ public:
   ReqAuthenticateMessage(
      CThostFtdcReqAuthenticateField*
      pReqAuthenticateField,
@@ -89,6 +133,25 @@ class ReqAuthenticateMessage : public Message {
   }
 
   virtual ~ReqAuthenticateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqauthenticatefield_.get()) {
+      std::stringstream ss;
+      ss <<(*reqauthenticatefield_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -107,6 +170,7 @@ class ReqAuthenticateMessage : public Message {
 };
 
 class ReqUserPasswordUpdateMessage : public Message {
+ public:
   ReqUserPasswordUpdateMessage(
      CThostFtdcUserPasswordUpdateField*
      pUserPasswordUpdate,
@@ -121,6 +185,25 @@ class ReqUserPasswordUpdateMessage : public Message {
   }
 
   virtual ~ReqUserPasswordUpdateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (userpasswordupdate_.get()) {
+      std::stringstream ss;
+      ss <<(*userpasswordupdate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -139,6 +222,7 @@ class ReqUserPasswordUpdateMessage : public Message {
 };
 
 class ReqTradingAccountPasswordUpdateMessage : public Message {
+ public:
   ReqTradingAccountPasswordUpdateMessage(
      CThostFtdcTradingAccountPasswordUpdateField*
      pTradingAccountPasswordUpdate,
@@ -153,6 +237,25 @@ class ReqTradingAccountPasswordUpdateMessage : public Message {
   }
 
   virtual ~ReqTradingAccountPasswordUpdateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (tradingaccountpasswordupdate_.get()) {
+      std::stringstream ss;
+      ss <<(*tradingaccountpasswordupdate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -171,6 +274,7 @@ class ReqTradingAccountPasswordUpdateMessage : public Message {
 };
 
 class ReqOrderInsertMessage : public Message {
+ public:
   ReqOrderInsertMessage(
      CThostFtdcInputOrderField*
      pInputOrder,
@@ -185,6 +289,25 @@ class ReqOrderInsertMessage : public Message {
   }
 
   virtual ~ReqOrderInsertMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputorder_.get()) {
+      std::stringstream ss;
+      ss <<(*inputorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -203,6 +326,7 @@ class ReqOrderInsertMessage : public Message {
 };
 
 class ReqParkedOrderInsertMessage : public Message {
+ public:
   ReqParkedOrderInsertMessage(
      CThostFtdcParkedOrderField*
      pParkedOrder,
@@ -217,6 +341,25 @@ class ReqParkedOrderInsertMessage : public Message {
   }
 
   virtual ~ReqParkedOrderInsertMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (parkedorder_.get()) {
+      std::stringstream ss;
+      ss <<(*parkedorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -235,6 +378,7 @@ class ReqParkedOrderInsertMessage : public Message {
 };
 
 class ReqParkedOrderActionMessage : public Message {
+ public:
   ReqParkedOrderActionMessage(
      CThostFtdcParkedOrderActionField*
      pParkedOrderAction,
@@ -249,6 +393,25 @@ class ReqParkedOrderActionMessage : public Message {
   }
 
   virtual ~ReqParkedOrderActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (parkedorderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*parkedorderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -267,6 +430,7 @@ class ReqParkedOrderActionMessage : public Message {
 };
 
 class ReqOrderActionMessage : public Message {
+ public:
   ReqOrderActionMessage(
      CThostFtdcInputOrderActionField*
      pInputOrderAction,
@@ -281,6 +445,25 @@ class ReqOrderActionMessage : public Message {
   }
 
   virtual ~ReqOrderActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputorderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*inputorderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -299,6 +482,7 @@ class ReqOrderActionMessage : public Message {
 };
 
 class ReqQueryMaxOrderVolumeMessage : public Message {
+ public:
   ReqQueryMaxOrderVolumeMessage(
      CThostFtdcQueryMaxOrderVolumeField*
      pQueryMaxOrderVolume,
@@ -313,6 +497,25 @@ class ReqQueryMaxOrderVolumeMessage : public Message {
   }
 
   virtual ~ReqQueryMaxOrderVolumeMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (querymaxordervolume_.get()) {
+      std::stringstream ss;
+      ss <<(*querymaxordervolume_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -331,6 +534,7 @@ class ReqQueryMaxOrderVolumeMessage : public Message {
 };
 
 class ReqSettlementInfoConfirmMessage : public Message {
+ public:
   ReqSettlementInfoConfirmMessage(
      CThostFtdcSettlementInfoConfirmField*
      pSettlementInfoConfirm,
@@ -345,6 +549,25 @@ class ReqSettlementInfoConfirmMessage : public Message {
   }
 
   virtual ~ReqSettlementInfoConfirmMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (settlementinfoconfirm_.get()) {
+      std::stringstream ss;
+      ss <<(*settlementinfoconfirm_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -363,6 +586,7 @@ class ReqSettlementInfoConfirmMessage : public Message {
 };
 
 class ReqRemoveParkedOrderMessage : public Message {
+ public:
   ReqRemoveParkedOrderMessage(
      CThostFtdcRemoveParkedOrderField*
      pRemoveParkedOrder,
@@ -377,6 +601,25 @@ class ReqRemoveParkedOrderMessage : public Message {
   }
 
   virtual ~ReqRemoveParkedOrderMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (removeparkedorder_.get()) {
+      std::stringstream ss;
+      ss <<(*removeparkedorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -395,6 +638,7 @@ class ReqRemoveParkedOrderMessage : public Message {
 };
 
 class ReqRemoveParkedOrderActionMessage : public Message {
+ public:
   ReqRemoveParkedOrderActionMessage(
      CThostFtdcRemoveParkedOrderActionField*
      pRemoveParkedOrderAction,
@@ -409,6 +653,25 @@ class ReqRemoveParkedOrderActionMessage : public Message {
   }
 
   virtual ~ReqRemoveParkedOrderActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (removeparkedorderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*removeparkedorderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -427,6 +690,7 @@ class ReqRemoveParkedOrderActionMessage : public Message {
 };
 
 class ReqExecOrderInsertMessage : public Message {
+ public:
   ReqExecOrderInsertMessage(
      CThostFtdcInputExecOrderField*
      pInputExecOrder,
@@ -441,6 +705,25 @@ class ReqExecOrderInsertMessage : public Message {
   }
 
   virtual ~ReqExecOrderInsertMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputexecorder_.get()) {
+      std::stringstream ss;
+      ss <<(*inputexecorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -459,6 +742,7 @@ class ReqExecOrderInsertMessage : public Message {
 };
 
 class ReqExecOrderActionMessage : public Message {
+ public:
   ReqExecOrderActionMessage(
      CThostFtdcInputExecOrderActionField*
      pInputExecOrderAction,
@@ -473,6 +757,25 @@ class ReqExecOrderActionMessage : public Message {
   }
 
   virtual ~ReqExecOrderActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputexecorderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*inputexecorderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -491,6 +794,7 @@ class ReqExecOrderActionMessage : public Message {
 };
 
 class ReqForQuoteInsertMessage : public Message {
+ public:
   ReqForQuoteInsertMessage(
      CThostFtdcInputForQuoteField*
      pInputForQuote,
@@ -505,6 +809,25 @@ class ReqForQuoteInsertMessage : public Message {
   }
 
   virtual ~ReqForQuoteInsertMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputforquote_.get()) {
+      std::stringstream ss;
+      ss <<(*inputforquote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -523,6 +846,7 @@ class ReqForQuoteInsertMessage : public Message {
 };
 
 class ReqQuoteInsertMessage : public Message {
+ public:
   ReqQuoteInsertMessage(
      CThostFtdcInputQuoteField*
      pInputQuote,
@@ -537,6 +861,25 @@ class ReqQuoteInsertMessage : public Message {
   }
 
   virtual ~ReqQuoteInsertMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputquote_.get()) {
+      std::stringstream ss;
+      ss <<(*inputquote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -555,6 +898,7 @@ class ReqQuoteInsertMessage : public Message {
 };
 
 class ReqQuoteActionMessage : public Message {
+ public:
   ReqQuoteActionMessage(
      CThostFtdcInputQuoteActionField*
      pInputQuoteAction,
@@ -569,6 +913,25 @@ class ReqQuoteActionMessage : public Message {
   }
 
   virtual ~ReqQuoteActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputquoteaction_.get()) {
+      std::stringstream ss;
+      ss <<(*inputquoteaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -587,6 +950,7 @@ class ReqQuoteActionMessage : public Message {
 };
 
 class ReqCombActionInsertMessage : public Message {
+ public:
   ReqCombActionInsertMessage(
      CThostFtdcInputCombActionField*
      pInputCombAction,
@@ -601,6 +965,25 @@ class ReqCombActionInsertMessage : public Message {
   }
 
   virtual ~ReqCombActionInsertMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (inputcombaction_.get()) {
+      std::stringstream ss;
+      ss <<(*inputcombaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -619,6 +1002,7 @@ class ReqCombActionInsertMessage : public Message {
 };
 
 class ReqQryOrderMessage : public Message {
+ public:
   ReqQryOrderMessage(
      CThostFtdcQryOrderField*
      pQryOrder,
@@ -633,6 +1017,25 @@ class ReqQryOrderMessage : public Message {
   }
 
   virtual ~ReqQryOrderMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryorder_.get()) {
+      std::stringstream ss;
+      ss <<(*qryorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -651,6 +1054,7 @@ class ReqQryOrderMessage : public Message {
 };
 
 class ReqQryTradeMessage : public Message {
+ public:
   ReqQryTradeMessage(
      CThostFtdcQryTradeField*
      pQryTrade,
@@ -665,6 +1069,25 @@ class ReqQryTradeMessage : public Message {
   }
 
   virtual ~ReqQryTradeMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrytrade_.get()) {
+      std::stringstream ss;
+      ss <<(*qrytrade_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -683,6 +1106,7 @@ class ReqQryTradeMessage : public Message {
 };
 
 class ReqQryInvestorPositionMessage : public Message {
+ public:
   ReqQryInvestorPositionMessage(
      CThostFtdcQryInvestorPositionField*
      pQryInvestorPosition,
@@ -697,6 +1121,25 @@ class ReqQryInvestorPositionMessage : public Message {
   }
 
   virtual ~ReqQryInvestorPositionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinvestorposition_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinvestorposition_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -715,6 +1158,7 @@ class ReqQryInvestorPositionMessage : public Message {
 };
 
 class ReqQryTradingAccountMessage : public Message {
+ public:
   ReqQryTradingAccountMessage(
      CThostFtdcQryTradingAccountField*
      pQryTradingAccount,
@@ -729,6 +1173,25 @@ class ReqQryTradingAccountMessage : public Message {
   }
 
   virtual ~ReqQryTradingAccountMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrytradingaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*qrytradingaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -747,6 +1210,7 @@ class ReqQryTradingAccountMessage : public Message {
 };
 
 class ReqQryInvestorMessage : public Message {
+ public:
   ReqQryInvestorMessage(
      CThostFtdcQryInvestorField*
      pQryInvestor,
@@ -761,6 +1225,25 @@ class ReqQryInvestorMessage : public Message {
   }
 
   virtual ~ReqQryInvestorMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinvestor_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinvestor_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -779,6 +1262,7 @@ class ReqQryInvestorMessage : public Message {
 };
 
 class ReqQryTradingCodeMessage : public Message {
+ public:
   ReqQryTradingCodeMessage(
      CThostFtdcQryTradingCodeField*
      pQryTradingCode,
@@ -793,6 +1277,25 @@ class ReqQryTradingCodeMessage : public Message {
   }
 
   virtual ~ReqQryTradingCodeMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrytradingcode_.get()) {
+      std::stringstream ss;
+      ss <<(*qrytradingcode_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -811,6 +1314,7 @@ class ReqQryTradingCodeMessage : public Message {
 };
 
 class ReqQryInstrumentMarginRateMessage : public Message {
+ public:
   ReqQryInstrumentMarginRateMessage(
      CThostFtdcQryInstrumentMarginRateField*
      pQryInstrumentMarginRate,
@@ -825,6 +1329,25 @@ class ReqQryInstrumentMarginRateMessage : public Message {
   }
 
   virtual ~ReqQryInstrumentMarginRateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinstrumentmarginrate_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinstrumentmarginrate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -843,6 +1366,7 @@ class ReqQryInstrumentMarginRateMessage : public Message {
 };
 
 class ReqQryInstrumentCommissionRateMessage : public Message {
+ public:
   ReqQryInstrumentCommissionRateMessage(
      CThostFtdcQryInstrumentCommissionRateField*
      pQryInstrumentCommissionRate,
@@ -857,6 +1381,25 @@ class ReqQryInstrumentCommissionRateMessage : public Message {
   }
 
   virtual ~ReqQryInstrumentCommissionRateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinstrumentcommissionrate_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinstrumentcommissionrate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -875,6 +1418,7 @@ class ReqQryInstrumentCommissionRateMessage : public Message {
 };
 
 class ReqQryExchangeMessage : public Message {
+ public:
   ReqQryExchangeMessage(
      CThostFtdcQryExchangeField*
      pQryExchange,
@@ -889,6 +1433,25 @@ class ReqQryExchangeMessage : public Message {
   }
 
   virtual ~ReqQryExchangeMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryexchange_.get()) {
+      std::stringstream ss;
+      ss <<(*qryexchange_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -907,6 +1470,7 @@ class ReqQryExchangeMessage : public Message {
 };
 
 class ReqQryProductMessage : public Message {
+ public:
   ReqQryProductMessage(
      CThostFtdcQryProductField*
      pQryProduct,
@@ -921,6 +1485,25 @@ class ReqQryProductMessage : public Message {
   }
 
   virtual ~ReqQryProductMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryproduct_.get()) {
+      std::stringstream ss;
+      ss <<(*qryproduct_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -939,6 +1522,7 @@ class ReqQryProductMessage : public Message {
 };
 
 class ReqQryInstrumentMessage : public Message {
+ public:
   ReqQryInstrumentMessage(
      CThostFtdcQryInstrumentField*
      pQryInstrument,
@@ -953,6 +1537,25 @@ class ReqQryInstrumentMessage : public Message {
   }
 
   virtual ~ReqQryInstrumentMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinstrument_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinstrument_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -971,6 +1574,7 @@ class ReqQryInstrumentMessage : public Message {
 };
 
 class ReqQryDepthMarketDataMessage : public Message {
+ public:
   ReqQryDepthMarketDataMessage(
      CThostFtdcQryDepthMarketDataField*
      pQryDepthMarketData,
@@ -985,6 +1589,25 @@ class ReqQryDepthMarketDataMessage : public Message {
   }
 
   virtual ~ReqQryDepthMarketDataMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrydepthmarketdata_.get()) {
+      std::stringstream ss;
+      ss <<(*qrydepthmarketdata_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1003,6 +1626,7 @@ class ReqQryDepthMarketDataMessage : public Message {
 };
 
 class ReqQrySettlementInfoMessage : public Message {
+ public:
   ReqQrySettlementInfoMessage(
      CThostFtdcQrySettlementInfoField*
      pQrySettlementInfo,
@@ -1017,6 +1641,25 @@ class ReqQrySettlementInfoMessage : public Message {
   }
 
   virtual ~ReqQrySettlementInfoMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrysettlementinfo_.get()) {
+      std::stringstream ss;
+      ss <<(*qrysettlementinfo_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1035,6 +1678,7 @@ class ReqQrySettlementInfoMessage : public Message {
 };
 
 class ReqQryTransferBankMessage : public Message {
+ public:
   ReqQryTransferBankMessage(
      CThostFtdcQryTransferBankField*
      pQryTransferBank,
@@ -1049,6 +1693,25 @@ class ReqQryTransferBankMessage : public Message {
   }
 
   virtual ~ReqQryTransferBankMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrytransferbank_.get()) {
+      std::stringstream ss;
+      ss <<(*qrytransferbank_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1067,6 +1730,7 @@ class ReqQryTransferBankMessage : public Message {
 };
 
 class ReqQryInvestorPositionDetailMessage : public Message {
+ public:
   ReqQryInvestorPositionDetailMessage(
      CThostFtdcQryInvestorPositionDetailField*
      pQryInvestorPositionDetail,
@@ -1081,6 +1745,25 @@ class ReqQryInvestorPositionDetailMessage : public Message {
   }
 
   virtual ~ReqQryInvestorPositionDetailMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinvestorpositiondetail_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinvestorpositiondetail_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1099,6 +1782,7 @@ class ReqQryInvestorPositionDetailMessage : public Message {
 };
 
 class ReqQryNoticeMessage : public Message {
+ public:
   ReqQryNoticeMessage(
      CThostFtdcQryNoticeField*
      pQryNotice,
@@ -1113,6 +1797,25 @@ class ReqQryNoticeMessage : public Message {
   }
 
   virtual ~ReqQryNoticeMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrynotice_.get()) {
+      std::stringstream ss;
+      ss <<(*qrynotice_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1131,6 +1834,7 @@ class ReqQryNoticeMessage : public Message {
 };
 
 class ReqQrySettlementInfoConfirmMessage : public Message {
+ public:
   ReqQrySettlementInfoConfirmMessage(
      CThostFtdcQrySettlementInfoConfirmField*
      pQrySettlementInfoConfirm,
@@ -1145,6 +1849,25 @@ class ReqQrySettlementInfoConfirmMessage : public Message {
   }
 
   virtual ~ReqQrySettlementInfoConfirmMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrysettlementinfoconfirm_.get()) {
+      std::stringstream ss;
+      ss <<(*qrysettlementinfoconfirm_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1163,6 +1886,7 @@ class ReqQrySettlementInfoConfirmMessage : public Message {
 };
 
 class ReqQryInvestorPositionCombineDetailMessage : public Message {
+ public:
   ReqQryInvestorPositionCombineDetailMessage(
      CThostFtdcQryInvestorPositionCombineDetailField*
      pQryInvestorPositionCombineDetail,
@@ -1177,6 +1901,25 @@ class ReqQryInvestorPositionCombineDetailMessage : public Message {
   }
 
   virtual ~ReqQryInvestorPositionCombineDetailMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinvestorpositioncombinedetail_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinvestorpositioncombinedetail_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1195,6 +1938,7 @@ class ReqQryInvestorPositionCombineDetailMessage : public Message {
 };
 
 class ReqQryCFMMCTradingAccountKeyMessage : public Message {
+ public:
   ReqQryCFMMCTradingAccountKeyMessage(
      CThostFtdcQryCFMMCTradingAccountKeyField*
      pQryCFMMCTradingAccountKey,
@@ -1209,6 +1953,25 @@ class ReqQryCFMMCTradingAccountKeyMessage : public Message {
   }
 
   virtual ~ReqQryCFMMCTradingAccountKeyMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrycfmmctradingaccountkey_.get()) {
+      std::stringstream ss;
+      ss <<(*qrycfmmctradingaccountkey_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1227,6 +1990,7 @@ class ReqQryCFMMCTradingAccountKeyMessage : public Message {
 };
 
 class ReqQryEWarrantOffsetMessage : public Message {
+ public:
   ReqQryEWarrantOffsetMessage(
      CThostFtdcQryEWarrantOffsetField*
      pQryEWarrantOffset,
@@ -1241,6 +2005,25 @@ class ReqQryEWarrantOffsetMessage : public Message {
   }
 
   virtual ~ReqQryEWarrantOffsetMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryewarrantoffset_.get()) {
+      std::stringstream ss;
+      ss <<(*qryewarrantoffset_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1259,6 +2042,7 @@ class ReqQryEWarrantOffsetMessage : public Message {
 };
 
 class ReqQryInvestorProductGroupMarginMessage : public Message {
+ public:
   ReqQryInvestorProductGroupMarginMessage(
      CThostFtdcQryInvestorProductGroupMarginField*
      pQryInvestorProductGroupMargin,
@@ -1273,6 +2057,25 @@ class ReqQryInvestorProductGroupMarginMessage : public Message {
   }
 
   virtual ~ReqQryInvestorProductGroupMarginMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryinvestorproductgroupmargin_.get()) {
+      std::stringstream ss;
+      ss <<(*qryinvestorproductgroupmargin_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1291,6 +2094,7 @@ class ReqQryInvestorProductGroupMarginMessage : public Message {
 };
 
 class ReqQryExchangeMarginRateMessage : public Message {
+ public:
   ReqQryExchangeMarginRateMessage(
      CThostFtdcQryExchangeMarginRateField*
      pQryExchangeMarginRate,
@@ -1305,6 +2109,25 @@ class ReqQryExchangeMarginRateMessage : public Message {
   }
 
   virtual ~ReqQryExchangeMarginRateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryexchangemarginrate_.get()) {
+      std::stringstream ss;
+      ss <<(*qryexchangemarginrate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1323,6 +2146,7 @@ class ReqQryExchangeMarginRateMessage : public Message {
 };
 
 class ReqQryExchangeMarginRateAdjustMessage : public Message {
+ public:
   ReqQryExchangeMarginRateAdjustMessage(
      CThostFtdcQryExchangeMarginRateAdjustField*
      pQryExchangeMarginRateAdjust,
@@ -1337,6 +2161,25 @@ class ReqQryExchangeMarginRateAdjustMessage : public Message {
   }
 
   virtual ~ReqQryExchangeMarginRateAdjustMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryexchangemarginrateadjust_.get()) {
+      std::stringstream ss;
+      ss <<(*qryexchangemarginrateadjust_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1355,6 +2198,7 @@ class ReqQryExchangeMarginRateAdjustMessage : public Message {
 };
 
 class ReqQryExchangeRateMessage : public Message {
+ public:
   ReqQryExchangeRateMessage(
      CThostFtdcQryExchangeRateField*
      pQryExchangeRate,
@@ -1369,6 +2213,25 @@ class ReqQryExchangeRateMessage : public Message {
   }
 
   virtual ~ReqQryExchangeRateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryexchangerate_.get()) {
+      std::stringstream ss;
+      ss <<(*qryexchangerate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1387,6 +2250,7 @@ class ReqQryExchangeRateMessage : public Message {
 };
 
 class ReqQrySecAgentACIDMapMessage : public Message {
+ public:
   ReqQrySecAgentACIDMapMessage(
      CThostFtdcQrySecAgentACIDMapField*
      pQrySecAgentACIDMap,
@@ -1401,6 +2265,25 @@ class ReqQrySecAgentACIDMapMessage : public Message {
   }
 
   virtual ~ReqQrySecAgentACIDMapMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrysecagentacidmap_.get()) {
+      std::stringstream ss;
+      ss <<(*qrysecagentacidmap_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1419,6 +2302,7 @@ class ReqQrySecAgentACIDMapMessage : public Message {
 };
 
 class ReqQryProductExchRateMessage : public Message {
+ public:
   ReqQryProductExchRateMessage(
      CThostFtdcQryProductExchRateField*
      pQryProductExchRate,
@@ -1433,6 +2317,25 @@ class ReqQryProductExchRateMessage : public Message {
   }
 
   virtual ~ReqQryProductExchRateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryproductexchrate_.get()) {
+      std::stringstream ss;
+      ss <<(*qryproductexchrate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1451,6 +2354,7 @@ class ReqQryProductExchRateMessage : public Message {
 };
 
 class ReqQryOptionInstrTradeCostMessage : public Message {
+ public:
   ReqQryOptionInstrTradeCostMessage(
      CThostFtdcQryOptionInstrTradeCostField*
      pQryOptionInstrTradeCost,
@@ -1465,6 +2369,25 @@ class ReqQryOptionInstrTradeCostMessage : public Message {
   }
 
   virtual ~ReqQryOptionInstrTradeCostMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryoptioninstrtradecost_.get()) {
+      std::stringstream ss;
+      ss <<(*qryoptioninstrtradecost_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1483,6 +2406,7 @@ class ReqQryOptionInstrTradeCostMessage : public Message {
 };
 
 class ReqQryOptionInstrCommRateMessage : public Message {
+ public:
   ReqQryOptionInstrCommRateMessage(
      CThostFtdcQryOptionInstrCommRateField*
      pQryOptionInstrCommRate,
@@ -1497,6 +2421,25 @@ class ReqQryOptionInstrCommRateMessage : public Message {
   }
 
   virtual ~ReqQryOptionInstrCommRateMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryoptioninstrcommrate_.get()) {
+      std::stringstream ss;
+      ss <<(*qryoptioninstrcommrate_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1515,6 +2458,7 @@ class ReqQryOptionInstrCommRateMessage : public Message {
 };
 
 class ReqQryExecOrderMessage : public Message {
+ public:
   ReqQryExecOrderMessage(
      CThostFtdcQryExecOrderField*
      pQryExecOrder,
@@ -1529,6 +2473,25 @@ class ReqQryExecOrderMessage : public Message {
   }
 
   virtual ~ReqQryExecOrderMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryexecorder_.get()) {
+      std::stringstream ss;
+      ss <<(*qryexecorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1547,6 +2510,7 @@ class ReqQryExecOrderMessage : public Message {
 };
 
 class ReqQryForQuoteMessage : public Message {
+ public:
   ReqQryForQuoteMessage(
      CThostFtdcQryForQuoteField*
      pQryForQuote,
@@ -1561,6 +2525,25 @@ class ReqQryForQuoteMessage : public Message {
   }
 
   virtual ~ReqQryForQuoteMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryforquote_.get()) {
+      std::stringstream ss;
+      ss <<(*qryforquote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1579,6 +2562,7 @@ class ReqQryForQuoteMessage : public Message {
 };
 
 class ReqQryQuoteMessage : public Message {
+ public:
   ReqQryQuoteMessage(
      CThostFtdcQryQuoteField*
      pQryQuote,
@@ -1593,6 +2577,25 @@ class ReqQryQuoteMessage : public Message {
   }
 
   virtual ~ReqQryQuoteMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryquote_.get()) {
+      std::stringstream ss;
+      ss <<(*qryquote_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1611,6 +2614,7 @@ class ReqQryQuoteMessage : public Message {
 };
 
 class ReqQryCombInstrumentGuardMessage : public Message {
+ public:
   ReqQryCombInstrumentGuardMessage(
      CThostFtdcQryCombInstrumentGuardField*
      pQryCombInstrumentGuard,
@@ -1625,6 +2629,25 @@ class ReqQryCombInstrumentGuardMessage : public Message {
   }
 
   virtual ~ReqQryCombInstrumentGuardMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrycombinstrumentguard_.get()) {
+      std::stringstream ss;
+      ss <<(*qrycombinstrumentguard_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1643,6 +2666,7 @@ class ReqQryCombInstrumentGuardMessage : public Message {
 };
 
 class ReqQryCombActionMessage : public Message {
+ public:
   ReqQryCombActionMessage(
      CThostFtdcQryCombActionField*
      pQryCombAction,
@@ -1657,6 +2681,25 @@ class ReqQryCombActionMessage : public Message {
   }
 
   virtual ~ReqQryCombActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrycombaction_.get()) {
+      std::stringstream ss;
+      ss <<(*qrycombaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1675,6 +2718,7 @@ class ReqQryCombActionMessage : public Message {
 };
 
 class ReqQryTransferSerialMessage : public Message {
+ public:
   ReqQryTransferSerialMessage(
      CThostFtdcQryTransferSerialField*
      pQryTransferSerial,
@@ -1689,6 +2733,25 @@ class ReqQryTransferSerialMessage : public Message {
   }
 
   virtual ~ReqQryTransferSerialMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrytransferserial_.get()) {
+      std::stringstream ss;
+      ss <<(*qrytransferserial_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1707,6 +2770,7 @@ class ReqQryTransferSerialMessage : public Message {
 };
 
 class ReqQryAccountregisterMessage : public Message {
+ public:
   ReqQryAccountregisterMessage(
      CThostFtdcQryAccountregisterField*
      pQryAccountregister,
@@ -1721,6 +2785,25 @@ class ReqQryAccountregisterMessage : public Message {
   }
 
   virtual ~ReqQryAccountregisterMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryaccountregister_.get()) {
+      std::stringstream ss;
+      ss <<(*qryaccountregister_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1739,6 +2822,7 @@ class ReqQryAccountregisterMessage : public Message {
 };
 
 class ReqQryContractBankMessage : public Message {
+ public:
   ReqQryContractBankMessage(
      CThostFtdcQryContractBankField*
      pQryContractBank,
@@ -1753,6 +2837,25 @@ class ReqQryContractBankMessage : public Message {
   }
 
   virtual ~ReqQryContractBankMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrycontractbank_.get()) {
+      std::stringstream ss;
+      ss <<(*qrycontractbank_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1771,6 +2874,7 @@ class ReqQryContractBankMessage : public Message {
 };
 
 class ReqQryParkedOrderMessage : public Message {
+ public:
   ReqQryParkedOrderMessage(
      CThostFtdcQryParkedOrderField*
      pQryParkedOrder,
@@ -1785,6 +2889,25 @@ class ReqQryParkedOrderMessage : public Message {
   }
 
   virtual ~ReqQryParkedOrderMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryparkedorder_.get()) {
+      std::stringstream ss;
+      ss <<(*qryparkedorder_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1803,6 +2926,7 @@ class ReqQryParkedOrderMessage : public Message {
 };
 
 class ReqQryParkedOrderActionMessage : public Message {
+ public:
   ReqQryParkedOrderActionMessage(
      CThostFtdcQryParkedOrderActionField*
      pQryParkedOrderAction,
@@ -1817,6 +2941,25 @@ class ReqQryParkedOrderActionMessage : public Message {
   }
 
   virtual ~ReqQryParkedOrderActionMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qryparkedorderaction_.get()) {
+      std::stringstream ss;
+      ss <<(*qryparkedorderaction_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1835,6 +2978,7 @@ class ReqQryParkedOrderActionMessage : public Message {
 };
 
 class ReqQryTradingNoticeMessage : public Message {
+ public:
   ReqQryTradingNoticeMessage(
      CThostFtdcQryTradingNoticeField*
      pQryTradingNotice,
@@ -1849,6 +2993,25 @@ class ReqQryTradingNoticeMessage : public Message {
   }
 
   virtual ~ReqQryTradingNoticeMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrytradingnotice_.get()) {
+      std::stringstream ss;
+      ss <<(*qrytradingnotice_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1867,6 +3030,7 @@ class ReqQryTradingNoticeMessage : public Message {
 };
 
 class ReqQryBrokerTradingParamsMessage : public Message {
+ public:
   ReqQryBrokerTradingParamsMessage(
      CThostFtdcQryBrokerTradingParamsField*
      pQryBrokerTradingParams,
@@ -1881,6 +3045,25 @@ class ReqQryBrokerTradingParamsMessage : public Message {
   }
 
   virtual ~ReqQryBrokerTradingParamsMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrybrokertradingparams_.get()) {
+      std::stringstream ss;
+      ss <<(*qrybrokertradingparams_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1899,6 +3082,7 @@ class ReqQryBrokerTradingParamsMessage : public Message {
 };
 
 class ReqQryBrokerTradingAlgosMessage : public Message {
+ public:
   ReqQryBrokerTradingAlgosMessage(
      CThostFtdcQryBrokerTradingAlgosField*
      pQryBrokerTradingAlgos,
@@ -1913,6 +3097,25 @@ class ReqQryBrokerTradingAlgosMessage : public Message {
   }
 
   virtual ~ReqQryBrokerTradingAlgosMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (qrybrokertradingalgos_.get()) {
+      std::stringstream ss;
+      ss <<(*qrybrokertradingalgos_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1931,6 +3134,7 @@ class ReqQryBrokerTradingAlgosMessage : public Message {
 };
 
 class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
+ public:
   ReqQueryCFMMCTradingAccountTokenMessage(
      CThostFtdcQueryCFMMCTradingAccountTokenField*
      pQueryCFMMCTradingAccountToken,
@@ -1945,6 +3149,25 @@ class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
   }
 
   virtual ~ReqQueryCFMMCTradingAccountTokenMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (querycfmmctradingaccounttoken_.get()) {
+      std::stringstream ss;
+      ss <<(*querycfmmctradingaccounttoken_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1963,6 +3186,7 @@ class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
 };
 
 class ReqFromBankToFutureByFutureMessage : public Message {
+ public:
   ReqFromBankToFutureByFutureMessage(
      CThostFtdcReqTransferField*
      pReqTransfer,
@@ -1977,6 +3201,25 @@ class ReqFromBankToFutureByFutureMessage : public Message {
   }
 
   virtual ~ReqFromBankToFutureByFutureMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqtransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*reqtransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -1995,6 +3238,7 @@ class ReqFromBankToFutureByFutureMessage : public Message {
 };
 
 class ReqFromFutureToBankByFutureMessage : public Message {
+ public:
   ReqFromFutureToBankByFutureMessage(
      CThostFtdcReqTransferField*
      pReqTransfer,
@@ -2009,6 +3253,25 @@ class ReqFromFutureToBankByFutureMessage : public Message {
   }
 
   virtual ~ReqFromFutureToBankByFutureMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqtransfer_.get()) {
+      std::stringstream ss;
+      ss <<(*reqtransfer_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {
@@ -2027,6 +3290,7 @@ class ReqFromFutureToBankByFutureMessage : public Message {
 };
 
 class ReqQueryBankAccountMoneyByFutureMessage : public Message {
+ public:
   ReqQueryBankAccountMoneyByFutureMessage(
      CThostFtdcReqQueryAccountField*
      pReqQueryAccount,
@@ -2041,6 +3305,25 @@ class ReqQueryBankAccountMoneyByFutureMessage : public Message {
   }
 
   virtual ~ReqQueryBankAccountMoneyByFutureMessage() {
+  }
+
+  virtual std::string toString() const {
+    json::Document doc;
+    toJSON(&doc);
+    return json::toString(doc);
+  }
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+    if (reqqueryaccount_.get()) {
+      std::stringstream ss;
+      ss <<(*reqqueryaccount_);
+      json::Document d;
+      json::fromString(ss.str(), &d);
+      json::appendDoc(doc, d);
+    }
+
+    Message::toJSON(doc);
   }
 
   int requestID() const {

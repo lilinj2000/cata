@@ -7,7 +7,8 @@ TESTS = unittest.sh
 check_PROGRAMS = unittest_md unittest_trader
 
 unittest_md_SOURCES = \
-	MDServiceImplTest.cc 
+	MDServiceImplTest.cc \
+	MessageTest.cc
 
 unittest_trader_SOURCES = \
 	TraderServiceImplTest.cc
@@ -18,6 +19,8 @@ unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(CTP_CPPFLAGS) \
 		$(GTEST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
+		$(RAPIDJSON_CPPFLAGS) \
+		$(JSON_CPPFLAGS) \
 		$(COVERAGE_CXXFLAGS)
 
 unittest_md_CPPFLAGS = $(unittest_CPPFLAGS)
@@ -29,6 +32,7 @@ unittest_LDADD = \
 	$(BOOST_LIBADD) \
 	$(CTP_LIBADD) \
 	$(SOIL_LIBADD) \
+	$(JSON_LIBADD) \
 	$(COVERAGE_LDFLAGS)
 
 unittest_md_LDADD = $(unittest_LDADD) \

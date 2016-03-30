@@ -42,6 +42,21 @@ TEST_F(TraderServiceImplTest, loginTest) {
   ASSERT_TRUE(true);
 }
 
+TEST_F(TraderServiceImplTest, queryMarginRateTest) {
+  std::string instru = "IF1604";
+
+  service_->queryExchangeMarginRate(instru);
+  cond_->wait(1000);
+
+  service_->queryExchangeMarginRateAdjust(instru);
+  cond_->wait(1000);
+
+  service_->queryInstruMarginRate(instru);
+  cond_->wait(1000);
+
+  ASSERT_TRUE(true);
+}
+
 // TEST_F(TraderServiceImplTest, orderOpenBuyTest) {
 //   std::string instru = "cu1603";
 //   double price = 32900;

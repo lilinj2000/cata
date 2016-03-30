@@ -5,8 +5,11 @@
 #define CATA_REQMESSAGE_HH
 
 #include <memory>
+#include <string>
 #include "ThostFtdcUserApiStruct.h"
 #include "Message.hh"
+#include "ThostFtdcUserApiStructPrint.hh"
+#include "json/json.hh"
 
 namespace cata {
 

@@ -1,7 +1,6 @@
 // Copyright (c) 2010
 // All rights reserved.
 
-#include <boost/thread.hpp>
 #include <memory>
 #include "gtest/gtest.h"
 #include "md_service/MDServiceImpl.hh"

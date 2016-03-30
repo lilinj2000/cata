@@ -40,23 +40,30 @@ def processLine(line, msg_type):
     # print rsp_field_name
     # print rsp_field
     local_field = field[1:].lower() + "_"
+    is_rsp_error = False
+    if field_name == "CThostFtdcRspInfoField":
+        is_rsp_error = True
     # print local_field
     if msg_type == "rsp":
-        to_file.write('class %s : public RspMessage {\n' % message_name);
+        to_file.write('class %s : public RspMessage {\n' % message_name)
+        to_file.write(' public:\n')
         to_file.write('  %s(\n' % message_name)
-        to_file.write('     %s*\n' % field_name)
-        to_file.write('        %s,\n' % field)
+        if not is_rsp_error:
+            to_file.write('     %s*\n' % field_name)
+            to_file.write('        %s,\n' % field)
         to_file.write('  CThostFtdcRspInfoField* pRspInfo,\n')
         to_file.write('  int nRequestID, bool bIsLast):\n')
         to_file.write('      RspMessage(%s,\n' % message_id)
         to_file.write('                 pRspInfo, nRequestID, bIsLast) {\n')
     elif msg_type == "rtn":
         to_file.write('class %s : public Message {\n' % message_name);
+        to_file.write(' public:\n')
         to_file.write('  explicit %s(\n' % message_name)
         to_file.write('     %s* %s):\n' % (field_name, field))
         to_file.write('      Message(%s) {\n' % message_id)
     elif msg_type == "err_rtn":
         to_file.write('class %s : public Message {\n' % message_name);
+        to_file.write(' public:\n')
         to_file.write('  %s(\n' % message_name)
         to_file.write('     %s* %s,\n' % (field_name, field))
         to_file.write('  CThostFtdcRspInfoField* pRspInfo):\n')
@@ -66,6 +73,7 @@ def processLine(line, msg_type):
         to_file.write('                sizeof(CThostFtdcRspInfoField));\n\n')
     elif msg_type == "req":
         to_file.write('class %s : public Message {\n' % message_name);
+        to_file.write(' public:\n')
         to_file.write('  %s(\n' % message_name)
         to_file.write('     %s*\n' % field_name)
         to_file.write('     %s,\n' % field)
@@ -73,15 +81,41 @@ def processLine(line, msg_type):
         to_file.write('      Message(%s)\n' % message_id)
         to_file.write('      request_id_(nRequestID) {\n')
 
-    to_file.write('    %s.reset(\n' % local_field)
-    to_file.write('             new %s());\n' % field_name)
-    to_file.write('    std::memcpy(%s.get(),\n' % local_field)
-    to_file.write('                %s,\n' % field)
-    to_file.write('                sizeof(%s));\n' % field_name)
+    if not is_rsp_error:
+        to_file.write('    %s.reset(\n' % local_field)
+        to_file.write('             new %s());\n' % field_name)
+        to_file.write('    std::memcpy(%s.get(),\n' % local_field)
+        to_file.write('                %s,\n' % field)
+        to_file.write('                sizeof(%s));\n' % field_name)
     to_file.write('  }\n\n')
 
     to_file.write('  virtual ~%s() {\n' % message_name)
     to_file.write('  }\n\n')
+
+    to_file.write('  virtual std::string toString() const {\n')
+    to_file.write('    json::Document doc;\n')
+    to_file.write('    toJSON(&doc);\n')
+    to_file.write('    return json::toString(doc);\n')
+    to_file.write('  }\n\n')
+
+    to_file.write('  virtual void toJSON(json::Document* doc) const {\n')
+    to_file.write('    assert(doc);\n')
+
+    if not is_rsp_error:
+        to_file.write('    if (%s.get()) {\n' % local_field)
+        to_file.write('      std::stringstream ss;\n')
+        to_file.write('      ss <<(*%s);\n' % local_field)
+        to_file.write('      json::Document d;\n')
+        to_file.write('      json::fromString(ss.str(), &d);\n')
+        to_file.write('      json::appendDoc(doc, d);\n')
+        to_file.write('    }\n\n')
+
+    if msg_type == "rsp":
+        to_file.write('    RspMessage::toJSON(doc);\n')
+    else:
+        to_file.write('    Message::toJSON(doc);\n')
+    to_file.write('  }\n\n')
+    
 
     if msg_type == "err_rtn":
         to_file.write('  CThostFtdcRspInfoField* rspInfo() const {\n')
@@ -96,14 +130,16 @@ def processLine(line, msg_type):
     method_name = field[1:]
     method_name = method_name[:1].lower() + method_name[1:]
     # print method_name
-    to_file.write('  %s*\n' % field_name)
-    to_file.write('     %s() const {\n' % method_name)
-    to_file.write('    return %s.get();\n' % local_field)
-    to_file.write('  }\n\n')
+    if not is_rsp_error:
+        to_file.write('  %s*\n' % field_name)
+        to_file.write('     %s() const {\n' % method_name)
+        to_file.write('    return %s.get();\n' % local_field)
+        to_file.write('  }\n\n')
 
     to_file.write(' private:\n')
-    to_file.write('  std::unique_ptr<%s>\n' % field_name)
-    to_file.write('                   %s;\n' % local_field)
+    if not is_rsp_error:
+        to_file.write('  std::unique_ptr<%s>\n' % field_name)
+        to_file.write('                   %s;\n' % local_field)
     if msg_type == "err_rtn":
         to_file.write('  std::unique_ptr<CThostFtdcRspInfoField> rspinfo_;\n')
     elif msg_type == "req":

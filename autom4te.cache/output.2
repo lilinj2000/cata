@@ -636,6 +636,24 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIB@&t@OBJS
+JSON_LIBADD
+JSON_CPPFLAGS
+JSON_HOME
+SOIL_LIBADD
+SOIL_CPPFLAGS
+SOIL_HOME
+GTEST_LIBADD
+GTEST_CPPFLAGS
+GTEST_HOME
+CTP_TRADER_LIBADD
+CTP_MD_LIBADD
+CTP_CPPFLAGS
+CTP_HOME
+RAPIDJSON_CPPFLAGS
+RAPIDJSON_HOME
+BOOST_LIBADD
+BOOST_CPPFLAGS
+BOOST_HOME
 COVERAGE_LDFLAGS
 COVERAGE_CXXFLAGS
 COVERAGE_CFLAGS
@@ -644,19 +662,6 @@ LCOV
 SHTOOL
 HAVE_GCOV_FALSE
 HAVE_GCOV_TRUE
-GTEST_LIBADD
-GTEST_CPPFLAGS
-GTEST_HOME
-CTP_TRADER_LIBADD
-CTP_MD_LIBADD
-CTP_CPPFLAGS
-CTP_HOME
-BOOST_LIBADD
-BOOST_CPPFLAGS
-BOOST_HOME
-SOIL_LIBADD
-SOIL_CPPFLAGS
-SOIL_HOME
 LT_AGE
 LT_REVISION
 LT_CURRENT
@@ -794,11 +799,13 @@ enable_fast_install
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
-with_soil
+enable_gcov
 with_boost
+with_rapidjson
 with_ctp
 with_gtest
-enable_gcov
+with_soil
+with_json
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1452,10 +1459,13 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
-  --with-soil             home path of the soil, defaults to @S|@home_libs/soil
   --with-boost            home path of the boost, defaults to @S|@home_3rd/boost
+  --with-rapidjson        home path of the rapidjson, defaults to
+                          @S|@RAPIDJSON_HOME
   --with-ctp              path of the ctp api, defaults to @S|@CTP_HOME
   --with-gtest            home path of the gtest, defaults to @S|@GTEST_HOME
+  --with-soil             home path of the soil, defaults to @S|@home_libs/soil
+  --with-json             home path of the json, defaults to @S|@home_libs/json
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -15353,76 +15363,6 @@ LT_AGE=0
 home_3rd=~/3rd
 home_libs=~/libs
 
-
-@%:@ Check whether --with-soil was given.
-if test "${with_soil+set}" = set; then :
-  withval=$with_soil; SOIL_HOME="$withval"
-else
-  SOIL_HOME="$home_libs/soil"
-fi
-
-
-
-SOIL_CPPFLAGS="-I$SOIL_HOME/include"
-SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
-
-
-
-
-@%:@ Check whether --with-boost was given.
-if test "${with_boost+set}" = set; then :
-  withval=$with_boost; BOOST_HOME="$withval"
-else
-  BOOST_HOME="$home_3rd/boost"
-fi
-
-
-
-BOOST_CPPFLAGS="-I$BOOST_HOME/include -DBOOST_ALL_DYN_LINK"
-BOOST_LIBADD="$BOOST_HOME/lib/libboost_log_setup.so \
-              $BOOST_HOME/lib/libboost_log.so \
-	      $BOOST_HOME/lib/libboost_filesystem.so \
-  	      $BOOST_HOME/lib/libboost_program_options.so \
-	      $BOOST_HOME/lib/libboost_regex.so \
-	      $BOOST_HOME/lib/libboost_thread.so \
-	      $BOOST_HOME/lib/libboost_chrono.so \
-	      $BOOST_HOME/lib/libboost_date_time.so \
-	      $BOOST_HOME/lib/libboost_system.so"
-
-
-
-CTP_HOME=$home_3rd/v6.3.6_20141230traderapi_linux64
-
-@%:@ Check whether --with-ctp was given.
-if test "${with_ctp+set}" = set; then :
-  withval=$with_ctp; CTP_HOME="$withval"
-else
-  CTP_HOME="$CTP_HOME"
-fi
-
-
-
-CTP_CPPFLAGS=-I$CTP_HOME
-CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi"
-CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi"
-
-
-
-
-GTEST_HOME=$home_3rd/googletest
-
-@%:@ Check whether --with-gtest was given.
-if test "${with_gtest+set}" = set; then :
-  withval=$with_gtest; GTEST_HOME="$withval"
-fi
-
-
-
-GTEST_CPPFLAGS=-I$GTEST_HOME/include
-GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a"
-
-
-
 ###########################
 # gcov coverage reporting
 ###########################
@@ -15625,6 +15565,107 @@ $as_echo "$glib_cv_lcov_version" >&6; }
 
 fi
 
+
+
+
+
+
+@%:@ Check whether --with-boost was given.
+if test "${with_boost+set}" = set; then :
+  withval=$with_boost; BOOST_HOME="$withval"
+else
+  BOOST_HOME="$home_3rd/boost"
+fi
+
+
+
+BOOST_CPPFLAGS="-I$BOOST_HOME/include -DBOOST_ALL_DYN_LINK"
+BOOST_LIBADD="$BOOST_HOME/lib/libboost_log_setup.so \
+              $BOOST_HOME/lib/libboost_log.so \
+	      $BOOST_HOME/lib/libboost_filesystem.so \
+  	      $BOOST_HOME/lib/libboost_program_options.so \
+	      $BOOST_HOME/lib/libboost_regex.so \
+	      $BOOST_HOME/lib/libboost_thread.so \
+	      $BOOST_HOME/lib/libboost_chrono.so \
+	      $BOOST_HOME/lib/libboost_date_time.so \
+	      $BOOST_HOME/lib/libboost_system.so"
+
+
+
+RAPIDJSON_HOME=$home_3rd/rapidjson
+
+@%:@ Check whether --with-rapidjson was given.
+if test "${with_rapidjson+set}" = set; then :
+  withval=$with_rapidjson; RAPIDJSON_HOME="$withval"
+else
+  RAPIDJSON_HOME="$RAPIDJSON_HOME"
+fi
+
+
+
+RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include"
+
+
+CTP_HOME=$home_3rd/v6.3.6_20141230traderapi_linux64
+
+@%:@ Check whether --with-ctp was given.
+if test "${with_ctp+set}" = set; then :
+  withval=$with_ctp; CTP_HOME="$withval"
+else
+  CTP_HOME="$CTP_HOME"
+fi
+
+
+
+CTP_CPPFLAGS=-I$CTP_HOME
+CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi"
+CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi"
+
+
+
+
+GTEST_HOME=$home_3rd/googletest
+
+@%:@ Check whether --with-gtest was given.
+if test "${with_gtest+set}" = set; then :
+  withval=$with_gtest; GTEST_HOME="$withval"
+fi
+
+
+
+GTEST_CPPFLAGS=-I$GTEST_HOME/include
+GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a"
+
+
+
+
+
+@%:@ Check whether --with-soil was given.
+if test "${with_soil+set}" = set; then :
+  withval=$with_soil; SOIL_HOME="$withval"
+else
+  SOIL_HOME="$home_libs/soil"
+fi
+
+
+
+SOIL_CPPFLAGS="-I$SOIL_HOME/include"
+SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
+
+
+
+
+@%:@ Check whether --with-json was given.
+if test "${with_json+set}" = set; then :
+  withval=$with_json; JSON_HOME="$withval"
+else
+  JSON_HOME="$home_libs/json"
+fi
+
+
+
+JSON_CPPFLAGS="-I$JSON_HOME/include"
+JSON_LIBADD="$JSON_HOME/lib/libjson.la"
 
 
 

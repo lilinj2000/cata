@@ -5,8 +5,11 @@
 #define CATA_RSPMESSAGE_HH
 
 #include <memory>
+#include <string>
 #include "ThostFtdcUserApiStruct.h"
+#include "ThostFtdcUserApiStructPrint.hh"
 #include "Message.hh"
+#include "json/json.hh"
 
 namespace cata {
 
@@ -19,10 +22,34 @@ class RspMessage : public Message {
       request_id_(nRequestID),
       is_last_(bIsLast) {
     rsp_info_.reset(new CThostFtdcRspInfoField());
-    std::memcpy(rsp_info.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
+    std::memcpy(rsp_info_.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
   }
 
   virtual ~RspMessage() {
+  }
+
+  virtual std::string toString() const = 0;
+
+  virtual void toJSON(json::Document* doc) const {
+    assert(doc);
+
+    if (rsp_info_.get()) {
+      std::stringstream ss;
+      ss <<(*rsp_info_);
+
+      json::Document d;
+      json::fromString(ss.str(), &d);
+
+      json::appendDoc(doc, d);
+    }
+
+    std::string req_key = "request_id";
+    json::addMember(doc, req_key, requestID());
+
+    std::string last_key = "is_last";
+    json::addMember(doc, last_key, isLast());
+
+    Message::toJSON(doc);
   }
 
   CThostFtdcRspInfoField* rspInfo() const {
@@ -38,7 +65,7 @@ class RspMessage : public Message {
   }
 
  private:
-  std::unqiue_ptr<CThostFtdcRspInfoField> rsp_info_;
+  std::unique_ptr<CThostFtdcRspInfoField> rsp_info_;
   int request_id_;
   bool is_last_;
 };

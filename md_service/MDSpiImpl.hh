@@ -22,6 +22,7 @@ class MDSpiImpl : public CThostFtdcMdSpi {
                           int nRequestID, bool bIsLast);
 
   virtual void OnFrontDisconnected(int nReason);
+
   virtual void OnHeartBeatWarning(int nTimeLapse);
 
   virtual void OnFrontConnected();

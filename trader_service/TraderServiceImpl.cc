@@ -230,6 +230,68 @@ int TraderServiceImpl::orderCloseSell(const std::string& instru,
   return order_ref;
 }
 
+int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru) {
+  CATA_TRACE <<"TraderServiceImpl::queryExchangeMarginRate()";
+
+  CATA_INFO <<"instru: " <<instru;
+
+  CThostFtdcQryExchangeMarginRateField req;
+  memset(&req, 0x0, sizeof(req));
+
+  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
+  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+
+  CATA_DEBUG <<req;
+
+  int ret = trader_api_->ReqQryExchangeMarginRate(&req, ++request_id_);
+  if (ret != 0) {
+    CATA_ERROR <<"return code " <<ret;
+    throw std::runtime_error("query exchange margin rate failed.");
+  }
+}
+
+int TraderServiceImpl::queryExchangeMarginRateAdjust(
+    const std::string& instru) {
+  CATA_TRACE <<"TraderServiceImpl::queryExchangeMarginRateAdjust()";
+
+  CATA_INFO <<"instru: " <<instru;
+
+  CThostFtdcQryExchangeMarginRateAdjustField req;
+  memset(&req, 0x0, sizeof(req));
+
+  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
+  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+
+  CATA_DEBUG <<req;
+
+  int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, ++request_id_);
+  if (ret != 0) {
+    CATA_ERROR <<"return code " <<ret;
+    throw std::runtime_error("query exchange margin rate adjust failed.");
+  }
+}
+
+int TraderServiceImpl::queryInstruMarginRate(const std::string& instru) {
+  CATA_TRACE <<"TraderServiceImpl::queryInstruMarginRate()";
+
+  CATA_INFO <<"instru: " <<instru;
+
+  CThostFtdcQryInstrumentMarginRateField req;
+  memset(&req, 0x0, sizeof(req));
+
+  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
+  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
+  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+
+  CATA_DEBUG <<req;
+
+  int ret = trader_api_->ReqQryInstrumentMarginRate(&req, ++request_id_);
+  if (ret != 0) {
+    CATA_ERROR <<"return code " <<ret;
+    throw std::runtime_error("query instrument margin rate failed.");
+  }
+}
+
 void TraderServiceImpl::initSession
 (CThostFtdcRspUserLoginField* pRspUserLogin) {
   front_id_ = pRspUserLogin->FrontID;

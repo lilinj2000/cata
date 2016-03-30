@@ -204,6 +204,45 @@ void TraderSpiImpl::OnErrRtnOrderInsert(
   }
 }
 
+void TraderSpiImpl::OnRspQryInstrumentMarginRate(
+    CThostFtdcInstrumentMarginRateField *pInstrumentMarginRate,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
+  CATA_TRACE <<"TraderSpiImpl::OnRspQryInstrumentMarginRate()";
+
+  if (pInstrumentMarginRate)
+    CATA_DEBUG <<*pInstrumentMarginRate;
+
+  if (pRspInfo)
+    CATA_DEBUG <<*pRspInfo;
+}
+
+void TraderSpiImpl::OnRspQryExchangeMarginRate(
+    CThostFtdcExchangeMarginRateField *pExchangeMarginRate,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
+  CATA_TRACE <<"TraderSpiImpl::OnRspQryExchangeMarginRate()";
+
+  if (pExchangeMarginRate)
+    CATA_DEBUG <<*pExchangeMarginRate;
+
+  if (pRspInfo)
+    CATA_DEBUG <<*pRspInfo;
+}
+
+void TraderSpiImpl::OnRspQryExchangeMarginRateAdjust(
+    CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust,
+    CThostFtdcRspInfoField *pRspInfo,
+    int nRequestID, bool bIsLast) {
+  CATA_TRACE <<"TraderSpiImpl::OnRspQryExchangeMarginRateAdjust()";
+
+  if (pExchangeMarginRateAdjust)
+    CATA_DEBUG <<*pExchangeMarginRateAdjust;
+
+  if (pRspInfo)
+    CATA_DEBUG <<*pRspInfo;
+}
+
 void TraderSpiImpl::checkRspInfo(CThostFtdcRspInfoField *pRspInfo) {
   CATA_TRACE <<"TraderSpiImpl::checkRspInfo()";
 

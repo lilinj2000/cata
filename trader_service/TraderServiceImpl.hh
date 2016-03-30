@@ -41,6 +41,12 @@ class TraderServiceImpl : public TraderService {
   virtual int orderCloseSell(const std::string& instru,
                             double price, int volume);
 
+  virtual int queryExchangeMarginRate(const std::string& instru);
+
+  virtual int queryExchangeMarginRateAdjust(const std::string& instru);
+
+  virtual int queryInstruMarginRate(const std::string& instru);
+
   void login();
 
   void querySettlementInfo();
