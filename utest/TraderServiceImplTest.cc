@@ -2,12 +2,12 @@
 // All rights reserved.
 
 #include "gtest/gtest.h"
-#include "com/CataLog.hh"
+#include "soil/Log.hh"
 #include "trader_service/TraderServiceImpl.hh"
 
 namespace cata {
 
-class TraderServiceImplTest : public ::testing::Test {
+class TraderServiceImplTest : public ::testing::Test, public TraderServiceCallback {
  public:
   TraderServiceImplTest() {
   }
@@ -20,16 +20,19 @@ class TraderServiceImplTest : public ::testing::Test {
     config->registerOptions(options_.get());
     config->loadConfig();
 
-    CATA_LOG_INIT("log.cfg");
+    SOIL_LOG_INIT("log.cfg");
 
     cond_.reset(soil::STimer::create());
 
-    service_.reset(TraderService::createService(options_.get(), nullptr));
+    service_.reset(TraderService::createService(options_.get(), this));
   }
 
   void TearDown() {
   }
 
+  virtual void msgCallback(const std::string& msg) {
+    SOIL_INFO <<msg;
+  }
  protected:
   std::auto_ptr<TraderService> service_;
 
@@ -39,7 +42,7 @@ class TraderServiceImplTest : public ::testing::Test {
 };
 
 TEST_F(TraderServiceImplTest, loginTest) {
-  ASSERT_TRUE(true);
+  GTEST_SUCCEED();
 }
 
 TEST_F(TraderServiceImplTest, queryMarginRateTest) {
@@ -48,13 +51,13 @@ TEST_F(TraderServiceImplTest, queryMarginRateTest) {
   service_->queryExchangeMarginRate(instru);
   cond_->wait(1000);
 
-  service_->queryExchangeMarginRateAdjust(instru);
-  cond_->wait(1000);
+//   service_->queryExchangeMarginRateAdjust(instru);
+//   cond_->wait(1000);
 
-  service_->queryInstruMarginRate(instru);
-  cond_->wait(1000);
+//   service_->queryInstruMarginRate(instru);
+//   cond_->wait(1000);
 
-  ASSERT_TRUE(true);
+//   ASSERT_TRUE(true);
 }
 
 // TEST_F(TraderServiceImplTest, orderOpenBuyTest) {

@@ -5,7 +5,7 @@ include_HEADERS =
 
 noinst_HEADERS = 
 
-EXTRA_DIST = CataDef.hh MDService.hh TraderService.hh
+EXTRA_DIST = MDService.hh TraderService.hh
 
 headerdir = $(includedir)/cata
 header_DATA = $(EXTRA_DIST)

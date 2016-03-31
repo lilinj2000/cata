@@ -1,39 +1,3 @@
-// Copyright (c) 2010
-// All rights reserved.
-
-#include "TraderSpiImpl.hh"
-#include "TraderLog.hh"
-#include "message/ThostFtdcUserApiStructPrint.hh"
-
-namespace cata {
-
-TraderSpiImpl::TraderSpiImpl(TraderServiceImpl* service) :
-    service_(service) {
-  TRADER_TRACE <<"TraderSpiImpl::TraderSpiImpl()";
-}
-
-TraderSpiImpl::~TraderSpiImpl() {
-  TRADER_TRACE <<"TraderSpiImpl::~TraderSpiImpl()";
-}
-
-void TraderSpiImpl::OnFrontConnected() {
-  TRADER_TRACE <<"TraderSpiImpl::OnFrontConnected()";
-
-  service_->login();
-}
-
-void TraderSpiImpl::OnFrontDisconnected(int nReason) {
-  TRADER_TRACE <<"TraderSpiImpl::OnFrontDisconnected()";
-
-  TRADER_ERROR << "--->>> Reason = " <<std::hex  <<nReason;
-}
-
-void TraderSpiImpl::OnHeartBeatWarning(int nTimeLapse) {
-  TRADER_TRACE <<"TraderSpiImpl::OnHeartBeatWarning()";
-
-  TRADER_ERROR << "--->>> nTimerLapse = " << nTimeLapse;
-}
-
 void TraderSpiImpl::OnRspAuthenticate(
       CThostFtdcRspAuthenticateField *pRspAuthenticateField,  // NOLINT(whitespace/line_length)
       CThostFtdcRspInfoField *pRspInfo,
@@ -1022,6 +986,3 @@ void TraderSpiImpl::OnRtnChangeAccountByBank(
   pushMsg<RtnChangeAccountByBankMessage>(pChangeAccount);
 }
 
-
-
-};  // namespace cata

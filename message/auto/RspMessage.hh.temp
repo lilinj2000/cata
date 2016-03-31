@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <string>
+#include <sstream>
 #include "ThostFtdcUserApiStruct.h"
 #include "ThostFtdcUserApiStructPrint.hh"
 #include "Message.hh"
@@ -15,14 +16,16 @@ namespace cata {
 
 class RspMessage : public Message {
  public:
-  RspMessage(MessageID id,
+  RspMessage(MessageID id, const std::string& name,
              CThostFtdcRspInfoField* pRspInfo,
              int nRequestID, bool bIsLast):
-      Message(id),
+      Message(id, name),
       request_id_(nRequestID),
       is_last_(bIsLast) {
-    rsp_info_.reset(new CThostFtdcRspInfoField());
-    std::memcpy(rsp_info_.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
+      if (pRspInfo) {
+        rsp_info_.reset(new CThostFtdcRspInfoField());
+        std::memcpy(rsp_info_.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
+      }
   }
 
   virtual ~RspMessage() {

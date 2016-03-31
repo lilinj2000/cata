@@ -4,7 +4,7 @@
 #include <memory>
 #include "gtest/gtest.h"
 #include "message/RspMessage.hh"
-#include "com/CataLog.hh"
+#include "soil/Log.hh"
 
 namespace cata {
 
@@ -34,7 +34,7 @@ TEST_F(MessageTest, rspMessageTest) {
                                                   request_id,
                                                   is_last));
 
-  std::cout <<rsp_login_message->toString() <<std::endl;
+  SOIL_INFO <<rsp_login_message->toString();
 
   GTEST_SUCCEED();
 }

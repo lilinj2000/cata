@@ -9,12 +9,20 @@
 #include <atomic>
 #include <string>
 #include "cata/TraderService.hh"
+#include "message/Message.hh"
 #include "soil/STimer.hh"
+#include "soil/MsgQueue.hh"
 
 namespace cata {
 
 class TraderOptions;
 class TraderSpiImpl;
+class RspUserLoginMessage;
+
+typedef enum {
+  UNAVAILABLE,
+  AVAILABLE
+}TraderServiceStatus;
 
 class TraderServiceImpl : public TraderService {
  public:
@@ -49,16 +57,26 @@ class TraderServiceImpl : public TraderService {
 
   void login();
 
+  void rspLogin(const RspUserLoginMessage*);
+  
   void querySettlementInfo();
 
   void querySettlementInfoConfirm();
 
   void settlementInfoConfirm();
 
-  void initSession(CThostFtdcRspUserLoginField* pRspUserLogin);
-
   void wait(const std::string& hint = "");
+
   void notify();
+
+  void pushData(Message* data);
+
+  inline
+  void msgCallback(const Message* msg) {
+    if (callback_)
+      callback_->msgCallback(msg->toString());
+  }
+
 
   TraderServiceCallback* callback() { return callback_; }
 
@@ -82,6 +100,10 @@ class TraderServiceImpl : public TraderService {
   int front_id_;
   int session_id_;
   std::atomic<int> max_order_ref_;
+
+  std::unique_ptr<soil::MsgQueue<Message, TraderServiceImpl> > rsp_queue_;
+
+  TraderServiceStatus status_;
 };
 
 };  // namespace cata

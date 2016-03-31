@@ -6,20 +6,12 @@
 
 #include <string>
 #include "soil/Config.hh"
-#include "cata/CataDef.hh"
 
 namespace cata {
 
 class TraderServiceCallback {
  public:
-  virtual void onRspError(int errord_id, const std::string& error_msg) = 0;
-
-  virtual void onRspOrderInsert(int order_ref)= 0;
-
-  virtual void onRtnOrder(int order_ref, const std::string& status_msg) = 0;
-
-  virtual void onRtnTrade(int order_ref,
-                          double price, int volume)= 0;
+  virtual void msgCallback(const std::string& msg) = 0;
 
   virtual ~TraderServiceCallback() {}
 };

@@ -1,0 +1,69 @@
+// Copyright (c) 2010
+// All rights reserved.
+
+#ifndef CATA_TRADERSPI_IMPL_HH
+#define CATA_TRADERSPI_IMPL_HH
+
+#include <memory>
+#include "ThostFtdcTraderApi.h"
+#include "TraderServiceImpl.hh"
+#include "message/RspMessage.hh"
+#include "message/RtnMessage.hh"
+
+namespace cata {
+
+class TraderServiceImpl;
+
+class TraderSpiImpl : public CThostFtdcTraderSpi {
+ public:
+  explicit TraderSpiImpl(TraderServiceImpl* service);
+
+  virtual ~TraderSpiImpl();
+
+  // interface from CThostFtdcTraderSpi
+  virtual void OnFrontConnected();
+
+  virtual void OnFrontDisconnected(int nReason);
+
+  virtual void OnHeartBeatWarning(int nTimeLapse);
+
+[TRADER_SPI_FUNCTION]
+
+ protected:
+  template<typename MsgType, typename FieldType>
+  void pushMsg(FieldType* field, CThostFtdcRspInfoField* pRspInfo,
+               int nRequestID, bool bIsLast) {
+    std::unique_ptr<MsgType> rsp_message(
+        new MsgType(field, pRspInfo, nRequestID, bIsLast));
+    service_->pushData(rsp_message.release());
+  }
+
+  template<typename MsgType>
+  void pushMsg(CThostFtdcRspInfoField* pRspInfo,
+               int nRequestID, bool bIsLast) {
+    std::unique_ptr<MsgType> err_message(
+        new MsgType(pRspInfo, nRequestID, bIsLast));
+    service_->pushData(err_message.release());
+  }
+
+  template<typename MsgType, typename FieldType>
+  void pushMsg(FieldType* field) {
+    std::unique_ptr<MsgType> rtn_message(
+        new MsgType(field));
+    service_->pushData(rtn_message.release());
+  }
+
+  template<typename MsgType, typename FieldType>
+  void pushMsg(FieldType* field, CThostFtdcRspInfoField* pRspInfo) {
+    std::unique_ptr<MsgType> ertn_message(
+        new MsgType(field, pRspInfo));
+    service_->pushData(ertn_message.release());
+  }
+
+ private:
+  TraderServiceImpl* service_;
+};
+
+};  // namespace cata
+
+#endif

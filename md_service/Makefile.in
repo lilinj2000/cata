@@ -122,10 +122,9 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libcata_md_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_libcata_md_la_OBJECTS = libcata_md_la-MDOptions.lo \
-	libcata_md_la-MDUtil.lo libcata_md_la-MDSpiImpl.lo \
-	libcata_md_la-MDServiceImpl.lo
+	libcata_md_la-MDSpiImpl.lo libcata_md_la-MDServiceImpl.lo
 libcata_md_la_OBJECTS = $(am_libcata_md_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -348,7 +347,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libcata_md.la
-libcata_md_la_SOURCES = MDOptions.cc MDUtil.cc \
+libcata_md_la_SOURCES = MDOptions.cc \
 		MDSpiImpl.cc \
 		MDServiceImpl.cc
 
@@ -356,11 +355,14 @@ libcata_md_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(CTP_CPPFLAGS) \
 			$(SOIL_CPPFLAGS) \
+			$(RAPIDJSON_CPPFLAGS) \
+			$(JSON_CPPFLAGS) \
 			$(COVERAGE_CXXFLAGS)
 
 libcata_md_la_LIBADD = $(CTP_MD_LIBADD) \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
+		$(JSON_LIBADD) \
 		$(COVERAGE_LDFLAGS)
 
 libcata_md_la_LDFLAGS = \
@@ -456,7 +458,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDOptions.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDServiceImpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDSpiImpl.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDUtil.Plo@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -485,13 +486,6 @@ libcata_md_la-MDOptions.lo: MDOptions.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDOptions.cc' object='libcata_md_la-MDOptions.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_md_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcata_md_la-MDOptions.lo `test -f 'MDOptions.cc' || echo '$(srcdir)/'`MDOptions.cc
-
-libcata_md_la-MDUtil.lo: MDUtil.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_md_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcata_md_la-MDUtil.lo -MD -MP -MF $(DEPDIR)/libcata_md_la-MDUtil.Tpo -c -o libcata_md_la-MDUtil.lo `test -f 'MDUtil.cc' || echo '$(srcdir)/'`MDUtil.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcata_md_la-MDUtil.Tpo $(DEPDIR)/libcata_md_la-MDUtil.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDUtil.cc' object='libcata_md_la-MDUtil.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_md_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcata_md_la-MDUtil.lo `test -f 'MDUtil.cc' || echo '$(srcdir)/'`MDUtil.cc
 
 libcata_md_la-MDSpiImpl.lo: MDSpiImpl.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_md_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcata_md_la-MDSpiImpl.lo -MD -MP -MF $(DEPDIR)/libcata_md_la-MDSpiImpl.Tpo -c -o libcata_md_la-MDSpiImpl.lo `test -f 'MDSpiImpl.cc' || echo '$(srcdir)/'`MDSpiImpl.cc

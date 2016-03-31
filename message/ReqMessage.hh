@@ -19,13 +19,16 @@ class ReqUserLoginMessage : public Message {
      CThostFtdcReqUserLoginField*
      pReqUserLoginField,
   int nRequestID):
-      Message(REQ_USER_LOGIN_MESSAGE)
+      Message(REQ_USER_LOGIN_MESSAGE,
+              "ReqUserLogin")
       request_id_(nRequestID) {
-    requserloginfield_.reset(
-             new CThostFtdcReqUserLoginField());
-    std::memcpy(requserloginfield_.get(),
-                pReqUserLoginField,
-                sizeof(CThostFtdcReqUserLoginField));
+    if (pReqUserLoginField) {
+      requserloginfield_.reset(
+               new CThostFtdcReqUserLoginField());
+      std::memcpy(requserloginfield_.get(),
+                  pReqUserLoginField,
+                  sizeof(CThostFtdcReqUserLoginField));
+    }
   }
 
   virtual ~ReqUserLoginMessage() {
@@ -39,15 +42,17 @@ class ReqUserLoginMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (requserloginfield_.get()) {
       std::stringstream ss;
       ss <<(*requserloginfield_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -71,13 +76,16 @@ class ReqUserLogoutMessage : public Message {
      CThostFtdcUserLogoutField*
      pUserLogout,
   int nRequestID):
-      Message(REQ_USER_LOGOUT_MESSAGE)
+      Message(REQ_USER_LOGOUT_MESSAGE,
+              "ReqUserLogout")
       request_id_(nRequestID) {
-    userlogout_.reset(
-             new CThostFtdcUserLogoutField());
-    std::memcpy(userlogout_.get(),
-                pUserLogout,
-                sizeof(CThostFtdcUserLogoutField));
+    if (pUserLogout) {
+      userlogout_.reset(
+               new CThostFtdcUserLogoutField());
+      std::memcpy(userlogout_.get(),
+                  pUserLogout,
+                  sizeof(CThostFtdcUserLogoutField));
+    }
   }
 
   virtual ~ReqUserLogoutMessage() {
@@ -91,15 +99,17 @@ class ReqUserLogoutMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (userlogout_.get()) {
       std::stringstream ss;
       ss <<(*userlogout_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -123,13 +133,16 @@ class ReqAuthenticateMessage : public Message {
      CThostFtdcReqAuthenticateField*
      pReqAuthenticateField,
   int nRequestID):
-      Message(REQ_AUTHENTICATE_MESSAGE)
+      Message(REQ_AUTHENTICATE_MESSAGE,
+              "ReqAuthenticate")
       request_id_(nRequestID) {
-    reqauthenticatefield_.reset(
-             new CThostFtdcReqAuthenticateField());
-    std::memcpy(reqauthenticatefield_.get(),
-                pReqAuthenticateField,
-                sizeof(CThostFtdcReqAuthenticateField));
+    if (pReqAuthenticateField) {
+      reqauthenticatefield_.reset(
+               new CThostFtdcReqAuthenticateField());
+      std::memcpy(reqauthenticatefield_.get(),
+                  pReqAuthenticateField,
+                  sizeof(CThostFtdcReqAuthenticateField));
+    }
   }
 
   virtual ~ReqAuthenticateMessage() {
@@ -143,15 +156,17 @@ class ReqAuthenticateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqauthenticatefield_.get()) {
       std::stringstream ss;
       ss <<(*reqauthenticatefield_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -175,13 +190,16 @@ class ReqUserPasswordUpdateMessage : public Message {
      CThostFtdcUserPasswordUpdateField*
      pUserPasswordUpdate,
   int nRequestID):
-      Message(REQ_USER_PASSWORD_UPDATE_MESSAGE)
+      Message(REQ_USER_PASSWORD_UPDATE_MESSAGE,
+              "ReqUserPasswordUpdate")
       request_id_(nRequestID) {
-    userpasswordupdate_.reset(
-             new CThostFtdcUserPasswordUpdateField());
-    std::memcpy(userpasswordupdate_.get(),
-                pUserPasswordUpdate,
-                sizeof(CThostFtdcUserPasswordUpdateField));
+    if (pUserPasswordUpdate) {
+      userpasswordupdate_.reset(
+               new CThostFtdcUserPasswordUpdateField());
+      std::memcpy(userpasswordupdate_.get(),
+                  pUserPasswordUpdate,
+                  sizeof(CThostFtdcUserPasswordUpdateField));
+    }
   }
 
   virtual ~ReqUserPasswordUpdateMessage() {
@@ -195,15 +213,17 @@ class ReqUserPasswordUpdateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (userpasswordupdate_.get()) {
       std::stringstream ss;
       ss <<(*userpasswordupdate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -227,13 +247,16 @@ class ReqTradingAccountPasswordUpdateMessage : public Message {
      CThostFtdcTradingAccountPasswordUpdateField*
      pTradingAccountPasswordUpdate,
   int nRequestID):
-      Message(REQ_TRADING_ACCOUNT_PASSWORD_UPDATE_MESSAGE)
+      Message(REQ_TRADING_ACCOUNT_PASSWORD_UPDATE_MESSAGE,
+              "ReqTradingAccountPasswordUpdate")
       request_id_(nRequestID) {
-    tradingaccountpasswordupdate_.reset(
-             new CThostFtdcTradingAccountPasswordUpdateField());
-    std::memcpy(tradingaccountpasswordupdate_.get(),
-                pTradingAccountPasswordUpdate,
-                sizeof(CThostFtdcTradingAccountPasswordUpdateField));
+    if (pTradingAccountPasswordUpdate) {
+      tradingaccountpasswordupdate_.reset(
+               new CThostFtdcTradingAccountPasswordUpdateField());
+      std::memcpy(tradingaccountpasswordupdate_.get(),
+                  pTradingAccountPasswordUpdate,
+                  sizeof(CThostFtdcTradingAccountPasswordUpdateField));
+    }
   }
 
   virtual ~ReqTradingAccountPasswordUpdateMessage() {
@@ -247,15 +270,17 @@ class ReqTradingAccountPasswordUpdateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (tradingaccountpasswordupdate_.get()) {
       std::stringstream ss;
       ss <<(*tradingaccountpasswordupdate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -279,13 +304,16 @@ class ReqOrderInsertMessage : public Message {
      CThostFtdcInputOrderField*
      pInputOrder,
   int nRequestID):
-      Message(REQ_ORDER_INSERT_MESSAGE)
+      Message(REQ_ORDER_INSERT_MESSAGE,
+              "ReqOrderInsert")
       request_id_(nRequestID) {
-    inputorder_.reset(
-             new CThostFtdcInputOrderField());
-    std::memcpy(inputorder_.get(),
-                pInputOrder,
-                sizeof(CThostFtdcInputOrderField));
+    if (pInputOrder) {
+      inputorder_.reset(
+               new CThostFtdcInputOrderField());
+      std::memcpy(inputorder_.get(),
+                  pInputOrder,
+                  sizeof(CThostFtdcInputOrderField));
+    }
   }
 
   virtual ~ReqOrderInsertMessage() {
@@ -299,15 +327,17 @@ class ReqOrderInsertMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputorder_.get()) {
       std::stringstream ss;
       ss <<(*inputorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -331,13 +361,16 @@ class ReqParkedOrderInsertMessage : public Message {
      CThostFtdcParkedOrderField*
      pParkedOrder,
   int nRequestID):
-      Message(REQ_PARKED_ORDER_INSERT_MESSAGE)
+      Message(REQ_PARKED_ORDER_INSERT_MESSAGE,
+              "ReqParkedOrderInsert")
       request_id_(nRequestID) {
-    parkedorder_.reset(
-             new CThostFtdcParkedOrderField());
-    std::memcpy(parkedorder_.get(),
-                pParkedOrder,
-                sizeof(CThostFtdcParkedOrderField));
+    if (pParkedOrder) {
+      parkedorder_.reset(
+               new CThostFtdcParkedOrderField());
+      std::memcpy(parkedorder_.get(),
+                  pParkedOrder,
+                  sizeof(CThostFtdcParkedOrderField));
+    }
   }
 
   virtual ~ReqParkedOrderInsertMessage() {
@@ -351,15 +384,17 @@ class ReqParkedOrderInsertMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (parkedorder_.get()) {
       std::stringstream ss;
       ss <<(*parkedorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -383,13 +418,16 @@ class ReqParkedOrderActionMessage : public Message {
      CThostFtdcParkedOrderActionField*
      pParkedOrderAction,
   int nRequestID):
-      Message(REQ_PARKED_ORDER_ACTION_MESSAGE)
+      Message(REQ_PARKED_ORDER_ACTION_MESSAGE,
+              "ReqParkedOrderAction")
       request_id_(nRequestID) {
-    parkedorderaction_.reset(
-             new CThostFtdcParkedOrderActionField());
-    std::memcpy(parkedorderaction_.get(),
-                pParkedOrderAction,
-                sizeof(CThostFtdcParkedOrderActionField));
+    if (pParkedOrderAction) {
+      parkedorderaction_.reset(
+               new CThostFtdcParkedOrderActionField());
+      std::memcpy(parkedorderaction_.get(),
+                  pParkedOrderAction,
+                  sizeof(CThostFtdcParkedOrderActionField));
+    }
   }
 
   virtual ~ReqParkedOrderActionMessage() {
@@ -403,15 +441,17 @@ class ReqParkedOrderActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (parkedorderaction_.get()) {
       std::stringstream ss;
       ss <<(*parkedorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -435,13 +475,16 @@ class ReqOrderActionMessage : public Message {
      CThostFtdcInputOrderActionField*
      pInputOrderAction,
   int nRequestID):
-      Message(REQ_ORDER_ACTION_MESSAGE)
+      Message(REQ_ORDER_ACTION_MESSAGE,
+              "ReqOrderAction")
       request_id_(nRequestID) {
-    inputorderaction_.reset(
-             new CThostFtdcInputOrderActionField());
-    std::memcpy(inputorderaction_.get(),
-                pInputOrderAction,
-                sizeof(CThostFtdcInputOrderActionField));
+    if (pInputOrderAction) {
+      inputorderaction_.reset(
+               new CThostFtdcInputOrderActionField());
+      std::memcpy(inputorderaction_.get(),
+                  pInputOrderAction,
+                  sizeof(CThostFtdcInputOrderActionField));
+    }
   }
 
   virtual ~ReqOrderActionMessage() {
@@ -455,15 +498,17 @@ class ReqOrderActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputorderaction_.get()) {
       std::stringstream ss;
       ss <<(*inputorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -487,13 +532,16 @@ class ReqQueryMaxOrderVolumeMessage : public Message {
      CThostFtdcQueryMaxOrderVolumeField*
      pQueryMaxOrderVolume,
   int nRequestID):
-      Message(REQ_QUERY_MAX_ORDER_VOLUME_MESSAGE)
+      Message(REQ_QUERY_MAX_ORDER_VOLUME_MESSAGE,
+              "ReqQueryMaxOrderVolume")
       request_id_(nRequestID) {
-    querymaxordervolume_.reset(
-             new CThostFtdcQueryMaxOrderVolumeField());
-    std::memcpy(querymaxordervolume_.get(),
-                pQueryMaxOrderVolume,
-                sizeof(CThostFtdcQueryMaxOrderVolumeField));
+    if (pQueryMaxOrderVolume) {
+      querymaxordervolume_.reset(
+               new CThostFtdcQueryMaxOrderVolumeField());
+      std::memcpy(querymaxordervolume_.get(),
+                  pQueryMaxOrderVolume,
+                  sizeof(CThostFtdcQueryMaxOrderVolumeField));
+    }
   }
 
   virtual ~ReqQueryMaxOrderVolumeMessage() {
@@ -507,15 +555,17 @@ class ReqQueryMaxOrderVolumeMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (querymaxordervolume_.get()) {
       std::stringstream ss;
       ss <<(*querymaxordervolume_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -539,13 +589,16 @@ class ReqSettlementInfoConfirmMessage : public Message {
      CThostFtdcSettlementInfoConfirmField*
      pSettlementInfoConfirm,
   int nRequestID):
-      Message(REQ_SETTLEMENT_INFO_CONFIRM_MESSAGE)
+      Message(REQ_SETTLEMENT_INFO_CONFIRM_MESSAGE,
+              "ReqSettlementInfoConfirm")
       request_id_(nRequestID) {
-    settlementinfoconfirm_.reset(
-             new CThostFtdcSettlementInfoConfirmField());
-    std::memcpy(settlementinfoconfirm_.get(),
-                pSettlementInfoConfirm,
-                sizeof(CThostFtdcSettlementInfoConfirmField));
+    if (pSettlementInfoConfirm) {
+      settlementinfoconfirm_.reset(
+               new CThostFtdcSettlementInfoConfirmField());
+      std::memcpy(settlementinfoconfirm_.get(),
+                  pSettlementInfoConfirm,
+                  sizeof(CThostFtdcSettlementInfoConfirmField));
+    }
   }
 
   virtual ~ReqSettlementInfoConfirmMessage() {
@@ -559,15 +612,17 @@ class ReqSettlementInfoConfirmMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (settlementinfoconfirm_.get()) {
       std::stringstream ss;
       ss <<(*settlementinfoconfirm_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -591,13 +646,16 @@ class ReqRemoveParkedOrderMessage : public Message {
      CThostFtdcRemoveParkedOrderField*
      pRemoveParkedOrder,
   int nRequestID):
-      Message(REQ_REMOVE_PARKED_ORDER_MESSAGE)
+      Message(REQ_REMOVE_PARKED_ORDER_MESSAGE,
+              "ReqRemoveParkedOrder")
       request_id_(nRequestID) {
-    removeparkedorder_.reset(
-             new CThostFtdcRemoveParkedOrderField());
-    std::memcpy(removeparkedorder_.get(),
-                pRemoveParkedOrder,
-                sizeof(CThostFtdcRemoveParkedOrderField));
+    if (pRemoveParkedOrder) {
+      removeparkedorder_.reset(
+               new CThostFtdcRemoveParkedOrderField());
+      std::memcpy(removeparkedorder_.get(),
+                  pRemoveParkedOrder,
+                  sizeof(CThostFtdcRemoveParkedOrderField));
+    }
   }
 
   virtual ~ReqRemoveParkedOrderMessage() {
@@ -611,15 +669,17 @@ class ReqRemoveParkedOrderMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (removeparkedorder_.get()) {
       std::stringstream ss;
       ss <<(*removeparkedorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -643,13 +703,16 @@ class ReqRemoveParkedOrderActionMessage : public Message {
      CThostFtdcRemoveParkedOrderActionField*
      pRemoveParkedOrderAction,
   int nRequestID):
-      Message(REQ_REMOVE_PARKED_ORDER_ACTION_MESSAGE)
+      Message(REQ_REMOVE_PARKED_ORDER_ACTION_MESSAGE,
+              "ReqRemoveParkedOrderAction")
       request_id_(nRequestID) {
-    removeparkedorderaction_.reset(
-             new CThostFtdcRemoveParkedOrderActionField());
-    std::memcpy(removeparkedorderaction_.get(),
-                pRemoveParkedOrderAction,
-                sizeof(CThostFtdcRemoveParkedOrderActionField));
+    if (pRemoveParkedOrderAction) {
+      removeparkedorderaction_.reset(
+               new CThostFtdcRemoveParkedOrderActionField());
+      std::memcpy(removeparkedorderaction_.get(),
+                  pRemoveParkedOrderAction,
+                  sizeof(CThostFtdcRemoveParkedOrderActionField));
+    }
   }
 
   virtual ~ReqRemoveParkedOrderActionMessage() {
@@ -663,15 +726,17 @@ class ReqRemoveParkedOrderActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (removeparkedorderaction_.get()) {
       std::stringstream ss;
       ss <<(*removeparkedorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -695,13 +760,16 @@ class ReqExecOrderInsertMessage : public Message {
      CThostFtdcInputExecOrderField*
      pInputExecOrder,
   int nRequestID):
-      Message(REQ_EXEC_ORDER_INSERT_MESSAGE)
+      Message(REQ_EXEC_ORDER_INSERT_MESSAGE,
+              "ReqExecOrderInsert")
       request_id_(nRequestID) {
-    inputexecorder_.reset(
-             new CThostFtdcInputExecOrderField());
-    std::memcpy(inputexecorder_.get(),
-                pInputExecOrder,
-                sizeof(CThostFtdcInputExecOrderField));
+    if (pInputExecOrder) {
+      inputexecorder_.reset(
+               new CThostFtdcInputExecOrderField());
+      std::memcpy(inputexecorder_.get(),
+                  pInputExecOrder,
+                  sizeof(CThostFtdcInputExecOrderField));
+    }
   }
 
   virtual ~ReqExecOrderInsertMessage() {
@@ -715,15 +783,17 @@ class ReqExecOrderInsertMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputexecorder_.get()) {
       std::stringstream ss;
       ss <<(*inputexecorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -747,13 +817,16 @@ class ReqExecOrderActionMessage : public Message {
      CThostFtdcInputExecOrderActionField*
      pInputExecOrderAction,
   int nRequestID):
-      Message(REQ_EXEC_ORDER_ACTION_MESSAGE)
+      Message(REQ_EXEC_ORDER_ACTION_MESSAGE,
+              "ReqExecOrderAction")
       request_id_(nRequestID) {
-    inputexecorderaction_.reset(
-             new CThostFtdcInputExecOrderActionField());
-    std::memcpy(inputexecorderaction_.get(),
-                pInputExecOrderAction,
-                sizeof(CThostFtdcInputExecOrderActionField));
+    if (pInputExecOrderAction) {
+      inputexecorderaction_.reset(
+               new CThostFtdcInputExecOrderActionField());
+      std::memcpy(inputexecorderaction_.get(),
+                  pInputExecOrderAction,
+                  sizeof(CThostFtdcInputExecOrderActionField));
+    }
   }
 
   virtual ~ReqExecOrderActionMessage() {
@@ -767,15 +840,17 @@ class ReqExecOrderActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputexecorderaction_.get()) {
       std::stringstream ss;
       ss <<(*inputexecorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -799,13 +874,16 @@ class ReqForQuoteInsertMessage : public Message {
      CThostFtdcInputForQuoteField*
      pInputForQuote,
   int nRequestID):
-      Message(REQ_FOR_QUOTE_INSERT_MESSAGE)
+      Message(REQ_FOR_QUOTE_INSERT_MESSAGE,
+              "ReqForQuoteInsert")
       request_id_(nRequestID) {
-    inputforquote_.reset(
-             new CThostFtdcInputForQuoteField());
-    std::memcpy(inputforquote_.get(),
-                pInputForQuote,
-                sizeof(CThostFtdcInputForQuoteField));
+    if (pInputForQuote) {
+      inputforquote_.reset(
+               new CThostFtdcInputForQuoteField());
+      std::memcpy(inputforquote_.get(),
+                  pInputForQuote,
+                  sizeof(CThostFtdcInputForQuoteField));
+    }
   }
 
   virtual ~ReqForQuoteInsertMessage() {
@@ -819,15 +897,17 @@ class ReqForQuoteInsertMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputforquote_.get()) {
       std::stringstream ss;
       ss <<(*inputforquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -851,13 +931,16 @@ class ReqQuoteInsertMessage : public Message {
      CThostFtdcInputQuoteField*
      pInputQuote,
   int nRequestID):
-      Message(REQ_QUOTE_INSERT_MESSAGE)
+      Message(REQ_QUOTE_INSERT_MESSAGE,
+              "ReqQuoteInsert")
       request_id_(nRequestID) {
-    inputquote_.reset(
-             new CThostFtdcInputQuoteField());
-    std::memcpy(inputquote_.get(),
-                pInputQuote,
-                sizeof(CThostFtdcInputQuoteField));
+    if (pInputQuote) {
+      inputquote_.reset(
+               new CThostFtdcInputQuoteField());
+      std::memcpy(inputquote_.get(),
+                  pInputQuote,
+                  sizeof(CThostFtdcInputQuoteField));
+    }
   }
 
   virtual ~ReqQuoteInsertMessage() {
@@ -871,15 +954,17 @@ class ReqQuoteInsertMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputquote_.get()) {
       std::stringstream ss;
       ss <<(*inputquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -903,13 +988,16 @@ class ReqQuoteActionMessage : public Message {
      CThostFtdcInputQuoteActionField*
      pInputQuoteAction,
   int nRequestID):
-      Message(REQ_QUOTE_ACTION_MESSAGE)
+      Message(REQ_QUOTE_ACTION_MESSAGE,
+              "ReqQuoteAction")
       request_id_(nRequestID) {
-    inputquoteaction_.reset(
-             new CThostFtdcInputQuoteActionField());
-    std::memcpy(inputquoteaction_.get(),
-                pInputQuoteAction,
-                sizeof(CThostFtdcInputQuoteActionField));
+    if (pInputQuoteAction) {
+      inputquoteaction_.reset(
+               new CThostFtdcInputQuoteActionField());
+      std::memcpy(inputquoteaction_.get(),
+                  pInputQuoteAction,
+                  sizeof(CThostFtdcInputQuoteActionField));
+    }
   }
 
   virtual ~ReqQuoteActionMessage() {
@@ -923,15 +1011,17 @@ class ReqQuoteActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputquoteaction_.get()) {
       std::stringstream ss;
       ss <<(*inputquoteaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -955,13 +1045,16 @@ class ReqCombActionInsertMessage : public Message {
      CThostFtdcInputCombActionField*
      pInputCombAction,
   int nRequestID):
-      Message(REQ_COMB_ACTION_INSERT_MESSAGE)
+      Message(REQ_COMB_ACTION_INSERT_MESSAGE,
+              "ReqCombActionInsert")
       request_id_(nRequestID) {
-    inputcombaction_.reset(
-             new CThostFtdcInputCombActionField());
-    std::memcpy(inputcombaction_.get(),
-                pInputCombAction,
-                sizeof(CThostFtdcInputCombActionField));
+    if (pInputCombAction) {
+      inputcombaction_.reset(
+               new CThostFtdcInputCombActionField());
+      std::memcpy(inputcombaction_.get(),
+                  pInputCombAction,
+                  sizeof(CThostFtdcInputCombActionField));
+    }
   }
 
   virtual ~ReqCombActionInsertMessage() {
@@ -975,15 +1068,17 @@ class ReqCombActionInsertMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputcombaction_.get()) {
       std::stringstream ss;
       ss <<(*inputcombaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1007,13 +1102,16 @@ class ReqQryOrderMessage : public Message {
      CThostFtdcQryOrderField*
      pQryOrder,
   int nRequestID):
-      Message(REQ_QRY_ORDER_MESSAGE)
+      Message(REQ_QRY_ORDER_MESSAGE,
+              "ReqQryOrder")
       request_id_(nRequestID) {
-    qryorder_.reset(
-             new CThostFtdcQryOrderField());
-    std::memcpy(qryorder_.get(),
-                pQryOrder,
-                sizeof(CThostFtdcQryOrderField));
+    if (pQryOrder) {
+      qryorder_.reset(
+               new CThostFtdcQryOrderField());
+      std::memcpy(qryorder_.get(),
+                  pQryOrder,
+                  sizeof(CThostFtdcQryOrderField));
+    }
   }
 
   virtual ~ReqQryOrderMessage() {
@@ -1027,15 +1125,17 @@ class ReqQryOrderMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryorder_.get()) {
       std::stringstream ss;
       ss <<(*qryorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1059,13 +1159,16 @@ class ReqQryTradeMessage : public Message {
      CThostFtdcQryTradeField*
      pQryTrade,
   int nRequestID):
-      Message(REQ_QRY_TRADE_MESSAGE)
+      Message(REQ_QRY_TRADE_MESSAGE,
+              "ReqQryTrade")
       request_id_(nRequestID) {
-    qrytrade_.reset(
-             new CThostFtdcQryTradeField());
-    std::memcpy(qrytrade_.get(),
-                pQryTrade,
-                sizeof(CThostFtdcQryTradeField));
+    if (pQryTrade) {
+      qrytrade_.reset(
+               new CThostFtdcQryTradeField());
+      std::memcpy(qrytrade_.get(),
+                  pQryTrade,
+                  sizeof(CThostFtdcQryTradeField));
+    }
   }
 
   virtual ~ReqQryTradeMessage() {
@@ -1079,15 +1182,17 @@ class ReqQryTradeMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrytrade_.get()) {
       std::stringstream ss;
       ss <<(*qrytrade_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1111,13 +1216,16 @@ class ReqQryInvestorPositionMessage : public Message {
      CThostFtdcQryInvestorPositionField*
      pQryInvestorPosition,
   int nRequestID):
-      Message(REQ_QRY_INVESTOR_POSITION_MESSAGE)
+      Message(REQ_QRY_INVESTOR_POSITION_MESSAGE,
+              "ReqQryInvestorPosition")
       request_id_(nRequestID) {
-    qryinvestorposition_.reset(
-             new CThostFtdcQryInvestorPositionField());
-    std::memcpy(qryinvestorposition_.get(),
-                pQryInvestorPosition,
-                sizeof(CThostFtdcQryInvestorPositionField));
+    if (pQryInvestorPosition) {
+      qryinvestorposition_.reset(
+               new CThostFtdcQryInvestorPositionField());
+      std::memcpy(qryinvestorposition_.get(),
+                  pQryInvestorPosition,
+                  sizeof(CThostFtdcQryInvestorPositionField));
+    }
   }
 
   virtual ~ReqQryInvestorPositionMessage() {
@@ -1131,15 +1239,17 @@ class ReqQryInvestorPositionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinvestorposition_.get()) {
       std::stringstream ss;
       ss <<(*qryinvestorposition_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1163,13 +1273,16 @@ class ReqQryTradingAccountMessage : public Message {
      CThostFtdcQryTradingAccountField*
      pQryTradingAccount,
   int nRequestID):
-      Message(REQ_QRY_TRADING_ACCOUNT_MESSAGE)
+      Message(REQ_QRY_TRADING_ACCOUNT_MESSAGE,
+              "ReqQryTradingAccount")
       request_id_(nRequestID) {
-    qrytradingaccount_.reset(
-             new CThostFtdcQryTradingAccountField());
-    std::memcpy(qrytradingaccount_.get(),
-                pQryTradingAccount,
-                sizeof(CThostFtdcQryTradingAccountField));
+    if (pQryTradingAccount) {
+      qrytradingaccount_.reset(
+               new CThostFtdcQryTradingAccountField());
+      std::memcpy(qrytradingaccount_.get(),
+                  pQryTradingAccount,
+                  sizeof(CThostFtdcQryTradingAccountField));
+    }
   }
 
   virtual ~ReqQryTradingAccountMessage() {
@@ -1183,15 +1296,17 @@ class ReqQryTradingAccountMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrytradingaccount_.get()) {
       std::stringstream ss;
       ss <<(*qrytradingaccount_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1215,13 +1330,16 @@ class ReqQryInvestorMessage : public Message {
      CThostFtdcQryInvestorField*
      pQryInvestor,
   int nRequestID):
-      Message(REQ_QRY_INVESTOR_MESSAGE)
+      Message(REQ_QRY_INVESTOR_MESSAGE,
+              "ReqQryInvestor")
       request_id_(nRequestID) {
-    qryinvestor_.reset(
-             new CThostFtdcQryInvestorField());
-    std::memcpy(qryinvestor_.get(),
-                pQryInvestor,
-                sizeof(CThostFtdcQryInvestorField));
+    if (pQryInvestor) {
+      qryinvestor_.reset(
+               new CThostFtdcQryInvestorField());
+      std::memcpy(qryinvestor_.get(),
+                  pQryInvestor,
+                  sizeof(CThostFtdcQryInvestorField));
+    }
   }
 
   virtual ~ReqQryInvestorMessage() {
@@ -1235,15 +1353,17 @@ class ReqQryInvestorMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinvestor_.get()) {
       std::stringstream ss;
       ss <<(*qryinvestor_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1267,13 +1387,16 @@ class ReqQryTradingCodeMessage : public Message {
      CThostFtdcQryTradingCodeField*
      pQryTradingCode,
   int nRequestID):
-      Message(REQ_QRY_TRADING_CODE_MESSAGE)
+      Message(REQ_QRY_TRADING_CODE_MESSAGE,
+              "ReqQryTradingCode")
       request_id_(nRequestID) {
-    qrytradingcode_.reset(
-             new CThostFtdcQryTradingCodeField());
-    std::memcpy(qrytradingcode_.get(),
-                pQryTradingCode,
-                sizeof(CThostFtdcQryTradingCodeField));
+    if (pQryTradingCode) {
+      qrytradingcode_.reset(
+               new CThostFtdcQryTradingCodeField());
+      std::memcpy(qrytradingcode_.get(),
+                  pQryTradingCode,
+                  sizeof(CThostFtdcQryTradingCodeField));
+    }
   }
 
   virtual ~ReqQryTradingCodeMessage() {
@@ -1287,15 +1410,17 @@ class ReqQryTradingCodeMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrytradingcode_.get()) {
       std::stringstream ss;
       ss <<(*qrytradingcode_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1319,13 +1444,16 @@ class ReqQryInstrumentMarginRateMessage : public Message {
      CThostFtdcQryInstrumentMarginRateField*
      pQryInstrumentMarginRate,
   int nRequestID):
-      Message(REQ_QRY_INSTRUMENT_MARGIN_RATE_MESSAGE)
+      Message(REQ_QRY_INSTRUMENT_MARGIN_RATE_MESSAGE,
+              "ReqQryInstrumentMarginRate")
       request_id_(nRequestID) {
-    qryinstrumentmarginrate_.reset(
-             new CThostFtdcQryInstrumentMarginRateField());
-    std::memcpy(qryinstrumentmarginrate_.get(),
-                pQryInstrumentMarginRate,
-                sizeof(CThostFtdcQryInstrumentMarginRateField));
+    if (pQryInstrumentMarginRate) {
+      qryinstrumentmarginrate_.reset(
+               new CThostFtdcQryInstrumentMarginRateField());
+      std::memcpy(qryinstrumentmarginrate_.get(),
+                  pQryInstrumentMarginRate,
+                  sizeof(CThostFtdcQryInstrumentMarginRateField));
+    }
   }
 
   virtual ~ReqQryInstrumentMarginRateMessage() {
@@ -1339,15 +1467,17 @@ class ReqQryInstrumentMarginRateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinstrumentmarginrate_.get()) {
       std::stringstream ss;
       ss <<(*qryinstrumentmarginrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1371,13 +1501,16 @@ class ReqQryInstrumentCommissionRateMessage : public Message {
      CThostFtdcQryInstrumentCommissionRateField*
      pQryInstrumentCommissionRate,
   int nRequestID):
-      Message(REQ_QRY_INSTRUMENT_COMMISSION_RATE_MESSAGE)
+      Message(REQ_QRY_INSTRUMENT_COMMISSION_RATE_MESSAGE,
+              "ReqQryInstrumentCommissionRate")
       request_id_(nRequestID) {
-    qryinstrumentcommissionrate_.reset(
-             new CThostFtdcQryInstrumentCommissionRateField());
-    std::memcpy(qryinstrumentcommissionrate_.get(),
-                pQryInstrumentCommissionRate,
-                sizeof(CThostFtdcQryInstrumentCommissionRateField));
+    if (pQryInstrumentCommissionRate) {
+      qryinstrumentcommissionrate_.reset(
+               new CThostFtdcQryInstrumentCommissionRateField());
+      std::memcpy(qryinstrumentcommissionrate_.get(),
+                  pQryInstrumentCommissionRate,
+                  sizeof(CThostFtdcQryInstrumentCommissionRateField));
+    }
   }
 
   virtual ~ReqQryInstrumentCommissionRateMessage() {
@@ -1391,15 +1524,17 @@ class ReqQryInstrumentCommissionRateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinstrumentcommissionrate_.get()) {
       std::stringstream ss;
       ss <<(*qryinstrumentcommissionrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1423,13 +1558,16 @@ class ReqQryExchangeMessage : public Message {
      CThostFtdcQryExchangeField*
      pQryExchange,
   int nRequestID):
-      Message(REQ_QRY_EXCHANGE_MESSAGE)
+      Message(REQ_QRY_EXCHANGE_MESSAGE,
+              "ReqQryExchange")
       request_id_(nRequestID) {
-    qryexchange_.reset(
-             new CThostFtdcQryExchangeField());
-    std::memcpy(qryexchange_.get(),
-                pQryExchange,
-                sizeof(CThostFtdcQryExchangeField));
+    if (pQryExchange) {
+      qryexchange_.reset(
+               new CThostFtdcQryExchangeField());
+      std::memcpy(qryexchange_.get(),
+                  pQryExchange,
+                  sizeof(CThostFtdcQryExchangeField));
+    }
   }
 
   virtual ~ReqQryExchangeMessage() {
@@ -1443,15 +1581,17 @@ class ReqQryExchangeMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryexchange_.get()) {
       std::stringstream ss;
       ss <<(*qryexchange_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1475,13 +1615,16 @@ class ReqQryProductMessage : public Message {
      CThostFtdcQryProductField*
      pQryProduct,
   int nRequestID):
-      Message(REQ_QRY_PRODUCT_MESSAGE)
+      Message(REQ_QRY_PRODUCT_MESSAGE,
+              "ReqQryProduct")
       request_id_(nRequestID) {
-    qryproduct_.reset(
-             new CThostFtdcQryProductField());
-    std::memcpy(qryproduct_.get(),
-                pQryProduct,
-                sizeof(CThostFtdcQryProductField));
+    if (pQryProduct) {
+      qryproduct_.reset(
+               new CThostFtdcQryProductField());
+      std::memcpy(qryproduct_.get(),
+                  pQryProduct,
+                  sizeof(CThostFtdcQryProductField));
+    }
   }
 
   virtual ~ReqQryProductMessage() {
@@ -1495,15 +1638,17 @@ class ReqQryProductMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryproduct_.get()) {
       std::stringstream ss;
       ss <<(*qryproduct_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1527,13 +1672,16 @@ class ReqQryInstrumentMessage : public Message {
      CThostFtdcQryInstrumentField*
      pQryInstrument,
   int nRequestID):
-      Message(REQ_QRY_INSTRUMENT_MESSAGE)
+      Message(REQ_QRY_INSTRUMENT_MESSAGE,
+              "ReqQryInstrument")
       request_id_(nRequestID) {
-    qryinstrument_.reset(
-             new CThostFtdcQryInstrumentField());
-    std::memcpy(qryinstrument_.get(),
-                pQryInstrument,
-                sizeof(CThostFtdcQryInstrumentField));
+    if (pQryInstrument) {
+      qryinstrument_.reset(
+               new CThostFtdcQryInstrumentField());
+      std::memcpy(qryinstrument_.get(),
+                  pQryInstrument,
+                  sizeof(CThostFtdcQryInstrumentField));
+    }
   }
 
   virtual ~ReqQryInstrumentMessage() {
@@ -1547,15 +1695,17 @@ class ReqQryInstrumentMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinstrument_.get()) {
       std::stringstream ss;
       ss <<(*qryinstrument_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1579,13 +1729,16 @@ class ReqQryDepthMarketDataMessage : public Message {
      CThostFtdcQryDepthMarketDataField*
      pQryDepthMarketData,
   int nRequestID):
-      Message(REQ_QRY_DEPTH_MARKET_DATA_MESSAGE)
+      Message(REQ_QRY_DEPTH_MARKET_DATA_MESSAGE,
+              "ReqQryDepthMarketData")
       request_id_(nRequestID) {
-    qrydepthmarketdata_.reset(
-             new CThostFtdcQryDepthMarketDataField());
-    std::memcpy(qrydepthmarketdata_.get(),
-                pQryDepthMarketData,
-                sizeof(CThostFtdcQryDepthMarketDataField));
+    if (pQryDepthMarketData) {
+      qrydepthmarketdata_.reset(
+               new CThostFtdcQryDepthMarketDataField());
+      std::memcpy(qrydepthmarketdata_.get(),
+                  pQryDepthMarketData,
+                  sizeof(CThostFtdcQryDepthMarketDataField));
+    }
   }
 
   virtual ~ReqQryDepthMarketDataMessage() {
@@ -1599,15 +1752,17 @@ class ReqQryDepthMarketDataMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrydepthmarketdata_.get()) {
       std::stringstream ss;
       ss <<(*qrydepthmarketdata_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1631,13 +1786,16 @@ class ReqQrySettlementInfoMessage : public Message {
      CThostFtdcQrySettlementInfoField*
      pQrySettlementInfo,
   int nRequestID):
-      Message(REQ_QRY_SETTLEMENT_INFO_MESSAGE)
+      Message(REQ_QRY_SETTLEMENT_INFO_MESSAGE,
+              "ReqQrySettlementInfo")
       request_id_(nRequestID) {
-    qrysettlementinfo_.reset(
-             new CThostFtdcQrySettlementInfoField());
-    std::memcpy(qrysettlementinfo_.get(),
-                pQrySettlementInfo,
-                sizeof(CThostFtdcQrySettlementInfoField));
+    if (pQrySettlementInfo) {
+      qrysettlementinfo_.reset(
+               new CThostFtdcQrySettlementInfoField());
+      std::memcpy(qrysettlementinfo_.get(),
+                  pQrySettlementInfo,
+                  sizeof(CThostFtdcQrySettlementInfoField));
+    }
   }
 
   virtual ~ReqQrySettlementInfoMessage() {
@@ -1651,15 +1809,17 @@ class ReqQrySettlementInfoMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrysettlementinfo_.get()) {
       std::stringstream ss;
       ss <<(*qrysettlementinfo_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1683,13 +1843,16 @@ class ReqQryTransferBankMessage : public Message {
      CThostFtdcQryTransferBankField*
      pQryTransferBank,
   int nRequestID):
-      Message(REQ_QRY_TRANSFER_BANK_MESSAGE)
+      Message(REQ_QRY_TRANSFER_BANK_MESSAGE,
+              "ReqQryTransferBank")
       request_id_(nRequestID) {
-    qrytransferbank_.reset(
-             new CThostFtdcQryTransferBankField());
-    std::memcpy(qrytransferbank_.get(),
-                pQryTransferBank,
-                sizeof(CThostFtdcQryTransferBankField));
+    if (pQryTransferBank) {
+      qrytransferbank_.reset(
+               new CThostFtdcQryTransferBankField());
+      std::memcpy(qrytransferbank_.get(),
+                  pQryTransferBank,
+                  sizeof(CThostFtdcQryTransferBankField));
+    }
   }
 
   virtual ~ReqQryTransferBankMessage() {
@@ -1703,15 +1866,17 @@ class ReqQryTransferBankMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrytransferbank_.get()) {
       std::stringstream ss;
       ss <<(*qrytransferbank_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1735,13 +1900,16 @@ class ReqQryInvestorPositionDetailMessage : public Message {
      CThostFtdcQryInvestorPositionDetailField*
      pQryInvestorPositionDetail,
   int nRequestID):
-      Message(REQ_QRY_INVESTOR_POSITION_DETAIL_MESSAGE)
+      Message(REQ_QRY_INVESTOR_POSITION_DETAIL_MESSAGE,
+              "ReqQryInvestorPositionDetail")
       request_id_(nRequestID) {
-    qryinvestorpositiondetail_.reset(
-             new CThostFtdcQryInvestorPositionDetailField());
-    std::memcpy(qryinvestorpositiondetail_.get(),
-                pQryInvestorPositionDetail,
-                sizeof(CThostFtdcQryInvestorPositionDetailField));
+    if (pQryInvestorPositionDetail) {
+      qryinvestorpositiondetail_.reset(
+               new CThostFtdcQryInvestorPositionDetailField());
+      std::memcpy(qryinvestorpositiondetail_.get(),
+                  pQryInvestorPositionDetail,
+                  sizeof(CThostFtdcQryInvestorPositionDetailField));
+    }
   }
 
   virtual ~ReqQryInvestorPositionDetailMessage() {
@@ -1755,15 +1923,17 @@ class ReqQryInvestorPositionDetailMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinvestorpositiondetail_.get()) {
       std::stringstream ss;
       ss <<(*qryinvestorpositiondetail_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1787,13 +1957,16 @@ class ReqQryNoticeMessage : public Message {
      CThostFtdcQryNoticeField*
      pQryNotice,
   int nRequestID):
-      Message(REQ_QRY_NOTICE_MESSAGE)
+      Message(REQ_QRY_NOTICE_MESSAGE,
+              "ReqQryNotice")
       request_id_(nRequestID) {
-    qrynotice_.reset(
-             new CThostFtdcQryNoticeField());
-    std::memcpy(qrynotice_.get(),
-                pQryNotice,
-                sizeof(CThostFtdcQryNoticeField));
+    if (pQryNotice) {
+      qrynotice_.reset(
+               new CThostFtdcQryNoticeField());
+      std::memcpy(qrynotice_.get(),
+                  pQryNotice,
+                  sizeof(CThostFtdcQryNoticeField));
+    }
   }
 
   virtual ~ReqQryNoticeMessage() {
@@ -1807,15 +1980,17 @@ class ReqQryNoticeMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrynotice_.get()) {
       std::stringstream ss;
       ss <<(*qrynotice_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1839,13 +2014,16 @@ class ReqQrySettlementInfoConfirmMessage : public Message {
      CThostFtdcQrySettlementInfoConfirmField*
      pQrySettlementInfoConfirm,
   int nRequestID):
-      Message(REQ_QRY_SETTLEMENT_INFO_CONFIRM_MESSAGE)
+      Message(REQ_QRY_SETTLEMENT_INFO_CONFIRM_MESSAGE,
+              "ReqQrySettlementInfoConfirm")
       request_id_(nRequestID) {
-    qrysettlementinfoconfirm_.reset(
-             new CThostFtdcQrySettlementInfoConfirmField());
-    std::memcpy(qrysettlementinfoconfirm_.get(),
-                pQrySettlementInfoConfirm,
-                sizeof(CThostFtdcQrySettlementInfoConfirmField));
+    if (pQrySettlementInfoConfirm) {
+      qrysettlementinfoconfirm_.reset(
+               new CThostFtdcQrySettlementInfoConfirmField());
+      std::memcpy(qrysettlementinfoconfirm_.get(),
+                  pQrySettlementInfoConfirm,
+                  sizeof(CThostFtdcQrySettlementInfoConfirmField));
+    }
   }
 
   virtual ~ReqQrySettlementInfoConfirmMessage() {
@@ -1859,15 +2037,17 @@ class ReqQrySettlementInfoConfirmMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrysettlementinfoconfirm_.get()) {
       std::stringstream ss;
       ss <<(*qrysettlementinfoconfirm_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1891,13 +2071,16 @@ class ReqQryInvestorPositionCombineDetailMessage : public Message {
      CThostFtdcQryInvestorPositionCombineDetailField*
      pQryInvestorPositionCombineDetail,
   int nRequestID):
-      Message(REQ_QRY_INVESTOR_POSITION_COMBINE_DETAIL_MESSAGE)
+      Message(REQ_QRY_INVESTOR_POSITION_COMBINE_DETAIL_MESSAGE,
+              "ReqQryInvestorPositionCombineDetail")
       request_id_(nRequestID) {
-    qryinvestorpositioncombinedetail_.reset(
-             new CThostFtdcQryInvestorPositionCombineDetailField());
-    std::memcpy(qryinvestorpositioncombinedetail_.get(),
-                pQryInvestorPositionCombineDetail,
-                sizeof(CThostFtdcQryInvestorPositionCombineDetailField));
+    if (pQryInvestorPositionCombineDetail) {
+      qryinvestorpositioncombinedetail_.reset(
+               new CThostFtdcQryInvestorPositionCombineDetailField());
+      std::memcpy(qryinvestorpositioncombinedetail_.get(),
+                  pQryInvestorPositionCombineDetail,
+                  sizeof(CThostFtdcQryInvestorPositionCombineDetailField));
+    }
   }
 
   virtual ~ReqQryInvestorPositionCombineDetailMessage() {
@@ -1911,15 +2094,17 @@ class ReqQryInvestorPositionCombineDetailMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinvestorpositioncombinedetail_.get()) {
       std::stringstream ss;
       ss <<(*qryinvestorpositioncombinedetail_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1943,13 +2128,16 @@ class ReqQryCFMMCTradingAccountKeyMessage : public Message {
      CThostFtdcQryCFMMCTradingAccountKeyField*
      pQryCFMMCTradingAccountKey,
   int nRequestID):
-      Message(REQ_QRY_C_F_M_M_C_TRADING_ACCOUNT_KEY_MESSAGE)
+      Message(REQ_QRY_C_F_M_M_C_TRADING_ACCOUNT_KEY_MESSAGE,
+              "ReqQryCFMMCTradingAccountKey")
       request_id_(nRequestID) {
-    qrycfmmctradingaccountkey_.reset(
-             new CThostFtdcQryCFMMCTradingAccountKeyField());
-    std::memcpy(qrycfmmctradingaccountkey_.get(),
-                pQryCFMMCTradingAccountKey,
-                sizeof(CThostFtdcQryCFMMCTradingAccountKeyField));
+    if (pQryCFMMCTradingAccountKey) {
+      qrycfmmctradingaccountkey_.reset(
+               new CThostFtdcQryCFMMCTradingAccountKeyField());
+      std::memcpy(qrycfmmctradingaccountkey_.get(),
+                  pQryCFMMCTradingAccountKey,
+                  sizeof(CThostFtdcQryCFMMCTradingAccountKeyField));
+    }
   }
 
   virtual ~ReqQryCFMMCTradingAccountKeyMessage() {
@@ -1963,15 +2151,17 @@ class ReqQryCFMMCTradingAccountKeyMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrycfmmctradingaccountkey_.get()) {
       std::stringstream ss;
       ss <<(*qrycfmmctradingaccountkey_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -1995,13 +2185,16 @@ class ReqQryEWarrantOffsetMessage : public Message {
      CThostFtdcQryEWarrantOffsetField*
      pQryEWarrantOffset,
   int nRequestID):
-      Message(REQ_QRY_E_WARRANT_OFFSET_MESSAGE)
+      Message(REQ_QRY_E_WARRANT_OFFSET_MESSAGE,
+              "ReqQryEWarrantOffset")
       request_id_(nRequestID) {
-    qryewarrantoffset_.reset(
-             new CThostFtdcQryEWarrantOffsetField());
-    std::memcpy(qryewarrantoffset_.get(),
-                pQryEWarrantOffset,
-                sizeof(CThostFtdcQryEWarrantOffsetField));
+    if (pQryEWarrantOffset) {
+      qryewarrantoffset_.reset(
+               new CThostFtdcQryEWarrantOffsetField());
+      std::memcpy(qryewarrantoffset_.get(),
+                  pQryEWarrantOffset,
+                  sizeof(CThostFtdcQryEWarrantOffsetField));
+    }
   }
 
   virtual ~ReqQryEWarrantOffsetMessage() {
@@ -2015,15 +2208,17 @@ class ReqQryEWarrantOffsetMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryewarrantoffset_.get()) {
       std::stringstream ss;
       ss <<(*qryewarrantoffset_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2047,13 +2242,16 @@ class ReqQryInvestorProductGroupMarginMessage : public Message {
      CThostFtdcQryInvestorProductGroupMarginField*
      pQryInvestorProductGroupMargin,
   int nRequestID):
-      Message(REQ_QRY_INVESTOR_PRODUCT_GROUP_MARGIN_MESSAGE)
+      Message(REQ_QRY_INVESTOR_PRODUCT_GROUP_MARGIN_MESSAGE,
+              "ReqQryInvestorProductGroupMargin")
       request_id_(nRequestID) {
-    qryinvestorproductgroupmargin_.reset(
-             new CThostFtdcQryInvestorProductGroupMarginField());
-    std::memcpy(qryinvestorproductgroupmargin_.get(),
-                pQryInvestorProductGroupMargin,
-                sizeof(CThostFtdcQryInvestorProductGroupMarginField));
+    if (pQryInvestorProductGroupMargin) {
+      qryinvestorproductgroupmargin_.reset(
+               new CThostFtdcQryInvestorProductGroupMarginField());
+      std::memcpy(qryinvestorproductgroupmargin_.get(),
+                  pQryInvestorProductGroupMargin,
+                  sizeof(CThostFtdcQryInvestorProductGroupMarginField));
+    }
   }
 
   virtual ~ReqQryInvestorProductGroupMarginMessage() {
@@ -2067,15 +2265,17 @@ class ReqQryInvestorProductGroupMarginMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryinvestorproductgroupmargin_.get()) {
       std::stringstream ss;
       ss <<(*qryinvestorproductgroupmargin_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2099,13 +2299,16 @@ class ReqQryExchangeMarginRateMessage : public Message {
      CThostFtdcQryExchangeMarginRateField*
      pQryExchangeMarginRate,
   int nRequestID):
-      Message(REQ_QRY_EXCHANGE_MARGIN_RATE_MESSAGE)
+      Message(REQ_QRY_EXCHANGE_MARGIN_RATE_MESSAGE,
+              "ReqQryExchangeMarginRate")
       request_id_(nRequestID) {
-    qryexchangemarginrate_.reset(
-             new CThostFtdcQryExchangeMarginRateField());
-    std::memcpy(qryexchangemarginrate_.get(),
-                pQryExchangeMarginRate,
-                sizeof(CThostFtdcQryExchangeMarginRateField));
+    if (pQryExchangeMarginRate) {
+      qryexchangemarginrate_.reset(
+               new CThostFtdcQryExchangeMarginRateField());
+      std::memcpy(qryexchangemarginrate_.get(),
+                  pQryExchangeMarginRate,
+                  sizeof(CThostFtdcQryExchangeMarginRateField));
+    }
   }
 
   virtual ~ReqQryExchangeMarginRateMessage() {
@@ -2119,15 +2322,17 @@ class ReqQryExchangeMarginRateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryexchangemarginrate_.get()) {
       std::stringstream ss;
       ss <<(*qryexchangemarginrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2151,13 +2356,16 @@ class ReqQryExchangeMarginRateAdjustMessage : public Message {
      CThostFtdcQryExchangeMarginRateAdjustField*
      pQryExchangeMarginRateAdjust,
   int nRequestID):
-      Message(REQ_QRY_EXCHANGE_MARGIN_RATE_ADJUST_MESSAGE)
+      Message(REQ_QRY_EXCHANGE_MARGIN_RATE_ADJUST_MESSAGE,
+              "ReqQryExchangeMarginRateAdjust")
       request_id_(nRequestID) {
-    qryexchangemarginrateadjust_.reset(
-             new CThostFtdcQryExchangeMarginRateAdjustField());
-    std::memcpy(qryexchangemarginrateadjust_.get(),
-                pQryExchangeMarginRateAdjust,
-                sizeof(CThostFtdcQryExchangeMarginRateAdjustField));
+    if (pQryExchangeMarginRateAdjust) {
+      qryexchangemarginrateadjust_.reset(
+               new CThostFtdcQryExchangeMarginRateAdjustField());
+      std::memcpy(qryexchangemarginrateadjust_.get(),
+                  pQryExchangeMarginRateAdjust,
+                  sizeof(CThostFtdcQryExchangeMarginRateAdjustField));
+    }
   }
 
   virtual ~ReqQryExchangeMarginRateAdjustMessage() {
@@ -2171,15 +2379,17 @@ class ReqQryExchangeMarginRateAdjustMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryexchangemarginrateadjust_.get()) {
       std::stringstream ss;
       ss <<(*qryexchangemarginrateadjust_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2203,13 +2413,16 @@ class ReqQryExchangeRateMessage : public Message {
      CThostFtdcQryExchangeRateField*
      pQryExchangeRate,
   int nRequestID):
-      Message(REQ_QRY_EXCHANGE_RATE_MESSAGE)
+      Message(REQ_QRY_EXCHANGE_RATE_MESSAGE,
+              "ReqQryExchangeRate")
       request_id_(nRequestID) {
-    qryexchangerate_.reset(
-             new CThostFtdcQryExchangeRateField());
-    std::memcpy(qryexchangerate_.get(),
-                pQryExchangeRate,
-                sizeof(CThostFtdcQryExchangeRateField));
+    if (pQryExchangeRate) {
+      qryexchangerate_.reset(
+               new CThostFtdcQryExchangeRateField());
+      std::memcpy(qryexchangerate_.get(),
+                  pQryExchangeRate,
+                  sizeof(CThostFtdcQryExchangeRateField));
+    }
   }
 
   virtual ~ReqQryExchangeRateMessage() {
@@ -2223,15 +2436,17 @@ class ReqQryExchangeRateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryexchangerate_.get()) {
       std::stringstream ss;
       ss <<(*qryexchangerate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2255,13 +2470,16 @@ class ReqQrySecAgentACIDMapMessage : public Message {
      CThostFtdcQrySecAgentACIDMapField*
      pQrySecAgentACIDMap,
   int nRequestID):
-      Message(REQ_QRY_SEC_AGENT_A_C_I_D_MAP_MESSAGE)
+      Message(REQ_QRY_SEC_AGENT_A_C_I_D_MAP_MESSAGE,
+              "ReqQrySecAgentACIDMap")
       request_id_(nRequestID) {
-    qrysecagentacidmap_.reset(
-             new CThostFtdcQrySecAgentACIDMapField());
-    std::memcpy(qrysecagentacidmap_.get(),
-                pQrySecAgentACIDMap,
-                sizeof(CThostFtdcQrySecAgentACIDMapField));
+    if (pQrySecAgentACIDMap) {
+      qrysecagentacidmap_.reset(
+               new CThostFtdcQrySecAgentACIDMapField());
+      std::memcpy(qrysecagentacidmap_.get(),
+                  pQrySecAgentACIDMap,
+                  sizeof(CThostFtdcQrySecAgentACIDMapField));
+    }
   }
 
   virtual ~ReqQrySecAgentACIDMapMessage() {
@@ -2275,15 +2493,17 @@ class ReqQrySecAgentACIDMapMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrysecagentacidmap_.get()) {
       std::stringstream ss;
       ss <<(*qrysecagentacidmap_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2307,13 +2527,16 @@ class ReqQryProductExchRateMessage : public Message {
      CThostFtdcQryProductExchRateField*
      pQryProductExchRate,
   int nRequestID):
-      Message(REQ_QRY_PRODUCT_EXCH_RATE_MESSAGE)
+      Message(REQ_QRY_PRODUCT_EXCH_RATE_MESSAGE,
+              "ReqQryProductExchRate")
       request_id_(nRequestID) {
-    qryproductexchrate_.reset(
-             new CThostFtdcQryProductExchRateField());
-    std::memcpy(qryproductexchrate_.get(),
-                pQryProductExchRate,
-                sizeof(CThostFtdcQryProductExchRateField));
+    if (pQryProductExchRate) {
+      qryproductexchrate_.reset(
+               new CThostFtdcQryProductExchRateField());
+      std::memcpy(qryproductexchrate_.get(),
+                  pQryProductExchRate,
+                  sizeof(CThostFtdcQryProductExchRateField));
+    }
   }
 
   virtual ~ReqQryProductExchRateMessage() {
@@ -2327,15 +2550,17 @@ class ReqQryProductExchRateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryproductexchrate_.get()) {
       std::stringstream ss;
       ss <<(*qryproductexchrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2359,13 +2584,16 @@ class ReqQryOptionInstrTradeCostMessage : public Message {
      CThostFtdcQryOptionInstrTradeCostField*
      pQryOptionInstrTradeCost,
   int nRequestID):
-      Message(REQ_QRY_OPTION_INSTR_TRADE_COST_MESSAGE)
+      Message(REQ_QRY_OPTION_INSTR_TRADE_COST_MESSAGE,
+              "ReqQryOptionInstrTradeCost")
       request_id_(nRequestID) {
-    qryoptioninstrtradecost_.reset(
-             new CThostFtdcQryOptionInstrTradeCostField());
-    std::memcpy(qryoptioninstrtradecost_.get(),
-                pQryOptionInstrTradeCost,
-                sizeof(CThostFtdcQryOptionInstrTradeCostField));
+    if (pQryOptionInstrTradeCost) {
+      qryoptioninstrtradecost_.reset(
+               new CThostFtdcQryOptionInstrTradeCostField());
+      std::memcpy(qryoptioninstrtradecost_.get(),
+                  pQryOptionInstrTradeCost,
+                  sizeof(CThostFtdcQryOptionInstrTradeCostField));
+    }
   }
 
   virtual ~ReqQryOptionInstrTradeCostMessage() {
@@ -2379,15 +2607,17 @@ class ReqQryOptionInstrTradeCostMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryoptioninstrtradecost_.get()) {
       std::stringstream ss;
       ss <<(*qryoptioninstrtradecost_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2411,13 +2641,16 @@ class ReqQryOptionInstrCommRateMessage : public Message {
      CThostFtdcQryOptionInstrCommRateField*
      pQryOptionInstrCommRate,
   int nRequestID):
-      Message(REQ_QRY_OPTION_INSTR_COMM_RATE_MESSAGE)
+      Message(REQ_QRY_OPTION_INSTR_COMM_RATE_MESSAGE,
+              "ReqQryOptionInstrCommRate")
       request_id_(nRequestID) {
-    qryoptioninstrcommrate_.reset(
-             new CThostFtdcQryOptionInstrCommRateField());
-    std::memcpy(qryoptioninstrcommrate_.get(),
-                pQryOptionInstrCommRate,
-                sizeof(CThostFtdcQryOptionInstrCommRateField));
+    if (pQryOptionInstrCommRate) {
+      qryoptioninstrcommrate_.reset(
+               new CThostFtdcQryOptionInstrCommRateField());
+      std::memcpy(qryoptioninstrcommrate_.get(),
+                  pQryOptionInstrCommRate,
+                  sizeof(CThostFtdcQryOptionInstrCommRateField));
+    }
   }
 
   virtual ~ReqQryOptionInstrCommRateMessage() {
@@ -2431,15 +2664,17 @@ class ReqQryOptionInstrCommRateMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryoptioninstrcommrate_.get()) {
       std::stringstream ss;
       ss <<(*qryoptioninstrcommrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2463,13 +2698,16 @@ class ReqQryExecOrderMessage : public Message {
      CThostFtdcQryExecOrderField*
      pQryExecOrder,
   int nRequestID):
-      Message(REQ_QRY_EXEC_ORDER_MESSAGE)
+      Message(REQ_QRY_EXEC_ORDER_MESSAGE,
+              "ReqQryExecOrder")
       request_id_(nRequestID) {
-    qryexecorder_.reset(
-             new CThostFtdcQryExecOrderField());
-    std::memcpy(qryexecorder_.get(),
-                pQryExecOrder,
-                sizeof(CThostFtdcQryExecOrderField));
+    if (pQryExecOrder) {
+      qryexecorder_.reset(
+               new CThostFtdcQryExecOrderField());
+      std::memcpy(qryexecorder_.get(),
+                  pQryExecOrder,
+                  sizeof(CThostFtdcQryExecOrderField));
+    }
   }
 
   virtual ~ReqQryExecOrderMessage() {
@@ -2483,15 +2721,17 @@ class ReqQryExecOrderMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryexecorder_.get()) {
       std::stringstream ss;
       ss <<(*qryexecorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2515,13 +2755,16 @@ class ReqQryForQuoteMessage : public Message {
      CThostFtdcQryForQuoteField*
      pQryForQuote,
   int nRequestID):
-      Message(REQ_QRY_FOR_QUOTE_MESSAGE)
+      Message(REQ_QRY_FOR_QUOTE_MESSAGE,
+              "ReqQryForQuote")
       request_id_(nRequestID) {
-    qryforquote_.reset(
-             new CThostFtdcQryForQuoteField());
-    std::memcpy(qryforquote_.get(),
-                pQryForQuote,
-                sizeof(CThostFtdcQryForQuoteField));
+    if (pQryForQuote) {
+      qryforquote_.reset(
+               new CThostFtdcQryForQuoteField());
+      std::memcpy(qryforquote_.get(),
+                  pQryForQuote,
+                  sizeof(CThostFtdcQryForQuoteField));
+    }
   }
 
   virtual ~ReqQryForQuoteMessage() {
@@ -2535,15 +2778,17 @@ class ReqQryForQuoteMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryforquote_.get()) {
       std::stringstream ss;
       ss <<(*qryforquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2567,13 +2812,16 @@ class ReqQryQuoteMessage : public Message {
      CThostFtdcQryQuoteField*
      pQryQuote,
   int nRequestID):
-      Message(REQ_QRY_QUOTE_MESSAGE)
+      Message(REQ_QRY_QUOTE_MESSAGE,
+              "ReqQryQuote")
       request_id_(nRequestID) {
-    qryquote_.reset(
-             new CThostFtdcQryQuoteField());
-    std::memcpy(qryquote_.get(),
-                pQryQuote,
-                sizeof(CThostFtdcQryQuoteField));
+    if (pQryQuote) {
+      qryquote_.reset(
+               new CThostFtdcQryQuoteField());
+      std::memcpy(qryquote_.get(),
+                  pQryQuote,
+                  sizeof(CThostFtdcQryQuoteField));
+    }
   }
 
   virtual ~ReqQryQuoteMessage() {
@@ -2587,15 +2835,17 @@ class ReqQryQuoteMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryquote_.get()) {
       std::stringstream ss;
       ss <<(*qryquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2619,13 +2869,16 @@ class ReqQryCombInstrumentGuardMessage : public Message {
      CThostFtdcQryCombInstrumentGuardField*
      pQryCombInstrumentGuard,
   int nRequestID):
-      Message(REQ_QRY_COMB_INSTRUMENT_GUARD_MESSAGE)
+      Message(REQ_QRY_COMB_INSTRUMENT_GUARD_MESSAGE,
+              "ReqQryCombInstrumentGuard")
       request_id_(nRequestID) {
-    qrycombinstrumentguard_.reset(
-             new CThostFtdcQryCombInstrumentGuardField());
-    std::memcpy(qrycombinstrumentguard_.get(),
-                pQryCombInstrumentGuard,
-                sizeof(CThostFtdcQryCombInstrumentGuardField));
+    if (pQryCombInstrumentGuard) {
+      qrycombinstrumentguard_.reset(
+               new CThostFtdcQryCombInstrumentGuardField());
+      std::memcpy(qrycombinstrumentguard_.get(),
+                  pQryCombInstrumentGuard,
+                  sizeof(CThostFtdcQryCombInstrumentGuardField));
+    }
   }
 
   virtual ~ReqQryCombInstrumentGuardMessage() {
@@ -2639,15 +2892,17 @@ class ReqQryCombInstrumentGuardMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrycombinstrumentguard_.get()) {
       std::stringstream ss;
       ss <<(*qrycombinstrumentguard_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2671,13 +2926,16 @@ class ReqQryCombActionMessage : public Message {
      CThostFtdcQryCombActionField*
      pQryCombAction,
   int nRequestID):
-      Message(REQ_QRY_COMB_ACTION_MESSAGE)
+      Message(REQ_QRY_COMB_ACTION_MESSAGE,
+              "ReqQryCombAction")
       request_id_(nRequestID) {
-    qrycombaction_.reset(
-             new CThostFtdcQryCombActionField());
-    std::memcpy(qrycombaction_.get(),
-                pQryCombAction,
-                sizeof(CThostFtdcQryCombActionField));
+    if (pQryCombAction) {
+      qrycombaction_.reset(
+               new CThostFtdcQryCombActionField());
+      std::memcpy(qrycombaction_.get(),
+                  pQryCombAction,
+                  sizeof(CThostFtdcQryCombActionField));
+    }
   }
 
   virtual ~ReqQryCombActionMessage() {
@@ -2691,15 +2949,17 @@ class ReqQryCombActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrycombaction_.get()) {
       std::stringstream ss;
       ss <<(*qrycombaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2723,13 +2983,16 @@ class ReqQryTransferSerialMessage : public Message {
      CThostFtdcQryTransferSerialField*
      pQryTransferSerial,
   int nRequestID):
-      Message(REQ_QRY_TRANSFER_SERIAL_MESSAGE)
+      Message(REQ_QRY_TRANSFER_SERIAL_MESSAGE,
+              "ReqQryTransferSerial")
       request_id_(nRequestID) {
-    qrytransferserial_.reset(
-             new CThostFtdcQryTransferSerialField());
-    std::memcpy(qrytransferserial_.get(),
-                pQryTransferSerial,
-                sizeof(CThostFtdcQryTransferSerialField));
+    if (pQryTransferSerial) {
+      qrytransferserial_.reset(
+               new CThostFtdcQryTransferSerialField());
+      std::memcpy(qrytransferserial_.get(),
+                  pQryTransferSerial,
+                  sizeof(CThostFtdcQryTransferSerialField));
+    }
   }
 
   virtual ~ReqQryTransferSerialMessage() {
@@ -2743,15 +3006,17 @@ class ReqQryTransferSerialMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrytransferserial_.get()) {
       std::stringstream ss;
       ss <<(*qrytransferserial_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2775,13 +3040,16 @@ class ReqQryAccountregisterMessage : public Message {
      CThostFtdcQryAccountregisterField*
      pQryAccountregister,
   int nRequestID):
-      Message(REQ_QRY_ACCOUNTREGISTER_MESSAGE)
+      Message(REQ_QRY_ACCOUNTREGISTER_MESSAGE,
+              "ReqQryAccountregister")
       request_id_(nRequestID) {
-    qryaccountregister_.reset(
-             new CThostFtdcQryAccountregisterField());
-    std::memcpy(qryaccountregister_.get(),
-                pQryAccountregister,
-                sizeof(CThostFtdcQryAccountregisterField));
+    if (pQryAccountregister) {
+      qryaccountregister_.reset(
+               new CThostFtdcQryAccountregisterField());
+      std::memcpy(qryaccountregister_.get(),
+                  pQryAccountregister,
+                  sizeof(CThostFtdcQryAccountregisterField));
+    }
   }
 
   virtual ~ReqQryAccountregisterMessage() {
@@ -2795,15 +3063,17 @@ class ReqQryAccountregisterMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryaccountregister_.get()) {
       std::stringstream ss;
       ss <<(*qryaccountregister_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2827,13 +3097,16 @@ class ReqQryContractBankMessage : public Message {
      CThostFtdcQryContractBankField*
      pQryContractBank,
   int nRequestID):
-      Message(REQ_QRY_CONTRACT_BANK_MESSAGE)
+      Message(REQ_QRY_CONTRACT_BANK_MESSAGE,
+              "ReqQryContractBank")
       request_id_(nRequestID) {
-    qrycontractbank_.reset(
-             new CThostFtdcQryContractBankField());
-    std::memcpy(qrycontractbank_.get(),
-                pQryContractBank,
-                sizeof(CThostFtdcQryContractBankField));
+    if (pQryContractBank) {
+      qrycontractbank_.reset(
+               new CThostFtdcQryContractBankField());
+      std::memcpy(qrycontractbank_.get(),
+                  pQryContractBank,
+                  sizeof(CThostFtdcQryContractBankField));
+    }
   }
 
   virtual ~ReqQryContractBankMessage() {
@@ -2847,15 +3120,17 @@ class ReqQryContractBankMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrycontractbank_.get()) {
       std::stringstream ss;
       ss <<(*qrycontractbank_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2879,13 +3154,16 @@ class ReqQryParkedOrderMessage : public Message {
      CThostFtdcQryParkedOrderField*
      pQryParkedOrder,
   int nRequestID):
-      Message(REQ_QRY_PARKED_ORDER_MESSAGE)
+      Message(REQ_QRY_PARKED_ORDER_MESSAGE,
+              "ReqQryParkedOrder")
       request_id_(nRequestID) {
-    qryparkedorder_.reset(
-             new CThostFtdcQryParkedOrderField());
-    std::memcpy(qryparkedorder_.get(),
-                pQryParkedOrder,
-                sizeof(CThostFtdcQryParkedOrderField));
+    if (pQryParkedOrder) {
+      qryparkedorder_.reset(
+               new CThostFtdcQryParkedOrderField());
+      std::memcpy(qryparkedorder_.get(),
+                  pQryParkedOrder,
+                  sizeof(CThostFtdcQryParkedOrderField));
+    }
   }
 
   virtual ~ReqQryParkedOrderMessage() {
@@ -2899,15 +3177,17 @@ class ReqQryParkedOrderMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryparkedorder_.get()) {
       std::stringstream ss;
       ss <<(*qryparkedorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2931,13 +3211,16 @@ class ReqQryParkedOrderActionMessage : public Message {
      CThostFtdcQryParkedOrderActionField*
      pQryParkedOrderAction,
   int nRequestID):
-      Message(REQ_QRY_PARKED_ORDER_ACTION_MESSAGE)
+      Message(REQ_QRY_PARKED_ORDER_ACTION_MESSAGE,
+              "ReqQryParkedOrderAction")
       request_id_(nRequestID) {
-    qryparkedorderaction_.reset(
-             new CThostFtdcQryParkedOrderActionField());
-    std::memcpy(qryparkedorderaction_.get(),
-                pQryParkedOrderAction,
-                sizeof(CThostFtdcQryParkedOrderActionField));
+    if (pQryParkedOrderAction) {
+      qryparkedorderaction_.reset(
+               new CThostFtdcQryParkedOrderActionField());
+      std::memcpy(qryparkedorderaction_.get(),
+                  pQryParkedOrderAction,
+                  sizeof(CThostFtdcQryParkedOrderActionField));
+    }
   }
 
   virtual ~ReqQryParkedOrderActionMessage() {
@@ -2951,15 +3234,17 @@ class ReqQryParkedOrderActionMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qryparkedorderaction_.get()) {
       std::stringstream ss;
       ss <<(*qryparkedorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -2983,13 +3268,16 @@ class ReqQryTradingNoticeMessage : public Message {
      CThostFtdcQryTradingNoticeField*
      pQryTradingNotice,
   int nRequestID):
-      Message(REQ_QRY_TRADING_NOTICE_MESSAGE)
+      Message(REQ_QRY_TRADING_NOTICE_MESSAGE,
+              "ReqQryTradingNotice")
       request_id_(nRequestID) {
-    qrytradingnotice_.reset(
-             new CThostFtdcQryTradingNoticeField());
-    std::memcpy(qrytradingnotice_.get(),
-                pQryTradingNotice,
-                sizeof(CThostFtdcQryTradingNoticeField));
+    if (pQryTradingNotice) {
+      qrytradingnotice_.reset(
+               new CThostFtdcQryTradingNoticeField());
+      std::memcpy(qrytradingnotice_.get(),
+                  pQryTradingNotice,
+                  sizeof(CThostFtdcQryTradingNoticeField));
+    }
   }
 
   virtual ~ReqQryTradingNoticeMessage() {
@@ -3003,15 +3291,17 @@ class ReqQryTradingNoticeMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrytradingnotice_.get()) {
       std::stringstream ss;
       ss <<(*qrytradingnotice_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -3035,13 +3325,16 @@ class ReqQryBrokerTradingParamsMessage : public Message {
      CThostFtdcQryBrokerTradingParamsField*
      pQryBrokerTradingParams,
   int nRequestID):
-      Message(REQ_QRY_BROKER_TRADING_PARAMS_MESSAGE)
+      Message(REQ_QRY_BROKER_TRADING_PARAMS_MESSAGE,
+              "ReqQryBrokerTradingParams")
       request_id_(nRequestID) {
-    qrybrokertradingparams_.reset(
-             new CThostFtdcQryBrokerTradingParamsField());
-    std::memcpy(qrybrokertradingparams_.get(),
-                pQryBrokerTradingParams,
-                sizeof(CThostFtdcQryBrokerTradingParamsField));
+    if (pQryBrokerTradingParams) {
+      qrybrokertradingparams_.reset(
+               new CThostFtdcQryBrokerTradingParamsField());
+      std::memcpy(qrybrokertradingparams_.get(),
+                  pQryBrokerTradingParams,
+                  sizeof(CThostFtdcQryBrokerTradingParamsField));
+    }
   }
 
   virtual ~ReqQryBrokerTradingParamsMessage() {
@@ -3055,15 +3348,17 @@ class ReqQryBrokerTradingParamsMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrybrokertradingparams_.get()) {
       std::stringstream ss;
       ss <<(*qrybrokertradingparams_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -3087,13 +3382,16 @@ class ReqQryBrokerTradingAlgosMessage : public Message {
      CThostFtdcQryBrokerTradingAlgosField*
      pQryBrokerTradingAlgos,
   int nRequestID):
-      Message(REQ_QRY_BROKER_TRADING_ALGOS_MESSAGE)
+      Message(REQ_QRY_BROKER_TRADING_ALGOS_MESSAGE,
+              "ReqQryBrokerTradingAlgos")
       request_id_(nRequestID) {
-    qrybrokertradingalgos_.reset(
-             new CThostFtdcQryBrokerTradingAlgosField());
-    std::memcpy(qrybrokertradingalgos_.get(),
-                pQryBrokerTradingAlgos,
-                sizeof(CThostFtdcQryBrokerTradingAlgosField));
+    if (pQryBrokerTradingAlgos) {
+      qrybrokertradingalgos_.reset(
+               new CThostFtdcQryBrokerTradingAlgosField());
+      std::memcpy(qrybrokertradingalgos_.get(),
+                  pQryBrokerTradingAlgos,
+                  sizeof(CThostFtdcQryBrokerTradingAlgosField));
+    }
   }
 
   virtual ~ReqQryBrokerTradingAlgosMessage() {
@@ -3107,15 +3405,17 @@ class ReqQryBrokerTradingAlgosMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (qrybrokertradingalgos_.get()) {
       std::stringstream ss;
       ss <<(*qrybrokertradingalgos_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -3139,13 +3439,16 @@ class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
      CThostFtdcQueryCFMMCTradingAccountTokenField*
      pQueryCFMMCTradingAccountToken,
   int nRequestID):
-      Message(REQ_QUERY_C_F_M_M_C_TRADING_ACCOUNT_TOKEN_MESSAGE)
+      Message(REQ_QUERY_C_F_M_M_C_TRADING_ACCOUNT_TOKEN_MESSAGE,
+              "ReqQueryCFMMCTradingAccountToken")
       request_id_(nRequestID) {
-    querycfmmctradingaccounttoken_.reset(
-             new CThostFtdcQueryCFMMCTradingAccountTokenField());
-    std::memcpy(querycfmmctradingaccounttoken_.get(),
-                pQueryCFMMCTradingAccountToken,
-                sizeof(CThostFtdcQueryCFMMCTradingAccountTokenField));
+    if (pQueryCFMMCTradingAccountToken) {
+      querycfmmctradingaccounttoken_.reset(
+               new CThostFtdcQueryCFMMCTradingAccountTokenField());
+      std::memcpy(querycfmmctradingaccounttoken_.get(),
+                  pQueryCFMMCTradingAccountToken,
+                  sizeof(CThostFtdcQueryCFMMCTradingAccountTokenField));
+    }
   }
 
   virtual ~ReqQueryCFMMCTradingAccountTokenMessage() {
@@ -3159,15 +3462,17 @@ class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (querycfmmctradingaccounttoken_.get()) {
       std::stringstream ss;
       ss <<(*querycfmmctradingaccounttoken_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -3191,13 +3496,16 @@ class ReqFromBankToFutureByFutureMessage : public Message {
      CThostFtdcReqTransferField*
      pReqTransfer,
   int nRequestID):
-      Message(REQ_FROM_BANK_TO_FUTURE_BY_FUTURE_MESSAGE)
+      Message(REQ_FROM_BANK_TO_FUTURE_BY_FUTURE_MESSAGE,
+              "ReqFromBankToFutureByFuture")
       request_id_(nRequestID) {
-    reqtransfer_.reset(
-             new CThostFtdcReqTransferField());
-    std::memcpy(reqtransfer_.get(),
-                pReqTransfer,
-                sizeof(CThostFtdcReqTransferField));
+    if (pReqTransfer) {
+      reqtransfer_.reset(
+               new CThostFtdcReqTransferField());
+      std::memcpy(reqtransfer_.get(),
+                  pReqTransfer,
+                  sizeof(CThostFtdcReqTransferField));
+    }
   }
 
   virtual ~ReqFromBankToFutureByFutureMessage() {
@@ -3211,15 +3519,17 @@ class ReqFromBankToFutureByFutureMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqtransfer_.get()) {
       std::stringstream ss;
       ss <<(*reqtransfer_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -3243,13 +3553,16 @@ class ReqFromFutureToBankByFutureMessage : public Message {
      CThostFtdcReqTransferField*
      pReqTransfer,
   int nRequestID):
-      Message(REQ_FROM_FUTURE_TO_BANK_BY_FUTURE_MESSAGE)
+      Message(REQ_FROM_FUTURE_TO_BANK_BY_FUTURE_MESSAGE,
+              "ReqFromFutureToBankByFuture")
       request_id_(nRequestID) {
-    reqtransfer_.reset(
-             new CThostFtdcReqTransferField());
-    std::memcpy(reqtransfer_.get(),
-                pReqTransfer,
-                sizeof(CThostFtdcReqTransferField));
+    if (pReqTransfer) {
+      reqtransfer_.reset(
+               new CThostFtdcReqTransferField());
+      std::memcpy(reqtransfer_.get(),
+                  pReqTransfer,
+                  sizeof(CThostFtdcReqTransferField));
+    }
   }
 
   virtual ~ReqFromFutureToBankByFutureMessage() {
@@ -3263,15 +3576,17 @@ class ReqFromFutureToBankByFutureMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqtransfer_.get()) {
       std::stringstream ss;
       ss <<(*reqtransfer_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {
@@ -3295,13 +3610,16 @@ class ReqQueryBankAccountMoneyByFutureMessage : public Message {
      CThostFtdcReqQueryAccountField*
      pReqQueryAccount,
   int nRequestID):
-      Message(REQ_QUERY_BANK_ACCOUNT_MONEY_BY_FUTURE_MESSAGE)
+      Message(REQ_QUERY_BANK_ACCOUNT_MONEY_BY_FUTURE_MESSAGE,
+              "ReqQueryBankAccountMoneyByFuture")
       request_id_(nRequestID) {
-    reqqueryaccount_.reset(
-             new CThostFtdcReqQueryAccountField());
-    std::memcpy(reqqueryaccount_.get(),
-                pReqQueryAccount,
-                sizeof(CThostFtdcReqQueryAccountField));
+    if (pReqQueryAccount) {
+      reqqueryaccount_.reset(
+               new CThostFtdcReqQueryAccountField());
+      std::memcpy(reqqueryaccount_.get(),
+                  pReqQueryAccount,
+                  sizeof(CThostFtdcReqQueryAccountField));
+    }
   }
 
   virtual ~ReqQueryBankAccountMoneyByFutureMessage() {
@@ -3315,15 +3633,17 @@ class ReqQueryBankAccountMoneyByFutureMessage : public Message {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqqueryaccount_.get()) {
       std::stringstream ss;
       ss <<(*reqqueryaccount_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    Message::toJSON(doc);
+    Message::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   int requestID() const {

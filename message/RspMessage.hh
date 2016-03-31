@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <string>
+#include <sstream>
 #include "ThostFtdcUserApiStruct.h"
 #include "ThostFtdcUserApiStructPrint.hh"
 #include "Message.hh"
@@ -15,14 +16,16 @@ namespace cata {
 
 class RspMessage : public Message {
  public:
-  RspMessage(MessageID id,
+  RspMessage(MessageID id, const std::string& name,
              CThostFtdcRspInfoField* pRspInfo,
              int nRequestID, bool bIsLast):
-      Message(id),
+      Message(id, name),
       request_id_(nRequestID),
       is_last_(bIsLast) {
-    rsp_info_.reset(new CThostFtdcRspInfoField());
-    std::memcpy(rsp_info_.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
+      if (pRspInfo) {
+        rsp_info_.reset(new CThostFtdcRspInfoField());
+        std::memcpy(rsp_info_.get(), pRspInfo, sizeof(CThostFtdcRspInfoField));
+      }
   }
 
   virtual ~RspMessage() {
@@ -78,12 +81,15 @@ class RspUserLoginMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_USER_LOGIN_MESSAGE,
+                 "OnRspUserLogin",
                  pRspInfo, nRequestID, bIsLast) {
-    rspuserlogin_.reset(
-             new CThostFtdcRspUserLoginField());
-    std::memcpy(rspuserlogin_.get(),
-                pRspUserLogin,
-                sizeof(CThostFtdcRspUserLoginField));
+    if (pRspUserLogin) {
+      rspuserlogin_.reset(
+               new CThostFtdcRspUserLoginField());
+      std::memcpy(rspuserlogin_.get(),
+                  pRspUserLogin,
+                  sizeof(CThostFtdcRspUserLoginField));
+    }
   }
 
   virtual ~RspUserLoginMessage() {
@@ -97,15 +103,17 @@ class RspUserLoginMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (rspuserlogin_.get()) {
       std::stringstream ss;
       ss <<(*rspuserlogin_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcRspUserLoginField*
@@ -126,12 +134,15 @@ class RspUserLogoutMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_USER_LOGOUT_MESSAGE,
+                 "OnRspUserLogout",
                  pRspInfo, nRequestID, bIsLast) {
-    userlogout_.reset(
-             new CThostFtdcUserLogoutField());
-    std::memcpy(userlogout_.get(),
-                pUserLogout,
-                sizeof(CThostFtdcUserLogoutField));
+    if (pUserLogout) {
+      userlogout_.reset(
+               new CThostFtdcUserLogoutField());
+      std::memcpy(userlogout_.get(),
+                  pUserLogout,
+                  sizeof(CThostFtdcUserLogoutField));
+    }
   }
 
   virtual ~RspUserLogoutMessage() {
@@ -145,15 +156,17 @@ class RspUserLogoutMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (userlogout_.get()) {
       std::stringstream ss;
       ss <<(*userlogout_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcUserLogoutField*
@@ -172,6 +185,7 @@ class RspErrorMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_ERROR_MESSAGE,
+                 "OnRspError",
                  pRspInfo, nRequestID, bIsLast) {
   }
 
@@ -186,7 +200,9 @@ class RspErrorMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
-    RspMessage::toJSON(doc);
+    json::Document msg_doc;
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
  private:
@@ -200,12 +216,15 @@ class RspSubMarketDataMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_SUB_MARKET_DATA_MESSAGE,
+                 "OnRspSubMarketData",
                  pRspInfo, nRequestID, bIsLast) {
-    specificinstrument_.reset(
-             new CThostFtdcSpecificInstrumentField());
-    std::memcpy(specificinstrument_.get(),
-                pSpecificInstrument,
-                sizeof(CThostFtdcSpecificInstrumentField));
+    if (pSpecificInstrument) {
+      specificinstrument_.reset(
+               new CThostFtdcSpecificInstrumentField());
+      std::memcpy(specificinstrument_.get(),
+                  pSpecificInstrument,
+                  sizeof(CThostFtdcSpecificInstrumentField));
+    }
   }
 
   virtual ~RspSubMarketDataMessage() {
@@ -219,15 +238,17 @@ class RspSubMarketDataMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (specificinstrument_.get()) {
       std::stringstream ss;
       ss <<(*specificinstrument_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -248,12 +269,15 @@ class RspUnSubMarketDataMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_UN_SUB_MARKET_DATA_MESSAGE,
+                 "OnRspUnSubMarketData",
                  pRspInfo, nRequestID, bIsLast) {
-    specificinstrument_.reset(
-             new CThostFtdcSpecificInstrumentField());
-    std::memcpy(specificinstrument_.get(),
-                pSpecificInstrument,
-                sizeof(CThostFtdcSpecificInstrumentField));
+    if (pSpecificInstrument) {
+      specificinstrument_.reset(
+               new CThostFtdcSpecificInstrumentField());
+      std::memcpy(specificinstrument_.get(),
+                  pSpecificInstrument,
+                  sizeof(CThostFtdcSpecificInstrumentField));
+    }
   }
 
   virtual ~RspUnSubMarketDataMessage() {
@@ -267,15 +291,17 @@ class RspUnSubMarketDataMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (specificinstrument_.get()) {
       std::stringstream ss;
       ss <<(*specificinstrument_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -296,12 +322,15 @@ class RspSubForQuoteRspMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_SUB_FOR_QUOTE_RSP_MESSAGE,
+                 "OnRspSubForQuoteRsp",
                  pRspInfo, nRequestID, bIsLast) {
-    specificinstrument_.reset(
-             new CThostFtdcSpecificInstrumentField());
-    std::memcpy(specificinstrument_.get(),
-                pSpecificInstrument,
-                sizeof(CThostFtdcSpecificInstrumentField));
+    if (pSpecificInstrument) {
+      specificinstrument_.reset(
+               new CThostFtdcSpecificInstrumentField());
+      std::memcpy(specificinstrument_.get(),
+                  pSpecificInstrument,
+                  sizeof(CThostFtdcSpecificInstrumentField));
+    }
   }
 
   virtual ~RspSubForQuoteRspMessage() {
@@ -315,15 +344,17 @@ class RspSubForQuoteRspMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (specificinstrument_.get()) {
       std::stringstream ss;
       ss <<(*specificinstrument_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -344,12 +375,15 @@ class RspUnSubForQuoteRspMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_UN_SUB_FOR_QUOTE_RSP_MESSAGE,
+                 "OnRspUnSubForQuoteRsp",
                  pRspInfo, nRequestID, bIsLast) {
-    specificinstrument_.reset(
-             new CThostFtdcSpecificInstrumentField());
-    std::memcpy(specificinstrument_.get(),
-                pSpecificInstrument,
-                sizeof(CThostFtdcSpecificInstrumentField));
+    if (pSpecificInstrument) {
+      specificinstrument_.reset(
+               new CThostFtdcSpecificInstrumentField());
+      std::memcpy(specificinstrument_.get(),
+                  pSpecificInstrument,
+                  sizeof(CThostFtdcSpecificInstrumentField));
+    }
   }
 
   virtual ~RspUnSubForQuoteRspMessage() {
@@ -363,15 +397,17 @@ class RspUnSubForQuoteRspMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (specificinstrument_.get()) {
       std::stringstream ss;
       ss <<(*specificinstrument_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -392,12 +428,15 @@ class RspAuthenticateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_AUTHENTICATE_MESSAGE,
+                 "OnRspAuthenticate",
                  pRspInfo, nRequestID, bIsLast) {
-    rspauthenticatefield_.reset(
-             new CThostFtdcRspAuthenticateField());
-    std::memcpy(rspauthenticatefield_.get(),
-                pRspAuthenticateField,
-                sizeof(CThostFtdcRspAuthenticateField));
+    if (pRspAuthenticateField) {
+      rspauthenticatefield_.reset(
+               new CThostFtdcRspAuthenticateField());
+      std::memcpy(rspauthenticatefield_.get(),
+                  pRspAuthenticateField,
+                  sizeof(CThostFtdcRspAuthenticateField));
+    }
   }
 
   virtual ~RspAuthenticateMessage() {
@@ -411,15 +450,17 @@ class RspAuthenticateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (rspauthenticatefield_.get()) {
       std::stringstream ss;
       ss <<(*rspauthenticatefield_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcRspAuthenticateField*
@@ -440,12 +481,15 @@ class RspUserPasswordUpdateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_USER_PASSWORD_UPDATE_MESSAGE,
+                 "OnRspUserPasswordUpdate",
                  pRspInfo, nRequestID, bIsLast) {
-    userpasswordupdate_.reset(
-             new CThostFtdcUserPasswordUpdateField());
-    std::memcpy(userpasswordupdate_.get(),
-                pUserPasswordUpdate,
-                sizeof(CThostFtdcUserPasswordUpdateField));
+    if (pUserPasswordUpdate) {
+      userpasswordupdate_.reset(
+               new CThostFtdcUserPasswordUpdateField());
+      std::memcpy(userpasswordupdate_.get(),
+                  pUserPasswordUpdate,
+                  sizeof(CThostFtdcUserPasswordUpdateField));
+    }
   }
 
   virtual ~RspUserPasswordUpdateMessage() {
@@ -459,15 +503,17 @@ class RspUserPasswordUpdateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (userpasswordupdate_.get()) {
       std::stringstream ss;
       ss <<(*userpasswordupdate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcUserPasswordUpdateField*
@@ -488,12 +534,15 @@ class RspTradingAccountPasswordUpdateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_TRADING_ACCOUNT_PASSWORD_UPDATE_MESSAGE,
+                 "OnRspTradingAccountPasswordUpdate",
                  pRspInfo, nRequestID, bIsLast) {
-    tradingaccountpasswordupdate_.reset(
-             new CThostFtdcTradingAccountPasswordUpdateField());
-    std::memcpy(tradingaccountpasswordupdate_.get(),
-                pTradingAccountPasswordUpdate,
-                sizeof(CThostFtdcTradingAccountPasswordUpdateField));
+    if (pTradingAccountPasswordUpdate) {
+      tradingaccountpasswordupdate_.reset(
+               new CThostFtdcTradingAccountPasswordUpdateField());
+      std::memcpy(tradingaccountpasswordupdate_.get(),
+                  pTradingAccountPasswordUpdate,
+                  sizeof(CThostFtdcTradingAccountPasswordUpdateField));
+    }
   }
 
   virtual ~RspTradingAccountPasswordUpdateMessage() {
@@ -507,15 +556,17 @@ class RspTradingAccountPasswordUpdateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (tradingaccountpasswordupdate_.get()) {
       std::stringstream ss;
       ss <<(*tradingaccountpasswordupdate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTradingAccountPasswordUpdateField*
@@ -536,12 +587,15 @@ class RspOrderInsertMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_ORDER_INSERT_MESSAGE,
+                 "OnRspOrderInsert",
                  pRspInfo, nRequestID, bIsLast) {
-    inputorder_.reset(
-             new CThostFtdcInputOrderField());
-    std::memcpy(inputorder_.get(),
-                pInputOrder,
-                sizeof(CThostFtdcInputOrderField));
+    if (pInputOrder) {
+      inputorder_.reset(
+               new CThostFtdcInputOrderField());
+      std::memcpy(inputorder_.get(),
+                  pInputOrder,
+                  sizeof(CThostFtdcInputOrderField));
+    }
   }
 
   virtual ~RspOrderInsertMessage() {
@@ -555,15 +609,17 @@ class RspOrderInsertMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputorder_.get()) {
       std::stringstream ss;
       ss <<(*inputorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputOrderField*
@@ -584,12 +640,15 @@ class RspParkedOrderInsertMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_PARKED_ORDER_INSERT_MESSAGE,
+                 "OnRspParkedOrderInsert",
                  pRspInfo, nRequestID, bIsLast) {
-    parkedorder_.reset(
-             new CThostFtdcParkedOrderField());
-    std::memcpy(parkedorder_.get(),
-                pParkedOrder,
-                sizeof(CThostFtdcParkedOrderField));
+    if (pParkedOrder) {
+      parkedorder_.reset(
+               new CThostFtdcParkedOrderField());
+      std::memcpy(parkedorder_.get(),
+                  pParkedOrder,
+                  sizeof(CThostFtdcParkedOrderField));
+    }
   }
 
   virtual ~RspParkedOrderInsertMessage() {
@@ -603,15 +662,17 @@ class RspParkedOrderInsertMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (parkedorder_.get()) {
       std::stringstream ss;
       ss <<(*parkedorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcParkedOrderField*
@@ -632,12 +693,15 @@ class RspParkedOrderActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_PARKED_ORDER_ACTION_MESSAGE,
+                 "OnRspParkedOrderAction",
                  pRspInfo, nRequestID, bIsLast) {
-    parkedorderaction_.reset(
-             new CThostFtdcParkedOrderActionField());
-    std::memcpy(parkedorderaction_.get(),
-                pParkedOrderAction,
-                sizeof(CThostFtdcParkedOrderActionField));
+    if (pParkedOrderAction) {
+      parkedorderaction_.reset(
+               new CThostFtdcParkedOrderActionField());
+      std::memcpy(parkedorderaction_.get(),
+                  pParkedOrderAction,
+                  sizeof(CThostFtdcParkedOrderActionField));
+    }
   }
 
   virtual ~RspParkedOrderActionMessage() {
@@ -651,15 +715,17 @@ class RspParkedOrderActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (parkedorderaction_.get()) {
       std::stringstream ss;
       ss <<(*parkedorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcParkedOrderActionField*
@@ -680,12 +746,15 @@ class RspOrderActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_ORDER_ACTION_MESSAGE,
+                 "OnRspOrderAction",
                  pRspInfo, nRequestID, bIsLast) {
-    inputorderaction_.reset(
-             new CThostFtdcInputOrderActionField());
-    std::memcpy(inputorderaction_.get(),
-                pInputOrderAction,
-                sizeof(CThostFtdcInputOrderActionField));
+    if (pInputOrderAction) {
+      inputorderaction_.reset(
+               new CThostFtdcInputOrderActionField());
+      std::memcpy(inputorderaction_.get(),
+                  pInputOrderAction,
+                  sizeof(CThostFtdcInputOrderActionField));
+    }
   }
 
   virtual ~RspOrderActionMessage() {
@@ -699,15 +768,17 @@ class RspOrderActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputorderaction_.get()) {
       std::stringstream ss;
       ss <<(*inputorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputOrderActionField*
@@ -728,12 +799,15 @@ class RspQueryMaxOrderVolumeMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QUERY_MAX_ORDER_VOLUME_MESSAGE,
+                 "OnRspQueryMaxOrderVolume",
                  pRspInfo, nRequestID, bIsLast) {
-    querymaxordervolume_.reset(
-             new CThostFtdcQueryMaxOrderVolumeField());
-    std::memcpy(querymaxordervolume_.get(),
-                pQueryMaxOrderVolume,
-                sizeof(CThostFtdcQueryMaxOrderVolumeField));
+    if (pQueryMaxOrderVolume) {
+      querymaxordervolume_.reset(
+               new CThostFtdcQueryMaxOrderVolumeField());
+      std::memcpy(querymaxordervolume_.get(),
+                  pQueryMaxOrderVolume,
+                  sizeof(CThostFtdcQueryMaxOrderVolumeField));
+    }
   }
 
   virtual ~RspQueryMaxOrderVolumeMessage() {
@@ -747,15 +821,17 @@ class RspQueryMaxOrderVolumeMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (querymaxordervolume_.get()) {
       std::stringstream ss;
       ss <<(*querymaxordervolume_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcQueryMaxOrderVolumeField*
@@ -776,12 +852,15 @@ class RspSettlementInfoConfirmMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_SETTLEMENT_INFO_CONFIRM_MESSAGE,
+                 "OnRspSettlementInfoConfirm",
                  pRspInfo, nRequestID, bIsLast) {
-    settlementinfoconfirm_.reset(
-             new CThostFtdcSettlementInfoConfirmField());
-    std::memcpy(settlementinfoconfirm_.get(),
-                pSettlementInfoConfirm,
-                sizeof(CThostFtdcSettlementInfoConfirmField));
+    if (pSettlementInfoConfirm) {
+      settlementinfoconfirm_.reset(
+               new CThostFtdcSettlementInfoConfirmField());
+      std::memcpy(settlementinfoconfirm_.get(),
+                  pSettlementInfoConfirm,
+                  sizeof(CThostFtdcSettlementInfoConfirmField));
+    }
   }
 
   virtual ~RspSettlementInfoConfirmMessage() {
@@ -795,15 +874,17 @@ class RspSettlementInfoConfirmMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (settlementinfoconfirm_.get()) {
       std::stringstream ss;
       ss <<(*settlementinfoconfirm_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSettlementInfoConfirmField*
@@ -824,12 +905,15 @@ class RspRemoveParkedOrderMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_REMOVE_PARKED_ORDER_MESSAGE,
+                 "OnRspRemoveParkedOrder",
                  pRspInfo, nRequestID, bIsLast) {
-    removeparkedorder_.reset(
-             new CThostFtdcRemoveParkedOrderField());
-    std::memcpy(removeparkedorder_.get(),
-                pRemoveParkedOrder,
-                sizeof(CThostFtdcRemoveParkedOrderField));
+    if (pRemoveParkedOrder) {
+      removeparkedorder_.reset(
+               new CThostFtdcRemoveParkedOrderField());
+      std::memcpy(removeparkedorder_.get(),
+                  pRemoveParkedOrder,
+                  sizeof(CThostFtdcRemoveParkedOrderField));
+    }
   }
 
   virtual ~RspRemoveParkedOrderMessage() {
@@ -843,15 +927,17 @@ class RspRemoveParkedOrderMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (removeparkedorder_.get()) {
       std::stringstream ss;
       ss <<(*removeparkedorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcRemoveParkedOrderField*
@@ -872,12 +958,15 @@ class RspRemoveParkedOrderActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_REMOVE_PARKED_ORDER_ACTION_MESSAGE,
+                 "OnRspRemoveParkedOrderAction",
                  pRspInfo, nRequestID, bIsLast) {
-    removeparkedorderaction_.reset(
-             new CThostFtdcRemoveParkedOrderActionField());
-    std::memcpy(removeparkedorderaction_.get(),
-                pRemoveParkedOrderAction,
-                sizeof(CThostFtdcRemoveParkedOrderActionField));
+    if (pRemoveParkedOrderAction) {
+      removeparkedorderaction_.reset(
+               new CThostFtdcRemoveParkedOrderActionField());
+      std::memcpy(removeparkedorderaction_.get(),
+                  pRemoveParkedOrderAction,
+                  sizeof(CThostFtdcRemoveParkedOrderActionField));
+    }
   }
 
   virtual ~RspRemoveParkedOrderActionMessage() {
@@ -891,15 +980,17 @@ class RspRemoveParkedOrderActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (removeparkedorderaction_.get()) {
       std::stringstream ss;
       ss <<(*removeparkedorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcRemoveParkedOrderActionField*
@@ -920,12 +1011,15 @@ class RspExecOrderInsertMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_EXEC_ORDER_INSERT_MESSAGE,
+                 "OnRspExecOrderInsert",
                  pRspInfo, nRequestID, bIsLast) {
-    inputexecorder_.reset(
-             new CThostFtdcInputExecOrderField());
-    std::memcpy(inputexecorder_.get(),
-                pInputExecOrder,
-                sizeof(CThostFtdcInputExecOrderField));
+    if (pInputExecOrder) {
+      inputexecorder_.reset(
+               new CThostFtdcInputExecOrderField());
+      std::memcpy(inputexecorder_.get(),
+                  pInputExecOrder,
+                  sizeof(CThostFtdcInputExecOrderField));
+    }
   }
 
   virtual ~RspExecOrderInsertMessage() {
@@ -939,15 +1033,17 @@ class RspExecOrderInsertMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputexecorder_.get()) {
       std::stringstream ss;
       ss <<(*inputexecorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputExecOrderField*
@@ -968,12 +1064,15 @@ class RspExecOrderActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_EXEC_ORDER_ACTION_MESSAGE,
+                 "OnRspExecOrderAction",
                  pRspInfo, nRequestID, bIsLast) {
-    inputexecorderaction_.reset(
-             new CThostFtdcInputExecOrderActionField());
-    std::memcpy(inputexecorderaction_.get(),
-                pInputExecOrderAction,
-                sizeof(CThostFtdcInputExecOrderActionField));
+    if (pInputExecOrderAction) {
+      inputexecorderaction_.reset(
+               new CThostFtdcInputExecOrderActionField());
+      std::memcpy(inputexecorderaction_.get(),
+                  pInputExecOrderAction,
+                  sizeof(CThostFtdcInputExecOrderActionField));
+    }
   }
 
   virtual ~RspExecOrderActionMessage() {
@@ -987,15 +1086,17 @@ class RspExecOrderActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputexecorderaction_.get()) {
       std::stringstream ss;
       ss <<(*inputexecorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputExecOrderActionField*
@@ -1016,12 +1117,15 @@ class RspForQuoteInsertMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_FOR_QUOTE_INSERT_MESSAGE,
+                 "OnRspForQuoteInsert",
                  pRspInfo, nRequestID, bIsLast) {
-    inputforquote_.reset(
-             new CThostFtdcInputForQuoteField());
-    std::memcpy(inputforquote_.get(),
-                pInputForQuote,
-                sizeof(CThostFtdcInputForQuoteField));
+    if (pInputForQuote) {
+      inputforquote_.reset(
+               new CThostFtdcInputForQuoteField());
+      std::memcpy(inputforquote_.get(),
+                  pInputForQuote,
+                  sizeof(CThostFtdcInputForQuoteField));
+    }
   }
 
   virtual ~RspForQuoteInsertMessage() {
@@ -1035,15 +1139,17 @@ class RspForQuoteInsertMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputforquote_.get()) {
       std::stringstream ss;
       ss <<(*inputforquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputForQuoteField*
@@ -1064,12 +1170,15 @@ class RspQuoteInsertMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QUOTE_INSERT_MESSAGE,
+                 "OnRspQuoteInsert",
                  pRspInfo, nRequestID, bIsLast) {
-    inputquote_.reset(
-             new CThostFtdcInputQuoteField());
-    std::memcpy(inputquote_.get(),
-                pInputQuote,
-                sizeof(CThostFtdcInputQuoteField));
+    if (pInputQuote) {
+      inputquote_.reset(
+               new CThostFtdcInputQuoteField());
+      std::memcpy(inputquote_.get(),
+                  pInputQuote,
+                  sizeof(CThostFtdcInputQuoteField));
+    }
   }
 
   virtual ~RspQuoteInsertMessage() {
@@ -1083,15 +1192,17 @@ class RspQuoteInsertMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputquote_.get()) {
       std::stringstream ss;
       ss <<(*inputquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputQuoteField*
@@ -1112,12 +1223,15 @@ class RspQuoteActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QUOTE_ACTION_MESSAGE,
+                 "OnRspQuoteAction",
                  pRspInfo, nRequestID, bIsLast) {
-    inputquoteaction_.reset(
-             new CThostFtdcInputQuoteActionField());
-    std::memcpy(inputquoteaction_.get(),
-                pInputQuoteAction,
-                sizeof(CThostFtdcInputQuoteActionField));
+    if (pInputQuoteAction) {
+      inputquoteaction_.reset(
+               new CThostFtdcInputQuoteActionField());
+      std::memcpy(inputquoteaction_.get(),
+                  pInputQuoteAction,
+                  sizeof(CThostFtdcInputQuoteActionField));
+    }
   }
 
   virtual ~RspQuoteActionMessage() {
@@ -1131,15 +1245,17 @@ class RspQuoteActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputquoteaction_.get()) {
       std::stringstream ss;
       ss <<(*inputquoteaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputQuoteActionField*
@@ -1160,12 +1276,15 @@ class RspCombActionInsertMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_COMB_ACTION_INSERT_MESSAGE,
+                 "OnRspCombActionInsert",
                  pRspInfo, nRequestID, bIsLast) {
-    inputcombaction_.reset(
-             new CThostFtdcInputCombActionField());
-    std::memcpy(inputcombaction_.get(),
-                pInputCombAction,
-                sizeof(CThostFtdcInputCombActionField));
+    if (pInputCombAction) {
+      inputcombaction_.reset(
+               new CThostFtdcInputCombActionField());
+      std::memcpy(inputcombaction_.get(),
+                  pInputCombAction,
+                  sizeof(CThostFtdcInputCombActionField));
+    }
   }
 
   virtual ~RspCombActionInsertMessage() {
@@ -1179,15 +1298,17 @@ class RspCombActionInsertMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (inputcombaction_.get()) {
       std::stringstream ss;
       ss <<(*inputcombaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInputCombActionField*
@@ -1208,12 +1329,15 @@ class RspQryOrderMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_ORDER_MESSAGE,
+                 "OnRspQryOrder",
                  pRspInfo, nRequestID, bIsLast) {
-    order_.reset(
-             new CThostFtdcOrderField());
-    std::memcpy(order_.get(),
-                pOrder,
-                sizeof(CThostFtdcOrderField));
+    if (pOrder) {
+      order_.reset(
+               new CThostFtdcOrderField());
+      std::memcpy(order_.get(),
+                  pOrder,
+                  sizeof(CThostFtdcOrderField));
+    }
   }
 
   virtual ~RspQryOrderMessage() {
@@ -1227,15 +1351,17 @@ class RspQryOrderMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (order_.get()) {
       std::stringstream ss;
       ss <<(*order_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcOrderField*
@@ -1256,12 +1382,15 @@ class RspQryTradeMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_TRADE_MESSAGE,
+                 "OnRspQryTrade",
                  pRspInfo, nRequestID, bIsLast) {
-    trade_.reset(
-             new CThostFtdcTradeField());
-    std::memcpy(trade_.get(),
-                pTrade,
-                sizeof(CThostFtdcTradeField));
+    if (pTrade) {
+      trade_.reset(
+               new CThostFtdcTradeField());
+      std::memcpy(trade_.get(),
+                  pTrade,
+                  sizeof(CThostFtdcTradeField));
+    }
   }
 
   virtual ~RspQryTradeMessage() {
@@ -1275,15 +1404,17 @@ class RspQryTradeMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (trade_.get()) {
       std::stringstream ss;
       ss <<(*trade_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTradeField*
@@ -1304,12 +1435,15 @@ class RspQryInvestorPositionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INVESTOR_POSITION_MESSAGE,
+                 "OnRspQryInvestorPosition",
                  pRspInfo, nRequestID, bIsLast) {
-    investorposition_.reset(
-             new CThostFtdcInvestorPositionField());
-    std::memcpy(investorposition_.get(),
-                pInvestorPosition,
-                sizeof(CThostFtdcInvestorPositionField));
+    if (pInvestorPosition) {
+      investorposition_.reset(
+               new CThostFtdcInvestorPositionField());
+      std::memcpy(investorposition_.get(),
+                  pInvestorPosition,
+                  sizeof(CThostFtdcInvestorPositionField));
+    }
   }
 
   virtual ~RspQryInvestorPositionMessage() {
@@ -1323,15 +1457,17 @@ class RspQryInvestorPositionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (investorposition_.get()) {
       std::stringstream ss;
       ss <<(*investorposition_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInvestorPositionField*
@@ -1352,12 +1488,15 @@ class RspQryTradingAccountMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_TRADING_ACCOUNT_MESSAGE,
+                 "OnRspQryTradingAccount",
                  pRspInfo, nRequestID, bIsLast) {
-    tradingaccount_.reset(
-             new CThostFtdcTradingAccountField());
-    std::memcpy(tradingaccount_.get(),
-                pTradingAccount,
-                sizeof(CThostFtdcTradingAccountField));
+    if (pTradingAccount) {
+      tradingaccount_.reset(
+               new CThostFtdcTradingAccountField());
+      std::memcpy(tradingaccount_.get(),
+                  pTradingAccount,
+                  sizeof(CThostFtdcTradingAccountField));
+    }
   }
 
   virtual ~RspQryTradingAccountMessage() {
@@ -1371,15 +1510,17 @@ class RspQryTradingAccountMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (tradingaccount_.get()) {
       std::stringstream ss;
       ss <<(*tradingaccount_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTradingAccountField*
@@ -1400,12 +1541,15 @@ class RspQryInvestorMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INVESTOR_MESSAGE,
+                 "OnRspQryInvestor",
                  pRspInfo, nRequestID, bIsLast) {
-    investor_.reset(
-             new CThostFtdcInvestorField());
-    std::memcpy(investor_.get(),
-                pInvestor,
-                sizeof(CThostFtdcInvestorField));
+    if (pInvestor) {
+      investor_.reset(
+               new CThostFtdcInvestorField());
+      std::memcpy(investor_.get(),
+                  pInvestor,
+                  sizeof(CThostFtdcInvestorField));
+    }
   }
 
   virtual ~RspQryInvestorMessage() {
@@ -1419,15 +1563,17 @@ class RspQryInvestorMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (investor_.get()) {
       std::stringstream ss;
       ss <<(*investor_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInvestorField*
@@ -1448,12 +1594,15 @@ class RspQryTradingCodeMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_TRADING_CODE_MESSAGE,
+                 "OnRspQryTradingCode",
                  pRspInfo, nRequestID, bIsLast) {
-    tradingcode_.reset(
-             new CThostFtdcTradingCodeField());
-    std::memcpy(tradingcode_.get(),
-                pTradingCode,
-                sizeof(CThostFtdcTradingCodeField));
+    if (pTradingCode) {
+      tradingcode_.reset(
+               new CThostFtdcTradingCodeField());
+      std::memcpy(tradingcode_.get(),
+                  pTradingCode,
+                  sizeof(CThostFtdcTradingCodeField));
+    }
   }
 
   virtual ~RspQryTradingCodeMessage() {
@@ -1467,15 +1616,17 @@ class RspQryTradingCodeMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (tradingcode_.get()) {
       std::stringstream ss;
       ss <<(*tradingcode_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTradingCodeField*
@@ -1496,12 +1647,15 @@ class RspQryInstrumentMarginRateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INSTRUMENT_MARGIN_RATE_MESSAGE,
+                 "OnRspQryInstrumentMarginRate",
                  pRspInfo, nRequestID, bIsLast) {
-    instrumentmarginrate_.reset(
-             new CThostFtdcInstrumentMarginRateField());
-    std::memcpy(instrumentmarginrate_.get(),
-                pInstrumentMarginRate,
-                sizeof(CThostFtdcInstrumentMarginRateField));
+    if (pInstrumentMarginRate) {
+      instrumentmarginrate_.reset(
+               new CThostFtdcInstrumentMarginRateField());
+      std::memcpy(instrumentmarginrate_.get(),
+                  pInstrumentMarginRate,
+                  sizeof(CThostFtdcInstrumentMarginRateField));
+    }
   }
 
   virtual ~RspQryInstrumentMarginRateMessage() {
@@ -1515,15 +1669,17 @@ class RspQryInstrumentMarginRateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (instrumentmarginrate_.get()) {
       std::stringstream ss;
       ss <<(*instrumentmarginrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInstrumentMarginRateField*
@@ -1544,12 +1700,15 @@ class RspQryInstrumentCommissionRateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INSTRUMENT_COMMISSION_RATE_MESSAGE,
+                 "OnRspQryInstrumentCommissionRate",
                  pRspInfo, nRequestID, bIsLast) {
-    instrumentcommissionrate_.reset(
-             new CThostFtdcInstrumentCommissionRateField());
-    std::memcpy(instrumentcommissionrate_.get(),
-                pInstrumentCommissionRate,
-                sizeof(CThostFtdcInstrumentCommissionRateField));
+    if (pInstrumentCommissionRate) {
+      instrumentcommissionrate_.reset(
+               new CThostFtdcInstrumentCommissionRateField());
+      std::memcpy(instrumentcommissionrate_.get(),
+                  pInstrumentCommissionRate,
+                  sizeof(CThostFtdcInstrumentCommissionRateField));
+    }
   }
 
   virtual ~RspQryInstrumentCommissionRateMessage() {
@@ -1563,15 +1722,17 @@ class RspQryInstrumentCommissionRateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (instrumentcommissionrate_.get()) {
       std::stringstream ss;
       ss <<(*instrumentcommissionrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInstrumentCommissionRateField*
@@ -1592,12 +1753,15 @@ class RspQryExchangeMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_EXCHANGE_MESSAGE,
+                 "OnRspQryExchange",
                  pRspInfo, nRequestID, bIsLast) {
-    exchange_.reset(
-             new CThostFtdcExchangeField());
-    std::memcpy(exchange_.get(),
-                pExchange,
-                sizeof(CThostFtdcExchangeField));
+    if (pExchange) {
+      exchange_.reset(
+               new CThostFtdcExchangeField());
+      std::memcpy(exchange_.get(),
+                  pExchange,
+                  sizeof(CThostFtdcExchangeField));
+    }
   }
 
   virtual ~RspQryExchangeMessage() {
@@ -1611,15 +1775,17 @@ class RspQryExchangeMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (exchange_.get()) {
       std::stringstream ss;
       ss <<(*exchange_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcExchangeField*
@@ -1640,12 +1806,15 @@ class RspQryProductMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_PRODUCT_MESSAGE,
+                 "OnRspQryProduct",
                  pRspInfo, nRequestID, bIsLast) {
-    product_.reset(
-             new CThostFtdcProductField());
-    std::memcpy(product_.get(),
-                pProduct,
-                sizeof(CThostFtdcProductField));
+    if (pProduct) {
+      product_.reset(
+               new CThostFtdcProductField());
+      std::memcpy(product_.get(),
+                  pProduct,
+                  sizeof(CThostFtdcProductField));
+    }
   }
 
   virtual ~RspQryProductMessage() {
@@ -1659,15 +1828,17 @@ class RspQryProductMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (product_.get()) {
       std::stringstream ss;
       ss <<(*product_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcProductField*
@@ -1688,12 +1859,15 @@ class RspQryInstrumentMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INSTRUMENT_MESSAGE,
+                 "OnRspQryInstrument",
                  pRspInfo, nRequestID, bIsLast) {
-    instrument_.reset(
-             new CThostFtdcInstrumentField());
-    std::memcpy(instrument_.get(),
-                pInstrument,
-                sizeof(CThostFtdcInstrumentField));
+    if (pInstrument) {
+      instrument_.reset(
+               new CThostFtdcInstrumentField());
+      std::memcpy(instrument_.get(),
+                  pInstrument,
+                  sizeof(CThostFtdcInstrumentField));
+    }
   }
 
   virtual ~RspQryInstrumentMessage() {
@@ -1707,15 +1881,17 @@ class RspQryInstrumentMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (instrument_.get()) {
       std::stringstream ss;
       ss <<(*instrument_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInstrumentField*
@@ -1736,12 +1912,15 @@ class RspQryDepthMarketDataMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_DEPTH_MARKET_DATA_MESSAGE,
+                 "OnRspQryDepthMarketData",
                  pRspInfo, nRequestID, bIsLast) {
-    depthmarketdata_.reset(
-             new CThostFtdcDepthMarketDataField());
-    std::memcpy(depthmarketdata_.get(),
-                pDepthMarketData,
-                sizeof(CThostFtdcDepthMarketDataField));
+    if (pDepthMarketData) {
+      depthmarketdata_.reset(
+               new CThostFtdcDepthMarketDataField());
+      std::memcpy(depthmarketdata_.get(),
+                  pDepthMarketData,
+                  sizeof(CThostFtdcDepthMarketDataField));
+    }
   }
 
   virtual ~RspQryDepthMarketDataMessage() {
@@ -1755,15 +1934,17 @@ class RspQryDepthMarketDataMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (depthmarketdata_.get()) {
       std::stringstream ss;
       ss <<(*depthmarketdata_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcDepthMarketDataField*
@@ -1784,12 +1965,15 @@ class RspQrySettlementInfoMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_SETTLEMENT_INFO_MESSAGE,
+                 "OnRspQrySettlementInfo",
                  pRspInfo, nRequestID, bIsLast) {
-    settlementinfo_.reset(
-             new CThostFtdcSettlementInfoField());
-    std::memcpy(settlementinfo_.get(),
-                pSettlementInfo,
-                sizeof(CThostFtdcSettlementInfoField));
+    if (pSettlementInfo) {
+      settlementinfo_.reset(
+               new CThostFtdcSettlementInfoField());
+      std::memcpy(settlementinfo_.get(),
+                  pSettlementInfo,
+                  sizeof(CThostFtdcSettlementInfoField));
+    }
   }
 
   virtual ~RspQrySettlementInfoMessage() {
@@ -1803,15 +1987,17 @@ class RspQrySettlementInfoMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (settlementinfo_.get()) {
       std::stringstream ss;
       ss <<(*settlementinfo_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSettlementInfoField*
@@ -1832,12 +2018,15 @@ class RspQryTransferBankMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_TRANSFER_BANK_MESSAGE,
+                 "OnRspQryTransferBank",
                  pRspInfo, nRequestID, bIsLast) {
-    transferbank_.reset(
-             new CThostFtdcTransferBankField());
-    std::memcpy(transferbank_.get(),
-                pTransferBank,
-                sizeof(CThostFtdcTransferBankField));
+    if (pTransferBank) {
+      transferbank_.reset(
+               new CThostFtdcTransferBankField());
+      std::memcpy(transferbank_.get(),
+                  pTransferBank,
+                  sizeof(CThostFtdcTransferBankField));
+    }
   }
 
   virtual ~RspQryTransferBankMessage() {
@@ -1851,15 +2040,17 @@ class RspQryTransferBankMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (transferbank_.get()) {
       std::stringstream ss;
       ss <<(*transferbank_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTransferBankField*
@@ -1880,12 +2071,15 @@ class RspQryInvestorPositionDetailMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INVESTOR_POSITION_DETAIL_MESSAGE,
+                 "OnRspQryInvestorPositionDetail",
                  pRspInfo, nRequestID, bIsLast) {
-    investorpositiondetail_.reset(
-             new CThostFtdcInvestorPositionDetailField());
-    std::memcpy(investorpositiondetail_.get(),
-                pInvestorPositionDetail,
-                sizeof(CThostFtdcInvestorPositionDetailField));
+    if (pInvestorPositionDetail) {
+      investorpositiondetail_.reset(
+               new CThostFtdcInvestorPositionDetailField());
+      std::memcpy(investorpositiondetail_.get(),
+                  pInvestorPositionDetail,
+                  sizeof(CThostFtdcInvestorPositionDetailField));
+    }
   }
 
   virtual ~RspQryInvestorPositionDetailMessage() {
@@ -1899,15 +2093,17 @@ class RspQryInvestorPositionDetailMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (investorpositiondetail_.get()) {
       std::stringstream ss;
       ss <<(*investorpositiondetail_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInvestorPositionDetailField*
@@ -1928,12 +2124,15 @@ class RspQryNoticeMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_NOTICE_MESSAGE,
+                 "OnRspQryNotice",
                  pRspInfo, nRequestID, bIsLast) {
-    notice_.reset(
-             new CThostFtdcNoticeField());
-    std::memcpy(notice_.get(),
-                pNotice,
-                sizeof(CThostFtdcNoticeField));
+    if (pNotice) {
+      notice_.reset(
+               new CThostFtdcNoticeField());
+      std::memcpy(notice_.get(),
+                  pNotice,
+                  sizeof(CThostFtdcNoticeField));
+    }
   }
 
   virtual ~RspQryNoticeMessage() {
@@ -1947,15 +2146,17 @@ class RspQryNoticeMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (notice_.get()) {
       std::stringstream ss;
       ss <<(*notice_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcNoticeField*
@@ -1976,12 +2177,15 @@ class RspQrySettlementInfoConfirmMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_SETTLEMENT_INFO_CONFIRM_MESSAGE,
+                 "OnRspQrySettlementInfoConfirm",
                  pRspInfo, nRequestID, bIsLast) {
-    settlementinfoconfirm_.reset(
-             new CThostFtdcSettlementInfoConfirmField());
-    std::memcpy(settlementinfoconfirm_.get(),
-                pSettlementInfoConfirm,
-                sizeof(CThostFtdcSettlementInfoConfirmField));
+    if (pSettlementInfoConfirm) {
+      settlementinfoconfirm_.reset(
+               new CThostFtdcSettlementInfoConfirmField());
+      std::memcpy(settlementinfoconfirm_.get(),
+                  pSettlementInfoConfirm,
+                  sizeof(CThostFtdcSettlementInfoConfirmField));
+    }
   }
 
   virtual ~RspQrySettlementInfoConfirmMessage() {
@@ -1995,15 +2199,17 @@ class RspQrySettlementInfoConfirmMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (settlementinfoconfirm_.get()) {
       std::stringstream ss;
       ss <<(*settlementinfoconfirm_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSettlementInfoConfirmField*
@@ -2024,12 +2230,15 @@ class RspQryInvestorPositionCombineDetailMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INVESTOR_POSITION_COMBINE_DETAIL_MESSAGE,
+                 "OnRspQryInvestorPositionCombineDetail",
                  pRspInfo, nRequestID, bIsLast) {
-    investorpositioncombinedetail_.reset(
-             new CThostFtdcInvestorPositionCombineDetailField());
-    std::memcpy(investorpositioncombinedetail_.get(),
-                pInvestorPositionCombineDetail,
-                sizeof(CThostFtdcInvestorPositionCombineDetailField));
+    if (pInvestorPositionCombineDetail) {
+      investorpositioncombinedetail_.reset(
+               new CThostFtdcInvestorPositionCombineDetailField());
+      std::memcpy(investorpositioncombinedetail_.get(),
+                  pInvestorPositionCombineDetail,
+                  sizeof(CThostFtdcInvestorPositionCombineDetailField));
+    }
   }
 
   virtual ~RspQryInvestorPositionCombineDetailMessage() {
@@ -2043,15 +2252,17 @@ class RspQryInvestorPositionCombineDetailMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (investorpositioncombinedetail_.get()) {
       std::stringstream ss;
       ss <<(*investorpositioncombinedetail_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInvestorPositionCombineDetailField*
@@ -2072,12 +2283,15 @@ class RspQryCFMMCTradingAccountKeyMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_C_F_M_M_C_TRADING_ACCOUNT_KEY_MESSAGE,
+                 "OnRspQryCFMMCTradingAccountKey",
                  pRspInfo, nRequestID, bIsLast) {
-    cfmmctradingaccountkey_.reset(
-             new CThostFtdcCFMMCTradingAccountKeyField());
-    std::memcpy(cfmmctradingaccountkey_.get(),
-                pCFMMCTradingAccountKey,
-                sizeof(CThostFtdcCFMMCTradingAccountKeyField));
+    if (pCFMMCTradingAccountKey) {
+      cfmmctradingaccountkey_.reset(
+               new CThostFtdcCFMMCTradingAccountKeyField());
+      std::memcpy(cfmmctradingaccountkey_.get(),
+                  pCFMMCTradingAccountKey,
+                  sizeof(CThostFtdcCFMMCTradingAccountKeyField));
+    }
   }
 
   virtual ~RspQryCFMMCTradingAccountKeyMessage() {
@@ -2091,15 +2305,17 @@ class RspQryCFMMCTradingAccountKeyMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (cfmmctradingaccountkey_.get()) {
       std::stringstream ss;
       ss <<(*cfmmctradingaccountkey_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcCFMMCTradingAccountKeyField*
@@ -2120,12 +2336,15 @@ class RspQryEWarrantOffsetMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_E_WARRANT_OFFSET_MESSAGE,
+                 "OnRspQryEWarrantOffset",
                  pRspInfo, nRequestID, bIsLast) {
-    ewarrantoffset_.reset(
-             new CThostFtdcEWarrantOffsetField());
-    std::memcpy(ewarrantoffset_.get(),
-                pEWarrantOffset,
-                sizeof(CThostFtdcEWarrantOffsetField));
+    if (pEWarrantOffset) {
+      ewarrantoffset_.reset(
+               new CThostFtdcEWarrantOffsetField());
+      std::memcpy(ewarrantoffset_.get(),
+                  pEWarrantOffset,
+                  sizeof(CThostFtdcEWarrantOffsetField));
+    }
   }
 
   virtual ~RspQryEWarrantOffsetMessage() {
@@ -2139,15 +2358,17 @@ class RspQryEWarrantOffsetMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (ewarrantoffset_.get()) {
       std::stringstream ss;
       ss <<(*ewarrantoffset_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcEWarrantOffsetField*
@@ -2168,12 +2389,15 @@ class RspQryInvestorProductGroupMarginMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_INVESTOR_PRODUCT_GROUP_MARGIN_MESSAGE,
+                 "OnRspQryInvestorProductGroupMargin",
                  pRspInfo, nRequestID, bIsLast) {
-    investorproductgroupmargin_.reset(
-             new CThostFtdcInvestorProductGroupMarginField());
-    std::memcpy(investorproductgroupmargin_.get(),
-                pInvestorProductGroupMargin,
-                sizeof(CThostFtdcInvestorProductGroupMarginField));
+    if (pInvestorProductGroupMargin) {
+      investorproductgroupmargin_.reset(
+               new CThostFtdcInvestorProductGroupMarginField());
+      std::memcpy(investorproductgroupmargin_.get(),
+                  pInvestorProductGroupMargin,
+                  sizeof(CThostFtdcInvestorProductGroupMarginField));
+    }
   }
 
   virtual ~RspQryInvestorProductGroupMarginMessage() {
@@ -2187,15 +2411,17 @@ class RspQryInvestorProductGroupMarginMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (investorproductgroupmargin_.get()) {
       std::stringstream ss;
       ss <<(*investorproductgroupmargin_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcInvestorProductGroupMarginField*
@@ -2216,12 +2442,15 @@ class RspQryExchangeMarginRateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_EXCHANGE_MARGIN_RATE_MESSAGE,
+                 "OnRspQryExchangeMarginRate",
                  pRspInfo, nRequestID, bIsLast) {
-    exchangemarginrate_.reset(
-             new CThostFtdcExchangeMarginRateField());
-    std::memcpy(exchangemarginrate_.get(),
-                pExchangeMarginRate,
-                sizeof(CThostFtdcExchangeMarginRateField));
+    if (pExchangeMarginRate) {
+      exchangemarginrate_.reset(
+               new CThostFtdcExchangeMarginRateField());
+      std::memcpy(exchangemarginrate_.get(),
+                  pExchangeMarginRate,
+                  sizeof(CThostFtdcExchangeMarginRateField));
+    }
   }
 
   virtual ~RspQryExchangeMarginRateMessage() {
@@ -2235,15 +2464,17 @@ class RspQryExchangeMarginRateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (exchangemarginrate_.get()) {
       std::stringstream ss;
       ss <<(*exchangemarginrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcExchangeMarginRateField*
@@ -2264,12 +2495,15 @@ class RspQryExchangeMarginRateAdjustMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_EXCHANGE_MARGIN_RATE_ADJUST_MESSAGE,
+                 "OnRspQryExchangeMarginRateAdjust",
                  pRspInfo, nRequestID, bIsLast) {
-    exchangemarginrateadjust_.reset(
-             new CThostFtdcExchangeMarginRateAdjustField());
-    std::memcpy(exchangemarginrateadjust_.get(),
-                pExchangeMarginRateAdjust,
-                sizeof(CThostFtdcExchangeMarginRateAdjustField));
+    if (pExchangeMarginRateAdjust) {
+      exchangemarginrateadjust_.reset(
+               new CThostFtdcExchangeMarginRateAdjustField());
+      std::memcpy(exchangemarginrateadjust_.get(),
+                  pExchangeMarginRateAdjust,
+                  sizeof(CThostFtdcExchangeMarginRateAdjustField));
+    }
   }
 
   virtual ~RspQryExchangeMarginRateAdjustMessage() {
@@ -2283,15 +2517,17 @@ class RspQryExchangeMarginRateAdjustMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (exchangemarginrateadjust_.get()) {
       std::stringstream ss;
       ss <<(*exchangemarginrateadjust_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcExchangeMarginRateAdjustField*
@@ -2312,12 +2548,15 @@ class RspQryExchangeRateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_EXCHANGE_RATE_MESSAGE,
+                 "OnRspQryExchangeRate",
                  pRspInfo, nRequestID, bIsLast) {
-    exchangerate_.reset(
-             new CThostFtdcExchangeRateField());
-    std::memcpy(exchangerate_.get(),
-                pExchangeRate,
-                sizeof(CThostFtdcExchangeRateField));
+    if (pExchangeRate) {
+      exchangerate_.reset(
+               new CThostFtdcExchangeRateField());
+      std::memcpy(exchangerate_.get(),
+                  pExchangeRate,
+                  sizeof(CThostFtdcExchangeRateField));
+    }
   }
 
   virtual ~RspQryExchangeRateMessage() {
@@ -2331,15 +2570,17 @@ class RspQryExchangeRateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (exchangerate_.get()) {
       std::stringstream ss;
       ss <<(*exchangerate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcExchangeRateField*
@@ -2360,12 +2601,15 @@ class RspQrySecAgentACIDMapMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_SEC_AGENT_A_C_I_D_MAP_MESSAGE,
+                 "OnRspQrySecAgentACIDMap",
                  pRspInfo, nRequestID, bIsLast) {
-    secagentacidmap_.reset(
-             new CThostFtdcSecAgentACIDMapField());
-    std::memcpy(secagentacidmap_.get(),
-                pSecAgentACIDMap,
-                sizeof(CThostFtdcSecAgentACIDMapField));
+    if (pSecAgentACIDMap) {
+      secagentacidmap_.reset(
+               new CThostFtdcSecAgentACIDMapField());
+      std::memcpy(secagentacidmap_.get(),
+                  pSecAgentACIDMap,
+                  sizeof(CThostFtdcSecAgentACIDMapField));
+    }
   }
 
   virtual ~RspQrySecAgentACIDMapMessage() {
@@ -2379,15 +2623,17 @@ class RspQrySecAgentACIDMapMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (secagentacidmap_.get()) {
       std::stringstream ss;
       ss <<(*secagentacidmap_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcSecAgentACIDMapField*
@@ -2408,12 +2654,15 @@ class RspQryProductExchRateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_PRODUCT_EXCH_RATE_MESSAGE,
+                 "OnRspQryProductExchRate",
                  pRspInfo, nRequestID, bIsLast) {
-    productexchrate_.reset(
-             new CThostFtdcProductExchRateField());
-    std::memcpy(productexchrate_.get(),
-                pProductExchRate,
-                sizeof(CThostFtdcProductExchRateField));
+    if (pProductExchRate) {
+      productexchrate_.reset(
+               new CThostFtdcProductExchRateField());
+      std::memcpy(productexchrate_.get(),
+                  pProductExchRate,
+                  sizeof(CThostFtdcProductExchRateField));
+    }
   }
 
   virtual ~RspQryProductExchRateMessage() {
@@ -2427,15 +2676,17 @@ class RspQryProductExchRateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (productexchrate_.get()) {
       std::stringstream ss;
       ss <<(*productexchrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcProductExchRateField*
@@ -2456,12 +2707,15 @@ class RspQryOptionInstrTradeCostMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_OPTION_INSTR_TRADE_COST_MESSAGE,
+                 "OnRspQryOptionInstrTradeCost",
                  pRspInfo, nRequestID, bIsLast) {
-    optioninstrtradecost_.reset(
-             new CThostFtdcOptionInstrTradeCostField());
-    std::memcpy(optioninstrtradecost_.get(),
-                pOptionInstrTradeCost,
-                sizeof(CThostFtdcOptionInstrTradeCostField));
+    if (pOptionInstrTradeCost) {
+      optioninstrtradecost_.reset(
+               new CThostFtdcOptionInstrTradeCostField());
+      std::memcpy(optioninstrtradecost_.get(),
+                  pOptionInstrTradeCost,
+                  sizeof(CThostFtdcOptionInstrTradeCostField));
+    }
   }
 
   virtual ~RspQryOptionInstrTradeCostMessage() {
@@ -2475,15 +2729,17 @@ class RspQryOptionInstrTradeCostMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (optioninstrtradecost_.get()) {
       std::stringstream ss;
       ss <<(*optioninstrtradecost_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcOptionInstrTradeCostField*
@@ -2504,12 +2760,15 @@ class RspQryOptionInstrCommRateMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_OPTION_INSTR_COMM_RATE_MESSAGE,
+                 "OnRspQryOptionInstrCommRate",
                  pRspInfo, nRequestID, bIsLast) {
-    optioninstrcommrate_.reset(
-             new CThostFtdcOptionInstrCommRateField());
-    std::memcpy(optioninstrcommrate_.get(),
-                pOptionInstrCommRate,
-                sizeof(CThostFtdcOptionInstrCommRateField));
+    if (pOptionInstrCommRate) {
+      optioninstrcommrate_.reset(
+               new CThostFtdcOptionInstrCommRateField());
+      std::memcpy(optioninstrcommrate_.get(),
+                  pOptionInstrCommRate,
+                  sizeof(CThostFtdcOptionInstrCommRateField));
+    }
   }
 
   virtual ~RspQryOptionInstrCommRateMessage() {
@@ -2523,15 +2782,17 @@ class RspQryOptionInstrCommRateMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (optioninstrcommrate_.get()) {
       std::stringstream ss;
       ss <<(*optioninstrcommrate_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcOptionInstrCommRateField*
@@ -2552,12 +2813,15 @@ class RspQryExecOrderMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_EXEC_ORDER_MESSAGE,
+                 "OnRspQryExecOrder",
                  pRspInfo, nRequestID, bIsLast) {
-    execorder_.reset(
-             new CThostFtdcExecOrderField());
-    std::memcpy(execorder_.get(),
-                pExecOrder,
-                sizeof(CThostFtdcExecOrderField));
+    if (pExecOrder) {
+      execorder_.reset(
+               new CThostFtdcExecOrderField());
+      std::memcpy(execorder_.get(),
+                  pExecOrder,
+                  sizeof(CThostFtdcExecOrderField));
+    }
   }
 
   virtual ~RspQryExecOrderMessage() {
@@ -2571,15 +2835,17 @@ class RspQryExecOrderMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (execorder_.get()) {
       std::stringstream ss;
       ss <<(*execorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcExecOrderField*
@@ -2600,12 +2866,15 @@ class RspQryForQuoteMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_FOR_QUOTE_MESSAGE,
+                 "OnRspQryForQuote",
                  pRspInfo, nRequestID, bIsLast) {
-    forquote_.reset(
-             new CThostFtdcForQuoteField());
-    std::memcpy(forquote_.get(),
-                pForQuote,
-                sizeof(CThostFtdcForQuoteField));
+    if (pForQuote) {
+      forquote_.reset(
+               new CThostFtdcForQuoteField());
+      std::memcpy(forquote_.get(),
+                  pForQuote,
+                  sizeof(CThostFtdcForQuoteField));
+    }
   }
 
   virtual ~RspQryForQuoteMessage() {
@@ -2619,15 +2888,17 @@ class RspQryForQuoteMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (forquote_.get()) {
       std::stringstream ss;
       ss <<(*forquote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcForQuoteField*
@@ -2648,12 +2919,15 @@ class RspQryQuoteMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_QUOTE_MESSAGE,
+                 "OnRspQryQuote",
                  pRspInfo, nRequestID, bIsLast) {
-    quote_.reset(
-             new CThostFtdcQuoteField());
-    std::memcpy(quote_.get(),
-                pQuote,
-                sizeof(CThostFtdcQuoteField));
+    if (pQuote) {
+      quote_.reset(
+               new CThostFtdcQuoteField());
+      std::memcpy(quote_.get(),
+                  pQuote,
+                  sizeof(CThostFtdcQuoteField));
+    }
   }
 
   virtual ~RspQryQuoteMessage() {
@@ -2667,15 +2941,17 @@ class RspQryQuoteMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (quote_.get()) {
       std::stringstream ss;
       ss <<(*quote_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcQuoteField*
@@ -2696,12 +2972,15 @@ class RspQryCombInstrumentGuardMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_COMB_INSTRUMENT_GUARD_MESSAGE,
+                 "OnRspQryCombInstrumentGuard",
                  pRspInfo, nRequestID, bIsLast) {
-    combinstrumentguard_.reset(
-             new CThostFtdcCombInstrumentGuardField());
-    std::memcpy(combinstrumentguard_.get(),
-                pCombInstrumentGuard,
-                sizeof(CThostFtdcCombInstrumentGuardField));
+    if (pCombInstrumentGuard) {
+      combinstrumentguard_.reset(
+               new CThostFtdcCombInstrumentGuardField());
+      std::memcpy(combinstrumentguard_.get(),
+                  pCombInstrumentGuard,
+                  sizeof(CThostFtdcCombInstrumentGuardField));
+    }
   }
 
   virtual ~RspQryCombInstrumentGuardMessage() {
@@ -2715,15 +2994,17 @@ class RspQryCombInstrumentGuardMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (combinstrumentguard_.get()) {
       std::stringstream ss;
       ss <<(*combinstrumentguard_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcCombInstrumentGuardField*
@@ -2744,12 +3025,15 @@ class RspQryCombActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_COMB_ACTION_MESSAGE,
+                 "OnRspQryCombAction",
                  pRspInfo, nRequestID, bIsLast) {
-    combaction_.reset(
-             new CThostFtdcCombActionField());
-    std::memcpy(combaction_.get(),
-                pCombAction,
-                sizeof(CThostFtdcCombActionField));
+    if (pCombAction) {
+      combaction_.reset(
+               new CThostFtdcCombActionField());
+      std::memcpy(combaction_.get(),
+                  pCombAction,
+                  sizeof(CThostFtdcCombActionField));
+    }
   }
 
   virtual ~RspQryCombActionMessage() {
@@ -2763,15 +3047,17 @@ class RspQryCombActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (combaction_.get()) {
       std::stringstream ss;
       ss <<(*combaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcCombActionField*
@@ -2792,12 +3078,15 @@ class RspQryTransferSerialMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_TRANSFER_SERIAL_MESSAGE,
+                 "OnRspQryTransferSerial",
                  pRspInfo, nRequestID, bIsLast) {
-    transferserial_.reset(
-             new CThostFtdcTransferSerialField());
-    std::memcpy(transferserial_.get(),
-                pTransferSerial,
-                sizeof(CThostFtdcTransferSerialField));
+    if (pTransferSerial) {
+      transferserial_.reset(
+               new CThostFtdcTransferSerialField());
+      std::memcpy(transferserial_.get(),
+                  pTransferSerial,
+                  sizeof(CThostFtdcTransferSerialField));
+    }
   }
 
   virtual ~RspQryTransferSerialMessage() {
@@ -2811,15 +3100,17 @@ class RspQryTransferSerialMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (transferserial_.get()) {
       std::stringstream ss;
       ss <<(*transferserial_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTransferSerialField*
@@ -2840,12 +3131,15 @@ class RspQryAccountregisterMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_ACCOUNTREGISTER_MESSAGE,
+                 "OnRspQryAccountregister",
                  pRspInfo, nRequestID, bIsLast) {
-    accountregister_.reset(
-             new CThostFtdcAccountregisterField());
-    std::memcpy(accountregister_.get(),
-                pAccountregister,
-                sizeof(CThostFtdcAccountregisterField));
+    if (pAccountregister) {
+      accountregister_.reset(
+               new CThostFtdcAccountregisterField());
+      std::memcpy(accountregister_.get(),
+                  pAccountregister,
+                  sizeof(CThostFtdcAccountregisterField));
+    }
   }
 
   virtual ~RspQryAccountregisterMessage() {
@@ -2859,15 +3153,17 @@ class RspQryAccountregisterMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (accountregister_.get()) {
       std::stringstream ss;
       ss <<(*accountregister_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcAccountregisterField*
@@ -2888,12 +3184,15 @@ class RspQryContractBankMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_CONTRACT_BANK_MESSAGE,
+                 "OnRspQryContractBank",
                  pRspInfo, nRequestID, bIsLast) {
-    contractbank_.reset(
-             new CThostFtdcContractBankField());
-    std::memcpy(contractbank_.get(),
-                pContractBank,
-                sizeof(CThostFtdcContractBankField));
+    if (pContractBank) {
+      contractbank_.reset(
+               new CThostFtdcContractBankField());
+      std::memcpy(contractbank_.get(),
+                  pContractBank,
+                  sizeof(CThostFtdcContractBankField));
+    }
   }
 
   virtual ~RspQryContractBankMessage() {
@@ -2907,15 +3206,17 @@ class RspQryContractBankMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (contractbank_.get()) {
       std::stringstream ss;
       ss <<(*contractbank_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcContractBankField*
@@ -2936,12 +3237,15 @@ class RspQryParkedOrderMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_PARKED_ORDER_MESSAGE,
+                 "OnRspQryParkedOrder",
                  pRspInfo, nRequestID, bIsLast) {
-    parkedorder_.reset(
-             new CThostFtdcParkedOrderField());
-    std::memcpy(parkedorder_.get(),
-                pParkedOrder,
-                sizeof(CThostFtdcParkedOrderField));
+    if (pParkedOrder) {
+      parkedorder_.reset(
+               new CThostFtdcParkedOrderField());
+      std::memcpy(parkedorder_.get(),
+                  pParkedOrder,
+                  sizeof(CThostFtdcParkedOrderField));
+    }
   }
 
   virtual ~RspQryParkedOrderMessage() {
@@ -2955,15 +3259,17 @@ class RspQryParkedOrderMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (parkedorder_.get()) {
       std::stringstream ss;
       ss <<(*parkedorder_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcParkedOrderField*
@@ -2984,12 +3290,15 @@ class RspQryParkedOrderActionMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_PARKED_ORDER_ACTION_MESSAGE,
+                 "OnRspQryParkedOrderAction",
                  pRspInfo, nRequestID, bIsLast) {
-    parkedorderaction_.reset(
-             new CThostFtdcParkedOrderActionField());
-    std::memcpy(parkedorderaction_.get(),
-                pParkedOrderAction,
-                sizeof(CThostFtdcParkedOrderActionField));
+    if (pParkedOrderAction) {
+      parkedorderaction_.reset(
+               new CThostFtdcParkedOrderActionField());
+      std::memcpy(parkedorderaction_.get(),
+                  pParkedOrderAction,
+                  sizeof(CThostFtdcParkedOrderActionField));
+    }
   }
 
   virtual ~RspQryParkedOrderActionMessage() {
@@ -3003,15 +3312,17 @@ class RspQryParkedOrderActionMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (parkedorderaction_.get()) {
       std::stringstream ss;
       ss <<(*parkedorderaction_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcParkedOrderActionField*
@@ -3032,12 +3343,15 @@ class RspQryTradingNoticeMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_TRADING_NOTICE_MESSAGE,
+                 "OnRspQryTradingNotice",
                  pRspInfo, nRequestID, bIsLast) {
-    tradingnotice_.reset(
-             new CThostFtdcTradingNoticeField());
-    std::memcpy(tradingnotice_.get(),
-                pTradingNotice,
-                sizeof(CThostFtdcTradingNoticeField));
+    if (pTradingNotice) {
+      tradingnotice_.reset(
+               new CThostFtdcTradingNoticeField());
+      std::memcpy(tradingnotice_.get(),
+                  pTradingNotice,
+                  sizeof(CThostFtdcTradingNoticeField));
+    }
   }
 
   virtual ~RspQryTradingNoticeMessage() {
@@ -3051,15 +3365,17 @@ class RspQryTradingNoticeMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (tradingnotice_.get()) {
       std::stringstream ss;
       ss <<(*tradingnotice_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcTradingNoticeField*
@@ -3080,12 +3396,15 @@ class RspQryBrokerTradingParamsMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_BROKER_TRADING_PARAMS_MESSAGE,
+                 "OnRspQryBrokerTradingParams",
                  pRspInfo, nRequestID, bIsLast) {
-    brokertradingparams_.reset(
-             new CThostFtdcBrokerTradingParamsField());
-    std::memcpy(brokertradingparams_.get(),
-                pBrokerTradingParams,
-                sizeof(CThostFtdcBrokerTradingParamsField));
+    if (pBrokerTradingParams) {
+      brokertradingparams_.reset(
+               new CThostFtdcBrokerTradingParamsField());
+      std::memcpy(brokertradingparams_.get(),
+                  pBrokerTradingParams,
+                  sizeof(CThostFtdcBrokerTradingParamsField));
+    }
   }
 
   virtual ~RspQryBrokerTradingParamsMessage() {
@@ -3099,15 +3418,17 @@ class RspQryBrokerTradingParamsMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (brokertradingparams_.get()) {
       std::stringstream ss;
       ss <<(*brokertradingparams_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcBrokerTradingParamsField*
@@ -3128,12 +3449,15 @@ class RspQryBrokerTradingAlgosMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QRY_BROKER_TRADING_ALGOS_MESSAGE,
+                 "OnRspQryBrokerTradingAlgos",
                  pRspInfo, nRequestID, bIsLast) {
-    brokertradingalgos_.reset(
-             new CThostFtdcBrokerTradingAlgosField());
-    std::memcpy(brokertradingalgos_.get(),
-                pBrokerTradingAlgos,
-                sizeof(CThostFtdcBrokerTradingAlgosField));
+    if (pBrokerTradingAlgos) {
+      brokertradingalgos_.reset(
+               new CThostFtdcBrokerTradingAlgosField());
+      std::memcpy(brokertradingalgos_.get(),
+                  pBrokerTradingAlgos,
+                  sizeof(CThostFtdcBrokerTradingAlgosField));
+    }
   }
 
   virtual ~RspQryBrokerTradingAlgosMessage() {
@@ -3147,15 +3471,17 @@ class RspQryBrokerTradingAlgosMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (brokertradingalgos_.get()) {
       std::stringstream ss;
       ss <<(*brokertradingalgos_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcBrokerTradingAlgosField*
@@ -3176,12 +3502,15 @@ class RspQueryCFMMCTradingAccountTokenMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QUERY_C_F_M_M_C_TRADING_ACCOUNT_TOKEN_MESSAGE,
+                 "OnRspQueryCFMMCTradingAccountToken",
                  pRspInfo, nRequestID, bIsLast) {
-    querycfmmctradingaccounttoken_.reset(
-             new CThostFtdcQueryCFMMCTradingAccountTokenField());
-    std::memcpy(querycfmmctradingaccounttoken_.get(),
-                pQueryCFMMCTradingAccountToken,
-                sizeof(CThostFtdcQueryCFMMCTradingAccountTokenField));
+    if (pQueryCFMMCTradingAccountToken) {
+      querycfmmctradingaccounttoken_.reset(
+               new CThostFtdcQueryCFMMCTradingAccountTokenField());
+      std::memcpy(querycfmmctradingaccounttoken_.get(),
+                  pQueryCFMMCTradingAccountToken,
+                  sizeof(CThostFtdcQueryCFMMCTradingAccountTokenField));
+    }
   }
 
   virtual ~RspQueryCFMMCTradingAccountTokenMessage() {
@@ -3195,15 +3524,17 @@ class RspQueryCFMMCTradingAccountTokenMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (querycfmmctradingaccounttoken_.get()) {
       std::stringstream ss;
       ss <<(*querycfmmctradingaccounttoken_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcQueryCFMMCTradingAccountTokenField*
@@ -3224,12 +3555,15 @@ class RspFromBankToFutureByFutureMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_FROM_BANK_TO_FUTURE_BY_FUTURE_MESSAGE,
+                 "OnRspFromBankToFutureByFuture",
                  pRspInfo, nRequestID, bIsLast) {
-    reqtransfer_.reset(
-             new CThostFtdcReqTransferField());
-    std::memcpy(reqtransfer_.get(),
-                pReqTransfer,
-                sizeof(CThostFtdcReqTransferField));
+    if (pReqTransfer) {
+      reqtransfer_.reset(
+               new CThostFtdcReqTransferField());
+      std::memcpy(reqtransfer_.get(),
+                  pReqTransfer,
+                  sizeof(CThostFtdcReqTransferField));
+    }
   }
 
   virtual ~RspFromBankToFutureByFutureMessage() {
@@ -3243,15 +3577,17 @@ class RspFromBankToFutureByFutureMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqtransfer_.get()) {
       std::stringstream ss;
       ss <<(*reqtransfer_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcReqTransferField*
@@ -3272,12 +3608,15 @@ class RspFromFutureToBankByFutureMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_FROM_FUTURE_TO_BANK_BY_FUTURE_MESSAGE,
+                 "OnRspFromFutureToBankByFuture",
                  pRspInfo, nRequestID, bIsLast) {
-    reqtransfer_.reset(
-             new CThostFtdcReqTransferField());
-    std::memcpy(reqtransfer_.get(),
-                pReqTransfer,
-                sizeof(CThostFtdcReqTransferField));
+    if (pReqTransfer) {
+      reqtransfer_.reset(
+               new CThostFtdcReqTransferField());
+      std::memcpy(reqtransfer_.get(),
+                  pReqTransfer,
+                  sizeof(CThostFtdcReqTransferField));
+    }
   }
 
   virtual ~RspFromFutureToBankByFutureMessage() {
@@ -3291,15 +3630,17 @@ class RspFromFutureToBankByFutureMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqtransfer_.get()) {
       std::stringstream ss;
       ss <<(*reqtransfer_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcReqTransferField*
@@ -3320,12 +3661,15 @@ class RspQueryBankAccountMoneyByFutureMessage : public RspMessage {
   CThostFtdcRspInfoField* pRspInfo,
   int nRequestID, bool bIsLast):
       RspMessage(RSP_QUERY_BANK_ACCOUNT_MONEY_BY_FUTURE_MESSAGE,
+                 "OnRspQueryBankAccountMoneyByFuture",
                  pRspInfo, nRequestID, bIsLast) {
-    reqqueryaccount_.reset(
-             new CThostFtdcReqQueryAccountField());
-    std::memcpy(reqqueryaccount_.get(),
-                pReqQueryAccount,
-                sizeof(CThostFtdcReqQueryAccountField));
+    if (pReqQueryAccount) {
+      reqqueryaccount_.reset(
+               new CThostFtdcReqQueryAccountField());
+      std::memcpy(reqqueryaccount_.get(),
+                  pReqQueryAccount,
+                  sizeof(CThostFtdcReqQueryAccountField));
+    }
   }
 
   virtual ~RspQueryBankAccountMoneyByFutureMessage() {
@@ -3339,15 +3683,17 @@ class RspQueryBankAccountMoneyByFutureMessage : public RspMessage {
 
   virtual void toJSON(json::Document* doc) const {
     assert(doc);
+    json::Document msg_doc;
     if (reqqueryaccount_.get()) {
       std::stringstream ss;
       ss <<(*reqqueryaccount_);
       json::Document d;
       json::fromString(ss.str(), &d);
-      json::appendDoc(doc, d);
+      json::appendDoc(&msg_doc, d);
     }
 
-    RspMessage::toJSON(doc);
+    RspMessage::toJSON(&msg_doc);
+    json::addMember(doc, name(), &msg_doc);
   }
 
   CThostFtdcReqQueryAccountField*

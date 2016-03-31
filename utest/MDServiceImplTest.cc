@@ -4,11 +4,11 @@
 #include <memory>
 #include "gtest/gtest.h"
 #include "md_service/MDServiceImpl.hh"
-#include "com/CataLog.hh"
+#include "soil/Log.hh"
 
 namespace cata {
 
-class MDServiceImplTest : public ::testing::Test {
+class MDServiceImplTest : public ::testing::Test, MDServiceCallback {
  public:
   MDServiceImplTest() {
   }
@@ -21,13 +21,17 @@ class MDServiceImplTest : public ::testing::Test {
     config->registerOptions(options_.get());
     config->loadConfig();
 
-    CATA_LOG_INIT("log.cfg");
+    SOIL_LOG_INIT("log.cfg");
 
     cond_.reset(soil::STimer::create());
-    service_.reset(MDService::createService(options_.get(), nullptr));
+    service_.reset(MDService::createService(options_.get(), this));
   }
 
   void TearDown() {
+  }
+
+  virtual void msgCallback(const std::string& msg) {
+    SOIL_INFO <<msg;
   }
 
  protected:
@@ -39,19 +43,19 @@ class MDServiceImplTest : public ::testing::Test {
 };
 
 TEST_F(MDServiceImplTest, loginTest) {
-  ASSERT_TRUE(true);
+  GTEST_SUCCEED();
 }
 
-// TEST_F(MDServiceImplTest, subMarketDataTest) {
-//   InstrumentSet instruments;
+TEST_F(MDServiceImplTest, subMarketDataTest) {
+  InstrumentSet instruments;
 
-//   instruments.insert("cu1602");
+  instruments.insert("cu1604");
 
-//   service_->subMarketData(instruments);
+  service_->subMarketData(instruments);
 
-//   cond_->wait(20000);
+  cond_->wait(2000);
 
-//   ASSERT_TRUE(true);
-// }
+  GTEST_SUCCEED();
+}
 
 };  // namespace cata

@@ -6,26 +6,24 @@
 
 #include <memory>
 #include "ThostFtdcMdApi.h"
+#include "MDServiceImpl.hh"
+#include "message/RspMessage.hh"
+#include "message/RtnMessage.hh"
 
 namespace cata {
-
-class MDServiceImpl;
-class MDUtil;
 
 class MDSpiImpl : public CThostFtdcMdSpi {
  public:
   explicit MDSpiImpl(MDServiceImpl* service);
+
   virtual ~MDSpiImpl();
 
   // interface from CThostFtdcMdSpi
-  virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo,
-                          int nRequestID, bool bIsLast);
+  virtual void OnFrontConnected();
 
   virtual void OnFrontDisconnected(int nReason);
 
   virtual void OnHeartBeatWarning(int nTimeLapse);
-
-  virtual void OnFrontConnected();
 
   virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
                               CThostFtdcRspInfoField *pRspInfo,
@@ -34,6 +32,9 @@ class MDSpiImpl : public CThostFtdcMdSpi {
   virtual void OnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout,
                                CThostFtdcRspInfoField *pRspInfo,
                                int nRequestID, bool bIsLast);
+
+  virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo,
+                          int nRequestID, bool bIsLast);
 
   virtual void OnRspSubMarketData(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
@@ -61,12 +62,31 @@ class MDSpiImpl : public CThostFtdcMdSpi {
   virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp);
 
  protected:
-  void checkRspInfo(CThostFtdcRspInfoField *pRspInfo);
+  template<typename MsgType, typename FieldType>
+  void pushMsg(FieldType* field, CThostFtdcRspInfoField* pRspInfo,
+               int nRequestID, bool bIsLast) {
+    std::unique_ptr<MsgType> rsp_message(
+        new MsgType(field, pRspInfo, nRequestID, bIsLast));
+    service_->pushData(rsp_message.release());
+  }
+
+  template<typename MsgType>
+  void pushMsg(CThostFtdcRspInfoField* pRspInfo,
+               int nRequestID, bool bIsLast) {
+    std::unique_ptr<MsgType> err_message(
+        new MsgType(pRspInfo, nRequestID, bIsLast));
+    service_->pushData(err_message.release());
+  }
+
+  template<typename MsgType, typename FieldType>
+  void pushMsg(FieldType* field) {
+    std::unique_ptr<MsgType> rtn_message(
+        new MsgType(field));
+    service_->pushData(rtn_message.release());
+  }
 
  private:
   MDServiceImpl* service_;
-
-  std::unique_ptr<MDUtil> util_;
 };
 
 };  // namespace cata

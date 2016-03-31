@@ -6,21 +6,27 @@
 
 #include "ThostFtdcMdApi.h"
 #include <string>
-#include <atomic>
 #include <memory>
 #include "cata/MDService.hh"
+#include "message/Message.hh"
 #include "soil/STimer.hh"
 #include "soil/MsgQueue.hh"
-
 
 namespace cata {
 
 class MDOptions;
 class MDSpiImpl;
+class RspUserLoginMessage;
+
+typedef enum {
+  UNAVAILABLE,
+  AVAILABLE
+}MDServiceStatus;
 
 class MDServiceImpl : public MDService {
  public:
   MDServiceImpl(soil::Options* options, MDServiceCallback* callback);
+
   virtual ~MDServiceImpl();
 
   virtual void subMarketData(const InstrumentSet& instruments);
@@ -35,15 +41,17 @@ class MDServiceImpl : public MDService {
 
   void login();
 
+  void rspLogin(const RspUserLoginMessage*);
+
   void wait(const std::string& hint = "");
   void notify();
 
-  void pushData(DepthMarketData* data);
+  void pushData(Message* data);
 
   inline
-  void msgCallback(const DepthMarketData* msg) {
+  void msgCallback(const Message* msg) {
     if (callback_)
-      callback_->onRtnMarketData(msg);
+      callback_->msgCallback(msg->toString());
   }
 
  private:
@@ -54,13 +62,12 @@ class MDServiceImpl : public MDService {
 
   MDServiceCallback* callback_;
 
-  std::atomic<int> request_id_;
-
-  std::unique_ptr<soil::MsgQueue<DepthMarketData, MDServiceImpl> > md_queue_;
+  std::unique_ptr<soil::MsgQueue<Message, MDServiceImpl> > md_queue_;
 
   std::unique_ptr<soil::STimer> cond_;
-};
 
+  MDServiceStatus status_;
+};
 
 };  // namespace cata
 

@@ -12,20 +12,23 @@ namespace cata {
 
 typedef enum {
   // REQ ID start
-  [REQ_ID]
+[REQ_ID]
   REQ_ID_MAX = 500,
+
   // RSP ID start
-  [RSP_ID]
+[RSP_ID]
   RSP_ID_MAX = 1000,
+
   // RTN ID start
-  [RTN_ID]
+[RTN_ID]
   RTN_ID_MAX = 2000
 }MessageID;
 
 class Message {
  public:
-  explicit Message(MessageID id):
-      id_(id) {
+  explicit Message(MessageID id, const std::string& name):
+      id_(id),
+      name_(name) {
   }
 
   virtual ~Message() {
@@ -40,8 +43,12 @@ class Message {
     json::addMember(doc, key, timeStamp());
   }
 
-  virtual MessageID id() const {
+  MessageID id() const {
     return id_;
+  }
+
+  const std::string& name() const {
+    return name_;
   }
 
   std::string timeStamp() const {
@@ -50,6 +57,8 @@ class Message {
 
  private:
   MessageID id_;
+  std::string name_;
+
   soil::DateTime timestamp_;
 };
 

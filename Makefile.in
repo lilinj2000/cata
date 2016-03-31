@@ -342,7 +342,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = test_md cata com message md_service trader_service utest
+SUBDIRS = test_md cata message md_service trader_service utest
 EXTRA_DIST = deploy.sh
 all: all-recursive
 

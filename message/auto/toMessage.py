@@ -21,15 +21,15 @@ def processLine(line, msg_type):
 
     # message id handle
     # print words[IDX_FUNC_NAME:]
-    func_name = words[IDX_FUNC_NAME].replace('On', '')
-    message_name = func_name + "Message"
+    func_name = words[IDX_FUNC_NAME]
+    message_name = func_name.replace('On', '') + "Message"
     message_id = '_'.join(filter(None, re.split(r'([A-Z][a-z]*)', message_name))).upper()
 
     if message_id in ids:
         return
     
     ids.add(message_id)
-    id_file.write('%s,\n' % message_id)
+    id_file.write('  %s,\n' % message_id)
 
     # rsp message handle
     # print message_name
@@ -54,23 +54,28 @@ def processLine(line, msg_type):
         to_file.write('  CThostFtdcRspInfoField* pRspInfo,\n')
         to_file.write('  int nRequestID, bool bIsLast):\n')
         to_file.write('      RspMessage(%s,\n' % message_id)
+        to_file.write('                 "%s",\n' % func_name)
         to_file.write('                 pRspInfo, nRequestID, bIsLast) {\n')
     elif msg_type == "rtn":
         to_file.write('class %s : public Message {\n' % message_name);
         to_file.write(' public:\n')
         to_file.write('  explicit %s(\n' % message_name)
         to_file.write('     %s* %s):\n' % (field_name, field))
-        to_file.write('      Message(%s) {\n' % message_id)
+        to_file.write('      Message(%s,\n' % message_id)
+        to_file.write('              "%s") {\n' % func_name)
     elif msg_type == "err_rtn":
         to_file.write('class %s : public Message {\n' % message_name);
         to_file.write(' public:\n')
         to_file.write('  %s(\n' % message_name)
         to_file.write('     %s* %s,\n' % (field_name, field))
         to_file.write('  CThostFtdcRspInfoField* pRspInfo):\n')
-        to_file.write('      Message(%s) {\n' % message_id)
-        to_file.write('    rspinfo_.reset(new CThostFtdcRspInfoField());\n')
-        to_file.write('    std::memcpy(rspinfo_.get(), pRspInfo,\n')
-        to_file.write('                sizeof(CThostFtdcRspInfoField));\n\n')
+        to_file.write('      Message(%s,\n' % message_id)
+        to_file.write('              "%s") {\n' % func_name)
+        to_file.write('    if (pRspInfo) {\n')
+        to_file.write('      rspinfo_.reset(new CThostFtdcRspInfoField());\n')
+        to_file.write('      std::memcpy(rspinfo_.get(), pRspInfo,\n')
+        to_file.write('                  sizeof(CThostFtdcRspInfoField));\n')
+        to_file.write('    }\n\n')
     elif msg_type == "req":
         to_file.write('class %s : public Message {\n' % message_name);
         to_file.write(' public:\n')
@@ -78,15 +83,18 @@ def processLine(line, msg_type):
         to_file.write('     %s*\n' % field_name)
         to_file.write('     %s,\n' % field)
         to_file.write('  int nRequestID):\n')
-        to_file.write('      Message(%s)\n' % message_id)
+        to_file.write('      Message(%s,\n' % message_id)
+        to_file.write('              "%s")\n' % func_name)
         to_file.write('      request_id_(nRequestID) {\n')
 
     if not is_rsp_error:
-        to_file.write('    %s.reset(\n' % local_field)
-        to_file.write('             new %s());\n' % field_name)
-        to_file.write('    std::memcpy(%s.get(),\n' % local_field)
-        to_file.write('                %s,\n' % field)
-        to_file.write('                sizeof(%s));\n' % field_name)
+        to_file.write('    if (%s) {\n' % field)
+        to_file.write('      %s.reset(\n' % local_field)
+        to_file.write('               new %s());\n' % field_name)
+        to_file.write('      std::memcpy(%s.get(),\n' % local_field)
+        to_file.write('                  %s,\n' % field)
+        to_file.write('                  sizeof(%s));\n' % field_name)
+        to_file.write('    }\n')
     to_file.write('  }\n\n')
 
     to_file.write('  virtual ~%s() {\n' % message_name)
@@ -101,19 +109,22 @@ def processLine(line, msg_type):
     to_file.write('  virtual void toJSON(json::Document* doc) const {\n')
     to_file.write('    assert(doc);\n')
 
+    to_file.write('    json::Document msg_doc;\n')
     if not is_rsp_error:
         to_file.write('    if (%s.get()) {\n' % local_field)
         to_file.write('      std::stringstream ss;\n')
         to_file.write('      ss <<(*%s);\n' % local_field)
         to_file.write('      json::Document d;\n')
         to_file.write('      json::fromString(ss.str(), &d);\n')
-        to_file.write('      json::appendDoc(doc, d);\n')
+        to_file.write('      json::appendDoc(&msg_doc, d);\n')
         to_file.write('    }\n\n')
 
     if msg_type == "rsp":
-        to_file.write('    RspMessage::toJSON(doc);\n')
+        to_file.write('    RspMessage::toJSON(&msg_doc);\n')
     else:
-        to_file.write('    Message::toJSON(doc);\n')
+        to_file.write('    Message::toJSON(&msg_doc);\n')
+
+    to_file.write('    json::addMember(doc, name(), &msg_doc);\n')
     to_file.write('  }\n\n')
     
 

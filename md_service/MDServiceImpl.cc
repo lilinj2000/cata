@@ -4,30 +4,31 @@
 #include "MDServiceImpl.hh"
 #include "MDOptions.hh"
 #include "MDSpiImpl.hh"
-#include "com/CataLog.hh"
+#include "MDLog.hh"
 #include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 
 MDServiceImpl::MDServiceImpl(soil::Options* options,
                                MDServiceCallback* callback) :
-    md_api_(NULL),
-    callback_(callback) {
-  CATA_TRACE <<"MDServiceImpl::MDServiceImpl()";
+    md_api_(nullptr),
+    callback_(callback),
+    status_(UNAVAILABLE) {
+  MD_TRACE <<"MDServiceImpl::MDServiceImpl()";
 
   cond_.reset(soil::STimer::create());
 
-  md_queue_.reset(new soil::MsgQueue<DepthMarketData, MDServiceImpl>(this));
+  md_queue_.reset(new soil::MsgQueue<Message, MDServiceImpl>(this));
 
   options_ = dynamic_cast<MDOptions*>(options);
 
   bool is_udp = false;
   bool is_multi = false;
   if (options_->protocol == "udp") {
-    CATA_DEBUG <<"UDP is enabled.";
+    MD_DEBUG <<"UDP is enabled.";
     is_udp = true;
   } else if (options_->protocol == "multi") {
-    CATA_DEBUG <<"MULTI is enabled.";
+    MD_DEBUG <<"MULTI is enabled.";
     is_multi = true;
   }
   md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(),
@@ -38,10 +39,14 @@ MDServiceImpl::MDServiceImpl(soil::Options* options,
   md_api_->Init();
 
   wait("login");
+
+  if (status_ != AVAILABLE) {
+    throw std::runtime_error("login failed, please check the log.");
+  }
 }
 
 MDServiceImpl::~MDServiceImpl() {
-  CATA_TRACE <<"MDServiceImpl::~MDServiceImpl()";
+  MD_TRACE <<"MDServiceImpl::~MDServiceImpl()";
 
   md_api_->RegisterSpi(nullptr);
 
@@ -51,14 +56,14 @@ MDServiceImpl::~MDServiceImpl() {
 }
 
 void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
-  CATA_TRACE <<"MDServiceImpl::subMarketData()";
+  MD_TRACE <<"MDServiceImpl::subMarketData()";
 
   int size = instruments.size();
 
   std::unique_ptr<char*> pp_instrus(new char*[size]);
   int i = 0;
   for (auto & instru : instruments) {
-    CATA_INFO <<"sub instrument " <<instru;
+    MD_INFO <<"sub instrument " <<instru;
     pp_instrus.get()[i++] = const_cast<char *>(instru.data());
   }
 
@@ -66,25 +71,25 @@ void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
 }
 
 void MDServiceImpl::unsubMarketData(const InstrumentSet& instruments) {
-  CATA_TRACE <<"MDServiceImpl::unsubMarketData()";
+  MD_TRACE <<"MDServiceImpl::unsubMarketData()";
 }
 
 void MDServiceImpl::subQuoteData(const InstrumentSet& instruments) {
-  CATA_TRACE <<"MDServiceImpl::subQuoteData()";
+  MD_TRACE <<"MDServiceImpl::subQuoteData()";
 }
 
 void MDServiceImpl::unsubQuoteData(const InstrumentSet& instruments) {
-  CATA_TRACE <<"MDServiceImpl::unsubQuoteData()";
+  MD_TRACE <<"MDServiceImpl::unsubQuoteData()";
 }
 
 std::string MDServiceImpl::tradingDay() {
-  CATA_TRACE <<"MDServiceImpl::tradingDate()";
+  MD_TRACE <<"MDServiceImpl::tradingDate()";
 
   return md_api_->GetTradingDay();
 }
 
 void MDServiceImpl::login() {
-  CATA_TRACE <<"MDServiceImpl::login()";
+  MD_TRACE <<"MDServiceImpl::login()";
 
   CThostFtdcReqUserLoginField req;
   memset(&req, 0x0, sizeof(req));
@@ -92,14 +97,28 @@ void MDServiceImpl::login() {
   strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
   strncpy(req.Password, options_->password.data(), sizeof(req.Password));
 
-  CATA_PDU <<req;
+  MD_INFO <<req;
 
-  int result = md_api_->ReqUserLogin(&req, ++request_id_);
+  int result = md_api_->ReqUserLogin(&req, 1);
 
   if (result != 0) {
-    CATA_ERROR <<"return code " <<result;
+    MD_ERROR <<"return code " <<result;
     throw std::runtime_error("login failed.");
   }
+}
+
+void MDServiceImpl::rspLogin(const RspUserLoginMessage* rsp_login) {
+  MD_TRACE <<" MDServiceImpl::rspLogin()";
+
+  MD_INFO <<rsp_login->toString();
+
+  if (rsp_login->rspInfo()
+      && 0 != rsp_login->rspInfo()->ErrorID) {  // login failed
+  } else {  // login success
+    status_ = AVAILABLE;
+  }
+
+  notify();
 }
 
 void MDServiceImpl::wait(const std::string& hint) {
@@ -113,7 +132,7 @@ void MDServiceImpl::notify() {
   cond_->notifyAll();
 }
 
-void MDServiceImpl::pushData(DepthMarketData* data) {
+void MDServiceImpl::pushData(Message* data) {
   md_queue_->pushMsg(data);
 }
 
