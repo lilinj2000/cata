@@ -8,6 +8,7 @@
 #include "ThostFtdcMdApi.h"
 #include "soil/STimer.hh"
 #include "soil/Log.hh"
+#include "soil/DateTime.hh"
 #include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
@@ -17,15 +18,20 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
   MDTest():
       front_address("tcp://180.168.146.187:10010"),
       req_id_(0),
-      instru_("cu1605"),
       invalid_instru_("cu1403"),
       login_passed_(false),
       case_passed_(false) {
-  }
+    soil::DateTime next= cur_ + std::chrono::hours(24*30);
+    std::string ym = next.getString("%y%m");
+    instru_ = "IF" + ym;
+    SOIL_INFO <<instru_;
 
+    SOIL_LOG_INIT("log.cfg");
+  }
+  
   void SetUp() {
     SOIL_TRACE <<"SetUp()";
-
+ 
     setCaseFailed();
 
     try {
@@ -90,20 +96,18 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
       int nRequestID, bool bIsLast) {
     SOIL_TRACE <<"OnRspSubMarketData()";
 
-    try {
-      SOIL_INFO <<"req_id: " <<nRequestID;
-      if (pSpecificInstrument)
-        SOIL_INFO <<*pSpecificInstrument;
+    handleRsp(pSpecificInstrument,
+              pRspInfo, nRequestID, bIsLast);
+  }
 
-      checkRspInfo(pRspInfo);
+  virtual void OnRspUnSubMarketData(
+      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast) {
+    SOIL_TRACE <<"OnRspUnSubMarketData()";
 
-      if (bIsLast)
-        casePassed();
-    } catch (std::exception& e) {
-      SOIL_ERROR <<"exception catched:\n"
-                 <<e.what();
-      caseFailed();
-    }
+    handleRsp(pSpecificInstrument,
+              pRspInfo, nRequestID, bIsLast);
   }
 
   virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo,
@@ -155,6 +159,26 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
     }
   }
 
+  void handleRsp(
+      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast) {
+    try {
+      SOIL_INFO <<"req_id: " <<nRequestID;
+      if (pSpecificInstrument)
+        SOIL_INFO <<*pSpecificInstrument;
+
+      checkRspInfo(pRspInfo);
+
+      if (bIsLast)
+        casePassed();
+    } catch (std::exception& e) {
+      SOIL_ERROR <<"exception catched:\n"
+                 <<e.what();
+      caseFailed();
+    }
+  }
+
   void setCasePassed() {
     case_passed_ = true;
   }
@@ -190,6 +214,8 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
 
   bool login_passed_;
   bool case_passed_;
+
+  soil::DateTime cur_;
 };
 
 TEST_F(MDTest, loginTest) {
@@ -236,6 +262,38 @@ TEST_F(MDTest, subInvalidInstruTest) {
   try {
     char* instrus[] = { const_cast<char*>(invalid_instru_.data()) };
     md_api_->SubscribeMarketData(instrus, 1);
+    wait();
+  } catch (std::exception& e) {
+    SOIL_ERROR <<"exception catched:\n"
+               <<e.what();
+    caseFailed();
+  }
+
+  ASSERT_TRUE(case_passed_);
+}
+
+TEST_F(MDTest, unsubTest) {
+  ASSERT_TRUE(login_passed_);
+
+  try {
+    char* instrus[] = { const_cast<char*>(instru_.data()) };
+
+    md_api_->UnSubscribeMarketData(instrus, 1);
+
+    wait();
+  } catch (std::exception& e) {
+    SOIL_ERROR <<"exception catched:\n"
+               <<e.what();
+    caseFailed();
+  }
+
+  ASSERT_TRUE(case_passed_);
+}
+
+TEST_F(MDTest, unsubInvalidInstruTest) {
+  try {
+    char* instrus[] = { const_cast<char*>(invalid_instru_.data()) };
+    md_api_->UnSubscribeMarketData(instrus, 1);
     wait();
   } catch (std::exception& e) {
     SOIL_ERROR <<"exception catched:\n"

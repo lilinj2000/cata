@@ -141,6 +141,7 @@ AC_SUBST(JSON_LIBADD)
 AC_OUTPUT([
 	Makefile
 	test_md/Makefile
+	test_trader/Makefile
 	cata/Makefile
 	message/Makefile
 	md_service/Makefile
