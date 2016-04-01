@@ -54,6 +54,7 @@ def processLine(line, msg_type):
         spi_cc_file.write('                            pRspInfo,\n')
         spi_cc_file.write('                            nRequestID, bIsLast));\n\n')
         spi_cc_file.write('  service_->rspLogin(rsp_message.get());\n')
+        spi_cc_file.write('  service_->pushData(rsp_message.release());\n')
     elif msg_type == "rsp":
         spi_cc_file.write('  pushMsg<%s>(\n' % message_name)
         if not is_rsp_error:

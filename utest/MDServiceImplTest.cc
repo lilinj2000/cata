@@ -8,7 +8,7 @@
 
 namespace cata {
 
-class MDServiceImplTest : public ::testing::Test, MDServiceCallback {
+class MDServiceImplTest : public ::testing::Test, ServiceCallback {
  public:
   MDServiceImplTest() {
   }
@@ -30,8 +30,14 @@ class MDServiceImplTest : public ::testing::Test, MDServiceCallback {
   void TearDown() {
   }
 
-  virtual void msgCallback(const std::string& msg) {
-    SOIL_INFO <<msg;
+  virtual void onRspMessage(const std::string& msg) {
+    SOIL_INFO <<"receive the rsp message:\n"
+              <<msg;
+  }
+
+  virtual void onRtnMessage(const std::string& msg) {
+    SOIL_INFO <<"receive the rtn message:\n"
+              <<msg;
   }
 
  protected:

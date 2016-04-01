@@ -7,17 +7,9 @@
 #include <string>
 #include <set>
 #include "soil/Config.hh"
+#include "cata/CataDef.hh"
 
 namespace cata {
-
-typedef std::set<std::string> InstrumentSet;
-
-class MDServiceCallback {
- public:
-  virtual void msgCallback(const std::string& msg) = 0;
-
-  virtual ~MDServiceCallback() {}
-};
 
 class MDService {
  public:
@@ -36,7 +28,7 @@ class MDService {
   static soil::Options* createOptions();
 
   static MDService* createService(soil::Options* options,
-                                  MDServiceCallback* callback);
+                                  ServiceCallback* callback);
 };
 
 };  // namespace cata

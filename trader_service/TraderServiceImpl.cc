@@ -10,7 +10,7 @@
 namespace cata {
 
 TraderServiceImpl::TraderServiceImpl(soil::Options* options,
-                                     TraderServiceCallback* callback) :
+                                     ServiceCallback* callback) :
     trader_api_(NULL),
     callback_(callback),
     request_id_(0),
@@ -22,7 +22,7 @@ TraderServiceImpl::TraderServiceImpl(soil::Options* options,
   cond_.reset(soil::STimer::create());
 
   rsp_queue_.reset(new soil::MsgQueue<Message, TraderServiceImpl>(this));
-  
+
   options_ = dynamic_cast<TraderOptions*>(options);
 
   trader_api_ = CThostFtdcTraderApi::CreateFtdcTraderApi
@@ -237,16 +237,19 @@ int TraderServiceImpl::orderCloseSell(const std::string& instru,
   return order_ref;
 }
 
-int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru) {
+int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru,
+                                               HedgeFlagType hedge_flag) {
   TRADER_TRACE <<"TraderServiceImpl::queryExchangeMarginRate()";
 
   TRADER_INFO <<"instru: " <<instru;
+  TRADER_INFO <<"hedge_flag: " <<hedge_flag;
 
   CThostFtdcQryExchangeMarginRateField req;
   memset(&req, 0x0, sizeof(req));
 
   strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
   strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  req.HedgeFlag = hedge_flag;
 
   TRADER_DEBUG <<req;
 
@@ -454,7 +457,7 @@ soil::Options* TraderService::createOptions() {
 }
 
 TraderService* TraderService::createService(soil::Options* options,
-                                            TraderServiceCallback* callback) {
+                                            ServiceCallback* callback) {
   return new TraderServiceImpl(options, callback);
 }
 

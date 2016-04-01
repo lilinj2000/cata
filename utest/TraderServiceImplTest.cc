@@ -3,11 +3,12 @@
 
 #include "gtest/gtest.h"
 #include "soil/Log.hh"
+#include "soil/DateTime.hh"
 #include "trader_service/TraderServiceImpl.hh"
 
 namespace cata {
 
-class TraderServiceImplTest : public ::testing::Test, public TraderServiceCallback {
+class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
  public:
   TraderServiceImplTest() {
   }
@@ -30,9 +31,16 @@ class TraderServiceImplTest : public ::testing::Test, public TraderServiceCallba
   void TearDown() {
   }
 
-  virtual void msgCallback(const std::string& msg) {
-    SOIL_INFO <<msg;
+  virtual void onRspMessage(const std::string& msg) {
+    SOIL_INFO <<"receive the rsp message:\n"
+              <<msg;
   }
+
+  virtual void onRtnMessage(const std::string& msg) {
+    SOIL_INFO <<"receive the rtn message:\n"
+              <<msg;
+  }
+
  protected:
   std::auto_ptr<TraderService> service_;
 
@@ -46,7 +54,13 @@ TEST_F(TraderServiceImplTest, loginTest) {
 }
 
 TEST_F(TraderServiceImplTest, queryMarginRateTest) {
-  std::string instru = "IF1604";
+  soil::DateTime cur;
+  cur += std::chrono::hours(24*30);
+  std::string ym = cur.getString("%y%m");
+  std::string instru = "IF" + ym;
+
+  service_->queryExchangeMarginRate(instru, HF_SPECULATION);
+  cond_->wait(1000);
 
   service_->queryExchangeMarginRate(instru);
   cond_->wait(1000);

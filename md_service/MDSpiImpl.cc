@@ -46,6 +46,7 @@ void MDSpiImpl::OnRspUserLogin(
                               nRequestID, bIsLast));
 
   service_->rspLogin(rsp_message.get());
+  service_->pushData(rsp_message.release());
 }
 
 void MDSpiImpl::OnRspUserLogout(
@@ -53,6 +54,9 @@ void MDSpiImpl::OnRspUserLogout(
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
   MD_TRACE <<"MDSpiImpl::OnRspUserLogout()";
+
+  pushMsg<RspUserLogoutMessage>(pUserLogout,
+                                pRspInfo, nRequestID, bIsLast);
 }
 
 void MDSpiImpl::OnRspError(

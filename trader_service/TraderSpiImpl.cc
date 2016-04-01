@@ -57,6 +57,7 @@ void TraderSpiImpl::OnRspUserLogin(
                             nRequestID, bIsLast));
 
   service_->rspLogin(rsp_message.get());
+  service_->pushData(rsp_message.release());
 }
 
 void TraderSpiImpl::OnRspUserLogout(

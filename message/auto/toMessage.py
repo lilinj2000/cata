@@ -14,6 +14,10 @@ def processLine(line, msg_type):
     elif msg_type == "req":
         id_file = req_id_file
         to_file = req_file
+    elif msg_type == "req_qry":
+        id_file = req_qry_id_file
+        to_file = req_file
+        msg_type = "req"        # reset the type to "req"
 
     words = re.split('\W+', line)
 
@@ -167,10 +171,14 @@ onerr_rtn_pattern = re.compile(r'''OnErrRtn''')
 
 req_pattern = re.compile(r'''int Req''')
 
+reqqry_pattern = re.compile(r'''int ReqQry''')
+
 file_list = ["ThostFtdcMdApi.h", "ThostFtdcTraderApi.h"]
 
 req_id_file = open("req_id.data", "wb")
 req_file = open("message_req.data", "wb")
+
+req_qry_id_file = open("req_qry_id.data", "wb")
 
 rsp_id_file = open("rsp_id.data", "wb")
 rsp_file = open("message_rsp.data", "wb")
@@ -194,9 +202,14 @@ for file_name in file_list:
                 processLine(line, "err_rtn")
                 continue
 
+            if reqqry_pattern.search(line):
+                processLine(line, "req_qry")
+                continue
+
             if req_pattern.search(line):
                 processLine(line, "req")
                 continue
+
 
 rsp_id_file.close()
 rsp_file.close()
@@ -204,6 +217,7 @@ rtn_id_file.close()
 rtn_file.close()
 req_id_file.close()
 req_file.close()
+req_qry_id_file.close()
 
 # Message.hh process
 with open("Message.hh.temp") as msg_file:
@@ -212,6 +226,9 @@ with open("Message.hh.temp") as msg_file:
 with open("req_id.data") as req_id_file:
     req_id = req_id_file.read()
 
+with open("req_qry_id.data") as req_qry_id_file:
+    req_qry_id = req_qry_id_file.read()
+
 with open("rsp_id.data") as rsp_id_file:
     rsp_id = rsp_id_file.read()
 
@@ -219,6 +236,7 @@ with open("rtn_id.data") as rtn_id_file:
     rtn_id = rtn_id_file.read()
 
 msg_hh = msg_hh.replace('[REQ_ID]', req_id)
+msg_hh = msg_hh.replace('[REQ_QRY_ID]', req_qry_id)
 msg_hh = msg_hh.replace('[RSP_ID]', rsp_id)
 msg_hh = msg_hh.replace('[RTN_ID]', rtn_id)
 

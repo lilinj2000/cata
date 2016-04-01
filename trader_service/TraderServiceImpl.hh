@@ -26,7 +26,7 @@ typedef enum {
 
 class TraderServiceImpl : public TraderService {
  public:
-  TraderServiceImpl(soil::Options* options, TraderServiceCallback* callback);
+  TraderServiceImpl(soil::Options* options, ServiceCallback* callback);
   virtual ~TraderServiceImpl();
 
   virtual std::string tradingDay();
@@ -49,7 +49,8 @@ class TraderServiceImpl : public TraderService {
   virtual int orderCloseSell(const std::string& instru,
                             double price, int volume);
 
-  virtual int queryExchangeMarginRate(const std::string& instru);
+  virtual int queryExchangeMarginRate(const std::string& instru,
+                                      HedgeFlagType hedge_flag = HF_ALL);
 
   virtual int queryExchangeMarginRateAdjust(const std::string& instru);
 
@@ -58,7 +59,7 @@ class TraderServiceImpl : public TraderService {
   void login();
 
   void rspLogin(const RspUserLoginMessage*);
-  
+
   void querySettlementInfo();
 
   void querySettlementInfoConfirm();
@@ -73,12 +74,14 @@ class TraderServiceImpl : public TraderService {
 
   inline
   void msgCallback(const Message* msg) {
-    if (callback_)
-      callback_->msgCallback(msg->toString());
+    if (callback_) {
+      if (msg->id() < RSP_ID_MAX) {  // response message
+        callback_->onRspMessage(msg->toString());
+      } else {  // return message
+        callback_->onRtnMessage(msg->toString());
+      }
+    }
   }
-
-
-  TraderServiceCallback* callback() { return callback_; }
 
  protected:
   CThostFtdcInputOrderField* orderField(int* order_ref);
@@ -91,7 +94,7 @@ class TraderServiceImpl : public TraderService {
   CThostFtdcTraderApi* trader_api_;
   std::unique_ptr<TraderSpiImpl> trader_spi_;
 
-  TraderServiceCallback* callback_;
+  ServiceCallback* callback_;
 
   std::atomic<int> request_id_;
 

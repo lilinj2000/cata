@@ -13,7 +13,11 @@ namespace cata {
 typedef enum {
   // REQ ID start
 [REQ_ID]
-  REQ_ID_MAX = 500,
+  REQ_ID_MAX = 200,
+
+  // REQ QRY ID start
+[REQ_QRY_ID]
+  REQ_QRY_ID_MAX = 500,
 
   // RSP ID start
 [RSP_ID]

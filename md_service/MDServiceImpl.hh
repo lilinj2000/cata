@@ -25,7 +25,7 @@ typedef enum {
 
 class MDServiceImpl : public MDService {
  public:
-  MDServiceImpl(soil::Options* options, MDServiceCallback* callback);
+  MDServiceImpl(soil::Options* options, ServiceCallback* callback);
 
   virtual ~MDServiceImpl();
 
@@ -50,8 +50,13 @@ class MDServiceImpl : public MDService {
 
   inline
   void msgCallback(const Message* msg) {
-    if (callback_)
-      callback_->msgCallback(msg->toString());
+    if (callback_) {
+      if (msg->id() < RSP_ID_MAX) {  // response message
+        callback_->onRspMessage(msg->toString());
+      } else {  // return message
+        callback_->onRtnMessage(msg->toString());
+      }
+    }
   }
 
  private:
@@ -60,7 +65,7 @@ class MDServiceImpl : public MDService {
   CThostFtdcMdApi* md_api_;
   std::unique_ptr<MDSpiImpl> md_spi_;
 
-  MDServiceCallback* callback_;
+  ServiceCallback* callback_;
 
   std::unique_ptr<soil::MsgQueue<Message, MDServiceImpl> > md_queue_;
 

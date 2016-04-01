@@ -10,7 +10,7 @@
 namespace cata {
 
 MDServiceImpl::MDServiceImpl(soil::Options* options,
-                               MDServiceCallback* callback) :
+                             ServiceCallback* callback) :
     md_api_(nullptr),
     callback_(callback),
     status_(UNAVAILABLE) {
@@ -141,7 +141,7 @@ soil::Options* MDService::createOptions() {
 }
 
 MDService* MDService::createService(soil::Options* options,
-                                      MDServiceCallback* callback) {
+                                    ServiceCallback* callback) {
   return new MDServiceImpl(options, callback);
 }
 

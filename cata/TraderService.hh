@@ -5,16 +5,10 @@
 #define CATA_TRADER_SERVICE_HH
 
 #include <string>
+#include "cata/CataDef.hh"
 #include "soil/Config.hh"
 
 namespace cata {
-
-class TraderServiceCallback {
- public:
-  virtual void msgCallback(const std::string& msg) = 0;
-
-  virtual ~TraderServiceCallback() {}
-};
 
 class TraderService {
  public:
@@ -38,7 +32,8 @@ class TraderService {
   virtual int orderCloseSell(const std::string& instru,
                             double price, int volume) = 0;
 
-  virtual int queryExchangeMarginRate(const std::string& instru) = 0;
+  virtual int queryExchangeMarginRate(const std::string& instru,
+                                      HedgeFlagType hedge_flag = HF_ALL) = 0;
 
   virtual int queryExchangeMarginRateAdjust(const std::string& instru) = 0;
 
@@ -49,7 +44,7 @@ class TraderService {
   static soil::Options* createOptions();
 
   static TraderService* createService(soil::Options* options,
-                                      TraderServiceCallback* callback);
+                                      ServiceCallback* callback);
 };
 
 
