@@ -52,9 +52,11 @@ class TraderServiceImpl : public TraderService {
   virtual int queryExchangeMarginRate(const std::string& instru,
                                       HedgeFlagType hedge_flag = HF_ALL);
 
-  virtual int queryExchangeMarginRateAdjust(const std::string& instru);
+  virtual int queryExchangeMarginRateAdjust(const std::string& instru,
+                                            HedgeFlagType hedge_flag = HF_ALL);
 
-  virtual int queryInstruMarginRate(const std::string& instru);
+  virtual int queryInstruMarginRate(const std::string& instru,
+                                    HedgeFlagType hedge_flag = HF_ALL);
 
   void login();
 
@@ -87,6 +89,10 @@ class TraderServiceImpl : public TraderService {
   CThostFtdcInputOrderField* orderField(int* order_ref);
 
   void orderGo(CThostFtdcInputOrderField* req);
+
+  int reqID() {
+    return ++request_id_;
+  }
 
  private:
   TraderOptions* options_;

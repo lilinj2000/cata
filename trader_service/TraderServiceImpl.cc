@@ -253,15 +253,20 @@ int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru,
 
   TRADER_DEBUG <<req;
 
-  int ret = trader_api_->ReqQryExchangeMarginRate(&req, ++request_id_);
+  int req_id = reqID();
+  
+  int ret = trader_api_->ReqQryExchangeMarginRate(&req, req_id);
   if (ret != 0) {
     TRADER_ERROR <<"return code " <<ret;
     throw std::runtime_error("query exchange margin rate failed.");
   }
+
+  return req_id;
 }
 
 int TraderServiceImpl::queryExchangeMarginRateAdjust(
-    const std::string& instru) {
+    const std::string& instru,
+    HedgeFlagType hedge_flag) {
   TRADER_TRACE <<"TraderServiceImpl::queryExchangeMarginRateAdjust()";
 
   TRADER_INFO <<"instru: " <<instru;
@@ -271,17 +276,22 @@ int TraderServiceImpl::queryExchangeMarginRateAdjust(
 
   strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
   strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  req.HedgeFlag = hedge_flag;
 
   TRADER_DEBUG <<req;
 
-  int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, ++request_id_);
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, req_id);
   if (ret != 0) {
     TRADER_ERROR <<"return code " <<ret;
     throw std::runtime_error("query exchange margin rate adjust failed.");
   }
+
+  return req_id;
 }
 
-int TraderServiceImpl::queryInstruMarginRate(const std::string& instru) {
+int TraderServiceImpl::queryInstruMarginRate(const std::string& instru,
+                                             HedgeFlagType hedge_flag) {
   TRADER_TRACE <<"TraderServiceImpl::queryInstruMarginRate()";
 
   TRADER_INFO <<"instru: " <<instru;
@@ -292,14 +302,18 @@ int TraderServiceImpl::queryInstruMarginRate(const std::string& instru) {
   strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
   strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
   strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  req.HedgeFlag = hedge_flag;
 
   TRADER_DEBUG <<req;
 
-  int ret = trader_api_->ReqQryInstrumentMarginRate(&req, ++request_id_);
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryInstrumentMarginRate(&req, req_id);
   if (ret != 0) {
     TRADER_ERROR <<"return code " <<ret;
     throw std::runtime_error("query instrument margin rate failed.");
   }
+
+  return req_id;
 }
 
 void TraderServiceImpl::login() {
@@ -313,7 +327,7 @@ void TraderServiceImpl::login() {
 
   TRADER_PDU <<req;
 
-  int result = trader_api_->ReqUserLogin(&req, ++request_id_);
+  int result = trader_api_->ReqUserLogin(&req, reqID());
 
   if (result != 0) {
     TRADER_ERROR <<"return code " <<result;
@@ -351,7 +365,7 @@ void TraderServiceImpl::querySettlementInfo() {
 
   TRADER_PDU <<req;
 
-  int result = trader_api_->ReqQrySettlementInfo(&req, ++request_id_);
+  int result = trader_api_->ReqQrySettlementInfo(&req, reqID());
 
   if (result != 0) {
     TRADER_ERROR <<"return code " <<result;
@@ -369,7 +383,7 @@ void TraderServiceImpl::querySettlementInfoConfirm() {
 
   TRADER_PDU <<req;
 
-  int result = trader_api_->ReqQrySettlementInfoConfirm(&req, ++request_id_);
+  int result = trader_api_->ReqQrySettlementInfoConfirm(&req, reqID());
 
   if (result != 0) {
     TRADER_ERROR <<"return code " <<result;
@@ -389,7 +403,7 @@ void TraderServiceImpl::settlementInfoConfirm() {
 
   TRADER_PDU <<req;
 
-  int result = trader_api_->ReqSettlementInfoConfirm(&req, ++request_id_);
+  int result = trader_api_->ReqSettlementInfoConfirm(&req, reqID());
 
   if (result != 0) {
     TRADER_ERROR <<"return code " <<result;
@@ -444,7 +458,7 @@ void TraderServiceImpl::orderGo(CThostFtdcInputOrderField* req) {
   TRADER_TRACE <<"TraderServiceImpl::orderGo()";
   TRADER_PDU <<*req;
 
-  int result = trader_api_->ReqOrderInsert(req, ++request_id_);
+  int result = trader_api_->ReqOrderInsert(req, reqID());
 
   if (result != 0) {
     TRADER_ERROR <<"return code " <<result;

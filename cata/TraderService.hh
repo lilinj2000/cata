@@ -35,9 +35,11 @@ class TraderService {
   virtual int queryExchangeMarginRate(const std::string& instru,
                                       HedgeFlagType hedge_flag = HF_ALL) = 0;
 
-  virtual int queryExchangeMarginRateAdjust(const std::string& instru) = 0;
+  virtual int queryExchangeMarginRateAdjust(const std::string& instru,
+                                            HedgeFlagType hedge_flag = HF_ALL) = 0;
 
-  virtual int queryInstruMarginRate(const std::string& instru) = 0;
+  virtual int queryInstruMarginRate(const std::string& instru,
+                                    HedgeFlagType hedge_flag = HF_ALL) = 0;
 
   virtual ~TraderService() {}
 

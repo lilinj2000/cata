@@ -126,8 +126,30 @@ class TraderTest : public ::testing::Test, public CThostFtdcTraderSpi {
 
       caseFailed();
     }
-      
   }
+
+  virtual void OnRspQryInstrument(
+      CThostFtdcInstrumentField *pInstrument,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID, bool bIsLast) {
+    SOIL_TRACE <<"OnRspQryInstrument()";
+
+    try {
+      if (pInstrument)
+        SOIL_INFO <<*pInstrument;
+
+      checkRspInfo(pRspInfo);
+
+      if (bIsLast)
+        updateCaseStatus(nRequestID);
+    } catch (std::exception& e) {
+      SOIL_ERROR <<"exception catched:\n"
+                 <<e.what();
+
+      caseFailed();
+    }
+  }
+  
  protected:
   void login() {
       CThostFtdcReqUserLoginField req;
@@ -228,7 +250,6 @@ TEST_F(TraderTest, queryTest) {
   req.HedgeFlag = '1';
   SOIL_INFO <<req;
 
-  std::string the_second = soil::DateTime::now().getString("%s");
   try {
     expect_id_ = ++req_id_;
     int ret = trader_api_->ReqQryExchangeMarginRate(&req, expect_id_);
@@ -247,17 +268,34 @@ TEST_F(TraderTest, queryTest) {
   ASSERT_TRUE(case_passed_);
 
   // over the number of send message per second
-  std::string the_second2 = soil::DateTime::now().getString("%s");
   int ret = trader_api_->ReqQryExchangeMarginRate(&req, ++req_id_);
-  if (the_second == the_second2) {
-    SOIL_INFO <<"the query is over the number of message per second.";
-    ASSERT_EQ(ret, -3);
-  } else {
+  ASSERT_EQ(ret, -3);
+
+  cond_->wait(1000);
+  // at most 1 message for ongoing query method
+  ret = trader_api_->ReqQryExchangeMarginRate(&req, ++req_id_);
+  ASSERT_EQ(ret, 0);
+
+  ret = trader_api_->ReqQryExchangeMarginRate(&req, ++req_id_);
+  ASSERT_EQ(ret, -2);
+}
+
+TEST_F(TraderTest, queryInstruInfoTest) {
+  ASSERT_TRUE(login_passed_);
+
+  CThostFtdcQryInstrumentField req;
+  memset(&req, 0x0, sizeof(req));
+
+  try {
+    expect_id_ = ++req_id_;
+    int ret = trader_api_->ReqQryInstrument(&req, expect_id_);
     ASSERT_EQ(ret, 0);
 
-    SOIL_INFO <<"the query is ongoing test ...";
-    int ret = trader_api_->ReqQryExchangeMarginRate(&req, ++req_id_);
-    ASSERT_EQ(ret, -2);
+    wait();
+  } catch (std::exception& e) {
+    SOIL_ERROR <<"exception cached:\n"
+               <<e.what();
+    caseFailed();
   }
 }
 
