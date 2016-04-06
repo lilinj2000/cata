@@ -5,7 +5,7 @@ class ReqUserLoginMessage : public Message {
      pReqUserLoginField,
   int nRequestID):
       Message(REQ_USER_LOGIN_MESSAGE,
-              "ReqUserLogin")
+              "ReqUserLogin"),
       request_id_(nRequestID) {
     if (pReqUserLoginField) {
       requserloginfield_.reset(
@@ -62,7 +62,7 @@ class ReqUserLogoutMessage : public Message {
      pUserLogout,
   int nRequestID):
       Message(REQ_USER_LOGOUT_MESSAGE,
-              "ReqUserLogout")
+              "ReqUserLogout"),
       request_id_(nRequestID) {
     if (pUserLogout) {
       userlogout_.reset(
@@ -119,7 +119,7 @@ class ReqAuthenticateMessage : public Message {
      pReqAuthenticateField,
   int nRequestID):
       Message(REQ_AUTHENTICATE_MESSAGE,
-              "ReqAuthenticate")
+              "ReqAuthenticate"),
       request_id_(nRequestID) {
     if (pReqAuthenticateField) {
       reqauthenticatefield_.reset(
@@ -176,7 +176,7 @@ class ReqUserPasswordUpdateMessage : public Message {
      pUserPasswordUpdate,
   int nRequestID):
       Message(REQ_USER_PASSWORD_UPDATE_MESSAGE,
-              "ReqUserPasswordUpdate")
+              "ReqUserPasswordUpdate"),
       request_id_(nRequestID) {
     if (pUserPasswordUpdate) {
       userpasswordupdate_.reset(
@@ -233,7 +233,7 @@ class ReqTradingAccountPasswordUpdateMessage : public Message {
      pTradingAccountPasswordUpdate,
   int nRequestID):
       Message(REQ_TRADING_ACCOUNT_PASSWORD_UPDATE_MESSAGE,
-              "ReqTradingAccountPasswordUpdate")
+              "ReqTradingAccountPasswordUpdate"),
       request_id_(nRequestID) {
     if (pTradingAccountPasswordUpdate) {
       tradingaccountpasswordupdate_.reset(
@@ -290,7 +290,7 @@ class ReqOrderInsertMessage : public Message {
      pInputOrder,
   int nRequestID):
       Message(REQ_ORDER_INSERT_MESSAGE,
-              "ReqOrderInsert")
+              "ReqOrderInsert"),
       request_id_(nRequestID) {
     if (pInputOrder) {
       inputorder_.reset(
@@ -347,7 +347,7 @@ class ReqParkedOrderInsertMessage : public Message {
      pParkedOrder,
   int nRequestID):
       Message(REQ_PARKED_ORDER_INSERT_MESSAGE,
-              "ReqParkedOrderInsert")
+              "ReqParkedOrderInsert"),
       request_id_(nRequestID) {
     if (pParkedOrder) {
       parkedorder_.reset(
@@ -404,7 +404,7 @@ class ReqParkedOrderActionMessage : public Message {
      pParkedOrderAction,
   int nRequestID):
       Message(REQ_PARKED_ORDER_ACTION_MESSAGE,
-              "ReqParkedOrderAction")
+              "ReqParkedOrderAction"),
       request_id_(nRequestID) {
     if (pParkedOrderAction) {
       parkedorderaction_.reset(
@@ -461,7 +461,7 @@ class ReqOrderActionMessage : public Message {
      pInputOrderAction,
   int nRequestID):
       Message(REQ_ORDER_ACTION_MESSAGE,
-              "ReqOrderAction")
+              "ReqOrderAction"),
       request_id_(nRequestID) {
     if (pInputOrderAction) {
       inputorderaction_.reset(
@@ -518,7 +518,7 @@ class ReqQueryMaxOrderVolumeMessage : public Message {
      pQueryMaxOrderVolume,
   int nRequestID):
       Message(REQ_QUERY_MAX_ORDER_VOLUME_MESSAGE,
-              "ReqQueryMaxOrderVolume")
+              "ReqQueryMaxOrderVolume"),
       request_id_(nRequestID) {
     if (pQueryMaxOrderVolume) {
       querymaxordervolume_.reset(
@@ -575,7 +575,7 @@ class ReqSettlementInfoConfirmMessage : public Message {
      pSettlementInfoConfirm,
   int nRequestID):
       Message(REQ_SETTLEMENT_INFO_CONFIRM_MESSAGE,
-              "ReqSettlementInfoConfirm")
+              "ReqSettlementInfoConfirm"),
       request_id_(nRequestID) {
     if (pSettlementInfoConfirm) {
       settlementinfoconfirm_.reset(
@@ -632,7 +632,7 @@ class ReqRemoveParkedOrderMessage : public Message {
      pRemoveParkedOrder,
   int nRequestID):
       Message(REQ_REMOVE_PARKED_ORDER_MESSAGE,
-              "ReqRemoveParkedOrder")
+              "ReqRemoveParkedOrder"),
       request_id_(nRequestID) {
     if (pRemoveParkedOrder) {
       removeparkedorder_.reset(
@@ -689,7 +689,7 @@ class ReqRemoveParkedOrderActionMessage : public Message {
      pRemoveParkedOrderAction,
   int nRequestID):
       Message(REQ_REMOVE_PARKED_ORDER_ACTION_MESSAGE,
-              "ReqRemoveParkedOrderAction")
+              "ReqRemoveParkedOrderAction"),
       request_id_(nRequestID) {
     if (pRemoveParkedOrderAction) {
       removeparkedorderaction_.reset(
@@ -746,7 +746,7 @@ class ReqExecOrderInsertMessage : public Message {
      pInputExecOrder,
   int nRequestID):
       Message(REQ_EXEC_ORDER_INSERT_MESSAGE,
-              "ReqExecOrderInsert")
+              "ReqExecOrderInsert"),
       request_id_(nRequestID) {
     if (pInputExecOrder) {
       inputexecorder_.reset(
@@ -803,7 +803,7 @@ class ReqExecOrderActionMessage : public Message {
      pInputExecOrderAction,
   int nRequestID):
       Message(REQ_EXEC_ORDER_ACTION_MESSAGE,
-              "ReqExecOrderAction")
+              "ReqExecOrderAction"),
       request_id_(nRequestID) {
     if (pInputExecOrderAction) {
       inputexecorderaction_.reset(
@@ -860,7 +860,7 @@ class ReqForQuoteInsertMessage : public Message {
      pInputForQuote,
   int nRequestID):
       Message(REQ_FOR_QUOTE_INSERT_MESSAGE,
-              "ReqForQuoteInsert")
+              "ReqForQuoteInsert"),
       request_id_(nRequestID) {
     if (pInputForQuote) {
       inputforquote_.reset(
@@ -917,7 +917,7 @@ class ReqQuoteInsertMessage : public Message {
      pInputQuote,
   int nRequestID):
       Message(REQ_QUOTE_INSERT_MESSAGE,
-              "ReqQuoteInsert")
+              "ReqQuoteInsert"),
       request_id_(nRequestID) {
     if (pInputQuote) {
       inputquote_.reset(
@@ -974,7 +974,7 @@ class ReqQuoteActionMessage : public Message {
      pInputQuoteAction,
   int nRequestID):
       Message(REQ_QUOTE_ACTION_MESSAGE,
-              "ReqQuoteAction")
+              "ReqQuoteAction"),
       request_id_(nRequestID) {
     if (pInputQuoteAction) {
       inputquoteaction_.reset(
@@ -1031,7 +1031,7 @@ class ReqCombActionInsertMessage : public Message {
      pInputCombAction,
   int nRequestID):
       Message(REQ_COMB_ACTION_INSERT_MESSAGE,
-              "ReqCombActionInsert")
+              "ReqCombActionInsert"),
       request_id_(nRequestID) {
     if (pInputCombAction) {
       inputcombaction_.reset(
@@ -1088,7 +1088,7 @@ class ReqQryOrderMessage : public Message {
      pQryOrder,
   int nRequestID):
       Message(REQ_QRY_ORDER_MESSAGE,
-              "ReqQryOrder")
+              "ReqQryOrder"),
       request_id_(nRequestID) {
     if (pQryOrder) {
       qryorder_.reset(
@@ -1145,7 +1145,7 @@ class ReqQryTradeMessage : public Message {
      pQryTrade,
   int nRequestID):
       Message(REQ_QRY_TRADE_MESSAGE,
-              "ReqQryTrade")
+              "ReqQryTrade"),
       request_id_(nRequestID) {
     if (pQryTrade) {
       qrytrade_.reset(
@@ -1202,7 +1202,7 @@ class ReqQryInvestorPositionMessage : public Message {
      pQryInvestorPosition,
   int nRequestID):
       Message(REQ_QRY_INVESTOR_POSITION_MESSAGE,
-              "ReqQryInvestorPosition")
+              "ReqQryInvestorPosition"),
       request_id_(nRequestID) {
     if (pQryInvestorPosition) {
       qryinvestorposition_.reset(
@@ -1259,7 +1259,7 @@ class ReqQryTradingAccountMessage : public Message {
      pQryTradingAccount,
   int nRequestID):
       Message(REQ_QRY_TRADING_ACCOUNT_MESSAGE,
-              "ReqQryTradingAccount")
+              "ReqQryTradingAccount"),
       request_id_(nRequestID) {
     if (pQryTradingAccount) {
       qrytradingaccount_.reset(
@@ -1316,7 +1316,7 @@ class ReqQryInvestorMessage : public Message {
      pQryInvestor,
   int nRequestID):
       Message(REQ_QRY_INVESTOR_MESSAGE,
-              "ReqQryInvestor")
+              "ReqQryInvestor"),
       request_id_(nRequestID) {
     if (pQryInvestor) {
       qryinvestor_.reset(
@@ -1373,7 +1373,7 @@ class ReqQryTradingCodeMessage : public Message {
      pQryTradingCode,
   int nRequestID):
       Message(REQ_QRY_TRADING_CODE_MESSAGE,
-              "ReqQryTradingCode")
+              "ReqQryTradingCode"),
       request_id_(nRequestID) {
     if (pQryTradingCode) {
       qrytradingcode_.reset(
@@ -1430,7 +1430,7 @@ class ReqQryInstrumentMarginRateMessage : public Message {
      pQryInstrumentMarginRate,
   int nRequestID):
       Message(REQ_QRY_INSTRUMENT_MARGIN_RATE_MESSAGE,
-              "ReqQryInstrumentMarginRate")
+              "ReqQryInstrumentMarginRate"),
       request_id_(nRequestID) {
     if (pQryInstrumentMarginRate) {
       qryinstrumentmarginrate_.reset(
@@ -1487,7 +1487,7 @@ class ReqQryInstrumentCommissionRateMessage : public Message {
      pQryInstrumentCommissionRate,
   int nRequestID):
       Message(REQ_QRY_INSTRUMENT_COMMISSION_RATE_MESSAGE,
-              "ReqQryInstrumentCommissionRate")
+              "ReqQryInstrumentCommissionRate"),
       request_id_(nRequestID) {
     if (pQryInstrumentCommissionRate) {
       qryinstrumentcommissionrate_.reset(
@@ -1544,7 +1544,7 @@ class ReqQryExchangeMessage : public Message {
      pQryExchange,
   int nRequestID):
       Message(REQ_QRY_EXCHANGE_MESSAGE,
-              "ReqQryExchange")
+              "ReqQryExchange"),
       request_id_(nRequestID) {
     if (pQryExchange) {
       qryexchange_.reset(
@@ -1601,7 +1601,7 @@ class ReqQryProductMessage : public Message {
      pQryProduct,
   int nRequestID):
       Message(REQ_QRY_PRODUCT_MESSAGE,
-              "ReqQryProduct")
+              "ReqQryProduct"),
       request_id_(nRequestID) {
     if (pQryProduct) {
       qryproduct_.reset(
@@ -1658,7 +1658,7 @@ class ReqQryInstrumentMessage : public Message {
      pQryInstrument,
   int nRequestID):
       Message(REQ_QRY_INSTRUMENT_MESSAGE,
-              "ReqQryInstrument")
+              "ReqQryInstrument"),
       request_id_(nRequestID) {
     if (pQryInstrument) {
       qryinstrument_.reset(
@@ -1715,7 +1715,7 @@ class ReqQryDepthMarketDataMessage : public Message {
      pQryDepthMarketData,
   int nRequestID):
       Message(REQ_QRY_DEPTH_MARKET_DATA_MESSAGE,
-              "ReqQryDepthMarketData")
+              "ReqQryDepthMarketData"),
       request_id_(nRequestID) {
     if (pQryDepthMarketData) {
       qrydepthmarketdata_.reset(
@@ -1772,7 +1772,7 @@ class ReqQrySettlementInfoMessage : public Message {
      pQrySettlementInfo,
   int nRequestID):
       Message(REQ_QRY_SETTLEMENT_INFO_MESSAGE,
-              "ReqQrySettlementInfo")
+              "ReqQrySettlementInfo"),
       request_id_(nRequestID) {
     if (pQrySettlementInfo) {
       qrysettlementinfo_.reset(
@@ -1829,7 +1829,7 @@ class ReqQryTransferBankMessage : public Message {
      pQryTransferBank,
   int nRequestID):
       Message(REQ_QRY_TRANSFER_BANK_MESSAGE,
-              "ReqQryTransferBank")
+              "ReqQryTransferBank"),
       request_id_(nRequestID) {
     if (pQryTransferBank) {
       qrytransferbank_.reset(
@@ -1886,7 +1886,7 @@ class ReqQryInvestorPositionDetailMessage : public Message {
      pQryInvestorPositionDetail,
   int nRequestID):
       Message(REQ_QRY_INVESTOR_POSITION_DETAIL_MESSAGE,
-              "ReqQryInvestorPositionDetail")
+              "ReqQryInvestorPositionDetail"),
       request_id_(nRequestID) {
     if (pQryInvestorPositionDetail) {
       qryinvestorpositiondetail_.reset(
@@ -1943,7 +1943,7 @@ class ReqQryNoticeMessage : public Message {
      pQryNotice,
   int nRequestID):
       Message(REQ_QRY_NOTICE_MESSAGE,
-              "ReqQryNotice")
+              "ReqQryNotice"),
       request_id_(nRequestID) {
     if (pQryNotice) {
       qrynotice_.reset(
@@ -2000,7 +2000,7 @@ class ReqQrySettlementInfoConfirmMessage : public Message {
      pQrySettlementInfoConfirm,
   int nRequestID):
       Message(REQ_QRY_SETTLEMENT_INFO_CONFIRM_MESSAGE,
-              "ReqQrySettlementInfoConfirm")
+              "ReqQrySettlementInfoConfirm"),
       request_id_(nRequestID) {
     if (pQrySettlementInfoConfirm) {
       qrysettlementinfoconfirm_.reset(
@@ -2057,7 +2057,7 @@ class ReqQryInvestorPositionCombineDetailMessage : public Message {
      pQryInvestorPositionCombineDetail,
   int nRequestID):
       Message(REQ_QRY_INVESTOR_POSITION_COMBINE_DETAIL_MESSAGE,
-              "ReqQryInvestorPositionCombineDetail")
+              "ReqQryInvestorPositionCombineDetail"),
       request_id_(nRequestID) {
     if (pQryInvestorPositionCombineDetail) {
       qryinvestorpositioncombinedetail_.reset(
@@ -2114,7 +2114,7 @@ class ReqQryCFMMCTradingAccountKeyMessage : public Message {
      pQryCFMMCTradingAccountKey,
   int nRequestID):
       Message(REQ_QRY_C_F_M_M_C_TRADING_ACCOUNT_KEY_MESSAGE,
-              "ReqQryCFMMCTradingAccountKey")
+              "ReqQryCFMMCTradingAccountKey"),
       request_id_(nRequestID) {
     if (pQryCFMMCTradingAccountKey) {
       qrycfmmctradingaccountkey_.reset(
@@ -2171,7 +2171,7 @@ class ReqQryEWarrantOffsetMessage : public Message {
      pQryEWarrantOffset,
   int nRequestID):
       Message(REQ_QRY_E_WARRANT_OFFSET_MESSAGE,
-              "ReqQryEWarrantOffset")
+              "ReqQryEWarrantOffset"),
       request_id_(nRequestID) {
     if (pQryEWarrantOffset) {
       qryewarrantoffset_.reset(
@@ -2228,7 +2228,7 @@ class ReqQryInvestorProductGroupMarginMessage : public Message {
      pQryInvestorProductGroupMargin,
   int nRequestID):
       Message(REQ_QRY_INVESTOR_PRODUCT_GROUP_MARGIN_MESSAGE,
-              "ReqQryInvestorProductGroupMargin")
+              "ReqQryInvestorProductGroupMargin"),
       request_id_(nRequestID) {
     if (pQryInvestorProductGroupMargin) {
       qryinvestorproductgroupmargin_.reset(
@@ -2285,7 +2285,7 @@ class ReqQryExchangeMarginRateMessage : public Message {
      pQryExchangeMarginRate,
   int nRequestID):
       Message(REQ_QRY_EXCHANGE_MARGIN_RATE_MESSAGE,
-              "ReqQryExchangeMarginRate")
+              "ReqQryExchangeMarginRate"),
       request_id_(nRequestID) {
     if (pQryExchangeMarginRate) {
       qryexchangemarginrate_.reset(
@@ -2342,7 +2342,7 @@ class ReqQryExchangeMarginRateAdjustMessage : public Message {
      pQryExchangeMarginRateAdjust,
   int nRequestID):
       Message(REQ_QRY_EXCHANGE_MARGIN_RATE_ADJUST_MESSAGE,
-              "ReqQryExchangeMarginRateAdjust")
+              "ReqQryExchangeMarginRateAdjust"),
       request_id_(nRequestID) {
     if (pQryExchangeMarginRateAdjust) {
       qryexchangemarginrateadjust_.reset(
@@ -2399,7 +2399,7 @@ class ReqQryExchangeRateMessage : public Message {
      pQryExchangeRate,
   int nRequestID):
       Message(REQ_QRY_EXCHANGE_RATE_MESSAGE,
-              "ReqQryExchangeRate")
+              "ReqQryExchangeRate"),
       request_id_(nRequestID) {
     if (pQryExchangeRate) {
       qryexchangerate_.reset(
@@ -2456,7 +2456,7 @@ class ReqQrySecAgentACIDMapMessage : public Message {
      pQrySecAgentACIDMap,
   int nRequestID):
       Message(REQ_QRY_SEC_AGENT_A_C_I_D_MAP_MESSAGE,
-              "ReqQrySecAgentACIDMap")
+              "ReqQrySecAgentACIDMap"),
       request_id_(nRequestID) {
     if (pQrySecAgentACIDMap) {
       qrysecagentacidmap_.reset(
@@ -2513,7 +2513,7 @@ class ReqQryProductExchRateMessage : public Message {
      pQryProductExchRate,
   int nRequestID):
       Message(REQ_QRY_PRODUCT_EXCH_RATE_MESSAGE,
-              "ReqQryProductExchRate")
+              "ReqQryProductExchRate"),
       request_id_(nRequestID) {
     if (pQryProductExchRate) {
       qryproductexchrate_.reset(
@@ -2570,7 +2570,7 @@ class ReqQryOptionInstrTradeCostMessage : public Message {
      pQryOptionInstrTradeCost,
   int nRequestID):
       Message(REQ_QRY_OPTION_INSTR_TRADE_COST_MESSAGE,
-              "ReqQryOptionInstrTradeCost")
+              "ReqQryOptionInstrTradeCost"),
       request_id_(nRequestID) {
     if (pQryOptionInstrTradeCost) {
       qryoptioninstrtradecost_.reset(
@@ -2627,7 +2627,7 @@ class ReqQryOptionInstrCommRateMessage : public Message {
      pQryOptionInstrCommRate,
   int nRequestID):
       Message(REQ_QRY_OPTION_INSTR_COMM_RATE_MESSAGE,
-              "ReqQryOptionInstrCommRate")
+              "ReqQryOptionInstrCommRate"),
       request_id_(nRequestID) {
     if (pQryOptionInstrCommRate) {
       qryoptioninstrcommrate_.reset(
@@ -2684,7 +2684,7 @@ class ReqQryExecOrderMessage : public Message {
      pQryExecOrder,
   int nRequestID):
       Message(REQ_QRY_EXEC_ORDER_MESSAGE,
-              "ReqQryExecOrder")
+              "ReqQryExecOrder"),
       request_id_(nRequestID) {
     if (pQryExecOrder) {
       qryexecorder_.reset(
@@ -2741,7 +2741,7 @@ class ReqQryForQuoteMessage : public Message {
      pQryForQuote,
   int nRequestID):
       Message(REQ_QRY_FOR_QUOTE_MESSAGE,
-              "ReqQryForQuote")
+              "ReqQryForQuote"),
       request_id_(nRequestID) {
     if (pQryForQuote) {
       qryforquote_.reset(
@@ -2798,7 +2798,7 @@ class ReqQryQuoteMessage : public Message {
      pQryQuote,
   int nRequestID):
       Message(REQ_QRY_QUOTE_MESSAGE,
-              "ReqQryQuote")
+              "ReqQryQuote"),
       request_id_(nRequestID) {
     if (pQryQuote) {
       qryquote_.reset(
@@ -2855,7 +2855,7 @@ class ReqQryCombInstrumentGuardMessage : public Message {
      pQryCombInstrumentGuard,
   int nRequestID):
       Message(REQ_QRY_COMB_INSTRUMENT_GUARD_MESSAGE,
-              "ReqQryCombInstrumentGuard")
+              "ReqQryCombInstrumentGuard"),
       request_id_(nRequestID) {
     if (pQryCombInstrumentGuard) {
       qrycombinstrumentguard_.reset(
@@ -2912,7 +2912,7 @@ class ReqQryCombActionMessage : public Message {
      pQryCombAction,
   int nRequestID):
       Message(REQ_QRY_COMB_ACTION_MESSAGE,
-              "ReqQryCombAction")
+              "ReqQryCombAction"),
       request_id_(nRequestID) {
     if (pQryCombAction) {
       qrycombaction_.reset(
@@ -2969,7 +2969,7 @@ class ReqQryTransferSerialMessage : public Message {
      pQryTransferSerial,
   int nRequestID):
       Message(REQ_QRY_TRANSFER_SERIAL_MESSAGE,
-              "ReqQryTransferSerial")
+              "ReqQryTransferSerial"),
       request_id_(nRequestID) {
     if (pQryTransferSerial) {
       qrytransferserial_.reset(
@@ -3026,7 +3026,7 @@ class ReqQryAccountregisterMessage : public Message {
      pQryAccountregister,
   int nRequestID):
       Message(REQ_QRY_ACCOUNTREGISTER_MESSAGE,
-              "ReqQryAccountregister")
+              "ReqQryAccountregister"),
       request_id_(nRequestID) {
     if (pQryAccountregister) {
       qryaccountregister_.reset(
@@ -3083,7 +3083,7 @@ class ReqQryContractBankMessage : public Message {
      pQryContractBank,
   int nRequestID):
       Message(REQ_QRY_CONTRACT_BANK_MESSAGE,
-              "ReqQryContractBank")
+              "ReqQryContractBank"),
       request_id_(nRequestID) {
     if (pQryContractBank) {
       qrycontractbank_.reset(
@@ -3140,7 +3140,7 @@ class ReqQryParkedOrderMessage : public Message {
      pQryParkedOrder,
   int nRequestID):
       Message(REQ_QRY_PARKED_ORDER_MESSAGE,
-              "ReqQryParkedOrder")
+              "ReqQryParkedOrder"),
       request_id_(nRequestID) {
     if (pQryParkedOrder) {
       qryparkedorder_.reset(
@@ -3197,7 +3197,7 @@ class ReqQryParkedOrderActionMessage : public Message {
      pQryParkedOrderAction,
   int nRequestID):
       Message(REQ_QRY_PARKED_ORDER_ACTION_MESSAGE,
-              "ReqQryParkedOrderAction")
+              "ReqQryParkedOrderAction"),
       request_id_(nRequestID) {
     if (pQryParkedOrderAction) {
       qryparkedorderaction_.reset(
@@ -3254,7 +3254,7 @@ class ReqQryTradingNoticeMessage : public Message {
      pQryTradingNotice,
   int nRequestID):
       Message(REQ_QRY_TRADING_NOTICE_MESSAGE,
-              "ReqQryTradingNotice")
+              "ReqQryTradingNotice"),
       request_id_(nRequestID) {
     if (pQryTradingNotice) {
       qrytradingnotice_.reset(
@@ -3311,7 +3311,7 @@ class ReqQryBrokerTradingParamsMessage : public Message {
      pQryBrokerTradingParams,
   int nRequestID):
       Message(REQ_QRY_BROKER_TRADING_PARAMS_MESSAGE,
-              "ReqQryBrokerTradingParams")
+              "ReqQryBrokerTradingParams"),
       request_id_(nRequestID) {
     if (pQryBrokerTradingParams) {
       qrybrokertradingparams_.reset(
@@ -3368,7 +3368,7 @@ class ReqQryBrokerTradingAlgosMessage : public Message {
      pQryBrokerTradingAlgos,
   int nRequestID):
       Message(REQ_QRY_BROKER_TRADING_ALGOS_MESSAGE,
-              "ReqQryBrokerTradingAlgos")
+              "ReqQryBrokerTradingAlgos"),
       request_id_(nRequestID) {
     if (pQryBrokerTradingAlgos) {
       qrybrokertradingalgos_.reset(
@@ -3425,7 +3425,7 @@ class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
      pQueryCFMMCTradingAccountToken,
   int nRequestID):
       Message(REQ_QUERY_C_F_M_M_C_TRADING_ACCOUNT_TOKEN_MESSAGE,
-              "ReqQueryCFMMCTradingAccountToken")
+              "ReqQueryCFMMCTradingAccountToken"),
       request_id_(nRequestID) {
     if (pQueryCFMMCTradingAccountToken) {
       querycfmmctradingaccounttoken_.reset(
@@ -3482,7 +3482,7 @@ class ReqFromBankToFutureByFutureMessage : public Message {
      pReqTransfer,
   int nRequestID):
       Message(REQ_FROM_BANK_TO_FUTURE_BY_FUTURE_MESSAGE,
-              "ReqFromBankToFutureByFuture")
+              "ReqFromBankToFutureByFuture"),
       request_id_(nRequestID) {
     if (pReqTransfer) {
       reqtransfer_.reset(
@@ -3539,7 +3539,7 @@ class ReqFromFutureToBankByFutureMessage : public Message {
      pReqTransfer,
   int nRequestID):
       Message(REQ_FROM_FUTURE_TO_BANK_BY_FUTURE_MESSAGE,
-              "ReqFromFutureToBankByFuture")
+              "ReqFromFutureToBankByFuture"),
       request_id_(nRequestID) {
     if (pReqTransfer) {
       reqtransfer_.reset(
@@ -3596,7 +3596,7 @@ class ReqQueryBankAccountMoneyByFutureMessage : public Message {
      pReqQueryAccount,
   int nRequestID):
       Message(REQ_QUERY_BANK_ACCOUNT_MONEY_BY_FUTURE_MESSAGE,
-              "ReqQueryBankAccountMoneyByFuture")
+              "ReqQueryBankAccountMoneyByFuture"),
       request_id_(nRequestID) {
     if (pReqQueryAccount) {
       reqqueryaccount_.reset(

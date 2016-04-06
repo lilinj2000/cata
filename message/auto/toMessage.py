@@ -88,7 +88,7 @@ def processLine(line, msg_type):
         to_file.write('     %s,\n' % field)
         to_file.write('  int nRequestID):\n')
         to_file.write('      Message(%s,\n' % message_id)
-        to_file.write('              "%s")\n' % func_name)
+        to_file.write('              "%s"),\n' % func_name)
         to_file.write('      request_id_(nRequestID) {\n')
 
     if not is_rsp_error:

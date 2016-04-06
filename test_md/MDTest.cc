@@ -21,17 +21,17 @@ class MDTest : public ::testing::Test, public CThostFtdcMdSpi {
       invalid_instru_("cu1403"),
       login_passed_(false),
       case_passed_(false) {
-    soil::DateTime next= cur_ + std::chrono::hours(24*30);
+    soil::DateTime next = cur_ + std::chrono::hours(24*30);
     std::string ym = next.getString("%y%m");
     instru_ = "IF" + ym;
     SOIL_INFO <<instru_;
 
     SOIL_LOG_INIT("log.cfg");
   }
-  
+
   void SetUp() {
     SOIL_TRACE <<"SetUp()";
- 
+
     setCaseFailed();
 
     try {

@@ -25,7 +25,7 @@ class TraderTest : public ::testing::Test, public CThostFtdcTraderSpi {
       login_passed_(false),
       case_passed_(false),
       expect_id_(0) {
-    soil::DateTime next= cur_ + std::chrono::hours(24*30);
+    soil::DateTime next = cur_ + std::chrono::hours(24*30);
     std::string ym = next.getString("%y%m");
     instru_ = "IF" + ym;
     SOIL_INFO <<instru_;
@@ -149,7 +149,7 @@ class TraderTest : public ::testing::Test, public CThostFtdcTraderSpi {
       caseFailed();
     }
   }
-  
+
  protected:
   void login() {
       CThostFtdcReqUserLoginField req;
@@ -257,7 +257,7 @@ TEST_F(TraderTest, queryTest) {
     if (ret != 0) {
       GTEST_FAIL();
     }
-    
+
     wait();
   } catch (std::exception& e) {
     SOIL_ERROR <<"exception cached:\n"

@@ -18,6 +18,7 @@ namespace cata {
 class TraderOptions;
 class TraderSpiImpl;
 class RspUserLoginMessage;
+class ReqOrderInsertMessage;
 
 typedef enum {
   UNAVAILABLE,
@@ -31,23 +32,20 @@ class TraderServiceImpl : public TraderService {
 
   virtual std::string tradingDay();
 
-  virtual int orderOpenBuy(const std::string& instru,
-                           double price, int volume);
+  virtual int order(DirectionType direct,
+                    OffsetFlagType of,
+                    const std::string& instru,
+                    double price, int volume);
 
-  virtual int orderOpenBuyFAK(const std::string& instru,
-                              double price, int volume);
+  virtual int orderFAK(DirectionType direct,
+                       OffsetFlagType of,
+                       const std::string& instru,
+                       double price, int volume);
 
-  virtual int orderOpenBuyFOK(const std::string& instru,
-                              double price, int volume);
-
-  virtual int orderOpenSell(const std::string& instru,
-                            double price, int volume);
-
-  virtual int orderCloseBuy(const std::string& instru,
-                            double price, int volume);
-
-  virtual int orderCloseSell(const std::string& instru,
-                            double price, int volume);
+  virtual int orderFOK(DirectionType direct,
+                       OffsetFlagType of,
+                       const std::string& instru,
+                       double price, int volume);
 
   virtual int queryExchangeMarginRate(const std::string& instru,
                                       HedgeFlagType hedge_flag = HF_ALL);
@@ -66,13 +64,10 @@ class TraderServiceImpl : public TraderService {
 
   void querySettlementInfoConfirm();
 
-  void settlementInfoConfirm();
 
-  void wait(const std::string& hint = "");
-
-  void notify();
-
-  void pushData(Message* data);
+  void pushData(Message* data) {
+    rsp_queue_->pushMsg(data);
+  }
 
   inline
   void msgCallback(const Message* msg) {
@@ -86,12 +81,32 @@ class TraderServiceImpl : public TraderService {
   }
 
  protected:
-  CThostFtdcInputOrderField* orderField(int* order_ref);
+  void settlementInfoConfirm();
 
-  void orderGo(CThostFtdcInputOrderField* req);
+  ReqOrderInsertMessage* reqOrderMessage(DirectionType direct,
+                                         OffsetFlagType of,
+                                         const std::string& instru,
+                                         double price, int volume);
+
+  void orderGo(const Message* msg);
 
   int reqID() {
     return ++request_id_;
+  }
+
+  void pushOrderReq(Message* data) {
+    order_queue_->pushMsg(data);
+  }
+
+  void wait(const std::string& hint = "") {
+    if (cond_->wait(2000)) {
+      if (!hint.empty())
+        throw std::runtime_error(hint + " time out");
+    }
+  }
+
+  void notify() {
+    cond_->notifyAll();
   }
 
  private:
@@ -99,11 +114,9 @@ class TraderServiceImpl : public TraderService {
 
   CThostFtdcTraderApi* trader_api_;
   std::unique_ptr<TraderSpiImpl> trader_spi_;
-
   ServiceCallback* callback_;
 
   std::atomic<int> request_id_;
-
   std::unique_ptr<soil::STimer> cond_;
 
   int front_id_;
@@ -111,6 +124,22 @@ class TraderServiceImpl : public TraderService {
   std::atomic<int> max_order_ref_;
 
   std::unique_ptr<soil::MsgQueue<Message, TraderServiceImpl> > rsp_queue_;
+
+  class ReqOrderQueueCallback {
+   public:
+    explicit ReqOrderQueueCallback(TraderServiceImpl* service):
+        service_(service) {
+    }
+
+    inline
+    void msgCallback(const Message* msg) {
+      service_->orderGo(msg);
+    }
+   private:
+    TraderServiceImpl* service_;
+  };
+  std::unique_ptr<ReqOrderQueueCallback> order_queue_callback_;
+  std::unique_ptr<soil::MsgQueue<Message, ReqOrderQueueCallback> > order_queue_;
 
   TraderServiceStatus status_;
 };

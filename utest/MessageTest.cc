@@ -36,6 +36,13 @@ TEST_F(MessageTest, rspMessageTest) {
 
   SOIL_INFO <<rsp_login_message->toString();
 
+  rsp_login_message.reset(new RspUserLoginMessage(nullptr,
+                                                  nullptr,
+                                                  request_id,
+                                                  is_last));
+
+  SOIL_INFO <<rsp_login_message->toString();
+
   GTEST_SUCCEED();
 }
 

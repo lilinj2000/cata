@@ -14,29 +14,27 @@ class TraderService {
  public:
   virtual std::string tradingDay() = 0;
 
-  virtual int orderOpenBuy(const std::string& instru,
-                           double price, int volume) = 0;
+  virtual int order(DirectionType direct,
+                    OffsetFlagType of,
+                    const std::string& instru,
+                    double price, int volume) = 0;
 
-  virtual int orderOpenBuyFAK(const std::string& instru,
-                              double price, int volume) = 0;
+  virtual int orderFAK(DirectionType direct,
+                       OffsetFlagType of,
+                       const std::string& instru,
+                       double price, int volume) = 0;
 
-  virtual int orderOpenBuyFOK(const std::string& instru,
-                              double price, int volume) = 0;
-
-  virtual int orderOpenSell(const std::string& instru,
-                            double price, int volume) = 0;
-
-  virtual int orderCloseBuy(const std::string& instru,
-                            double price, int volume) = 0;
-
-  virtual int orderCloseSell(const std::string& instru,
-                            double price, int volume) = 0;
+  virtual int orderFOK(DirectionType direct,
+                       OffsetFlagType of,
+                       const std::string& instru,
+                       double price, int volume) = 0;
 
   virtual int queryExchangeMarginRate(const std::string& instru,
                                       HedgeFlagType hedge_flag = HF_ALL) = 0;
 
-  virtual int queryExchangeMarginRateAdjust(const std::string& instru,
-                                            HedgeFlagType hedge_flag = HF_ALL) = 0;
+  virtual int queryExchangeMarginRateAdjust(
+      const std::string& instru,
+      HedgeFlagType hedge_flag = HF_ALL) = 0;
 
   virtual int queryInstruMarginRate(const std::string& instru,
                                     HedgeFlagType hedge_flag = HF_ALL) = 0;

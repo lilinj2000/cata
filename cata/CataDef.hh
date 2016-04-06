@@ -27,6 +27,21 @@ typedef enum {
   HF_ALL = '\0'
 }HedgeFlagType;
 
+typedef enum {
+  D_Buy = '0',
+  D_Sell = '1'
+}DirectionType;
+
+typedef enum {
+  OF_Open = '0',
+  OF_Close = '1',
+  OF_ForceClose = '2',
+  OF_CloseToday = '3',
+  OF_CloseYesterday = '4',
+  OF_ForceOff = '5',
+  OF_LocalForceClose = '6'
+}OffsetFlagType;
+
 };  // namespace cata
 
 #endif

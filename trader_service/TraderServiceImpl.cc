@@ -6,12 +6,13 @@
 #include "TraderSpiImpl.hh"
 #include "TraderLog.hh"
 #include "message/ThostFtdcUserApiStructPrint.hh"
+#include "message/ReqMessage.hh"
 
 namespace cata {
 
 TraderServiceImpl::TraderServiceImpl(soil::Options* options,
                                      ServiceCallback* callback) :
-    trader_api_(NULL),
+    trader_api_(nullptr),
     callback_(callback),
     request_id_(0),
     front_id_(-1),
@@ -22,6 +23,10 @@ TraderServiceImpl::TraderServiceImpl(soil::Options* options,
   cond_.reset(soil::STimer::create());
 
   rsp_queue_.reset(new soil::MsgQueue<Message, TraderServiceImpl>(this));
+
+  order_queue_callback_.reset(new ReqOrderQueueCallback(this));
+  order_queue_.reset(new soil::MsgQueue<Message, ReqOrderQueueCallback>(
+      order_queue_callback_.get()));
 
   options_ = dynamic_cast<TraderOptions*>(options);
 
@@ -67,174 +72,57 @@ std::string TraderServiceImpl::tradingDay() {
   return trader_api_->GetTradingDay();
 }
 
-int TraderServiceImpl::orderOpenBuy(const std::string& instru,
-                                    double price, int volume) {
-  TRADER_TRACE <<"TraderServiceImpl::orderOpenBuy()";
+int TraderServiceImpl::order(DirectionType direct,
+                             OffsetFlagType of,
+                             const std::string& instru,
+                             double price, int volume) {
+  TRADER_TRACE <<"TraderServiceImpl::order()";
 
-  TRADER_DEBUG <<"instru: " <<instru
-            <<"\t price: " <<price
-            <<"\t volume: " <<volume;
+  std::unique_ptr<ReqOrderInsertMessage> req(
+      reqOrderMessage(direct, of,
+                      instru, price, volume));
 
-  int order_ref = -1;
+  int req_id = req->id();
+  pushOrderReq(req.release());
 
-  std::unique_ptr<CThostFtdcInputOrderField> req(orderField(&order_ref));
-
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
-  req->Direction = THOST_FTDC_D_Buy;
-  req->LimitPrice = price;
-  req->VolumeTotalOriginal = volume;
-
-  try {
-    orderGo(req.get());
-  }
-  catch( ... ) {
-    throw std::runtime_error("order open buy failed.");
-  }
-
-  return order_ref;
+  return req_id;
 }
 
-int TraderServiceImpl::orderOpenBuyFAK(const std::string& instru,
-                                       double price, int volume) {
-  TRADER_TRACE <<"TraderServiceImpl::orderOpenBuyFAK()";
+int TraderServiceImpl::orderFAK(DirectionType direct,
+                             OffsetFlagType of,
+                             const std::string& instru,
+                             double price, int volume) {
+  TRADER_TRACE <<"TraderServiceImpl::orderFAK()";
 
-  TRADER_DEBUG <<"instru: " <<instru
-            <<"\t price: " <<price
-            <<"\t volume: " <<volume;
+  std::unique_ptr<ReqOrderInsertMessage> req(
+      reqOrderMessage(direct, of,
+                      instru, price, volume));
 
-  int order_ref = -1;
+  req->inputOrder()->TimeCondition = THOST_FTDC_TC_IOC;
 
-  std::unique_ptr<CThostFtdcInputOrderField> req(orderField(&order_ref));
+  int req_id = req->id();
+  pushOrderReq(req.release());
 
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
-  req->Direction = THOST_FTDC_D_Buy;
-  req->LimitPrice = price;
-  req->VolumeTotalOriginal = volume;
-
-  req->TimeCondition = THOST_FTDC_TC_IOC;
-
-  try {
-    orderGo(req.get());
-  }
-  catch( ... ) {
-    throw std::runtime_error("order open buy FAK failed.");
-  }
-
-  return order_ref;
+  return req_id;
 }
 
-int TraderServiceImpl::orderOpenBuyFOK(const std::string& instru,
-                                       double price, int volume) {
-  TRADER_TRACE <<"TraderServiceImpl::orderOpenBuyFOK()";
+int TraderServiceImpl::orderFOK(DirectionType direct,
+                             OffsetFlagType of,
+                             const std::string& instru,
+                             double price, int volume) {
+  TRADER_TRACE <<"TraderServiceImpl::orderFOK()";
 
-  TRADER_DEBUG <<"instru: " <<instru
-            <<"\t price: " <<price
-            <<"\t volume: " <<volume;
+  std::unique_ptr<ReqOrderInsertMessage> req(
+      reqOrderMessage(direct, of,
+                      instru, price, volume));
 
-  int order_ref = -1;
+  req->inputOrder()->TimeCondition = THOST_FTDC_TC_IOC;
+  req->inputOrder()->VolumeCondition = THOST_FTDC_VC_CV;
 
-  std::unique_ptr<CThostFtdcInputOrderField> req(orderField(&order_ref));
+  int req_id = req->id();
+  pushOrderReq(req.release());
 
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
-  req->Direction = THOST_FTDC_D_Buy;
-  req->LimitPrice = price;
-  req->VolumeTotalOriginal = volume;
-
-  req->TimeCondition = THOST_FTDC_TC_IOC;
-  req->VolumeCondition = THOST_FTDC_VC_CV;
-
-  try {
-    orderGo(req.get());
-  }
-  catch( ... ) {
-    throw std::runtime_error("order open buy FOK failed.");
-  }
-
-  return order_ref;
-}
-
-
-int TraderServiceImpl::orderOpenSell(const std::string& instru,
-                                      double price, int volume) {
-  TRADER_TRACE <<"TraderServiceImpl::orderOpenSell()";
-
-  TRADER_DEBUG <<"instru: " <<instru
-            <<"\t price: " <<price
-            <<"\t volume: " <<volume;
-
-  int order_ref = -1;
-
-  std::unique_ptr<CThostFtdcInputOrderField> req(orderField(&order_ref));
-
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
-  req->Direction = THOST_FTDC_D_Sell;
-  req->LimitPrice = price;
-  req->VolumeTotalOriginal = volume;
-
-  try {
-    orderGo(req.get());
-  }
-  catch( ... ) {
-    throw std::runtime_error("order open sell failed.");
-  }
-
-  return order_ref;
-}
-
-int TraderServiceImpl::orderCloseBuy(const std::string& instru,
-                                     double price, int volume) {
-  TRADER_TRACE <<"TraderServiceImpl::orderCloseBuy()";
-
-  TRADER_DEBUG <<"instru: " <<instru
-            <<"\t price: " <<price
-            <<"\t volume: " <<volume;
-
-  int order_ref = -1;
-
-  std::unique_ptr<CThostFtdcInputOrderField> req(orderField(&order_ref));
-
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
-  req->Direction = THOST_FTDC_D_Buy;
-  req->LimitPrice = price;
-  req->VolumeTotalOriginal = volume;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_CloseToday;
-
-  try {
-    orderGo(req.get());
-  }
-  catch( ... ) {
-    throw std::runtime_error("order close buy failed.");
-  }
-
-  return order_ref;
-}
-
-int TraderServiceImpl::orderCloseSell(const std::string& instru,
-                                     double price, int volume) {
-  TRADER_TRACE <<"TraderServiceImpl::orderCloseSell()";
-
-  TRADER_DEBUG <<"instru: " <<instru
-            <<"\t price: " <<price
-            <<"\t volume: " <<volume;
-
-  int order_ref = -1;
-
-  std::unique_ptr<CThostFtdcInputOrderField> req(orderField(&order_ref));
-
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
-  req->Direction = THOST_FTDC_D_Sell;
-  req->LimitPrice = price;
-  req->VolumeTotalOriginal = volume;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_CloseToday;
-
-  try {
-    orderGo(req.get());
-  }
-  catch( ... ) {
-    throw std::runtime_error("order close sell failed.");
-  }
-
-  return order_ref;
+  return req_id;
 }
 
 int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru,
@@ -254,7 +142,6 @@ int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru,
   TRADER_DEBUG <<req;
 
   int req_id = reqID();
-  
   int ret = trader_api_->ReqQryExchangeMarginRate(&req, req_id);
   if (ret != 0) {
     TRADER_ERROR <<"return code " <<ret;
@@ -411,38 +298,20 @@ void TraderServiceImpl::settlementInfoConfirm() {
   }
 }
 
-void TraderServiceImpl::wait(const std::string& hint) {
-  if (cond_->wait(2000)) {
-    if (!hint.empty())
-      throw std::runtime_error(hint + " time out");
-  }
-}
-
-void TraderServiceImpl::notify() {
-  cond_->notifyAll();
-}
-
-void TraderServiceImpl::pushData(Message* data) {
-  rsp_queue_->pushMsg(data);
-}
-
-CThostFtdcInputOrderField* TraderServiceImpl::orderField(int* order_ref) {
+ReqOrderInsertMessage* TraderServiceImpl::reqOrderMessage(
+    DirectionType direct,
+    OffsetFlagType of,
+    const std::string& instru,
+    double price, int volume) {
   std::unique_ptr<CThostFtdcInputOrderField> req
       (new CThostFtdcInputOrderField());
 
-  *order_ref = max_order_ref_++;
   strncpy(req->BrokerID, options_->broker_id.data(), sizeof(req->BrokerID));
   strncpy(req->InvestorID,
           options_->investor_id.data(), sizeof(req->InvestorID));
 
-  char OrderRef[13];
-  snprintf(OrderRef, sizeof(OrderRef), "%d", *order_ref);
-  strncpy(req->OrderRef, OrderRef, sizeof(req->OrderRef));
   strncpy(req->UserID, options_->user_id.data(), sizeof(req->UserID));
   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
-
-  // req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
   req->CombHedgeFlag[0] = THOST_FTDC_OPT_AnyPrice;
   req->TimeCondition = THOST_FTDC_TC_GFD;
   req->VolumeCondition = THOST_FTDC_VC_AV;
@@ -451,18 +320,47 @@ CThostFtdcInputOrderField* TraderServiceImpl::orderField(int* order_ref) {
   req->ForceCloseReason = THOST_FTDC_FCC_NotForceClose;
   req->IsAutoSuspend = 0;
 
-  return req.release();
+  req->Direction = direct;
+  req->CombOffsetFlag[0] = of;
+  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
+  req->LimitPrice = price;
+  req->VolumeTotalOriginal = volume;
+
+  std::unique_ptr<ReqOrderInsertMessage> req_msg(
+      new ReqOrderInsertMessage(req.get(), reqID()));
+
+  TRADER_DEBUG <<req_msg->toString();
+
+  return req_msg.release();
 }
 
-void TraderServiceImpl::orderGo(CThostFtdcInputOrderField* req) {
+void TraderServiceImpl::orderGo(const Message* msg) {
   TRADER_TRACE <<"TraderServiceImpl::orderGo()";
-  TRADER_PDU <<*req;
 
-  int result = trader_api_->ReqOrderInsert(req, reqID());
+  try {
+    if (msg->id() == REQ_ORDER_INSERT_MESSAGE) {
+      const ReqOrderInsertMessage* req_msg = dynamic_cast<
+        const ReqOrderInsertMessage*>(msg);
+      CThostFtdcInputOrderField* req = req_msg->inputOrder();
+      char OrderRef[13];
+      snprintf(OrderRef, sizeof(OrderRef), "%013d", ++max_order_ref_);
+      strncpy(req->OrderRef, OrderRef, sizeof(req->OrderRef));
 
-  if (result != 0) {
-    TRADER_ERROR <<"return code " <<result;
-    throw;
+      int result = trader_api_->ReqOrderInsert(req, req_msg->requestID());
+      if (result != 0) {
+        std::stringstream ss;
+        ss <<"the order insert failed.\n"
+           <<"Error Code is " <<result;
+        throw std::runtime_error(ss.str());
+      }
+    } else {
+      std::stringstream ss;
+      ss <<"the req message is unsupported.\n"
+         <<"the message id is " <<msg->id();
+      throw std::runtime_error(ss.str());
+    }
+  } catch (std::exception & e) {
+    TRADER_ERROR <<e.what();
   }
 }
 

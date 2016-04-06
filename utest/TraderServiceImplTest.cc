@@ -11,6 +11,10 @@ namespace cata {
 class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
  public:
   TraderServiceImplTest() {
+    soil::DateTime cur;
+    cur += std::chrono::hours(24*30);
+    std::string ym = cur.getString("%y%m");
+    instru_ = "IF" + ym;
   }
 
   void SetUp() {
@@ -24,7 +28,6 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
     SOIL_LOG_INIT("log.cfg");
 
     cond_.reset(soil::STimer::create());
-
     service_.reset(TraderService::createService(options_.get(), this));
   }
 
@@ -41,12 +44,15 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
               <<msg;
   }
 
+  void wait(int ms = 1000) {
+    cond_->wait(ms);
+  }
+
  protected:
   std::auto_ptr<TraderService> service_;
-
   std::auto_ptr<soil::Options> options_;
-
   std::auto_ptr<soil::STimer> cond_;
+  std::string instru_;
 };
 
 TEST_F(TraderServiceImplTest, loginTest) {
@@ -54,24 +60,27 @@ TEST_F(TraderServiceImplTest, loginTest) {
 }
 
 TEST_F(TraderServiceImplTest, queryMarginRateTest) {
-  soil::DateTime cur;
-  cur += std::chrono::hours(24*30);
-  std::string ym = cur.getString("%y%m");
-  std::string instru = "IF" + ym;
+  wait();
+  service_->queryExchangeMarginRate(instru_, HF_SPECULATION);
+  wait();
 
-  service_->queryExchangeMarginRate(instru, HF_SPECULATION);
-  cond_->wait(1000);
+  GTEST_SUCCEED();
+}
 
-  service_->queryExchangeMarginRate(instru);
-  cond_->wait(1000);
+TEST_F(TraderServiceImplTest, queryMarginRateAdjustTest) {
+  wait();
+  service_->queryExchangeMarginRateAdjust(instru_, HF_SPECULATION);
+  wait();
 
-//   service_->queryExchangeMarginRateAdjust(instru);
-//   cond_->wait(1000);
+  GTEST_SUCCEED();
+}
 
-//   service_->queryInstruMarginRate(instru);
-//   cond_->wait(1000);
+TEST_F(TraderServiceImplTest, queryInstruMarginRateTest) {
+  wait();
+  service_->queryInstruMarginRate(instru_, HF_SPECULATION);
+  wait();
 
-//   ASSERT_TRUE(true);
+  GTEST_SUCCEED();
 }
 
 // TEST_F(TraderServiceImplTest, orderOpenBuyTest) {
