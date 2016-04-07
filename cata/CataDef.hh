@@ -23,8 +23,7 @@ class ServiceCallback {
 typedef enum {
   HF_SPECULATION = '1',
   HF_ARBITRAGE = '2',
-  HF_HEDGE = '3',
-  HF_ALL = '\0'
+  HF_HEDGE = '3'
 }HedgeFlagType;
 
 typedef enum {
@@ -41,6 +40,21 @@ typedef enum {
   OF_ForceOff = '5',
   OF_LocalForceClose = '6'
 }OffsetFlagType;
+
+typedef enum {
+  CIDT_Speculation = '1',
+  CIDT_Arbitrage = '2',
+  CIDT_Hedge = '3'
+}ClientIDType;
+
+typedef enum {
+  PC_Futures = '1',
+  PC_Options = '2',
+  PC_Combination = '3',
+  PC_Spot = '4',
+  PC_EFP = '5',
+  PC_SpotOption = '6'
+}ProductClassType;
 
 };  // namespace cata
 

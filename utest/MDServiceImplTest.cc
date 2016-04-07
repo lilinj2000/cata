@@ -28,6 +28,7 @@ class MDServiceImplTest : public ::testing::Test, ServiceCallback {
   }
 
   void TearDown() {
+    delete service_.release();
   }
 
   virtual void onRspMessage(const std::string& msg) {
@@ -42,9 +43,7 @@ class MDServiceImplTest : public ::testing::Test, ServiceCallback {
 
  protected:
   std::unique_ptr<cata::MDService> service_;
-
   std::unique_ptr<soil::Options> options_;
-
   std::unique_ptr<soil::STimer> cond_;
 };
 

@@ -57,6 +57,8 @@ void MDSpiImpl::OnRspUserLogout(
 
   pushMsg<RspUserLogoutMessage>(pUserLogout,
                                 pRspInfo, nRequestID, bIsLast);
+
+  service_->rspLogout();
 }
 
 void MDSpiImpl::OnRspError(

@@ -22,6 +22,10 @@ def processLine(line, msg_type):
     if func_name == "OnRspUserLogin":
         is_rsp_userlogin = True
 
+    is_rsp_userlogout = False
+    if func_name == "OnRspUserLogout":
+        is_rsp_userlogout = True
+
     spi_hh_file.write('  virtual void %s(\n' % func_name)
     if msg_type == "rsp":
         if not is_rsp_error:
@@ -60,6 +64,8 @@ def processLine(line, msg_type):
         if not is_rsp_error:
             spi_cc_file.write('                 %s,\n' % field)
         spi_cc_file.write('                 pRspInfo, nRequestID, bIsLast);\n')
+        if is_rsp_userlogout:
+            spi_cc_file.write('  service_->rspLogout();\n')
     elif msg_type == "rtn":
         spi_cc_file.write('  pushMsg<%s>(%s);\n' % (message_name, field))
     elif msg_type == "err_rtn":

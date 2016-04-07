@@ -43,6 +43,10 @@ class MDServiceImpl : public MDService {
 
   void rspLogin(const RspUserLoginMessage*);
 
+  void logout();
+
+  void rspLogout();
+
   void wait(const std::string& hint = "");
   void notify();
 

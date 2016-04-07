@@ -32,6 +32,7 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
   }
 
   void TearDown() {
+    delete service_.release();
   }
 
   virtual void onRspMessage(const std::string& msg) {
@@ -49,9 +50,9 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
   }
 
  protected:
-  std::auto_ptr<TraderService> service_;
-  std::auto_ptr<soil::Options> options_;
   std::auto_ptr<soil::STimer> cond_;
+  std::auto_ptr<soil::Options> options_;
+  std::auto_ptr<TraderService> service_;
   std::string instru_;
 };
 

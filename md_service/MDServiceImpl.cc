@@ -29,10 +29,13 @@ MDServiceImpl::MDServiceImpl(soil::Options* options,
     is_udp = true;
   } else if (options_->protocol == "multi") {
     MD_DEBUG <<"MULTI is enabled.";
+    is_udp = true;
     is_multi = true;
   }
   md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(),
                 is_udp, is_multi);
+  MD_INFO <<"The Api version is " <<md_api_->GetApiVersion();
+  
   md_spi_.reset(new MDSpiImpl(this));
   md_api_->RegisterSpi(md_spi_.get());
   md_api_->RegisterFront(const_cast<char*>(options_->front_address.data()));
@@ -48,6 +51,15 @@ MDServiceImpl::MDServiceImpl(soil::Options* options,
 MDServiceImpl::~MDServiceImpl() {
   MD_TRACE <<"MDServiceImpl::~MDServiceImpl()";
 
+  try {
+    logout();
+  
+    wait();
+  } catch (std::exception& e) {
+    MD_ERROR <<"logout failed.\n"
+             <<e.what();
+  }
+    
   md_api_->RegisterSpi(nullptr);
 
   md_api_->Release();
@@ -118,6 +130,32 @@ void MDServiceImpl::rspLogin(const RspUserLoginMessage* rsp_login) {
     status_ = AVAILABLE;
   }
 
+  notify();
+}
+
+void MDServiceImpl::logout() {
+  MD_TRACE <<"MDServiceImpl::logout()";
+
+  CThostFtdcUserLogoutField req;
+  memset(&req, 0x0, sizeof(req));
+  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
+  strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
+
+  MD_INFO <<req;
+
+  int result = md_api_->ReqUserLogout(&req, 1);
+
+  if (result != 0) {
+    MD_ERROR <<"return code " <<result;
+    throw std::runtime_error("logout failed.");
+  }
+}
+
+void MDServiceImpl::rspLogout() {
+  MD_TRACE <<" MDServiceImpl::rspLogout()";
+
+  status_ = UNAVAILABLE;
+      
   notify();
 }
 

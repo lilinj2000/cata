@@ -69,6 +69,7 @@ void TraderSpiImpl::OnRspUserLogout(
   pushMsg<RspUserLogoutMessage>(
                  pUserLogout,
                  pRspInfo, nRequestID, bIsLast);
+  service_->rspLogout();
 }
 
 void TraderSpiImpl::OnRspUserPasswordUpdate(
