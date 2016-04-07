@@ -128,7 +128,7 @@ def processLine(line, msg_type):
     else:
         to_file.write('    Message::toJSON(&msg_doc);\n')
 
-    to_file.write('    json::addMember(doc, name(), &msg_doc);\n')
+    to_file.write('    json::addMember<const json::Document&>(doc, name(), msg_doc);\n')
     to_file.write('  }\n\n')
     
 

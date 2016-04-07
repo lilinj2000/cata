@@ -113,7 +113,7 @@ class RspUserLoginMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcRspUserLoginField*
@@ -166,7 +166,7 @@ class RspUserLogoutMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcUserLogoutField*
@@ -202,7 +202,7 @@ class RspErrorMessage : public RspMessage {
     assert(doc);
     json::Document msg_doc;
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
  private:
@@ -248,7 +248,7 @@ class RspSubMarketDataMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -301,7 +301,7 @@ class RspUnSubMarketDataMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -354,7 +354,7 @@ class RspSubForQuoteRspMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -407,7 +407,7 @@ class RspUnSubForQuoteRspMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSpecificInstrumentField*
@@ -460,7 +460,7 @@ class RspAuthenticateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcRspAuthenticateField*
@@ -513,7 +513,7 @@ class RspUserPasswordUpdateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcUserPasswordUpdateField*
@@ -566,7 +566,7 @@ class RspTradingAccountPasswordUpdateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTradingAccountPasswordUpdateField*
@@ -619,7 +619,7 @@ class RspOrderInsertMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputOrderField*
@@ -672,7 +672,7 @@ class RspParkedOrderInsertMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcParkedOrderField*
@@ -725,7 +725,7 @@ class RspParkedOrderActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcParkedOrderActionField*
@@ -778,7 +778,7 @@ class RspOrderActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputOrderActionField*
@@ -831,7 +831,7 @@ class RspQueryMaxOrderVolumeMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcQueryMaxOrderVolumeField*
@@ -884,7 +884,7 @@ class RspSettlementInfoConfirmMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSettlementInfoConfirmField*
@@ -937,7 +937,7 @@ class RspRemoveParkedOrderMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcRemoveParkedOrderField*
@@ -990,7 +990,7 @@ class RspRemoveParkedOrderActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcRemoveParkedOrderActionField*
@@ -1043,7 +1043,7 @@ class RspExecOrderInsertMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputExecOrderField*
@@ -1096,7 +1096,7 @@ class RspExecOrderActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputExecOrderActionField*
@@ -1149,7 +1149,7 @@ class RspForQuoteInsertMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputForQuoteField*
@@ -1202,7 +1202,7 @@ class RspQuoteInsertMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputQuoteField*
@@ -1255,7 +1255,7 @@ class RspQuoteActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputQuoteActionField*
@@ -1308,7 +1308,7 @@ class RspCombActionInsertMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInputCombActionField*
@@ -1361,7 +1361,7 @@ class RspQryOrderMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcOrderField*
@@ -1414,7 +1414,7 @@ class RspQryTradeMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTradeField*
@@ -1467,7 +1467,7 @@ class RspQryInvestorPositionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInvestorPositionField*
@@ -1520,7 +1520,7 @@ class RspQryTradingAccountMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTradingAccountField*
@@ -1573,7 +1573,7 @@ class RspQryInvestorMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInvestorField*
@@ -1626,7 +1626,7 @@ class RspQryTradingCodeMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTradingCodeField*
@@ -1679,7 +1679,7 @@ class RspQryInstrumentMarginRateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInstrumentMarginRateField*
@@ -1732,7 +1732,7 @@ class RspQryInstrumentCommissionRateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInstrumentCommissionRateField*
@@ -1785,7 +1785,7 @@ class RspQryExchangeMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcExchangeField*
@@ -1838,7 +1838,7 @@ class RspQryProductMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcProductField*
@@ -1891,7 +1891,7 @@ class RspQryInstrumentMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInstrumentField*
@@ -1944,7 +1944,7 @@ class RspQryDepthMarketDataMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcDepthMarketDataField*
@@ -1997,7 +1997,7 @@ class RspQrySettlementInfoMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSettlementInfoField*
@@ -2050,7 +2050,7 @@ class RspQryTransferBankMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTransferBankField*
@@ -2103,7 +2103,7 @@ class RspQryInvestorPositionDetailMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInvestorPositionDetailField*
@@ -2156,7 +2156,7 @@ class RspQryNoticeMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcNoticeField*
@@ -2209,7 +2209,7 @@ class RspQrySettlementInfoConfirmMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSettlementInfoConfirmField*
@@ -2262,7 +2262,7 @@ class RspQryInvestorPositionCombineDetailMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInvestorPositionCombineDetailField*
@@ -2315,7 +2315,7 @@ class RspQryCFMMCTradingAccountKeyMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcCFMMCTradingAccountKeyField*
@@ -2368,7 +2368,7 @@ class RspQryEWarrantOffsetMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcEWarrantOffsetField*
@@ -2421,7 +2421,7 @@ class RspQryInvestorProductGroupMarginMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcInvestorProductGroupMarginField*
@@ -2474,7 +2474,7 @@ class RspQryExchangeMarginRateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcExchangeMarginRateField*
@@ -2527,7 +2527,7 @@ class RspQryExchangeMarginRateAdjustMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcExchangeMarginRateAdjustField*
@@ -2580,7 +2580,7 @@ class RspQryExchangeRateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcExchangeRateField*
@@ -2633,7 +2633,7 @@ class RspQrySecAgentACIDMapMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcSecAgentACIDMapField*
@@ -2686,7 +2686,7 @@ class RspQryProductExchRateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcProductExchRateField*
@@ -2739,7 +2739,7 @@ class RspQryOptionInstrTradeCostMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcOptionInstrTradeCostField*
@@ -2792,7 +2792,7 @@ class RspQryOptionInstrCommRateMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcOptionInstrCommRateField*
@@ -2845,7 +2845,7 @@ class RspQryExecOrderMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcExecOrderField*
@@ -2898,7 +2898,7 @@ class RspQryForQuoteMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcForQuoteField*
@@ -2951,7 +2951,7 @@ class RspQryQuoteMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcQuoteField*
@@ -3004,7 +3004,7 @@ class RspQryCombInstrumentGuardMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcCombInstrumentGuardField*
@@ -3057,7 +3057,7 @@ class RspQryCombActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcCombActionField*
@@ -3110,7 +3110,7 @@ class RspQryTransferSerialMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTransferSerialField*
@@ -3163,7 +3163,7 @@ class RspQryAccountregisterMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcAccountregisterField*
@@ -3216,7 +3216,7 @@ class RspQryContractBankMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcContractBankField*
@@ -3269,7 +3269,7 @@ class RspQryParkedOrderMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcParkedOrderField*
@@ -3322,7 +3322,7 @@ class RspQryParkedOrderActionMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcParkedOrderActionField*
@@ -3375,7 +3375,7 @@ class RspQryTradingNoticeMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcTradingNoticeField*
@@ -3428,7 +3428,7 @@ class RspQryBrokerTradingParamsMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcBrokerTradingParamsField*
@@ -3481,7 +3481,7 @@ class RspQryBrokerTradingAlgosMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcBrokerTradingAlgosField*
@@ -3534,7 +3534,7 @@ class RspQueryCFMMCTradingAccountTokenMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcQueryCFMMCTradingAccountTokenField*
@@ -3587,7 +3587,7 @@ class RspFromBankToFutureByFutureMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcReqTransferField*
@@ -3640,7 +3640,7 @@ class RspFromFutureToBankByFutureMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcReqTransferField*
@@ -3693,7 +3693,7 @@ class RspQueryBankAccountMoneyByFutureMessage : public RspMessage {
     }
 
     RspMessage::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   CThostFtdcReqQueryAccountField*

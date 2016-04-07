@@ -52,7 +52,7 @@ class ReqUserLoginMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -109,7 +109,7 @@ class ReqUserLogoutMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -166,7 +166,7 @@ class ReqAuthenticateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -223,7 +223,7 @@ class ReqUserPasswordUpdateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -280,7 +280,7 @@ class ReqTradingAccountPasswordUpdateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -337,7 +337,7 @@ class ReqOrderInsertMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -394,7 +394,7 @@ class ReqParkedOrderInsertMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -451,7 +451,7 @@ class ReqParkedOrderActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -508,7 +508,7 @@ class ReqOrderActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -565,7 +565,7 @@ class ReqQueryMaxOrderVolumeMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -622,7 +622,7 @@ class ReqSettlementInfoConfirmMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -679,7 +679,7 @@ class ReqRemoveParkedOrderMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -736,7 +736,7 @@ class ReqRemoveParkedOrderActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -793,7 +793,7 @@ class ReqExecOrderInsertMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -850,7 +850,7 @@ class ReqExecOrderActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -907,7 +907,7 @@ class ReqForQuoteInsertMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -964,7 +964,7 @@ class ReqQuoteInsertMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1021,7 +1021,7 @@ class ReqQuoteActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1078,7 +1078,7 @@ class ReqCombActionInsertMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1135,7 +1135,7 @@ class ReqQryOrderMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1192,7 +1192,7 @@ class ReqQryTradeMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1249,7 +1249,7 @@ class ReqQryInvestorPositionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1306,7 +1306,7 @@ class ReqQryTradingAccountMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1363,7 +1363,7 @@ class ReqQryInvestorMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1420,7 +1420,7 @@ class ReqQryTradingCodeMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1477,7 +1477,7 @@ class ReqQryInstrumentMarginRateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1534,7 +1534,7 @@ class ReqQryInstrumentCommissionRateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1591,7 +1591,7 @@ class ReqQryExchangeMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1648,7 +1648,7 @@ class ReqQryProductMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1705,7 +1705,7 @@ class ReqQryInstrumentMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1762,7 +1762,7 @@ class ReqQryDepthMarketDataMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1819,7 +1819,7 @@ class ReqQrySettlementInfoMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1876,7 +1876,7 @@ class ReqQryTransferBankMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1933,7 +1933,7 @@ class ReqQryInvestorPositionDetailMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -1990,7 +1990,7 @@ class ReqQryNoticeMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2047,7 +2047,7 @@ class ReqQrySettlementInfoConfirmMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2104,7 +2104,7 @@ class ReqQryInvestorPositionCombineDetailMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2161,7 +2161,7 @@ class ReqQryCFMMCTradingAccountKeyMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2218,7 +2218,7 @@ class ReqQryEWarrantOffsetMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2275,7 +2275,7 @@ class ReqQryInvestorProductGroupMarginMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2332,7 +2332,7 @@ class ReqQryExchangeMarginRateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2389,7 +2389,7 @@ class ReqQryExchangeMarginRateAdjustMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2446,7 +2446,7 @@ class ReqQryExchangeRateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2503,7 +2503,7 @@ class ReqQrySecAgentACIDMapMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2560,7 +2560,7 @@ class ReqQryProductExchRateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2617,7 +2617,7 @@ class ReqQryOptionInstrTradeCostMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2674,7 +2674,7 @@ class ReqQryOptionInstrCommRateMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2731,7 +2731,7 @@ class ReqQryExecOrderMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2788,7 +2788,7 @@ class ReqQryForQuoteMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2845,7 +2845,7 @@ class ReqQryQuoteMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2902,7 +2902,7 @@ class ReqQryCombInstrumentGuardMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -2959,7 +2959,7 @@ class ReqQryCombActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3016,7 +3016,7 @@ class ReqQryTransferSerialMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3073,7 +3073,7 @@ class ReqQryAccountregisterMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3130,7 +3130,7 @@ class ReqQryContractBankMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3187,7 +3187,7 @@ class ReqQryParkedOrderMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3244,7 +3244,7 @@ class ReqQryParkedOrderActionMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3301,7 +3301,7 @@ class ReqQryTradingNoticeMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3358,7 +3358,7 @@ class ReqQryBrokerTradingParamsMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3415,7 +3415,7 @@ class ReqQryBrokerTradingAlgosMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3472,7 +3472,7 @@ class ReqQueryCFMMCTradingAccountTokenMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3529,7 +3529,7 @@ class ReqFromBankToFutureByFutureMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3586,7 +3586,7 @@ class ReqFromFutureToBankByFutureMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {
@@ -3643,7 +3643,7 @@ class ReqQueryBankAccountMoneyByFutureMessage : public Message {
     }
 
     Message::toJSON(&msg_doc);
-    json::addMember(doc, name(), &msg_doc);
+    json::addMember<const json::Document&>(doc, name(), msg_doc);
   }
 
   int requestID() const {

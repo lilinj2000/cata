@@ -37,10 +37,28 @@ TEST_F(MessageTest, rspMessageTest) {
   SOIL_INFO <<rsp_login_message->toString();
 
   rsp_login_message.reset(new RspUserLoginMessage(nullptr,
+                                                  &rsp_info,
+                                                  request_id,
+                                                  is_last));
+
+  ASSERT_EQ(rsp_login_message->rspUserLogin(), nullptr);
+  SOIL_INFO <<rsp_login_message->toString();
+
+  rsp_login_message.reset(new RspUserLoginMessage(&rsp_login,
                                                   nullptr,
                                                   request_id,
                                                   is_last));
 
+  ASSERT_EQ(rsp_login_message->rspInfo(), nullptr);
+  SOIL_INFO <<rsp_login_message->toString();
+
+  rsp_login_message.reset(new RspUserLoginMessage(nullptr,
+                                                  nullptr,
+                                                  request_id,
+                                                  is_last));
+
+  ASSERT_EQ(rsp_login_message->rspUserLogin(), nullptr);
+  ASSERT_EQ(rsp_login_message->rspInfo(), nullptr);
   SOIL_INFO <<rsp_login_message->toString();
 
   GTEST_SUCCEED();
