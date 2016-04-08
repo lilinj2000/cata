@@ -71,6 +71,8 @@ class TraderService {
                               const std::string& exchange_instru_id,
                               const std::string& product_id) = 0;
 
+  virtual int queryDepthMarketData(const std::string& instru) = 0;
+                                   
   virtual int queryExchangeMarginRate(const std::string& instru,
                                       HedgeFlagType hedge_flag) = 0;
 

@@ -412,6 +412,26 @@ int TraderServiceImpl::queryInstrument(const std::string& instru,
   return req_id;
 }
 
+int TraderServiceImpl::queryDepthMarketData(const std::string& instru) {
+  TRADER_TRACE <<"TraderServiceImpl::queryDepthMarketData()";
+
+  CThostFtdcQryDepthMarketDataField req;
+  memset(&req, 0x0, sizeof(req));
+
+  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+
+  TRADER_DEBUG <<req;
+
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryDepthMarketData(&req, req_id);
+  if (ret != 0) {
+    TRADER_ERROR <<"return code " <<ret;
+    throw std::runtime_error("query depth market data failed.");
+  }
+
+  return req_id;
+}
+
 int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru,
                                                HedgeFlagType hedge_flag) {
   TRADER_TRACE <<"TraderServiceImpl::queryExchangeMarginRate()";

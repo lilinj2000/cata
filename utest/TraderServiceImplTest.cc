@@ -78,7 +78,8 @@ TEST_F(TraderServiceImplTest, queryMarginRateAdjustTest) {
 
 TEST_F(TraderServiceImplTest, queryInstruMarginRateTest) {
   wait();
-  service_->queryInstruMarginRate(instru_, HF_SPECULATION);
+  // service_->queryInstruMarginRate(instru_, HF_SPECULATION);
+  service_->queryInstruMarginRate("", HF_SPECULATION);
   wait();
 
   GTEST_SUCCEED();

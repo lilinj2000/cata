@@ -88,7 +88,9 @@ class TraderServiceImpl : public TraderService {
                               const std::string& exchange,
                               const std::string& exchange_instru_id,
                               const std::string& product_id);
-
+  
+  virtual int queryDepthMarketData(const std::string& instru);
+  
   virtual int queryExchangeMarginRate(const std::string& instru,
                                       HedgeFlagType hedge_flag);
 
