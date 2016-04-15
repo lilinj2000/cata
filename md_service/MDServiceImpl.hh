@@ -23,6 +23,7 @@ typedef enum {
   AVAILABLE
 }MDServiceStatus;
 
+
 class MDServiceImpl : public MDService {
  public:
   MDServiceImpl(soil::Options* options, ServiceCallback* callback);
@@ -63,6 +64,13 @@ class MDServiceImpl : public MDService {
     }
   }
 
+ protected:
+  typedef enum {
+    SUB_MD,
+    UNSUB_MD
+  }CMDType;
+  void subscribe(CMDType, const InstrumentSet& instruments);
+  
  private:
   MDOptions* options_;
 

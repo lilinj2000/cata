@@ -70,20 +70,13 @@ MDServiceImpl::~MDServiceImpl() {
 void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
   MD_TRACE <<"MDServiceImpl::subMarketData()";
 
-  int size = instruments.size();
-
-  std::unique_ptr<char*> pp_instrus(new char*[size]);
-  int i = 0;
-  for (auto & instru : instruments) {
-    MD_INFO <<"sub instrument " <<instru;
-    pp_instrus.get()[i++] = const_cast<char *>(instru.data());
-  }
-
-  md_api_->SubscribeMarketData(pp_instrus.get(), size);
+  subscribe(SUB_MD, instruments);
 }
 
 void MDServiceImpl::unsubMarketData(const InstrumentSet& instruments) {
   MD_TRACE <<"MDServiceImpl::unsubMarketData()";
+  
+  subscribe(UNSUB_MD, instruments);
 }
 
 void MDServiceImpl::subQuoteData(const InstrumentSet& instruments) {
@@ -172,6 +165,29 @@ void MDServiceImpl::notify() {
 
 void MDServiceImpl::pushData(Message* data) {
   md_queue_->pushMsg(data);
+}
+
+void MDServiceImpl::subscribe(CMDType cmd, const InstrumentSet& instruments) {
+  MD_TRACE <<"MDServiceImpl::subscribe()";
+
+  int size = instruments.size();
+
+  std::unique_ptr<char*> pp_instrus(new char*[size]);
+  int i = 0;
+  for (auto & instru : instruments) {
+    MD_INFO <<"instru - " <<instru;
+    pp_instrus.get()[i++] = const_cast<char *>(instru.data());
+  }
+
+  switch (cmd) {
+    case SUB_MD:
+      md_api_->SubscribeMarketData(pp_instrus.get(), size);
+      break;
+
+    case UNSUB_MD:
+      md_api_->UnSubscribeMarketData(pp_instrus.get(), size);
+      break;
+  }
 }
 
 soil::Options* MDService::createOptions() {
