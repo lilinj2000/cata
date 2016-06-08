@@ -27,6 +27,6 @@ libcata_md_la_LDFLAGS = \
 # header files
 noinst_HEADERS = MDOptions.hh MDServiceImpl.hh \
 	MDSpiImpl.hh \
-	MDUtil.hh
+	MDUtil.hh MDLog.hh
 
 

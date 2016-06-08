@@ -28,7 +28,7 @@ libcata_trader_la_LDFLAGS = \
 noinst_HEADERS = \
 	TraderOptions.hh \
 	TraderServiceImpl.hh \
-	TraderSpiImpl.hh
+	TraderSpiImpl.hh TraderLog.hh
 
 
 
