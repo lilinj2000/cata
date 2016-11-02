@@ -81,7 +81,8 @@ RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include"
 AC_SUBST(RAPIDJSON_CPPFLAGS)
 
 dnl thost api lib
-CTP_HOME=$home_3rd/v6.3.6_20141230traderapi_linux64
+dnl CTP_HOME=$home_3rd/v6.3.6_20141230traderapi_linux64
+CTP_HOME=$home_3rd/v6.3.6_20160606_api_tradeapi_linux64
 AC_ARG_WITH([ctp],
     [AS_HELP_STRING([--with-ctp],
         [path of the ctp api, defaults to $CTP_HOME])],
