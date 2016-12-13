@@ -8,6 +8,14 @@
 #include "message/ThostFtdcUserApiStructPrint.hh"
 #include "message/ReqMessage.hh"
 
+#define STR_NCPY(dst, src) \
+  { \
+    if (sizeof(dst)<src.length()) \
+      strncpy(dst, src.data(), sizeof(dst)); \
+    else \
+      strncpy(dst, src.data(), src.length()); \
+  }
+
 namespace cata {
 
 TraderServiceImpl::TraderServiceImpl(soil::Options* options,
@@ -57,8 +65,8 @@ TraderServiceImpl::TraderServiceImpl(soil::Options* options,
 
   // querySettlementInfoConfirm();
   // wait("query settlement info confirm");
-  settlementInfoConfirm();
 
+  settlementInfoConfirm();
   // wait("settlementInfoConfirm");
 }
 
@@ -157,13 +165,13 @@ int TraderServiceImpl::queryOrder(const std::string& instru,
   CThostFtdcQryOrderField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
-  strncpy(req.ExchangeID, exchange.data(), sizeof(req.ExchangeID));
-  strncpy(req.OrderSysID, order_sys_id.data(), sizeof(req.OrderSysID));
-  strncpy(req.InsertTimeStart, start_time.data(), sizeof(req.InsertTimeStart));
-  strncpy(req.InsertTimeEnd, stop_time.data(), sizeof(req.InsertTimeEnd));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.InstrumentID, instru);
+  STR_NCPY(req.ExchangeID, exchange);
+  STR_NCPY(req.OrderSysID, order_sys_id);
+  STR_NCPY(req.InsertTimeStart, start_time);
+  STR_NCPY(req.InsertTimeEnd, stop_time);
 
   TRADER_DEBUG <<req;
 
@@ -187,13 +195,13 @@ int TraderServiceImpl::queryTrade(const std::string& instru,
   CThostFtdcQryTradeField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
-  strncpy(req.ExchangeID, exchange.data(), sizeof(req.ExchangeID));
-  strncpy(req.TradeID, trade_id.data(), sizeof(req.TradeID));
-  strncpy(req.TradeTimeStart, start_time.data(), sizeof(req.TradeTimeStart));
-  strncpy(req.TradeTimeEnd, stop_time.data(), sizeof(req.TradeTimeEnd));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.InstrumentID, instru);
+  STR_NCPY(req.ExchangeID, exchange);
+  STR_NCPY(req.TradeID, trade_id);
+  STR_NCPY(req.TradeTimeStart, start_time);
+  STR_NCPY(req.TradeTimeEnd, stop_time);
 
   TRADER_DEBUG <<req;
 
@@ -213,9 +221,9 @@ int TraderServiceImpl::queryPosition(const std::string& instru) {
   CThostFtdcQryInvestorPositionField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.InstrumentID, instru);
 
   TRADER_DEBUG <<req;
 
@@ -235,9 +243,9 @@ int TraderServiceImpl::queryAccount(const std::string& currency_id) {
   CThostFtdcQryTradingAccountField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.CurrencyID, currency_id.data(), sizeof(req.CurrencyID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.CurrencyID, currency_id);
 
   TRADER_DEBUG <<req;
 
@@ -257,8 +265,8 @@ int TraderServiceImpl::queryInvestor() {
   CThostFtdcQryInvestorField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
 
   TRADER_DEBUG <<req;
 
@@ -280,10 +288,10 @@ int TraderServiceImpl::queryTradingCode(const std::string& exchange,
   CThostFtdcQryTradingCodeField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.ExchangeID, exchange.data(), sizeof(req.ExchangeID));
-  strncpy(req.ClientID, client_id.data(), sizeof(req.ClientID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.ExchangeID, exchange);
+  STR_NCPY(req.ClientID, client_id);
   req.ClientIDType = cidt;
   
   TRADER_DEBUG <<req;
@@ -305,9 +313,9 @@ int TraderServiceImpl::queryInstruMarginRate(const std::string& instru,
   CThostFtdcQryInstrumentMarginRateField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.InstrumentID, instru);
   req.HedgeFlag = hedge_flag;
 
   TRADER_DEBUG <<req;
@@ -328,9 +336,9 @@ int TraderServiceImpl::queryInstruCommissionRate(const std::string& instru) {
   CThostFtdcQryInstrumentCommissionRateField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
+  STR_NCPY(req.InstrumentID, instru);
 
   TRADER_DEBUG <<req;
 
@@ -350,7 +358,7 @@ int TraderServiceImpl::queryExchange(const std::string& exchange) {
   CThostFtdcQryExchangeField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.ExchangeID, exchange.data(), sizeof(req.ExchangeID));
+  STR_NCPY(req.ExchangeID, exchange);
 
   TRADER_DEBUG <<req;
 
@@ -371,7 +379,7 @@ int TraderServiceImpl::queryProduct(const std::string& product_id,
   CThostFtdcQryProductField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.ProductID, product_id.data(), sizeof(req.ProductID));
+  STR_NCPY(req.ProductID, product_id);
   req.ProductClass = pc;
 
   TRADER_DEBUG <<req;
@@ -395,10 +403,10 @@ int TraderServiceImpl::queryInstrument(const std::string& instru,
   CThostFtdcQryInstrumentField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
-  strncpy(req.ExchangeID, exchange.data(), sizeof(req.ExchangeID));
-  strncpy(req.ExchangeInstID, exchange_instru_id.data(), sizeof(req.ExchangeInstID));
-  strncpy(req.ProductID, product_id.data(), sizeof(req.ProductID));
+  STR_NCPY(req.InstrumentID, instru);
+  STR_NCPY(req.ExchangeID, exchange);
+  STR_NCPY(req.ExchangeInstID, exchange_instru_id);
+  STR_NCPY(req.ProductID, product_id);
 
   TRADER_DEBUG <<req;
 
@@ -418,7 +426,7 @@ int TraderServiceImpl::queryDepthMarketData(const std::string& instru) {
   CThostFtdcQryDepthMarketDataField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  STR_NCPY(req.InstrumentID, instru);
 
   TRADER_DEBUG <<req;
 
@@ -439,8 +447,8 @@ int TraderServiceImpl::queryExchangeMarginRate(const std::string& instru,
   CThostFtdcQryExchangeMarginRateField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InstrumentID, instru);
   req.HedgeFlag = hedge_flag;
 
   TRADER_DEBUG <<req;
@@ -463,8 +471,8 @@ int TraderServiceImpl::queryExchangeMarginRateAdjust(
   CThostFtdcQryExchangeMarginRateAdjustField req;
   memset(&req, 0x0, sizeof(req));
 
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InstrumentID, instru.data(), sizeof(req.InstrumentID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InstrumentID, instru);
   req.HedgeFlag = hedge_flag;
 
   TRADER_DEBUG <<req;
@@ -484,9 +492,9 @@ void TraderServiceImpl::login() {
 
   CThostFtdcReqUserLoginField req;
   memset(&req, 0x0, sizeof(req));
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
-  strncpy(req.Password, options_->password.data(), sizeof(req.Password));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.UserID, options_->user_id);
+  STR_NCPY(req.Password, options_->password);
 
   TRADER_PDU <<req;
 
@@ -522,8 +530,8 @@ void TraderServiceImpl::logout() {
 
   CThostFtdcUserLogoutField req;
   memset(&req, 0x0, sizeof(req));
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.UserID, options_->user_id);
 
   TRADER_INFO <<req;
 
@@ -548,8 +556,8 @@ void TraderServiceImpl::querySettlementInfo() {
 
   CThostFtdcQrySettlementInfoField req;
   memset(&req, 0x0, sizeof(req));
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
 
   TRADER_PDU <<req;
 
@@ -566,8 +574,8 @@ void TraderServiceImpl::querySettlementInfoConfirm() {
 
   CThostFtdcQrySettlementInfoConfirmField req;
   memset(&req, 0x0, sizeof(req));
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID, options_->investor_id.data(), sizeof(req.InvestorID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
 
   TRADER_PDU <<req;
 
@@ -584,10 +592,8 @@ void TraderServiceImpl::settlementInfoConfirm() {
 
   CThostFtdcSettlementInfoConfirmField req;
   memset(&req, 0x0, sizeof(req));
-  strncpy(req.BrokerID,
-          options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.InvestorID,
-          options_->investor_id.data(), sizeof(req.InvestorID));
+  STR_NCPY(req.BrokerID, options_->broker_id);
+  STR_NCPY(req.InvestorID, options_->investor_id);
 
   TRADER_PDU <<req;
 
@@ -608,11 +614,10 @@ ReqOrderInsertMessage* TraderServiceImpl::reqOrderMessage(
   std::unique_ptr<CThostFtdcInputOrderField> req
       (new CThostFtdcInputOrderField());
 
-  strncpy(req->BrokerID, options_->broker_id.data(), sizeof(req->BrokerID));
-  strncpy(req->InvestorID,
-          options_->investor_id.data(), sizeof(req->InvestorID));
+  STR_NCPY(req->BrokerID, options_->broker_id);
+  STR_NCPY(req->InvestorID, options_->investor_id);
 
-  strncpy(req->UserID, options_->user_id.data(), sizeof(req->UserID));
+  STR_NCPY(req->UserID, options_->user_id);
   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
   req->TimeCondition = THOST_FTDC_TC_GFD;
   req->VolumeCondition = THOST_FTDC_VC_AV;
@@ -624,7 +629,7 @@ ReqOrderInsertMessage* TraderServiceImpl::reqOrderMessage(
   req->Direction = direct;
   req->CombOffsetFlag[0] = of;
   req->CombHedgeFlag[0] = hf;
-  strncpy(req->InstrumentID, instru.data(), sizeof(req->InstrumentID));
+  STR_NCPY(req->InstrumentID, instru);
   req->LimitPrice = price;
   req->VolumeTotalOriginal = volume;
 
@@ -646,7 +651,7 @@ void TraderServiceImpl::orderGo(const Message* msg) {
       CThostFtdcInputOrderField* req = req_msg->inputOrder();
       char OrderRef[13];
       snprintf(OrderRef, sizeof(OrderRef), "%013d", ++max_order_ref_);
-      strncpy(req->OrderRef, OrderRef, sizeof(req->OrderRef));
+      STR_NCPY(req->OrderRef, std::string(OrderRef));
 
       int result = trader_api_->ReqOrderInsert(req, req_msg->requestID());
       if (result != 0) {

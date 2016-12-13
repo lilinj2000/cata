@@ -487,7 +487,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"{" <<std::endl;
     os <<"    \"CThostFtdcInstrumentField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aInstrumentField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.InstrumentID <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ExchangeID\": \""
        <<aInstrumentField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentName\": \""
@@ -497,7 +497,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ProductID\": \""
        <<aInstrumentField.ProductID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ProductClass\": \""
-       <<aInstrumentField.ProductClass  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.ProductClass <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"DeliveryYear\": \""
        <<aInstrumentField.DeliveryYear  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"DeliveryMonth\": \""
@@ -542,8 +542,8 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
        <<aInstrumentField.UnderlyingInstrID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"StrikePrice\": \""
        <<aInstrumentField.StrikePrice  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
-    os <<"        \"OptionsType\": \""
-       <<aInstrumentField.OptionsType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    // os <<"        \"OptionsType\": \""
+    //    <<std::string(1, aInstrumentField.OptionsType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UnderlyingMultiple\": \""
        <<aInstrumentField.UnderlyingMultiple  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CombinationType\": \""

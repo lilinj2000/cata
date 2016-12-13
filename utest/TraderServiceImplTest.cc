@@ -85,6 +85,14 @@ TEST_F(TraderServiceImplTest, queryInstruMarginRateTest) {
   GTEST_SUCCEED();
 }
 
+TEST_F(TraderServiceImplTest, queryInstrumentTest) {
+  wait();
+  service_->queryInstrument("", "", "", "");
+  wait(3000);
+
+  GTEST_SUCCEED();
+}
+
 // TEST_F(TraderServiceImplTest, orderOpenBuyTest) {
 //   std::string instru = "cu1603";
 //   double price = 32900;

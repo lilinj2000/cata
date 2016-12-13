@@ -21,7 +21,7 @@ class TraderOptions : public soil::Options {
   std::string flow_path;
   std::string front_address;
 
-std::string broker_id;
+  std::string broker_id;
   std::string user_id;
   std::string password;
 
