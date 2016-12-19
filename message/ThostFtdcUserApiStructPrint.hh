@@ -6,6 +6,7 @@
 
 #include <ostream>
 #include "ThostFtdcUserApiStruct.h"
+#include "soil/String.hh"
 
 template< typename CharT, typename TraitsT >
 std::basic_ostream< CharT, TraitsT >& operator<<(
@@ -497,7 +498,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ProductID\": \""
        <<aInstrumentField.ProductID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ProductClass\": \""
-       <<aInstrumentField.ProductClass <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<soil::toString(aInstrumentField.ProductClass) <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"DeliveryYear\": \""
        <<aInstrumentField.DeliveryYear  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"DeliveryMonth\": \""
@@ -525,29 +526,29 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"EndDelivDate\": \""
        <<aInstrumentField.EndDelivDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstLifePhase\": \""
-       <<aInstrumentField.InstLifePhase  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<soil::toString(aInstrumentField.InstLifePhase)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsTrading\": \""
        <<aInstrumentField.IsTrading  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"PositionType\": \""
-       <<aInstrumentField.PositionType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<soil::toString(aInstrumentField.PositionType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"PositionDateType\": \""
-       <<aInstrumentField.PositionDateType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<soil::toString(aInstrumentField.PositionDateType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"LongMarginRatio\": \""
        <<aInstrumentField.LongMarginRatio  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ShortMarginRatio\": \""
        <<aInstrumentField.ShortMarginRatio  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"MaxMarginSideAlgorithm\": \""
-       <<aInstrumentField.MaxMarginSideAlgorithm  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<soil::toString(aInstrumentField.MaxMarginSideAlgorithm)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UnderlyingInstrID\": \""
        <<aInstrumentField.UnderlyingInstrID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"StrikePrice\": \""
        <<aInstrumentField.StrikePrice  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
-    // os <<"        \"OptionsType\": \""
-    //    <<std::string(1, aInstrumentField.OptionsType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OptionsType\": \""
+       <<soil::toString(aInstrumentField.OptionsType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UnderlyingMultiple\": \""
        <<aInstrumentField.UnderlyingMultiple  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CombinationType\": \""
-       <<aInstrumentField.CombinationType  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<soil::toString(aInstrumentField.CombinationType)  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
