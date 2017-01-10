@@ -78,8 +78,7 @@ TEST_F(TraderServiceImplTest, queryMarginRateAdjustTest) {
 
 TEST_F(TraderServiceImplTest, queryInstruMarginRateTest) {
   wait();
-  // service_->queryInstruMarginRate(instru_, HF_SPECULATION);
-  service_->queryInstruMarginRate("", HF_SPECULATION);
+  service_->queryInstruMarginRate(instru_, HF_SPECULATION);
   wait();
 
   GTEST_SUCCEED();
@@ -89,6 +88,22 @@ TEST_F(TraderServiceImplTest, queryInstrumentTest) {
   wait();
   service_->queryInstrument("", "", "", "");
   wait(3000);
+
+  GTEST_SUCCEED();
+}
+
+TEST_F(TraderServiceImplTest, queryProductTest) {
+  wait();
+  service_->queryProduct("", PC_Futures);
+  wait();
+
+  GTEST_SUCCEED();
+}
+
+TEST_F(TraderServiceImplTest, queryInstruCommissionRateTest) {
+  wait();
+  service_->queryInstruCommissionRate("cu1702");
+  wait();
 
   GTEST_SUCCEED();
 }
