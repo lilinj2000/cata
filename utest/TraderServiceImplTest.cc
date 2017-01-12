@@ -38,6 +38,8 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
   virtual void onRspMessage(const std::string& msg) {
     SOIL_INFO <<"receive the rsp message:\n"
               <<msg;
+
+    checkRspExpect(msg);
   }
 
   virtual void onRtnMessage(const std::string& msg) {
@@ -45,8 +47,22 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
               <<msg;
   }
 
-  void wait(int ms = 1000) {
+  void wait(int ms = -1) {
     cond_->wait(ms);
+  }
+
+  void notify() {
+    cond_->notifyAll();
+  }
+
+  void checkRspExpect(const std::string& msg) {
+    std::string is_last_true = "\"is_last\": true,";
+    
+    if (!rsp_expect_.empty()
+        && msg.find(rsp_expect_) != std::string::npos
+        && msg.find(is_last_true) != std::string::npos) {
+      notify();
+    }
   }
 
  protected:
@@ -54,55 +70,65 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
   std::auto_ptr<soil::Options> options_;
   std::auto_ptr<TraderService> service_;
   std::string instru_;
+
+  std::string rsp_expect_;
 };
 
 TEST_F(TraderServiceImplTest, loginTest) {
   GTEST_SUCCEED();
 }
 
-TEST_F(TraderServiceImplTest, queryMarginRateTest) {
-  wait();
-  service_->queryExchangeMarginRate(instru_, HF_SPECULATION);
+TEST_F(TraderServiceImplTest, queryExchangeMarginRateTest) {
+  wait(1000);
+  service_->queryExchangeMarginRate("", HF_SPECULATION);
+  rsp_expect_ = "OnRspQryExchangeMarginRate";
   wait();
 
   GTEST_SUCCEED();
 }
 
-TEST_F(TraderServiceImplTest, queryMarginRateAdjustTest) {
-  wait();
-  service_->queryExchangeMarginRateAdjust(instru_, HF_SPECULATION);
+TEST_F(TraderServiceImplTest, queryExchangeMarginRateAdjustTest) {
+  wait(1000);
+  service_->queryExchangeMarginRateAdjust("", HF_SPECULATION);
+  rsp_expect_ = "OnRspQryExchangeMarginRateAdjust";
   wait();
 
   GTEST_SUCCEED();
 }
 
 TEST_F(TraderServiceImplTest, queryInstruMarginRateTest) {
-  wait();
-  service_->queryInstruMarginRate(instru_, HF_SPECULATION);
+  wait(1000);
+  // service_->queryInstruMarginRate(instru_, HF_SPECULATION);
+  service_->queryInstruMarginRate("", HF_SPECULATION);
+  rsp_expect_ = "OnRspQryInstrumentMarginRate";
   wait();
 
   GTEST_SUCCEED();
 }
 
 TEST_F(TraderServiceImplTest, queryInstrumentTest) {
-  wait();
+  wait(1000);
   service_->queryInstrument("", "", "", "");
-  wait(3000);
+  rsp_expect_ = "OnRspQryInstrument";
+  wait();
 
   GTEST_SUCCEED();
 }
 
 TEST_F(TraderServiceImplTest, queryProductTest) {
-  wait();
+  wait(1000);
   service_->queryProduct("", PC_Futures);
+  rsp_expect_ = "OnRspQryProduct";
   wait();
 
   GTEST_SUCCEED();
 }
 
 TEST_F(TraderServiceImplTest, queryInstruCommissionRateTest) {
-  wait();
-  service_->queryInstruCommissionRate("cu1702");
+  wait(1000);
+  // service_->queryInstruCommissionRate(instru_);
+  service_->queryInstruCommissionRate("");
+  rsp_expect_ = "OnRspQryInstrumentCommissionRate";
   wait();
 
   GTEST_SUCCEED();
