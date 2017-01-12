@@ -512,7 +512,7 @@ void TraderServiceImpl::rspLogin(const RspUserLoginMessage* rsp_login) {
     front_id_ = rsp_login->rspUserLogin()->FrontID;
     session_id_ = rsp_login->rspUserLogin()->SessionID;
 
-    max_order_ref_ = atoi(rsp_login->rspUserLogin()->MaxOrderRef);
+    max_order_ref_ = std::stoi(rsp_login->rspUserLogin()->MaxOrderRef);
   }
 
   notify();

@@ -110,7 +110,6 @@ class TraderServiceImpl : public TraderService {
 
   void querySettlementInfoConfirm();
 
-
   void pushData(Message* data) {
     rsp_queue_->pushMsg(data);
   }
