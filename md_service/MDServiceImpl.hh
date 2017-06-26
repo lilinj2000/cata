@@ -70,7 +70,7 @@ class MDServiceImpl : public MDService {
     UNSUB_MD
   }CMDType;
   void subscribe(CMDType, const InstrumentSet& instruments);
-  
+
  private:
   MDOptions* options_;
 

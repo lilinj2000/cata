@@ -35,7 +35,7 @@ MDServiceImpl::MDServiceImpl(soil::Options* options,
   md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(),
                 is_udp, is_multi);
   MD_INFO <<"The Api version is " <<md_api_->GetApiVersion();
-  
+
   md_spi_.reset(new MDSpiImpl(this));
   md_api_->RegisterSpi(md_spi_.get());
   md_api_->RegisterFront(const_cast<char*>(options_->front_address.data()));
@@ -53,13 +53,13 @@ MDServiceImpl::~MDServiceImpl() {
 
   try {
     logout();
-  
+
     wait();
   } catch (std::exception& e) {
     MD_ERROR <<"logout failed.\n"
              <<e.what();
   }
-    
+
   md_api_->RegisterSpi(nullptr);
 
   md_api_->Release();
@@ -75,7 +75,7 @@ void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
 
 void MDServiceImpl::unsubMarketData(const InstrumentSet& instruments) {
   MD_TRACE <<"MDServiceImpl::unsubMarketData()";
-  
+
   subscribe(UNSUB_MD, instruments);
 }
 
@@ -148,7 +148,7 @@ void MDServiceImpl::rspLogout() {
   MD_TRACE <<" MDServiceImpl::rspLogout()";
 
   status_ = UNAVAILABLE;
-      
+
   notify();
 }
 

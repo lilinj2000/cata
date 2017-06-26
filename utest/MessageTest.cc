@@ -79,7 +79,6 @@ TEST_F(MessageTest, rspQryInstrumentMessageTest) {
   json::Document d;
   std::string str = ss.str();
   json::fromString(ss.str(), &d);
-
 }
 
 };  // namespace cata

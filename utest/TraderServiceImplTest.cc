@@ -57,7 +57,7 @@ class TraderServiceImplTest : public ::testing::Test, public ServiceCallback {
 
   void checkRspExpect(const std::string& msg) {
     std::string is_last_true = "\"is_last\": true,";
-    
+
     if (!rsp_expect_.empty()
         && msg.find(rsp_expect_) != std::string::npos
         && msg.find(is_last_true) != std::string::npos) {
