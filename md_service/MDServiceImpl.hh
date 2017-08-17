@@ -7,26 +7,20 @@
 #include "ThostFtdcMdApi.h"
 #include <string>
 #include <memory>
+#include "rapidjson/Document.h"
 #include "cata/MDService.hh"
-#include "message/Message.hh"
 #include "soil/STimer.hh"
-#include "soil/MsgQueue.hh"
 
 namespace cata {
 
 class MDOptions;
 class MDSpiImpl;
-class RspUserLoginMessage;
-
-typedef enum {
-  UNAVAILABLE,
-  AVAILABLE
-}MDServiceStatus;
-
 
 class MDServiceImpl : public MDService {
  public:
-  MDServiceImpl(soil::Options* options, ServiceCallback* callback);
+  MDServiceImpl(
+      const rapidjson::Document& doc,
+      ServiceCallback* callback);
 
   virtual ~MDServiceImpl();
 
@@ -41,28 +35,10 @@ class MDServiceImpl : public MDService {
   virtual std::string tradingDay();
 
   void login();
-
-  void rspLogin(const RspUserLoginMessage*);
-
   void logout();
-
-  void rspLogout();
 
   void wait(const std::string& hint = "");
   void notify();
-
-  void pushData(Message* data);
-
-  inline
-  void msgCallback(const Message* msg) {
-    if (callback_) {
-      if (msg->id() < RSP_ID_MAX) {  // response message
-        callback_->onRspMessage(msg->toString());
-      } else {  // return message
-        callback_->onRtnMessage(msg->toString());
-      }
-    }
-  }
 
  protected:
   typedef enum {
@@ -72,18 +48,14 @@ class MDServiceImpl : public MDService {
   void subscribe(CMDType, const InstrumentSet& instruments);
 
  private:
-  MDOptions* options_;
+  std::unique_ptr<MDOptions> options_;
 
   CThostFtdcMdApi* md_api_;
   std::unique_ptr<MDSpiImpl> md_spi_;
 
   ServiceCallback* callback_;
 
-  std::unique_ptr<soil::MsgQueue<Message, MDServiceImpl> > md_queue_;
-
   std::unique_ptr<soil::STimer> cond_;
-
-  MDServiceStatus status_;
 };
 
 };  // namespace cata

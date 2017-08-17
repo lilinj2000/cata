@@ -5,18 +5,15 @@
 #define CATA_MDOPTIONS_HH
 
 #include <string>
-#include "soil/Config.hh"
+#include "json.hh"
 
 namespace cata {
 
-namespace po = boost::program_options;
-
-class MDOptions : public soil::Options {
+class MDOptions {
  public:
-  MDOptions();
-  virtual ~MDOptions();
+  explicit MDOptions(const rapidjson::Document& doc);
 
-  virtual po::options_description* configOptions();
+  virtual ~MDOptions();
 
   std::string flow_path;
   std::string front_address;
@@ -26,9 +23,6 @@ class MDOptions : public soil::Options {
   std::string password;
 
   std::string protocol;
-
- private:
-  boost::program_options::options_description options_;
 };
 
 }  // namespace cata

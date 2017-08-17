@@ -77,8 +77,34 @@ AC_ARG_WITH([rapidjson],
     [RAPIDJSON_HOME="$RAPIDJSON_HOME"])
 AC_SUBST([RAPIDJSON_HOME])
 
-RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include"
+RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include -DRAPIDJSON_HAS_STDSTRING"
 AC_SUBST(RAPIDJSON_CPPFLAGS)
+
+dnl fmt lib
+FMT_HOME=$home_3rd/fmt
+AC_ARG_WITH([fmt], 
+    [AS_HELP_STRING([--with-fmt],
+        [home path of the fmt, defaults to $FMT_HOME])],
+    [FMT_HOME="$withval"],
+    [FMT_HOME="$FMT_HOME"])
+AC_SUBST([FMT_HOME])
+
+FMT_CPPFLAGS="-I$FMT_HOME/include"
+FMT_LIBADD="-L$FMT_HOME/lib -lfmt"
+AC_SUBST(FMT_CPPFLAGS)
+AC_SUBST(FMT_LIBADD)
+
+dnl spdlog lib
+SPDLOG_HOME=$home_3rd/spdlog
+AC_ARG_WITH([spdlog], 
+    [AS_HELP_STRING([--with-spdlog],
+        [home path of the spdlog, defaults to $SPDLOG_HOME])],
+    [SPDLOG_HOME="$withval"],
+    [SPDLOG_HOME="$SPDLOG_HOME"])
+AC_SUBST([SPDLOG_HOME])
+
+SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
+AC_SUBST(SPDLOG_CPPFLAGS)
 
 dnl thost api lib
 dnl CTP_HOME=$home_3rd/v6.3.6_20141230traderapi_linux64
@@ -124,20 +150,6 @@ SOIL_CPPFLAGS="-I$SOIL_HOME/include"
 SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 AC_SUBST(SOIL_CPPFLAGS)
 AC_SUBST(SOIL_LIBADD)
-
-dnl json lib
-AC_ARG_WITH([json],
-    [AS_HELP_STRING([--with-json],
-        [home path of the json, defaults to $home_libs/json])],
-    [JSON_HOME="$withval"],
-    [JSON_HOME="$home_libs/json"])
-AC_SUBST([JSON_HOME])
-
-JSON_CPPFLAGS="-I$JSON_HOME/include"
-JSON_LIBADD="$JSON_HOME/lib/libjson.la"
-AC_SUBST(JSON_CPPFLAGS)
-AC_SUBST(JSON_LIBADD)
-
 
 AC_OUTPUT([
 	Makefile

@@ -6,7 +6,7 @@
 
 #include <string>
 #include <set>
-#include "soil/Config.hh"
+#include "rapidjson/Document.h"
 #include "cata/CataDef.hh"
 
 namespace cata {
@@ -25,10 +25,9 @@ class MDService {
 
   virtual ~MDService() {}
 
-  static soil::Options* createOptions();
-
-  static MDService* createService(soil::Options* options,
-                                  ServiceCallback* callback);
+  static MDService* createService(
+      const rapidjson::Document& doc,
+      ServiceCallback* callback);
 };
 
 };  // namespace cata

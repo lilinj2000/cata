@@ -3,20 +3,22 @@ AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libcata_md.la
 libcata_md_la_SOURCES = MDOptions.cc \
 		MDSpiImpl.cc \
-		MDServiceImpl.cc
+		MDServiceImpl.cc \
+		Log.cc
 
 libcata_md_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
 			$(CTP_CPPFLAGS) \
 			$(SOIL_CPPFLAGS) \
 			$(RAPIDJSON_CPPFLAGS) \
-			$(JSON_CPPFLAGS) \
+			$(FMT_CPPFLAGS) \
+			$(SPDLOG_CPPFLAGS) \
 			$(COVERAGE_CXXFLAGS)
 
 libcata_md_la_LIBADD = $(CTP_MD_LIBADD) \
 		$(BOOST_LIBADD) \
 		$(SOIL_LIBADD) \
-		$(JSON_LIBADD) \
+		$(FMT_LIBADD) \
 		$(COVERAGE_LDFLAGS)
 
 libcata_md_la_LDFLAGS = \

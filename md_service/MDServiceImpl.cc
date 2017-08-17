@@ -9,18 +9,16 @@
 
 namespace cata {
 
-MDServiceImpl::MDServiceImpl(soil::Options* options,
-                             ServiceCallback* callback) :
+MDServiceImpl::MDServiceImpl(
+    const rapidjson::Document& doc,
+    ServiceCallback* callback) :
     md_api_(nullptr),
-    callback_(callback),
-    status_(UNAVAILABLE) {
+    callback_(callback) {
   MD_TRACE <<"MDServiceImpl::MDServiceImpl()";
 
   cond_.reset(soil::STimer::create());
 
-  md_queue_.reset(new soil::MsgQueue<Message, MDServiceImpl>(this));
-
-  options_ = dynamic_cast<MDOptions*>(options);
+  options_.reset(new MDOptions(doc));
 
   bool is_udp = false;
   bool is_multi = false;
@@ -42,10 +40,6 @@ MDServiceImpl::MDServiceImpl(soil::Options* options,
   md_api_->Init();
 
   wait("login");
-
-  if (status_ != AVAILABLE) {
-    throw std::runtime_error("login failed, please check the log.");
-  }
 }
 
 MDServiceImpl::~MDServiceImpl() {
@@ -61,9 +55,7 @@ MDServiceImpl::~MDServiceImpl() {
   }
 
   md_api_->RegisterSpi(nullptr);
-
   md_api_->Release();
-
   md_api_ = nullptr;
 }
 
@@ -112,20 +104,6 @@ void MDServiceImpl::login() {
   }
 }
 
-void MDServiceImpl::rspLogin(const RspUserLoginMessage* rsp_login) {
-  MD_TRACE <<" MDServiceImpl::rspLogin()";
-
-  MD_INFO <<rsp_login->toString();
-
-  if (rsp_login->rspInfo()
-      && 0 != rsp_login->rspInfo()->ErrorID) {  // login failed
-  } else {  // login success
-    status_ = AVAILABLE;
-  }
-
-  notify();
-}
-
 void MDServiceImpl::logout() {
   MD_TRACE <<"MDServiceImpl::logout()";
 
@@ -144,14 +122,6 @@ void MDServiceImpl::logout() {
   }
 }
 
-void MDServiceImpl::rspLogout() {
-  MD_TRACE <<" MDServiceImpl::rspLogout()";
-
-  status_ = UNAVAILABLE;
-
-  notify();
-}
-
 void MDServiceImpl::wait(const std::string& hint) {
   if (cond_->wait(2000)) {
     if (!hint.empty())
@@ -161,10 +131,6 @@ void MDServiceImpl::wait(const std::string& hint) {
 
 void MDServiceImpl::notify() {
   cond_->notifyAll();
-}
-
-void MDServiceImpl::pushData(Message* data) {
-  md_queue_->pushMsg(data);
 }
 
 void MDServiceImpl::subscribe(CMDType cmd, const InstrumentSet& instruments) {
@@ -190,13 +156,10 @@ void MDServiceImpl::subscribe(CMDType cmd, const InstrumentSet& instruments) {
   }
 }
 
-soil::Options* MDService::createOptions() {
-  return new MDOptions();
-}
-
-MDService* MDService::createService(soil::Options* options,
-                                    ServiceCallback* callback) {
-  return new MDServiceImpl(options, callback);
+MDService* MDService::createService(
+    const rapidjson::Document& doc,
+    ServiceCallback* callback) {
+  return new MDServiceImpl(doc, callback);
 }
 
 }  // namespace cata

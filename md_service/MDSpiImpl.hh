@@ -7,8 +7,6 @@
 #include <memory>
 #include "ThostFtdcMdApi.h"
 #include "MDServiceImpl.hh"
-#include "message/RspMessage.hh"
-#include "message/RtnMessage.hh"
 
 namespace cata {
 
@@ -61,29 +59,7 @@ class MDSpiImpl : public CThostFtdcMdSpi {
 
   virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp);
 
- protected:
-  template<typename MsgType, typename FieldType>
-  void pushMsg(FieldType* field, CThostFtdcRspInfoField* pRspInfo,
-               int nRequestID, bool bIsLast) {
-    std::unique_ptr<MsgType> rsp_message(
-        new MsgType(field, pRspInfo, nRequestID, bIsLast));
-    service_->pushData(rsp_message.release());
-  }
-
-  template<typename MsgType>
-  void pushMsg(CThostFtdcRspInfoField* pRspInfo,
-               int nRequestID, bool bIsLast) {
-    std::unique_ptr<MsgType> err_message(
-        new MsgType(pRspInfo, nRequestID, bIsLast));
-    service_->pushData(err_message.release());
-  }
-
-  template<typename MsgType, typename FieldType>
-  void pushMsg(FieldType* field) {
-    std::unique_ptr<MsgType> rtn_message(
-        new MsgType(field));
-    service_->pushData(rtn_message.release());
-  }
+  void checkRspInfo(CThostFtdcRspInfoField *pRspInfo);
 
  private:
   MDServiceImpl* service_;

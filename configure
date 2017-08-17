@@ -790,9 +790,6 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
-JSON_LIBADD
-JSON_CPPFLAGS
-JSON_HOME
 SOIL_LIBADD
 SOIL_CPPFLAGS
 SOIL_HOME
@@ -803,6 +800,11 @@ CTP_TRADER_LIBADD
 CTP_MD_LIBADD
 CTP_CPPFLAGS
 CTP_HOME
+SPDLOG_CPPFLAGS
+SPDLOG_HOME
+FMT_LIBADD
+FMT_CPPFLAGS
+FMT_HOME
 RAPIDJSON_CPPFLAGS
 RAPIDJSON_HOME
 BOOST_LIBADD
@@ -946,10 +948,11 @@ enable_libtool_lock
 enable_gcov
 with_boost
 with_rapidjson
+with_fmt
+with_spdlog
 with_ctp
 with_gtest
 with_soil
-with_json
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1612,10 +1615,11 @@ Optional Packages:
   --with-boost            home path of the boost, defaults to $home_3rd/boost
   --with-rapidjson        home path of the rapidjson, defaults to
                           $RAPIDJSON_HOME
+  --with-fmt              home path of the fmt, defaults to $FMT_HOME
+  --with-spdlog           home path of the spdlog, defaults to $SPDLOG_HOME
   --with-ctp              path of the ctp api, defaults to $CTP_HOME
   --with-gtest            home path of the gtest, defaults to $GTEST_HOME
   --with-soil             home path of the soil, defaults to $home_libs/soil
-  --with-json             home path of the json, defaults to $home_libs/json
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -4931,13 +4935,13 @@ if test "${lt_cv_nm_interface+set}" = set; then
 else
   lt_cv_nm_interface="BSD nm"
   echo "int some_variable = 0;" > conftest.$ac_ext
-  (eval echo "\"\$as_me:4934: $ac_compile\"" >&5)
+  (eval echo "\"\$as_me:4938: $ac_compile\"" >&5)
   (eval "$ac_compile" 2>conftest.err)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4937: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+  (eval echo "\"\$as_me:4941: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
   cat conftest.err >&5
-  (eval echo "\"\$as_me:4940: output\"" >&5)
+  (eval echo "\"\$as_me:4944: output\"" >&5)
   cat conftest.out >&5
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
@@ -6143,7 +6147,7 @@ ia64-*-hpux*)
   ;;
 *-*-irix6*)
   # Find out which ABI we are using.
-  echo '#line 6146 "configure"' > conftest.$ac_ext
+  echo '#line 6150 "configure"' > conftest.$ac_ext
   if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   (eval $ac_compile) 2>&5
   ac_status=$?
@@ -8709,6 +8713,10 @@ _lt_linker_boilerplate=`cat conftest.err`
 $RM -r conftest*
 
 
+## CAVEAT EMPTOR:
+## There is no encapsulation within the following macros, do not change
+## the running order or otherwise move them around unless you know exactly
+## what you are doing...
 if test -n "$compiler"; then
 
 lt_prog_compiler_no_builtin_flag=
@@ -8734,11 +8742,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:8737: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:8745: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:8741: \$? = $ac_status" >&5
+   echo "$as_me:8749: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9073,11 +9081,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9076: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9084: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:9080: \$? = $ac_status" >&5
+   echo "$as_me:9088: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -9178,11 +9186,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9181: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9189: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9185: \$? = $ac_status" >&5
+   echo "$as_me:9193: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -9233,11 +9241,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:9236: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:9244: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:9240: \$? = $ac_status" >&5
+   echo "$as_me:9248: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -12036,7 +12044,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 12039 "configure"
+#line 12047 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -12132,7 +12140,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 12135 "configure"
+#line 12143 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -14152,11 +14160,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14155: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14163: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>conftest.err)
    ac_status=$?
    cat conftest.err >&5
-   echo "$as_me:14159: \$? = $ac_status" >&5
+   echo "$as_me:14167: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s "$ac_outfile"; then
      # The compiler can only warn and ignore the option if not recognized
      # So say no if there are warnings other than the usual output.
@@ -14251,11 +14259,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14254: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14262: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14258: \$? = $ac_status" >&5
+   echo "$as_me:14266: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -14303,11 +14311,11 @@ else
    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
    -e 's:$: $lt_compiler_flag:'`
-   (eval echo "\"\$as_me:14306: $lt_compile\"" >&5)
+   (eval echo "\"\$as_me:14314: $lt_compile\"" >&5)
    (eval "$lt_compile" 2>out/conftest.err)
    ac_status=$?
    cat out/conftest.err >&5
-   echo "$as_me:14310: \$? = $ac_status" >&5
+   echo "$as_me:14318: \$? = $ac_status" >&5
    if (exit $ac_status) && test -s out/conftest2.$ac_objext
    then
      # The compiler can only warn and ignore the option if not recognized
@@ -15939,7 +15947,37 @@ fi
 
 
 
-RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include"
+RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include -DRAPIDJSON_HAS_STDSTRING"
+
+
+FMT_HOME=$home_3rd/fmt
+
+# Check whether --with-fmt was given.
+if test "${with_fmt+set}" = set; then
+  withval=$with_fmt; FMT_HOME="$withval"
+else
+  FMT_HOME="$FMT_HOME"
+fi
+
+
+
+FMT_CPPFLAGS="-I$FMT_HOME/include"
+FMT_LIBADD="-L$FMT_HOME/lib -lfmt"
+
+
+
+SPDLOG_HOME=$home_3rd/spdlog
+
+# Check whether --with-spdlog was given.
+if test "${with_spdlog+set}" = set; then
+  withval=$with_spdlog; SPDLOG_HOME="$withval"
+else
+  SPDLOG_HOME="$SPDLOG_HOME"
+fi
+
+
+
+SPDLOG_CPPFLAGS="-I$SPDLOG_HOME/include -DSPDLOG_FMT_EXTERNAL"
 
 
 CTP_HOME=$home_3rd/v6.3.6_20160606_api_tradeapi_linux64
@@ -15987,22 +16025,6 @@ fi
 
 SOIL_CPPFLAGS="-I$SOIL_HOME/include"
 SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
-
-
-
-
-# Check whether --with-json was given.
-if test "${with_json+set}" = set; then
-  withval=$with_json; JSON_HOME="$withval"
-else
-  JSON_HOME="$home_libs/json"
-fi
-
-
-
-JSON_CPPFLAGS="-I$JSON_HOME/include"
-JSON_LIBADD="$JSON_HOME/lib/libjson.la"
-
 
 
 
