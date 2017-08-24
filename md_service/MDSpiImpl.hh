@@ -23,21 +23,28 @@ class MDSpiImpl : public CThostFtdcMdSpi {
 
   virtual void OnHeartBeatWarning(int nTimeLapse);
 
-  virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
-                              CThostFtdcRspInfoField *pRspInfo,
-                              int nRequestID, bool bIsLast);
+  virtual void OnRspUserLogin(
+      CThostFtdcRspUserLoginField *pRspUserLogin,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
 
-  virtual void OnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout,
-                               CThostFtdcRspInfoField *pRspInfo,
-                               int nRequestID, bool bIsLast);
+  virtual void OnRspUserLogout(
+      CThostFtdcUserLogoutField *pUserLogout,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
 
-  virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo,
-                          int nRequestID, bool bIsLast);
+  virtual void OnRspError(
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspSubMarketData(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspSubForQuoteRsp(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
@@ -47,19 +54,26 @@ class MDSpiImpl : public CThostFtdcMdSpi {
   virtual void OnRspUnSubMarketData(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspUnSubForQuoteRsp(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRtnDepthMarketData(
       CThostFtdcDepthMarketDataField *pDepthMarketData);
 
   virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp);
 
-  void checkRspInfo(CThostFtdcRspInfoField *pRspInfo);
+ protected:
+  bool isRspError(CThostFtdcRspInfoField *pRspInfo);
+
+  MDCallback* callback() {
+    return service_->callback();
+  }
 
  private:
   MDServiceImpl* service_;

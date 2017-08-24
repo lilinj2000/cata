@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-check_PROGRAMS = unittest_md$(EXEEXT) unittest_trader$(EXEEXT)
+check_PROGRAMS = unittest_md$(EXEEXT)
 subdir = utest
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -49,8 +49,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_unittest_md_OBJECTS = unittest_md-MDServiceImplTest.$(OBJEXT) \
-	unittest_md-MessageTest.$(OBJEXT)
+am_unittest_md_OBJECTS = unittest_md-MDServiceTest.$(OBJEXT)
 unittest_md_OBJECTS = $(am_unittest_md_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -60,14 +59,6 @@ unittest_md_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 unittest_md_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(unittest_md_LDFLAGS) $(LDFLAGS) -o $@
-am_unittest_trader_OBJECTS =  \
-	unittest_trader-TraderServiceImplTest.$(OBJEXT)
-unittest_trader_OBJECTS = $(am_unittest_trader_OBJECTS)
-unittest_trader_DEPENDENCIES = $(am__DEPENDENCIES_2) \
-	../trader_service/libcata_trader.la
-unittest_trader_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(unittest_trader_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -81,8 +72,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(unittest_md_SOURCES) $(unittest_trader_SOURCES)
-DIST_SOURCES = $(unittest_md_SOURCES) $(unittest_trader_SOURCES)
+SOURCES = $(unittest_md_SOURCES)
+DIST_SOURCES = $(unittest_md_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -278,9 +269,10 @@ AUTOMAKE_OPTIONS = foreign
 SUBDIRS = traderflow mdflow
 TESTS = unittest.sh
 unittest_md_SOURCES = \
-	MDServiceImplTest.cc \
-	MessageTest.cc
+	MDServiceTest.cc
 
+
+# MessageTest.cc
 unittest_trader_SOURCES = \
 	TraderServiceImplTest.cc
 
@@ -290,7 +282,8 @@ unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(GTEST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
 		$(RAPIDJSON_CPPFLAGS) \
-		$(JSON_CPPFLAGS) \
+		$(FMT_CPPFLAGS) \
+		$(SPDLOG_CPPFLAGS) \
 		$(COVERAGE_CXXFLAGS)
 
 unittest_md_CPPFLAGS = $(unittest_CPPFLAGS)
@@ -361,9 +354,6 @@ clean-checkPROGRAMS:
 unittest_md$(EXEEXT): $(unittest_md_OBJECTS) $(unittest_md_DEPENDENCIES) 
 	@rm -f unittest_md$(EXEEXT)
 	$(unittest_md_LINK) $(unittest_md_OBJECTS) $(unittest_md_LDADD) $(LIBS)
-unittest_trader$(EXEEXT): $(unittest_trader_OBJECTS) $(unittest_trader_DEPENDENCIES) 
-	@rm -f unittest_trader$(EXEEXT)
-	$(unittest_trader_LINK) $(unittest_trader_OBJECTS) $(unittest_trader_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -371,9 +361,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/unittest_md-MDServiceImplTest.Po
-include ./$(DEPDIR)/unittest_md-MessageTest.Po
-include ./$(DEPDIR)/unittest_trader-TraderServiceImplTest.Po
+include ./$(DEPDIR)/unittest_md-MDServiceTest.Po
 
 .cc.o:
 	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -396,47 +384,19 @@ include ./$(DEPDIR)/unittest_trader-TraderServiceImplTest.Po
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(LTCXXCOMPILE) -c -o $@ $<
 
-unittest_md-MDServiceImplTest.o: MDServiceImplTest.cc
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceImplTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo -c -o unittest_md-MDServiceImplTest.o `test -f 'MDServiceImplTest.cc' || echo '$(srcdir)/'`MDServiceImplTest.cc
-	$(am__mv) $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo $(DEPDIR)/unittest_md-MDServiceImplTest.Po
-#	source='MDServiceImplTest.cc' object='unittest_md-MDServiceImplTest.o' libtool=no \
+unittest_md-MDServiceTest.o: MDServiceTest.cc
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceTest.Tpo -c -o unittest_md-MDServiceTest.o `test -f 'MDServiceTest.cc' || echo '$(srcdir)/'`MDServiceTest.cc
+	$(am__mv) $(DEPDIR)/unittest_md-MDServiceTest.Tpo $(DEPDIR)/unittest_md-MDServiceTest.Po
+#	source='MDServiceTest.cc' object='unittest_md-MDServiceTest.o' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceImplTest.o `test -f 'MDServiceImplTest.cc' || echo '$(srcdir)/'`MDServiceImplTest.cc
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceTest.o `test -f 'MDServiceTest.cc' || echo '$(srcdir)/'`MDServiceTest.cc
 
-unittest_md-MDServiceImplTest.obj: MDServiceImplTest.cc
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceImplTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo -c -o unittest_md-MDServiceImplTest.obj `if test -f 'MDServiceImplTest.cc'; then $(CYGPATH_W) 'MDServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceImplTest.cc'; fi`
-	$(am__mv) $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo $(DEPDIR)/unittest_md-MDServiceImplTest.Po
-#	source='MDServiceImplTest.cc' object='unittest_md-MDServiceImplTest.obj' libtool=no \
+unittest_md-MDServiceTest.obj: MDServiceTest.cc
+	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceTest.Tpo -c -o unittest_md-MDServiceTest.obj `if test -f 'MDServiceTest.cc'; then $(CYGPATH_W) 'MDServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceTest.cc'; fi`
+	$(am__mv) $(DEPDIR)/unittest_md-MDServiceTest.Tpo $(DEPDIR)/unittest_md-MDServiceTest.Po
+#	source='MDServiceTest.cc' object='unittest_md-MDServiceTest.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceImplTest.obj `if test -f 'MDServiceImplTest.cc'; then $(CYGPATH_W) 'MDServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceImplTest.cc'; fi`
-
-unittest_md-MessageTest.o: MessageTest.cc
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MessageTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MessageTest.Tpo -c -o unittest_md-MessageTest.o `test -f 'MessageTest.cc' || echo '$(srcdir)/'`MessageTest.cc
-	$(am__mv) $(DEPDIR)/unittest_md-MessageTest.Tpo $(DEPDIR)/unittest_md-MessageTest.Po
-#	source='MessageTest.cc' object='unittest_md-MessageTest.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.o `test -f 'MessageTest.cc' || echo '$(srcdir)/'`MessageTest.cc
-
-unittest_md-MessageTest.obj: MessageTest.cc
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MessageTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MessageTest.Tpo -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
-	$(am__mv) $(DEPDIR)/unittest_md-MessageTest.Tpo $(DEPDIR)/unittest_md-MessageTest.Po
-#	source='MessageTest.cc' object='unittest_md-MessageTest.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
-
-unittest_trader-TraderServiceImplTest.o: TraderServiceImplTest.cc
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceImplTest.o -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo -c -o unittest_trader-TraderServiceImplTest.o `test -f 'TraderServiceImplTest.cc' || echo '$(srcdir)/'`TraderServiceImplTest.cc
-	$(am__mv) $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo $(DEPDIR)/unittest_trader-TraderServiceImplTest.Po
-#	source='TraderServiceImplTest.cc' object='unittest_trader-TraderServiceImplTest.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-TraderServiceImplTest.o `test -f 'TraderServiceImplTest.cc' || echo '$(srcdir)/'`TraderServiceImplTest.cc
-
-unittest_trader-TraderServiceImplTest.obj: TraderServiceImplTest.cc
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceImplTest.obj -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo -c -o unittest_trader-TraderServiceImplTest.obj `if test -f 'TraderServiceImplTest.cc'; then $(CYGPATH_W) 'TraderServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/TraderServiceImplTest.cc'; fi`
-	$(am__mv) $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo $(DEPDIR)/unittest_trader-TraderServiceImplTest.Po
-#	source='TraderServiceImplTest.cc' object='unittest_trader-TraderServiceImplTest.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-TraderServiceImplTest.obj `if test -f 'TraderServiceImplTest.cc'; then $(CYGPATH_W) 'TraderServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/TraderServiceImplTest.cc'; fi`
+#	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceTest.obj `if test -f 'MDServiceTest.cc'; then $(CYGPATH_W) 'MDServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceTest.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

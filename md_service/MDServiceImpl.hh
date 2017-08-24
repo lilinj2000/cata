@@ -20,17 +20,17 @@ class MDServiceImpl : public MDService {
  public:
   MDServiceImpl(
       const rapidjson::Document& doc,
-      ServiceCallback* callback);
+      MDCallback* callback);
 
   virtual ~MDServiceImpl();
 
-  virtual void subMarketData(const InstrumentSet& instruments);
+  virtual void subMarketData(char *instrus[], int count);
 
-  virtual void unsubMarketData(const InstrumentSet& instruments);
+  virtual void unsubMarketData(char *instrus[], int count);
 
-  virtual void subQuoteData(const InstrumentSet& instruments);
+  virtual void subQuoteData(char *instrus[], int count);
 
-  virtual void unsubQuoteData(const InstrumentSet& instruments);
+  virtual void unsubQuoteData(char *instrus[], int count);
 
   virtual std::string tradingDay();
 
@@ -40,12 +40,9 @@ class MDServiceImpl : public MDService {
   void wait(const std::string& hint = "");
   void notify();
 
- protected:
-  typedef enum {
-    SUB_MD,
-    UNSUB_MD
-  }CMDType;
-  void subscribe(CMDType, const InstrumentSet& instruments);
+  MDCallback* callback() {
+    return callback_;
+  }
 
  private:
   std::unique_ptr<MDOptions> options_;
@@ -53,7 +50,7 @@ class MDServiceImpl : public MDService {
   CThostFtdcMdApi* md_api_;
   std::unique_ptr<MDSpiImpl> md_spi_;
 
-  ServiceCallback* callback_;
+  MDCallback* callback_;
 
   std::unique_ptr<soil::STimer> cond_;
 };

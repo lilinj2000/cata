@@ -3,6 +3,7 @@
 
 #include "MDOptions.hh"
 
+using namespace soil;
 namespace cata {
 
 MDOptions::MDOptions(const rapidjson::Document& doc) {

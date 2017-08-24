@@ -3,8 +3,7 @@ AUTOMAKE_OPTIONS = foreign
 lib_LTLIBRARIES = libcata_md.la
 libcata_md_la_SOURCES = MDOptions.cc \
 		MDSpiImpl.cc \
-		MDServiceImpl.cc \
-		Log.cc
+		MDServiceImpl.cc
 
 libcata_md_la_CPPFLAGS = -I$(top_srcdir) \
 			$(BOOST_CPPFLAGS) \
@@ -29,6 +28,6 @@ libcata_md_la_LDFLAGS = \
 # header files
 noinst_HEADERS = MDOptions.hh MDServiceImpl.hh \
 	MDSpiImpl.hh \
-	MDUtil.hh MDLog.hh
+	MDUtil.hh
 
 

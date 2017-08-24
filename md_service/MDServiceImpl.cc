@@ -4,35 +4,34 @@
 #include "MDServiceImpl.hh"
 #include "MDOptions.hh"
 #include "MDSpiImpl.hh"
-#include "MDLog.hh"
+#include "soil/Log.hh"
 #include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 
 MDServiceImpl::MDServiceImpl(
     const rapidjson::Document& doc,
-    ServiceCallback* callback) :
+    MDCallback* callback) :
     md_api_(nullptr),
     callback_(callback) {
-  MD_TRACE <<"MDServiceImpl::MDServiceImpl()";
+  LOG_TRACE("MDServiceImpl::MDServiceImpl()");
 
   cond_.reset(soil::STimer::create());
-
   options_.reset(new MDOptions(doc));
 
   bool is_udp = false;
   bool is_multi = false;
   if (options_->protocol == "udp") {
-    MD_DEBUG <<"UDP is enabled.";
+    LOG_DEBUG("UDP is enabled.");
     is_udp = true;
   } else if (options_->protocol == "multi") {
-    MD_DEBUG <<"MULTI is enabled.";
+    LOG_DEBUG("MULTI is enabled.");
     is_udp = true;
     is_multi = true;
   }
   md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(),
                 is_udp, is_multi);
-  MD_INFO <<"The Api version is " <<md_api_->GetApiVersion();
+  LOG_INFO("The Api version is {}", md_api_->GetApiVersion());
 
   md_spi_.reset(new MDSpiImpl(this));
   md_api_->RegisterSpi(md_spi_.get());
@@ -43,15 +42,14 @@ MDServiceImpl::MDServiceImpl(
 }
 
 MDServiceImpl::~MDServiceImpl() {
-  MD_TRACE <<"MDServiceImpl::~MDServiceImpl()";
+  LOG_TRACE("MDServiceImpl::~MDServiceImpl()");
 
   try {
     logout();
 
     wait();
   } catch (std::exception& e) {
-    MD_ERROR <<"logout failed.\n"
-             <<e.what();
+    LOG_ERROR("logout failed.\n {}", e.what());
   }
 
   md_api_->RegisterSpi(nullptr);
@@ -59,34 +57,54 @@ MDServiceImpl::~MDServiceImpl() {
   md_api_ = nullptr;
 }
 
-void MDServiceImpl::subMarketData(const InstrumentSet& instruments) {
-  MD_TRACE <<"MDServiceImpl::subMarketData()";
+void MDServiceImpl::subMarketData(char *instrus[], int count) {
+  LOG_TRACE("MDServiceImpl::subMarketData()");
 
-  subscribe(SUB_MD, instruments);
+  int result = md_api_->SubscribeMarketData(instrus, count);
+  if (result != 0) {
+    throw std::runtime_error(
+        fmt::format("SubscribeMarketData failed, return code {}", result));
+  }
 }
 
-void MDServiceImpl::unsubMarketData(const InstrumentSet& instruments) {
-  MD_TRACE <<"MDServiceImpl::unsubMarketData()";
+void MDServiceImpl::unsubMarketData(char *instrus[], int count) {
+  LOG_TRACE("MDServiceImpl::unsubMarketData()");
 
-  subscribe(UNSUB_MD, instruments);
+  int result = md_api_->UnSubscribeMarketData(instrus, count);
+  if (result != 0) {
+    throw std::runtime_error(
+        fmt::format("UnSubscribeMarketData failed, return code {}", result));
+  }
 }
 
-void MDServiceImpl::subQuoteData(const InstrumentSet& instruments) {
-  MD_TRACE <<"MDServiceImpl::subQuoteData()";
+void MDServiceImpl::subQuoteData(char *instrus[], int count) {
+  LOG_TRACE("MDServiceImpl::subQuoteData()");
+
+  int result = md_api_->SubscribeForQuoteRsp(instrus, count);
+  if (result != 0) {
+    throw std::runtime_error(
+        fmt::format("SubscribeForQuoteRsp failed, return code {}", result));
+  }
 }
 
-void MDServiceImpl::unsubQuoteData(const InstrumentSet& instruments) {
-  MD_TRACE <<"MDServiceImpl::unsubQuoteData()";
+void MDServiceImpl::unsubQuoteData(char *instrus[], int count) {
+  LOG_TRACE("MDServiceImpl::unsubQuoteData()");
+
+  int result = md_api_->UnSubscribeForQuoteRsp(instrus, count);
+  if (result != 0) {
+    throw std::runtime_error(
+        fmt::format("UnSubscribeForQuoteRsp failed, return code {}", result));
+  }
 }
 
 std::string MDServiceImpl::tradingDay() {
-  MD_TRACE <<"MDServiceImpl::tradingDate()";
+  LOG_TRACE("MDServiceImpl::tradingDate()");
 
   return md_api_->GetTradingDay();
 }
 
 void MDServiceImpl::login() {
-  MD_TRACE <<"MDServiceImpl::login()";
+  LOG_TRACE("MDServiceImpl::login()");
 
   CThostFtdcReqUserLoginField req;
   memset(&req, 0x0, sizeof(req));
@@ -94,31 +112,33 @@ void MDServiceImpl::login() {
   strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
   strncpy(req.Password, options_->password.data(), sizeof(req.Password));
 
-  MD_INFO <<req;
+  LOG_DEBUG("{}", req);
 
   int result = md_api_->ReqUserLogin(&req, 1);
 
   if (result != 0) {
-    MD_ERROR <<"return code " <<result;
-    throw std::runtime_error("login failed.");
+    throw std::runtime_error(
+        fmt::format("login failed. return code {}",
+                    result));
   }
 }
 
 void MDServiceImpl::logout() {
-  MD_TRACE <<"MDServiceImpl::logout()";
+  LOG_TRACE("MDServiceImpl::logout()");
 
   CThostFtdcUserLogoutField req;
   memset(&req, 0x0, sizeof(req));
   strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
   strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
 
-  MD_INFO <<req;
+  LOG_DEBUG("{}", req);
 
   int result = md_api_->ReqUserLogout(&req, 1);
 
   if (result != 0) {
-    MD_ERROR <<"return code " <<result;
-    throw std::runtime_error("logout failed.");
+    throw std::runtime_error(
+        fmt::format("logout failed. return code {}",
+                    result));
   }
 }
 
@@ -133,32 +153,9 @@ void MDServiceImpl::notify() {
   cond_->notifyAll();
 }
 
-void MDServiceImpl::subscribe(CMDType cmd, const InstrumentSet& instruments) {
-  MD_TRACE <<"MDServiceImpl::subscribe()";
-
-  int size = instruments.size();
-
-  std::unique_ptr<char*> pp_instrus(new char*[size]);
-  int i = 0;
-  for (auto & instru : instruments) {
-    MD_INFO <<"instru - " <<instru;
-    pp_instrus.get()[i++] = const_cast<char *>(instru.data());
-  }
-
-  switch (cmd) {
-    case SUB_MD:
-      md_api_->SubscribeMarketData(pp_instrus.get(), size);
-      break;
-
-    case UNSUB_MD:
-      md_api_->UnSubscribeMarketData(pp_instrus.get(), size);
-      break;
-  }
-}
-
-MDService* MDService::createService(
+MDService* MDService::create(
     const rapidjson::Document& doc,
-    ServiceCallback* callback) {
+    MDCallback* callback) {
   return new MDServiceImpl(doc, callback);
 }
 

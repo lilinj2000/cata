@@ -3,7 +3,7 @@
 
 #include "fmt/format.h"
 #include "MDSpiImpl.hh"
-#include "MDLog.hh"
+#include "soil/Log.hh"
 #include "message/ThostFtdcUserApiStructPrint.hh"
 
 
@@ -11,115 +11,187 @@ namespace cata {
 
 MDSpiImpl::MDSpiImpl(MDServiceImpl* service) :
     service_(service) {
-  MD_TRACE <<"MDSpiImpl::MDSpiImpl()";
+  LOG_TRACE("MDSpiImpl::MDSpiImpl()");
 }
 
 MDSpiImpl::~MDSpiImpl() {
-  MD_TRACE <<"MDSpiImpl::~MDSpiImpl()";
+  LOG_TRACE("MDSpiImpl::~MDSpiImpl()");
 }
 
 void MDSpiImpl::OnFrontConnected() {
-  MD_TRACE <<"MDSpiImpl::OnFrontConnected()";
+  LOG_TRACE("MDSpiImpl::OnFrontConnected()");
 
   service_->login();
 }
 
 void MDSpiImpl::OnFrontDisconnected(int nReason) {
-  MD_TRACE <<"MDSpiImpl::OnFrontDisconnected()";
+  LOG_TRACE("MDSpiImpl::OnFrontDisconnected()");
 
-  MD_ERROR << "--->>> Reason = " <<std::hex  <<nReason;
+  LOG_ERROR("--->>> Reason = {%x}", nReason);
 }
 
 void MDSpiImpl::OnHeartBeatWarning(int nTimeLapse) {
-  MD_TRACE <<"MDSpiImpl::OnHeartBeatWarning()";
+  LOG_TRACE("MDSpiImpl::OnHeartBeatWarning()");
 
-  MD_ERROR << "--->>> nTimerLapse = " << nTimeLapse;
+  LOG_ERROR("--->>> nTimerLapse = {}", nTimeLapse);
 }
 
 void MDSpiImpl::OnRspUserLogin(
     CThostFtdcRspUserLoginField *pRspUserLogin,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspUserLogin()";
+  LOG_TRACE("MDSpiImpl::OnRspUserLogin()");
 
-  service_->notify();
+  if (pRspUserLogin) {
+    LOG_DEBUG("{}", *pRspUserLogin);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    service_->notify();
+  }
 }
 
 void MDSpiImpl::OnRspUserLogout(
     CThostFtdcUserLogoutField *pUserLogout,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspUserLogout()";
+  LOG_TRACE("MDSpiImpl::OnRspUserLogout()");
 
-  service_->notify();
+  if (pUserLogout) {
+    LOG_DEBUG("{}", *pUserLogout);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    service_->notify();
+  }
 }
 
 void MDSpiImpl::OnRspError(
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspError()";
-
+  LOG_TRACE("MDSpiImpl::OnRspError()");
+  
+  isRspError(pRspInfo);
 }
 
 void MDSpiImpl::OnRspSubMarketData(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspSubMarketData()";
+  LOG_TRACE("MDSpiImpl::OnRspSubMarketData()");
 
+  if (pSpecificInstrument) {
+    LOG_DEBUG("{}", *pSpecificInstrument);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      callback()->onRspSubMarketData(
+          fmt::format("{}", *pSpecificInstrument));
+    }
+  }
 }
 
 void MDSpiImpl::OnRspSubForQuoteRsp(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspSubForQuoteRsp()";
+  LOG_TRACE("MDSpiImpl::OnRspSubForQuoteRsp()");
 
+  if (pSpecificInstrument) {
+    LOG_DEBUG("{}", *pSpecificInstrument);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      callback()->onRspSubForQuoteRsp(
+          fmt::format("{}", *pSpecificInstrument));
+    }
+  }
 }
 
 void MDSpiImpl::OnRspUnSubMarketData(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspUnSubMarketData()";
+    LOG_TRACE("MDSpiImpl::OnRspUnSubMarketData()");
 
+    if (pSpecificInstrument) {
+      LOG_DEBUG("{}", *pSpecificInstrument);
+    }
+
+    if (!isRspError(pRspInfo)) {
+      if (callback()) {
+        callback()->onRspUnSubMarketData(
+            fmt::format("{}", *pSpecificInstrument));
+      }
+    }
 }
 
 void MDSpiImpl::OnRspUnSubForQuoteRsp(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-  MD_TRACE <<"MDSpiImpl::OnRspUnSubForQuoteRsp()";
+  LOG_TRACE("MDSpiImpl::OnRspUnSubForQuoteRsp()");
 
+  if (pSpecificInstrument) {
+    LOG_DEBUG("{}", *pSpecificInstrument);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      callback()->onRspUnSubForQuoteRsp(
+          fmt::format("{}", *pSpecificInstrument));
+    }
+  }
 }
 
 void MDSpiImpl::OnRtnDepthMarketData(
     CThostFtdcDepthMarketDataField *pDepthMarketData) {
-  MD_TRACE <<"MDSpiImpl::OnRtnDepthMarketData()";
+  LOG_TRACE("MDSpiImpl::OnRtnDepthMarketData()");
 
+  if (pDepthMarketData) {
+    LOG_DEBUG("{}", *pDepthMarketData);
+  }
+
+  if (callback()) {
+    callback()->onRtnDepthMarketData(
+        fmt::format("{}", *pDepthMarketData));
+  }
 }
 
-void MDSpiImpl::OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp) {
-  MD_TRACE <<"MDSpiImpl::OnRtnForQuoteRsp()";
+void MDSpiImpl::OnRtnForQuoteRsp(
+    CThostFtdcForQuoteRspField *pForQuoteRsp) {
+  LOG_TRACE("MDSpiImpl::OnRtnForQuoteRsp()");
 
+  if (pForQuoteRsp) {
+    LOG_DEBUG("{}", *pForQuoteRsp);
+  }
+
+  if (callback()) {
+    callback()->onRtnForQuoteRsp(
+        fmt::format("{}", *pForQuoteRsp));
+  }
 }
 
-void MDSpiImpl::checkRspInfo(
+bool MDSpiImpl::isRspError(
     CThostFtdcRspInfoField *pRspInfo) {
-  MD_TRACE <<"MDSpiImpl::checkRspInfo()";
+  LOG_TRACE("MDSpiImpl::isRspError()");
 
   if (pRspInfo) {
-    MD_DEBUG <<*pRspInfo;
+    LOG_DEBUG("{}", *pRspInfo);
   }
 
   bool result = ((pRspInfo) && (pRspInfo->ErrorID != 0));
 
   if (result) {
-    throw std::runtime_error(
-        fmt::format("ErrorID: {}, ErrorMsg: {}",
-                    pRspInfo->ErrorID,
-                    pRspInfo->ErrorMsg));
+    if (service_->callback()) {
+      service_->callback()->onRspError(
+          fmt::format("{}", *pRspInfo));
+    }
   }
+
+  return result;
 }
 
 

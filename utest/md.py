@@ -35,7 +35,7 @@ sink1 = {
 
 sink2 = {
     "sink": {
-        "type": "rotating_logger_mt",
+        "type": "rotating_file_sink_mt",
         "file_name": "logs/md.log",
         "max_file_size": 5000000,
         "max_files": 10

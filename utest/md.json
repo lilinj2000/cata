@@ -21,7 +21,7 @@
                     "file_name": "logs/md.log", 
                     "max_file_size": 5000000, 
                     "max_files": 10, 
-                    "type": "rotating_logger_mt"
+                    "type": "rotating_file_sink_mt"
                 }
             }
         ]

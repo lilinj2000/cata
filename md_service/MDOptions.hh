@@ -5,7 +5,7 @@
 #define CATA_MDOPTIONS_HH
 
 #include <string>
-#include "json.hh"
+#include "soil/json.hh"
 
 namespace cata {
 
