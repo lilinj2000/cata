@@ -60,10 +60,6 @@ void MDSpiImpl::OnRspUserLogout(
   if (pUserLogout) {
     LOG_DEBUG("{}", *pUserLogout);
   }
-
-  if (!isRspError(pRspInfo)) {
-    service_->notify();
-  }
 }
 
 void MDSpiImpl::OnRspError(

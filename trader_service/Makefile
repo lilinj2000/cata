@@ -111,7 +111,7 @@ AUTOMAKE = ${SHELL} /root/src/cata/missing --run automake-1.11
 AWK = gawk
 BOOST_CPPFLAGS = -I/root/3rd/boost/include -DBOOST_ALL_DYN_LINK
 BOOST_HOME = /root/3rd/boost
-BOOST_LIBADD = /root/3rd/boost/lib/libboost_log_setup.so               /root/3rd/boost/lib/libboost_log.so 	      /root/3rd/boost/lib/libboost_filesystem.so   	      /root/3rd/boost/lib/libboost_program_options.so 	      /root/3rd/boost/lib/libboost_regex.so 	      /root/3rd/boost/lib/libboost_thread.so 	      /root/3rd/boost/lib/libboost_chrono.so 	      /root/3rd/boost/lib/libboost_date_time.so 	      /root/3rd/boost/lib/libboost_system.so
+BOOST_LIBADD =  	      /root/3rd/boost/lib/libboost_filesystem.so 	      /root/3rd/boost/lib/libboost_regex.so 	      /root/3rd/boost/lib/libboost_thread.so 	      /root/3rd/boost/lib/libboost_system.so
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2

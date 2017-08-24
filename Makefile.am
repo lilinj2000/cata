@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = test_md test_trader \
+SUBDIRS = \
 	  cata message md_service # trader_service \
 	  utest
 

@@ -4,7 +4,7 @@ SUBDIRS = traderflow mdflow
 
 TESTS = unittest.sh
 
-check_PROGRAMS = unittest_md # unittest_trader
+check_PROGRAMS = unittest_md unittest_trader
 
 unittest_md_SOURCES = \
 	MDServiceTest.cc

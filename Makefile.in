@@ -254,7 +254,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = test_md test_trader \
+SUBDIRS = \
 	  cata message md_service # trader_service \
 	  utest
 

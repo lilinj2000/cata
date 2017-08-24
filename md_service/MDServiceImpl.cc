@@ -44,14 +44,6 @@ MDServiceImpl::MDServiceImpl(
 MDServiceImpl::~MDServiceImpl() {
   LOG_TRACE("MDServiceImpl::~MDServiceImpl()");
 
-  try {
-    logout();
-
-    wait();
-  } catch (std::exception& e) {
-    LOG_ERROR("logout failed.\n {}", e.what());
-  }
-
   md_api_->RegisterSpi(nullptr);
   md_api_->Release();
   md_api_ = nullptr;
@@ -119,25 +111,6 @@ void MDServiceImpl::login() {
   if (result != 0) {
     throw std::runtime_error(
         fmt::format("login failed. return code {}",
-                    result));
-  }
-}
-
-void MDServiceImpl::logout() {
-  LOG_TRACE("MDServiceImpl::logout()");
-
-  CThostFtdcUserLogoutField req;
-  memset(&req, 0x0, sizeof(req));
-  strncpy(req.BrokerID, options_->broker_id.data(), sizeof(req.BrokerID));
-  strncpy(req.UserID, options_->user_id.data(), sizeof(req.UserID));
-
-  LOG_DEBUG("{}", req);
-
-  int result = md_api_->ReqUserLogout(&req, 1);
-
-  if (result != 0) {
-    throw std::runtime_error(
-        fmt::format("logout failed. return code {}",
                     result));
   }
 }

@@ -35,7 +35,6 @@ class MDServiceImpl : public MDService {
   virtual std::string tradingDay();
 
   void login();
-  void logout();
 
   void wait(const std::string& hint = "");
   void notify();

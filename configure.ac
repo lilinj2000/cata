@@ -56,15 +56,12 @@ AC_ARG_WITH([boost],
 AC_SUBST([BOOST_HOME])
 
 BOOST_CPPFLAGS="-I$BOOST_HOME/include -DBOOST_ALL_DYN_LINK"
-BOOST_LIBADD="$BOOST_HOME/lib/libboost_log_setup.so \
-              $BOOST_HOME/lib/libboost_log.so \
+BOOST_LIBADD=" \
 	      $BOOST_HOME/lib/libboost_filesystem.so \
-  	      $BOOST_HOME/lib/libboost_program_options.so \
 	      $BOOST_HOME/lib/libboost_regex.so \
 	      $BOOST_HOME/lib/libboost_thread.so \
-	      $BOOST_HOME/lib/libboost_chrono.so \
-	      $BOOST_HOME/lib/libboost_date_time.so \
 	      $BOOST_HOME/lib/libboost_system.so"
+
 AC_SUBST(BOOST_CPPFLAGS)
 AC_SUBST(BOOST_LIBADD)
 
@@ -153,8 +150,6 @@ AC_SUBST(SOIL_LIBADD)
 
 AC_OUTPUT([
 	Makefile
-	test_md/Makefile
-	test_trader/Makefile
 	cata/Makefile
 	message/Makefile
 	md_service/Makefile

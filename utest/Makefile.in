@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = unittest_md$(EXEEXT)
+check_PROGRAMS = unittest_md$(EXEEXT) unittest_trader$(EXEEXT)
 subdir = utest
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -59,6 +59,14 @@ unittest_md_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 unittest_md_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(unittest_md_LDFLAGS) $(LDFLAGS) -o $@
+am_unittest_trader_OBJECTS =  \
+	unittest_trader-TraderServiceImplTest.$(OBJEXT)
+unittest_trader_OBJECTS = $(am_unittest_trader_OBJECTS)
+unittest_trader_DEPENDENCIES = $(am__DEPENDENCIES_2) \
+	../trader_service/libcata_trader.la
+unittest_trader_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(unittest_trader_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -72,8 +80,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(unittest_md_SOURCES)
-DIST_SOURCES = $(unittest_md_SOURCES)
+SOURCES = $(unittest_md_SOURCES) $(unittest_trader_SOURCES)
+DIST_SOURCES = $(unittest_md_SOURCES) $(unittest_trader_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -354,6 +362,9 @@ clean-checkPROGRAMS:
 unittest_md$(EXEEXT): $(unittest_md_OBJECTS) $(unittest_md_DEPENDENCIES) 
 	@rm -f unittest_md$(EXEEXT)
 	$(unittest_md_LINK) $(unittest_md_OBJECTS) $(unittest_md_LDADD) $(LIBS)
+unittest_trader$(EXEEXT): $(unittest_trader_OBJECTS) $(unittest_trader_DEPENDENCIES) 
+	@rm -f unittest_trader$(EXEEXT)
+	$(unittest_trader_LINK) $(unittest_trader_OBJECTS) $(unittest_trader_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -362,6 +373,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MDServiceTest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_trader-TraderServiceImplTest.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -397,6 +409,20 @@ unittest_md-MDServiceTest.obj: MDServiceTest.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceTest.cc' object='unittest_md-MDServiceTest.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceTest.obj `if test -f 'MDServiceTest.cc'; then $(CYGPATH_W) 'MDServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceTest.cc'; fi`
+
+unittest_trader-TraderServiceImplTest.o: TraderServiceImplTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceImplTest.o -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo -c -o unittest_trader-TraderServiceImplTest.o `test -f 'TraderServiceImplTest.cc' || echo '$(srcdir)/'`TraderServiceImplTest.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo $(DEPDIR)/unittest_trader-TraderServiceImplTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderServiceImplTest.cc' object='unittest_trader-TraderServiceImplTest.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-TraderServiceImplTest.o `test -f 'TraderServiceImplTest.cc' || echo '$(srcdir)/'`TraderServiceImplTest.cc
+
+unittest_trader-TraderServiceImplTest.obj: TraderServiceImplTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceImplTest.obj -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo -c -o unittest_trader-TraderServiceImplTest.obj `if test -f 'TraderServiceImplTest.cc'; then $(CYGPATH_W) 'TraderServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/TraderServiceImplTest.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-TraderServiceImplTest.Tpo $(DEPDIR)/unittest_trader-TraderServiceImplTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderServiceImplTest.cc' object='unittest_trader-TraderServiceImplTest.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-TraderServiceImplTest.obj `if test -f 'TraderServiceImplTest.cc'; then $(CYGPATH_W) 'TraderServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/TraderServiceImplTest.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
