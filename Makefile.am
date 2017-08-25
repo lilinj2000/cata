@@ -1,8 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = \
-	  cata message md_service # trader_service \
-	  utest
+	  cata service utest
 
 EXTRA_DIST = deploy.sh
 

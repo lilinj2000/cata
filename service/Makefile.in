@@ -35,7 +35,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = md_service
+subdir = service
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -73,15 +73,25 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-libcata_md_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+libcata_md_la_DEPENDENCIES = $(am__DEPENDENCIES_2) \
+	$(am__DEPENDENCIES_1)
 am_libcata_md_la_OBJECTS = libcata_md_la-MDOptions.lo \
 	libcata_md_la-MDSpiImpl.lo libcata_md_la-MDServiceImpl.lo
 libcata_md_la_OBJECTS = $(am_libcata_md_la_OBJECTS)
 libcata_md_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(libcata_md_la_LDFLAGS) $(LDFLAGS) -o $@
+libcata_trader_la_DEPENDENCIES = $(am__DEPENDENCIES_2) \
+	$(am__DEPENDENCIES_1)
+am_libcata_trader_la_OBJECTS = libcata_trader_la-TraderOptions.lo \
+	libcata_trader_la-TraderSpiImpl.lo \
+	libcata_trader_la-TraderServiceImpl.lo
+libcata_trader_la_OBJECTS = $(am_libcata_trader_la_OBJECTS)
+libcata_trader_la_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(libcata_trader_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -95,8 +105,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libcata_md_la_SOURCES)
-DIST_SOURCES = $(libcata_md_la_SOURCES)
+SOURCES = $(libcata_md_la_SOURCES) $(libcata_trader_la_SOURCES)
+DIST_SOURCES = $(libcata_md_la_SOURCES) $(libcata_trader_la_SOURCES)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -249,36 +259,62 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-lib_LTLIBRARIES = libcata_md.la
-libcata_md_la_SOURCES = MDOptions.cc \
-		MDSpiImpl.cc \
-		MDServiceImpl.cc
+lib_LTLIBRARIES = \
+	libcata_md.la \
+	libcata_trader.la
 
-libcata_md_la_CPPFLAGS = -I$(top_srcdir) \
-			$(BOOST_CPPFLAGS) \
-			$(CTP_CPPFLAGS) \
-			$(SOIL_CPPFLAGS) \
-			$(RAPIDJSON_CPPFLAGS) \
-			$(FMT_CPPFLAGS) \
-			$(SPDLOG_CPPFLAGS) \
-			$(COVERAGE_CXXFLAGS)
+libcata_md_la_SOURCES = \
+	MDOptions.cc \
+	MDSpiImpl.cc \
+	MDServiceImpl.cc
 
-libcata_md_la_LIBADD = $(CTP_MD_LIBADD) \
-		$(BOOST_LIBADD) \
-		$(SOIL_LIBADD) \
-		$(FMT_LIBADD) \
-		$(COVERAGE_LDFLAGS)
+libcata_trader_la_SOURCES = \
+	TraderOptions.cc \
+	TraderSpiImpl.cc \
+	TraderServiceImpl.cc
 
-libcata_md_la_LDFLAGS = \
+libcata_la_CPPFLAGS = \
+	-I$(top_srcdir) \
+	$(BOOST_CPPFLAGS) \
+	$(CTP_CPPFLAGS) \
+	$(SOIL_CPPFLAGS) \
+	$(RAPIDJSON_CPPFLAGS) \
+	$(FMT_CPPFLAGS) \
+	$(SPDLOG_CPPFLAGS) \
+	$(COVERAGE_CXXFLAGS)
+
+libcata_md_la_CPPFLAGS = $(libcata_la_CPPFLAGS)
+libcata_trader_la_CPPFLAGS = $(libcata_la_CPPFLAGS)
+libcata_la_LIBADD = \
+	$(BOOST_LIBADD) \
+	$(SOIL_LIBADD) \
+	$(FMT_LIBADD) \
+	$(COVERAGE_LDFLAGS)
+
+libcata_md_la_LIBADD = \
+	$(libcata_la_LIBADD) \
+	$(CTP_MD_LIBADD)
+
+libcata_trader_la_LIBADD = \
+	$(libcata_la_LIBADD) \
+	$(CTP_TRADER_LIBADD)
+
+libcata_la_LDFLAGS = \
 	-no-undefined -version-info \
 	$(LT_CURRENT):$(LT_REVISION):$(LT_AGE) \
 	-release $(LT_RELEASE)
 
+libcata_md_la_LDFLAGS = $(libcata_la_LDFLAGS)
+libcata_trader_la_LDFLAGS = $(libcata_la_LDFLAGS)
 
 # header files
-noinst_HEADERS = MDOptions.hh MDServiceImpl.hh \
+noinst_HEADERS = \
+	MDOptions.hh \
 	MDSpiImpl.hh \
-	MDUtil.hh
+	MDServiceImpl.hh \
+	TraderOptions.hh \
+	TraderSpiImpl.hh \
+	TraderServiceImpl.hh
 
 all: all-am
 
@@ -293,9 +329,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign md_service/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign service/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign md_service/Makefile
+	  $(AUTOMAKE) --foreign service/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -347,6 +383,8 @@ clean-libLTLIBRARIES:
 	done
 libcata_md.la: $(libcata_md_la_OBJECTS) $(libcata_md_la_DEPENDENCIES) 
 	$(libcata_md_la_LINK) -rpath $(libdir) $(libcata_md_la_OBJECTS) $(libcata_md_la_LIBADD) $(LIBS)
+libcata_trader.la: $(libcata_trader_la_OBJECTS) $(libcata_trader_la_DEPENDENCIES) 
+	$(libcata_trader_la_LINK) -rpath $(libdir) $(libcata_trader_la_OBJECTS) $(libcata_trader_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -357,6 +395,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDOptions.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDServiceImpl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_md_la-MDSpiImpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_trader_la-TraderOptions.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_trader_la-TraderServiceImpl.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcata_trader_la-TraderSpiImpl.Plo@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -399,6 +440,27 @@ libcata_md_la-MDServiceImpl.lo: MDServiceImpl.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceImpl.cc' object='libcata_md_la-MDServiceImpl.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_md_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcata_md_la-MDServiceImpl.lo `test -f 'MDServiceImpl.cc' || echo '$(srcdir)/'`MDServiceImpl.cc
+
+libcata_trader_la-TraderOptions.lo: TraderOptions.cc
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_trader_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcata_trader_la-TraderOptions.lo -MD -MP -MF $(DEPDIR)/libcata_trader_la-TraderOptions.Tpo -c -o libcata_trader_la-TraderOptions.lo `test -f 'TraderOptions.cc' || echo '$(srcdir)/'`TraderOptions.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libcata_trader_la-TraderOptions.Tpo $(DEPDIR)/libcata_trader_la-TraderOptions.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderOptions.cc' object='libcata_trader_la-TraderOptions.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_trader_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcata_trader_la-TraderOptions.lo `test -f 'TraderOptions.cc' || echo '$(srcdir)/'`TraderOptions.cc
+
+libcata_trader_la-TraderSpiImpl.lo: TraderSpiImpl.cc
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_trader_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcata_trader_la-TraderSpiImpl.lo -MD -MP -MF $(DEPDIR)/libcata_trader_la-TraderSpiImpl.Tpo -c -o libcata_trader_la-TraderSpiImpl.lo `test -f 'TraderSpiImpl.cc' || echo '$(srcdir)/'`TraderSpiImpl.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libcata_trader_la-TraderSpiImpl.Tpo $(DEPDIR)/libcata_trader_la-TraderSpiImpl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderSpiImpl.cc' object='libcata_trader_la-TraderSpiImpl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_trader_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcata_trader_la-TraderSpiImpl.lo `test -f 'TraderSpiImpl.cc' || echo '$(srcdir)/'`TraderSpiImpl.cc
+
+libcata_trader_la-TraderServiceImpl.lo: TraderServiceImpl.cc
+@am__fastdepCXX_TRUE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_trader_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libcata_trader_la-TraderServiceImpl.lo -MD -MP -MF $(DEPDIR)/libcata_trader_la-TraderServiceImpl.Tpo -c -o libcata_trader_la-TraderServiceImpl.lo `test -f 'TraderServiceImpl.cc' || echo '$(srcdir)/'`TraderServiceImpl.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libcata_trader_la-TraderServiceImpl.Tpo $(DEPDIR)/libcata_trader_la-TraderServiceImpl.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderServiceImpl.cc' object='libcata_trader_la-TraderServiceImpl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(LIBTOOL)  --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcata_trader_la_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libcata_trader_la-TraderServiceImpl.lo `test -f 'TraderServiceImpl.cc' || echo '$(srcdir)/'`TraderServiceImpl.cc
 
 mostlyclean-libtool:
 	-rm -f *.lo

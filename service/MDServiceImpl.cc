@@ -4,8 +4,8 @@
 #include "MDServiceImpl.hh"
 #include "MDOptions.hh"
 #include "MDSpiImpl.hh"
+#include "ThostFtdcUserApiStructPrint.hh"
 #include "soil/Log.hh"
-#include "message/ThostFtdcUserApiStructPrint.hh"
 
 namespace cata {
 
@@ -29,8 +29,11 @@ MDServiceImpl::MDServiceImpl(
     is_udp = true;
     is_multi = true;
   }
-  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(options_->flow_path.data(),
-                is_udp, is_multi);
+
+  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(
+      options_->flow_path.data(),
+      is_udp,
+      is_multi);
   LOG_INFO("The Api version is {}", md_api_->GetApiVersion());
 
   md_spi_.reset(new MDSpiImpl(this));

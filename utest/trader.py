@@ -2,8 +2,8 @@
 
 import json
 
-cata_md = { 
-    "flow_path": "mdflow/",
+cata_trader = { 
+    "flow_path": "traderflow/",
 
     # ctpfz
     # front_address = tcp://ctpfz1-front1.citicsf.com:51213
@@ -13,18 +13,18 @@ cata_md = {
     # password = 123456
 
     # simnow
-    # front_address = tcp://180.168.146.187:10010"
-    # front_address = tcp://180.168.146.187:10031" 7x24
+    # front_address = tcp://180.168.146.187:10000"
+    # front_address = tcp://180.168.146.187:10030" 7x24
     # user_id = 037135
     # password = y888888
+    # investor_id = 037135
 
-    "front_address": "tcp://180.168.146.187:10010",
-    "broker_id": "",
-    "user_id": "",
-    "password": "",
+    "front_address": "tcp://180.168.146.187:10000",
+    "broker_id": "9999",
+    "user_id": "037135",
+    "password": "y888888",
 
-    # protocol: tcp, udp, or multi
-    "protocol": "tcp"
+    "investor_id": "037135"
     }
 
 sink1 = {
@@ -37,7 +37,7 @@ sink1 = {
 sink2 = {
     "sink": {
         "type": "rotating_file_sink_mt",
-        "file_name": "logs/md.log",
+        "file_name": "logs/trader.log",
         "max_file_size": 5000000,
         "max_files": 10
         }
@@ -49,9 +49,9 @@ log = {
     }
 
 config = {
-    "cata_md": cata_md,
+    "cata_trader": cata_trader,
     "log": log
     } 
 
-with open('md.json', 'w') as f:
+with open('trader.json', 'w') as f:
     json.dump(config, f, sort_keys=True, indent=4)

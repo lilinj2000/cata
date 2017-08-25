@@ -3,8 +3,8 @@
 
 #include "fmt/format.h"
 #include "MDSpiImpl.hh"
+#include "ThostFtdcUserApiStructPrint.hh"
 #include "soil/Log.hh"
-#include "message/ThostFtdcUserApiStructPrint.hh"
 
 
 namespace cata {
@@ -66,7 +66,6 @@ void MDSpiImpl::OnRspError(
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
   LOG_TRACE("MDSpiImpl::OnRspError()");
-  
   isRspError(pRspInfo);
 }
 

@@ -1,11 +1,11 @@
 {
-    "cata_md": {
-        "broker_id": "", 
-        "flow_path": "mdflow/", 
-        "front_address": "tcp://180.168.146.187:10010", 
-        "password": "", 
-        "protocol": "tcp", 
-        "user_id": ""
+    "cata_trader": {
+        "broker_id": "9999", 
+        "flow_path": "traderflow/", 
+        "front_address": "tcp://180.168.146.187:10030", 
+        "investor_id": "037135", 
+        "password": "y888888", 
+        "user_id": "037135"
     }, 
     "log": {
         "level": "trace", 
@@ -18,7 +18,7 @@
             }, 
             {
                 "sink": {
-                    "file_name": "logs/md.log", 
+                    "file_name": "logs/trader.log", 
                     "max_file_size": 5000000, 
                     "max_files": 10, 
                     "type": "rotating_file_sink_mt"

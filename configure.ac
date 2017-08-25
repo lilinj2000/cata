@@ -151,9 +151,7 @@ AC_SUBST(SOIL_LIBADD)
 AC_OUTPUT([
 	Makefile
 	cata/Makefile
-	message/Makefile
-	md_service/Makefile
-	trader_service/Makefile
+	service/Makefile
 	utest/traderflow/Makefile
 	utest/mdflow/Makefile
 	utest/Makefile])
