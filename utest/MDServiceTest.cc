@@ -76,7 +76,6 @@ TEST_F(MDServiceTest, mdTest) {
   service->subMarketData(&c_cu, 1);
 
   cond->wait(2000);
-  
   SUCCEED();
 }
 
