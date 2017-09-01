@@ -196,6 +196,21 @@ void TraderSpiImpl::OnRspQryOrder(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryOrder()");
+
+  if (pOrder) {
+    LOG_DEBUG("{}", *pOrder);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pOrder) {
+        callback()->onRspQryOrder(
+            fmt::format("{}", *pOrder));
+      } else {
+        callback()->onRspQryOrder("");
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryTrade(
@@ -203,6 +218,21 @@ void TraderSpiImpl::OnRspQryTrade(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryTrade()");
+
+  if (pTrade) {
+    LOG_DEBUG("{}", *pTrade);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pTrade) {
+        callback()->onRspQryTrade(
+            fmt::format("{}", *pTrade));
+      } else {
+        callback()->onRspQryTrade("");
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryInvestorPosition(

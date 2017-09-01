@@ -13,6 +13,10 @@ class TraderCallback {
  public:
   virtual void onRspError(const std::string&) = 0;
 
+  virtual void onRspQryOrder(const std::string&) = 0;
+
+  virtual void onRspQryTrade(const std::string&) = 0;
+
   virtual ~TraderCallback() {
   }
 };

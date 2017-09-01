@@ -9,11 +9,11 @@
 
 namespace cata {
 
-class TraderServiceImplTest :
+class TraderServiceTest :
       public ::testing::Test,
       public TraderCallback {
  public:
-  TraderServiceImplTest() {
+  TraderServiceTest() {
     soil::json::load_from_file(&config, "trader.json");
     soil::log::init(config);
 
@@ -38,15 +38,42 @@ class TraderServiceImplTest :
   virtual void onRspError(const std::string& rsp) {
     LOG_INFO("onRspError:\n {}", rsp);
   }
+
+  virtual void onRspQryOrder(const std::string& rsp) {
+    LOG_INFO("onRspQryOrder:\n {}", rsp);
+  }
+  
+  virtual void onRspQryTrade(const std::string& rsp) {
+    LOG_INFO("onRspQryTrade:\n {}", rsp);
+  }
+
  protected:
   rapidjson::Document config;
   std::unique_ptr<soil::STimer> cond;
   std::unique_ptr<TraderService> service;
 };
 
-TEST_F(TraderServiceImplTest, loginTest) {
+TEST_F(TraderServiceTest, orderTest) {
+  std::string instru, exchange, order_sys_id;
+  std::string start_time, stop_time;
+  service->queryOrder(instru,
+                      exchange,
+                      order_sys_id,
+                      start_time,
+                      stop_time);
+  wait(1000);
+
+  std::string trade_id;
+  service->queryTrade(instru,
+                      exchange,
+                      trade_id,
+                      start_time,
+                      stop_time);
+  wait(1000);
+
   SUCCEED();
 }
+
 
 // TEST_F(TraderServiceImplTest, queryExchangeMarginRateTest) {
 //   wait(1000);
