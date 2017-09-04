@@ -37,15 +37,140 @@ class TraderServiceTest :
 
   virtual void onRspError(const std::string& rsp) {
     LOG_INFO("onRspError:\n {}", rsp);
+
+    notify();
   }
 
-  virtual void onRspQryOrder(const std::string& rsp) {
+  virtual void onRspQryOrder(const std::string& rsp,
+                             bool is_last) {
     LOG_INFO("onRspQryOrder:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
   }
   
-  virtual void onRspQryTrade(const std::string& rsp) {
+  virtual void onRspQryTrade(const std::string& rsp,
+                             bool is_last) {
     LOG_INFO("onRspQryTrade:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
   }
+
+  virtual void onRspOrderInsert(const std::string& rsp,
+                                bool is_last) {
+    LOG_INFO("onRspOrderInsert:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
+  virtual void onRtnOrder(const std::string& rtn) {
+    LOG_INFO("onRtnOrder:\n {}", rtn);
+  }
+
+  virtual void onRtnTrade(const std::string& rtn) {
+    LOG_INFO("onRtnTrade:\n {}", rtn);
+  }
+
+  virtual void onErrRtnOrderInsert(const std::string& rtn) {
+    LOG_INFO("onErrRtnOrderInsert:\n {}", rtn);
+  }
+
+  virtual void onRspQryInvestorPosition(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryInvestorPosition:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+
+  }
+
+  virtual void onRspQryTradingAccount(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryTradingAccount:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+
+  }
+
+  virtual void onRspQryInvestor(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryInvestor:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
+  virtual void onRspQryTradingCode(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryTradingCode:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
+  virtual void onRspQryInstrumentMarginRate(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryInstrumentMarginRate:\n {}", rsp);
+    if (is_last) {
+      notify();
+    }
+  }
+
+  virtual void onRspQryInstrumentCommissionRate(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryInstrumentCommissionRate:\n {}", rsp);
+    if (is_last) {
+      notify();
+    }
+
+  }
+
+  virtual void onRspQryExchange(
+      const std::string& rsp,
+      bool is_last) {
+    LOG_INFO("onRspQryExchange:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+
+  }
+
+  virtual void onRspQryInstrument(const std::string& rsp,
+                                  bool is_last) {
+    LOG_INFO("onRspQryInstrument:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+
+  }
+
+  virtual void onRspQryDepthMarketData(const std::string& rsp,
+                                       bool is_last) {
+    LOG_INFO("onRspQryDepthMarketData:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
 
  protected:
   rapidjson::Document config;
@@ -56,24 +181,98 @@ class TraderServiceTest :
 TEST_F(TraderServiceTest, orderTest) {
   std::string instru, exchange, order_sys_id;
   std::string start_time, stop_time;
-  service->queryOrder(instru,
+  service->queryOrder("",
                       exchange,
                       order_sys_id,
                       start_time,
                       stop_time);
+  wait();
   wait(1000);
 
   std::string trade_id;
-  service->queryTrade(instru,
+  service->queryTrade("",
                       exchange,
                       trade_id,
                       start_time,
                       stop_time);
+  wait();
   wait(1000);
+
+  instru = "cu1712";
+  double price = 5000;
+  int volume = 1;
+  int32_t order_ref = service->openBuyOrder(instru,
+                                            price,
+                                            volume);
+  LOG_INFO("order_ref: {}", order_ref);
+
+  wait(1000);
+  service->queryOrder("",
+                      exchange,
+                      order_sys_id,
+                      start_time,
+                      stop_time);
+  wait();
+  wait(1000);
+
+  service->queryTrade("",
+                      exchange,
+                      trade_id,
+                      start_time,
+                      stop_time);
+  wait();
 
   SUCCEED();
 }
 
+TEST_F(TraderServiceTest, queryTest) {
+  std::string trading_day = service->tradingDay();
+  LOG_INFO("{}", trading_day);
+
+  wait(1000);
+  service->queryInvestor();
+  wait();
+  wait(1000);
+
+  service->queryTradingCode("");
+  wait();
+  wait(1000);
+
+  service->queryAccount("");
+  wait();
+  wait(1000);
+
+  service->queryExchange("");
+  wait();
+  wait(1000);
+
+  service->queryInstrument("", "", "", "");
+  wait();
+  wait(1000);
+
+  service->queryInstruMarginRate("");
+  wait();
+  wait(1000);
+
+  service->queryInstruCommissionRate("");
+  wait();
+  wait(1000);
+
+  service->queryDepthMarketData("");
+  wait();
+  wait(1000);
+
+  service->queryPosition("");
+  wait();
+  wait(1000);
+
+  service->queryOrder("", "", "", "", "");
+  wait();
+  wait(1000);
+
+  service->queryTrade("", "", "", "", "");
+  wait();
+}
 
 // TEST_F(TraderServiceImplTest, queryExchangeMarginRateTest) {
 //   wait(1000);
@@ -93,25 +292,6 @@ TEST_F(TraderServiceTest, orderTest) {
 //   GTEST_SUCCEED();
 // }
 
-// TEST_F(TraderServiceImplTest, queryInstruMarginRateTest) {
-//   wait(1000);
-//   // service_->queryInstruMarginRate(instru_, HF_SPECULATION);
-//   service_->queryInstruMarginRate("", HF_SPECULATION);
-//   rsp_expect_ = "OnRspQryInstrumentMarginRate";
-//   wait();
-
-//   GTEST_SUCCEED();
-// }
-
-// TEST_F(TraderServiceImplTest, queryInstrumentTest) {
-//   wait(1000);
-//   service_->queryInstrument("", "", "", "");
-//   rsp_expect_ = "OnRspQryInstrument";
-//   wait();
-
-//   GTEST_SUCCEED();
-// }
-
 // TEST_F(TraderServiceImplTest, queryProductTest) {
 //   wait(1000);
 //   service_->queryProduct("", PC_Futures);
@@ -119,52 +299,6 @@ TEST_F(TraderServiceTest, orderTest) {
 //   wait();
 
 //   GTEST_SUCCEED();
-// }
-
-// TEST_F(TraderServiceImplTest, queryInstruCommissionRateTest) {
-//   wait(1000);
-//   // service_->queryInstruCommissionRate(instru_);
-//   service_->queryInstruCommissionRate("");
-//   rsp_expect_ = "OnRspQryInstrumentCommissionRate";
-//   wait();
-
-//   GTEST_SUCCEED();
-// }
-
-// TEST_F(TraderServiceImplTest, orderOpenBuyTest) {
-//   std::string instru = "cu1603";
-//   double price = 32900;
-//   int volume = 1;
-
-//   service_->orderOpenBuy(instru, price, volume);
-
-//   cond_->wait(2000);
-
-//   ASSERT_TRUE(true);
-// }
-
-// TEST_F(TraderServiceImplTest, orderOpenBuyFAKTest) {
-//   std::string instru = "IF1510";
-//   double price = 3000;
-//   int volume = 1;
-
-//   service_->orderOpenBuyFAK(instru, price, volume);
-
-//   cond_->wait(2000);
-
-//   ASSERT_TRUE(true);
-// }
-
-// TEST_F(TraderServiceImplTest, orderOpenBuyFOKTest) {
-//   std::string instru = "IF1510";
-//   double price = 3000;
-//   int volume = 10;
-
-//   service_->orderOpenBuyFOK(instru, price, volume);
-
-//   cond_->wait(2000);
-
-//   ASSERT_TRUE(true);
 // }
 
 };  // namespace cata

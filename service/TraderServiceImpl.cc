@@ -70,50 +70,119 @@ std::string TraderServiceImpl::tradingDay() {
   return trader_api_->GetTradingDay();
 }
 
-int TraderServiceImpl::openBuyOrder(
+int32_t TraderServiceImpl::openBuyOrder(
     const std::string& instru,
     double price,
     int volume) {
   LOG_TRACE("TraderServiceImpl::openBuyOrder()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume);
+
+  req->Direction = THOST_FTDC_D_Buy;
+  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+
+  LOG_DEBUG("{}", *req);
+
+  return orderGo(req);
 }
 
-int TraderServiceImpl::openBuyOrderFAK(
+int32_t TraderServiceImpl::openBuyOrderFAK(
     const std::string& instru,
     double price,
     int volume) {
   LOG_TRACE("TraderServiceImpl::openBuyOrderFAK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume);
+
+  req->Direction = THOST_FTDC_D_Buy;
+  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+
+  req->TimeCondition = THOST_FTDC_TC_IOC;
+
+  LOG_DEBUG("{}", *req);
+
+  return orderGo(req);
 }
 
-int TraderServiceImpl::openBuyOrderFOK(
+int32_t TraderServiceImpl::openBuyOrderFOK(
     const std::string& instru,
     double price,
     int volume) {
   LOG_TRACE("TraderServiceImpl::openBuyOrderFOK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume);
+
+  req->Direction = THOST_FTDC_D_Buy;
+  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+
+  req->TimeCondition = THOST_FTDC_TC_IOC;
+  req->VolumeCondition = THOST_FTDC_VC_CV;
+
+  LOG_DEBUG("{}", *req);
+
+  return orderGo(req);
 }
 
-int TraderServiceImpl::openSellOrder(
+int32_t TraderServiceImpl::openSellOrder(
     const std::string& instru,
     double price,
     int volume) {
   LOG_TRACE("TraderServiceImpl::openSellOrder()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume);
+
+  req->Direction = THOST_FTDC_D_Sell;
+  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+
+  LOG_DEBUG("{}", *req);
+
+  return orderGo(req);
 }
 
-int TraderServiceImpl::openSellOrderFAK(
+int32_t TraderServiceImpl::openSellOrderFAK(
     const std::string& instru,
     double price,
     int volume) {
   LOG_TRACE("TraderServiceImpl::openSellOrderFAK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume);
+
+  req->Direction = THOST_FTDC_D_Sell;
+  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+
+  req->TimeCondition = THOST_FTDC_TC_IOC;
+
+  LOG_DEBUG("{}", *req);
+
+  return orderGo(req);
 }
 
-int TraderServiceImpl::openSellOrderFOK(
+int32_t TraderServiceImpl::openSellOrderFOK(
     const std::string& instru,
     double price,
     int volume) {
   LOG_TRACE("TraderServiceImpl::openSellOrderFOK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume);
+
+  req->Direction = THOST_FTDC_D_Sell;
+  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+
+  req->TimeCondition = THOST_FTDC_TC_IOC;
+  req->VolumeCondition = THOST_FTDC_VC_CV;
+
+  LOG_DEBUG("{}", *req);
+
+  return orderGo(req);
 }
 
-
-int TraderServiceImpl::queryOrder(
+void TraderServiceImpl::queryOrder(
     const std::string& instru,
     const std::string& exchange,
     const std::string& order_sys_id,
@@ -142,11 +211,9 @@ int TraderServiceImpl::queryOrder(
         fmt::format("query order failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
-int TraderServiceImpl::queryTrade(
+void TraderServiceImpl::queryTrade(
     const std::string& instru,
     const std::string& exchange,
     const std::string& trade_id,
@@ -172,14 +239,12 @@ int TraderServiceImpl::queryTrade(
   int ret = trader_api_->ReqQryTrade(&req, req_id);
   if (ret != 0) {
     throw std::runtime_error(
-        fmt::format("query order failed."
+        fmt::format("query order failed.\n"
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
-int TraderServiceImpl::queryPosition(
+void TraderServiceImpl::queryPosition(
     const std::string& instru) {
   LOG_TRACE("TraderServiceImpl::queryPosition()");
 
@@ -202,11 +267,9 @@ int TraderServiceImpl::queryPosition(
         fmt::format("query position failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
-int TraderServiceImpl::queryAccount(
+void TraderServiceImpl::queryAccount(
     const std::string& currency_id) {
   LOG_TRACE("TraderServiceImpl::queryAccount()");
 
@@ -230,10 +293,9 @@ int TraderServiceImpl::queryAccount(
                     " return code {}", ret));
   }
 
-  return req_id;
 }
 
-int TraderServiceImpl::queryInvestor() {
+void TraderServiceImpl::queryInvestor() {
   LOG_TRACE("TraderServiceImpl::queryInvestor()");
 
   CThostFtdcQryInvestorField req;
@@ -253,70 +315,65 @@ int TraderServiceImpl::queryInvestor() {
         fmt::format("query investor failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
-// int TraderServiceImpl::queryTradingCode(
-//     const std::string& exchange,
-//     const std::string& client_id,
-//     ClientIDType cidt) {
-//   LOG_TRACE("TraderServiceImpl::queryTradingCode()");
+void TraderServiceImpl::queryTradingCode(
+    const std::string& exchange) {
+  LOG_TRACE("TraderServiceImpl::queryTradingCode()");
 
-//   CThostFtdcQryTradingCodeField req;
-//   memset(&req, 0x0, sizeof(req));
+  CThostFtdcQryTradingCodeField req;
+  memset(&req, 0x0, sizeof(req));
 
-//   S_INPUT(&req, CThostFtdcQryTradingCodeField,
-//           BrokerID, options_->broker_id.data());
-//   S_INPUT(&req, CThostFtdcQryTradingCodeField,
-//           InvestorID, options_->investor_id.data());
-//   S_INPUT(&req, CThostFtdcQryTradingCodeField,
-//           ExchangeID, exchange.data());
-//   S_INPUT(&req, CThostFtdcQryTradingCodeField,
-//           ClientID, client_id.data());
-//   req.ClientIDType = cidt;
+  S_INPUT(&req, CThostFtdcQryTradingCodeField,
+          BrokerID, options_->broker_id.data());
+  S_INPUT(&req, CThostFtdcQryTradingCodeField,
+          InvestorID, options_->investor_id.data());
 
-//   TRADER_DEBUG <<req;
+  S_INPUT(&req, CThostFtdcQryTradingCodeField,
+          ExchangeID, exchange.data());
 
-//   int req_id = reqID();
-//   int ret = trader_api_->ReqQryTradingCode(&req, req_id);
-//   if (ret != 0) {
-//     TRADER_ERROR <<"return code " <<ret;
-//     throw std::runtime_error("query trading code failed.");
-//   }
+  // S_INPUT(&req, CThostFtdcQryTradingCodeField,
+  //         ClientID, client_id.data());
+  // req.ClientIDType = cidt;
 
-//   return req_id;
-// }
+  LOG_DEBUG("{}", req);
 
-// int TraderServiceImpl::queryInstruMarginRate(
-//     const std::string& instru,
-//     HedgeFlagType hedge_flag) {
-//   LOG_TRACE("TraderServiceImpl::queryInstruMarginRate()";
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryTradingCode(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("query trading code failed.\n"
+                    "return code is {}", ret));
+  }
+}
 
-//   CThostFtdcQryInstrumentMarginRateField req;
-//   memset(&req, 0x0, sizeof(req));
+void TraderServiceImpl::queryInstruMarginRate(
+    const std::string& instru) {
+  LOG_TRACE("TraderServiceImpl::queryInstruMarginRate()");
 
-//   S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
-//           BrokerID, options_->broker_id.data());
-//   S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
-//           InvestorID, options_->investor_id.data());
-//   S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
-//           InstrumentID, instru.data());
-//   req.HedgeFlag = hedge_flag;
+  CThostFtdcQryInstrumentMarginRateField req;
+  memset(&req, 0x0, sizeof(req));
 
-//   TRADER_DEBUG <<req;
+  S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
+          BrokerID, options_->broker_id.data());
+  S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
+          InvestorID, options_->investor_id.data());
+  S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
+          InstrumentID, instru.data());
+  req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-//   int req_id = reqID();
-//   int ret = trader_api_->ReqQryInstrumentMarginRate(&req, req_id);
-//   if (ret != 0) {
-//     TRADER_ERROR <<"return code " <<ret;
-//     throw std::runtime_error("query instrument margin rate failed.");
-//   }
+  LOG_DEBUG("{}", req);
 
-//   return req_id;
-// }
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryInstrumentMarginRate(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("query instrument margin rate failed.\n"
+                    "return code {}", ret));
+  }
+}
 
-int TraderServiceImpl::queryInstruCommissionRate(
+void TraderServiceImpl::queryInstruCommissionRate(
     const std::string& instru) {
   LOG_TRACE("TraderServiceImpl::queryInstruCommissionRate()");
 
@@ -339,11 +396,9 @@ int TraderServiceImpl::queryInstruCommissionRate(
         fmt::format("query instrument commission rate failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
-int TraderServiceImpl::queryExchange(
+void TraderServiceImpl::queryExchange(
     const std::string& exchange) {
   LOG_TRACE("TraderServiceImpl::queryExchange()");
 
@@ -361,8 +416,6 @@ int TraderServiceImpl::queryExchange(
         fmt::format("query exchange failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
 // int TraderServiceImpl::queryProduct(
@@ -388,7 +441,7 @@ int TraderServiceImpl::queryExchange(
 //   return req_id;
 // }
 
-int TraderServiceImpl::queryInstrument(
+void TraderServiceImpl::queryInstrument(
     const std::string& instru,
     const std::string& exchange,
     const std::string& exchange_instru_id,
@@ -413,11 +466,9 @@ int TraderServiceImpl::queryInstrument(
         fmt::format("query instrument failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
-int TraderServiceImpl::queryDepthMarketData(
+void TraderServiceImpl::queryDepthMarketData(
     const std::string& instru) {
   LOG_TRACE("TraderServiceImpl::queryDepthMarketData()");
 
@@ -435,8 +486,6 @@ int TraderServiceImpl::queryDepthMarketData(
         fmt::format("query depth market data failed."
                     " return code {}", ret));
   }
-
-  return req_id;
 }
 
 // int TraderServiceImpl::queryExchangeMarginRate(
@@ -613,73 +662,56 @@ void TraderServiceImpl::settlementInfoConfirm() {
   }
 }
 
-// ReqOrderInsertMessage* TraderServiceImpl::reqOrderMessage(
-//     DirectionType direct,
-//     OffsetFlagType of,
-//     HedgeFlagType hf,
-//     const std::string& instru,
-//     double price, int volume) {
-//   std::unique_ptr<CThostFtdcInputOrderField> req
-//       (new CThostFtdcInputOrderField());
+std::shared_ptr<CThostFtdcInputOrderField>
+TraderServiceImpl::reqOrderMessage(
+    const std::string& instru,
+    double price, int volume) {
+  std::shared_ptr<CThostFtdcInputOrderField> req
+      (new CThostFtdcInputOrderField());
 
-//   S_INPUT(req.get(), CThostFtdcInputOrderField,
-//           BrokerID, options_->broker_id.data());
-//   S_INPUT(req.get(), CThostFtdcInputOrderField,
-//           InvestorID, options_->investor_id.data());
-//   S_INPUT(req.get(), CThostFtdcInputOrderField,
-//           UserID, options_->user_id.data());
-//   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
-//   req->TimeCondition = THOST_FTDC_TC_GFD;
-//   req->VolumeCondition = THOST_FTDC_VC_AV;
-//   req->MinVolume = 1;
-//   req->ContingentCondition = THOST_FTDC_CC_Immediately;
-//   req->ForceCloseReason = THOST_FTDC_FCC_NotForceClose;
-//   req->IsAutoSuspend = 0;
+  S_INPUT(req.get(), CThostFtdcInputOrderField,
+          BrokerID, options_->broker_id.data());
+  S_INPUT(req.get(), CThostFtdcInputOrderField,
+          InvestorID, options_->investor_id.data());
+  S_INPUT(req.get(), CThostFtdcInputOrderField,
+          UserID, options_->user_id.data());
+  req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
+  req->TimeCondition = THOST_FTDC_TC_GFD;
+  req->VolumeCondition = THOST_FTDC_VC_AV;
+  req->MinVolume = 1;
+  req->ContingentCondition = THOST_FTDC_CC_Immediately;
+  req->ForceCloseReason = THOST_FTDC_FCC_NotForceClose;
+  req->IsAutoSuspend = 0;
 
-//   req->Direction = direct;
-//   req->CombOffsetFlag[0] = of;
-//   req->CombHedgeFlag[0] = hf;
-//   S_INPUT(req.get(), CThostFtdcInputOrderField, InstrumentID, instru.data());
-//   req->LimitPrice = price;
-//   req->VolumeTotalOriginal = volume;
+  req->CombHedgeFlag[0] = THOST_FTDC_HF_Speculation;
 
-//   std::unique_ptr<ReqOrderInsertMessage> req_msg(
-//       new ReqOrderInsertMessage(req.get(), reqID()));
+  S_INPUT(req.get(), CThostFtdcInputOrderField, InstrumentID, instru.data());
+  req->LimitPrice = price;
+  req->VolumeTotalOriginal = volume;
 
-//   TRADER_DEBUG <<req_msg->toString();
+  return req;
+}
 
-//   return req_msg.release();
-// }
+int32_t TraderServiceImpl::orderGo(
+    std::shared_ptr<CThostFtdcInputOrderField> req) {
+  LOG_TRACE("TraderServiceImpl::orderGo()");
 
-// void TraderServiceImpl::orderGo(const Message* msg) {
-//   LOG_TRACE("TraderServiceImpl::orderGo()";
+  int32_t order_ref = ++max_order_ref_;
+  S_INPUT(req.get(),
+          CThostFtdcInputOrderField,
+          OrderRef,
+          fmt::format("{:0>13}", order_ref).data());
 
-//   try {
-//     if (msg->id() == REQ_ORDER_INSERT_MESSAGE) {
-//       const ReqOrderInsertMessage* req_msg = dynamic_cast<
-//         const ReqOrderInsertMessage*>(msg);
-//       CThostFtdcInputOrderField* req = req_msg->inputOrder();
-//       char OrderRef[13];
-//       snprintf(OrderRef, sizeof(OrderRef), "%013d", ++max_order_ref_);
-//       S_INPUT(req, CThostFtdcInputOrderField, OrderRef, OrderRef);
+  int result = trader_api_->ReqOrderInsert(req.get(),
+                                           reqID());
+  if (result != 0) {
+    throw std::runtime_error(
+        fmt::format("request order failed.\n"
+                    "Error code is {}", result));
+  }
 
-//       int result = trader_api_->ReqOrderInsert(req, req_msg->requestID());
-//       if (result != 0) {
-//         std::stringstream ss;
-//         ss <<"the order insert failed.\n"
-//            <<"Error Code is " <<result;
-//         throw std::runtime_error(ss.str());
-//       }
-//     } else {
-//       std::stringstream ss;
-//       ss <<"the req message is unsupported.\n"
-//          <<"the message id is " <<msg->id();
-//       throw std::runtime_error(ss.str());
-//     }
-//   } catch (std::exception & e) {
-//     TRADER_ERROR <<e.what();
-//   }
-// }
+  return order_ref;
+}
 
 TraderService* TraderService::create(
     const rapidjson::Document& doc,

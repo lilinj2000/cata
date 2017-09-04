@@ -90,6 +90,22 @@ void TraderSpiImpl::OnRspOrderInsert(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspOrderInsert()");
+
+  if (pInputOrder) {
+    LOG_DEBUG("{}", *pInputOrder);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInputOrder) {
+        callback()->onRspOrderInsert(
+            fmt::format("{}", *pInputOrder),
+            bIsLast);
+      } else {
+        callback()->onRspOrderInsert("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspParkedOrderInsert(
@@ -205,9 +221,10 @@ void TraderSpiImpl::OnRspQryOrder(
     if (callback()) {
       if (pOrder) {
         callback()->onRspQryOrder(
-            fmt::format("{}", *pOrder));
+            fmt::format("{}", *pOrder),
+            bIsLast);
       } else {
-        callback()->onRspQryOrder("");
+        callback()->onRspQryOrder("", bIsLast);
       }
     }
   }
@@ -227,9 +244,10 @@ void TraderSpiImpl::OnRspQryTrade(
     if (callback()) {
       if (pTrade) {
         callback()->onRspQryTrade(
-            fmt::format("{}", *pTrade));
+            fmt::format("{}", *pTrade),
+            bIsLast);
       } else {
-        callback()->onRspQryTrade("");
+        callback()->onRspQryTrade("", bIsLast);
       }
     }
   }
@@ -240,6 +258,22 @@ void TraderSpiImpl::OnRspQryInvestorPosition(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryInvestorPosition()");
+
+  if (pInvestorPosition) {
+    LOG_DEBUG("{}", *pInvestorPosition);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInvestorPosition) {
+        callback()->onRspQryInvestorPosition(
+            fmt::format("{}", *pInvestorPosition),
+            bIsLast);
+      } else {
+        callback()->onRspQryInvestorPosition("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryTradingAccount(
@@ -247,6 +281,22 @@ void TraderSpiImpl::OnRspQryTradingAccount(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryTradingAccount()");
+
+  if (pTradingAccount) {
+    LOG_DEBUG("{}", *pTradingAccount);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pTradingAccount) {
+        callback()->onRspQryTradingAccount(
+            fmt::format("{}", *pTradingAccount),
+            bIsLast);
+      } else {
+        callback()->onRspQryTradingAccount("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryInvestor(
@@ -254,6 +304,23 @@ void TraderSpiImpl::OnRspQryInvestor(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryInvestor()");
+
+  if (pInvestor) {
+    LOG_DEBUG("{}", *pInvestor);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInvestor) {
+        callback()->onRspQryInvestor(
+            fmt::format("{}", *pInvestor),
+            bIsLast);
+      } else {
+        callback()->onRspQryInvestor("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQryTradingCode(
@@ -261,6 +328,23 @@ void TraderSpiImpl::OnRspQryTradingCode(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryTradingCode()");
+
+  if (pTradingCode) {
+    LOG_DEBUG("{}", *pTradingCode);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pTradingCode) {
+        callback()->onRspQryTradingCode(
+            fmt::format("{}", *pTradingCode),
+            bIsLast);
+      } else {
+        callback()->onRspQryTradingCode("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQryInstrumentMarginRate(
@@ -268,6 +352,22 @@ void TraderSpiImpl::OnRspQryInstrumentMarginRate(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryInstrumentMarginRate()");
+
+  if (pInstrumentMarginRate) {
+    LOG_DEBUG("{}", *pInstrumentMarginRate);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInstrumentMarginRate) {
+        callback()->onRspQryInstrumentMarginRate(
+            fmt::format("{}", *pInstrumentMarginRate),
+            bIsLast);
+      } else {
+        callback()->onRspQryInstrumentMarginRate("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryInstrumentCommissionRate(
@@ -275,6 +375,22 @@ void TraderSpiImpl::OnRspQryInstrumentCommissionRate(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryInstrumentCommissionRate()");
+
+  if (pInstrumentCommissionRate) {
+    LOG_DEBUG("{}", *pInstrumentCommissionRate);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInstrumentCommissionRate) {
+        callback()->onRspQryInstrumentCommissionRate(
+            fmt::format("{}", *pInstrumentCommissionRate),
+            bIsLast);
+      } else {
+        callback()->onRspQryInstrumentCommissionRate("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryExchange(
@@ -282,6 +398,23 @@ void TraderSpiImpl::OnRspQryExchange(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryExchange()");
+
+  if (pExchange) {
+    LOG_DEBUG("{}", *pExchange);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pExchange) {
+        callback()->onRspQryExchange(
+            fmt::format("{}", *pExchange),
+            bIsLast);
+      } else {
+        callback()->onRspQryExchange("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQryProduct(
@@ -296,6 +429,22 @@ void TraderSpiImpl::OnRspQryInstrument(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryInstrument()");
+
+  if (pInstrument) {
+    LOG_DEBUG("{}", *pInstrument);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInstrument) {
+        callback()->onRspQryInstrument(
+            fmt::format("{}", *pInstrument),
+            bIsLast);
+      } else {
+        callback()->onRspQryInstrument("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQryDepthMarketData(
@@ -303,6 +452,23 @@ void TraderSpiImpl::OnRspQryDepthMarketData(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryDepthMarketData()");
+
+  if (pDepthMarketData) {
+    LOG_DEBUG("{}", *pDepthMarketData);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pDepthMarketData) {
+        callback()->onRspQryDepthMarketData(
+            fmt::format("{}", *pDepthMarketData),
+            bIsLast);
+      } else {
+        callback()->onRspQryDepthMarketData("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQrySettlementInfo(
@@ -470,22 +636,65 @@ void TraderSpiImpl::OnRspError(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspError()");
+
+  isRspError(pRspInfo);
 }
 
 void TraderSpiImpl::OnRtnOrder(
       CThostFtdcOrderField *pOrder) {
   LOG_TRACE("TraderSpiImpl::OnRtnOrder()");
+
+  if (pOrder) {
+    LOG_DEBUG("{}", *pOrder);
+  }
+
+  if (callback()) {
+    if (pOrder) {
+      callback()->onRtnOrder(
+          fmt::format("{}", *pOrder));
+    } else {
+      callback()->onRtnOrder("");
+    }
+  }
 }
 
 void TraderSpiImpl::OnRtnTrade(
       CThostFtdcTradeField *pTrade) {
   LOG_TRACE("TraderSpiImpl::OnRtnTrade()");
+
+  if (pTrade) {
+    LOG_DEBUG("{}", *pTrade);
+  }
+
+  if (callback()) {
+    if (pTrade) {
+      callback()->onRtnTrade(
+          fmt::format("{}", *pTrade));
+    } else {
+      callback()->onRtnTrade("");
+    }
+  }
 }
 
 void TraderSpiImpl::OnErrRtnOrderInsert(
       CThostFtdcInputOrderField *pInputOrder,
       CThostFtdcRspInfoField *pRspInfo) {
   LOG_TRACE("TraderSpiImpl::OnErrRtnOrderInsert()");
+
+  if (pInputOrder) {
+    LOG_DEBUG("{}", *pInputOrder);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInputOrder) {
+        callback()->onErrRtnOrderInsert(
+            fmt::format("{}", *pInputOrder));
+      } else {
+        callback()->onErrRtnOrderInsert("");
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnErrRtnOrderAction(

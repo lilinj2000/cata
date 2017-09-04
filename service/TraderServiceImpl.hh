@@ -27,84 +27,81 @@ class TraderServiceImpl : public TraderService {
 
   virtual std::string tradingDay();
 
-  virtual int openBuyOrder(
+  virtual int32_t openBuyOrder(
       const std::string& instru,
       double price,
       int volume);
 
-  virtual int openBuyOrderFAK(
+  virtual int32_t openBuyOrderFAK(
       const std::string& instru,
       double price,
       int volume);
 
-  virtual int openBuyOrderFOK(
+  virtual int32_t openBuyOrderFOK(
       const std::string& instru,
       double price,
       int volume);
 
-  virtual int openSellOrder(
+  virtual int32_t openSellOrder(
       const std::string& instru,
       double price,
       int volume);
 
-  virtual int openSellOrderFAK(
+  virtual int32_t openSellOrderFAK(
       const std::string& instru,
       double price,
       int volume);
 
-  virtual int openSellOrderFOK(
+  virtual int32_t openSellOrderFOK(
       const std::string& instru,
       double price,
       int volume);
 
-  virtual int queryOrder(
+  virtual void queryOrder(
       const std::string& instru,
       const std::string& exchange,
       const std::string& order_sys_id,
       const std::string& start_time,
       const std::string& stop_time);
 
-  virtual int queryTrade(
+  virtual void queryTrade(
       const std::string& instru,
       const std::string& exchange,
       const std::string& trade_id,
       const std::string& start_time,
       const std::string& stop_time);
 
-  virtual int queryPosition(
+  virtual void queryPosition(
       const std::string& instru);
 
-  virtual int queryAccount(
+  virtual void queryAccount(
       const std::string& currency_id);
 
-  virtual int queryInvestor();
+  virtual void queryInvestor();
 
-  // virtual int queryTradingCode(
-  //     const std::string& exchange,
-  //     const std::string& client_id,
-  //     ClientIDType cidt);
+  virtual void queryTradingCode(
+      const std::string& exchange);
 
-  // virtual int queryInstruMarginRate(
-  //     const std::string& instru,
-  //     HedgeFlagType hedge_flag);
-
-  virtual int queryInstruCommissionRate(
+  virtual void queryInstruMarginRate(
       const std::string& instru);
 
-  virtual int queryExchange(
+  virtual void queryInstruCommissionRate(
+      const std::string& instru);
+
+  virtual void queryExchange(
       const std::string& exchange);
 
   // virtual int queryProduct(
   //     const std::string& product_id,
   //     ProductClassType pc);
 
-  virtual int queryInstrument(
+  virtual void queryInstrument(
       const std::string& instru,
       const std::string& exchange,
       const std::string& exchange_instru_id,
       const std::string& product_id);
 
-  virtual int queryDepthMarketData(
+  virtual void queryDepthMarketData(
       const std::string& instru);
 
   // virtual int queryExchangeMarginRate(
@@ -137,6 +134,14 @@ class TraderServiceImpl : public TraderService {
  protected:
   void settlementInfoConfirm();
 
+  std::shared_ptr<CThostFtdcInputOrderField>
+  reqOrderMessage(
+    const std::string& instru,
+    double price, int volume);
+
+  int32_t orderGo(
+      std::shared_ptr<CThostFtdcInputOrderField> req);
+
   int reqID() {
     return ++request_id_;
   }
@@ -160,7 +165,7 @@ class TraderServiceImpl : public TraderService {
 
   int front_id_;
   int session_id_;
-  std::atomic<int> max_order_ref_;
+  std::atomic<int32_t> max_order_ref_;
 };
 
 };  // namespace cata
