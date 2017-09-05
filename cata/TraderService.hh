@@ -19,11 +19,15 @@ class TraderCallback {
 
   virtual void onRspOrderInsert(const std::string&, bool is_last) = 0;
 
+  virtual void onRspOrderAction(const std::string&, bool is_last) = 0;
+
   virtual void onRtnOrder(const std::string&) = 0;
 
   virtual void onRtnTrade(const std::string&) = 0;
 
   virtual void onErrRtnOrderInsert(const std::string&) = 0;
+
+  virtual void onErrRtnOrderAction(const std::string&) = 0;
 
   virtual void onRspQryInvestorPosition(const std::string&, bool is_last) = 0;
 
@@ -39,9 +43,15 @@ class TraderCallback {
 
   virtual void onRspQryExchange(const std::string&, bool is_last) = 0;
 
+  virtual void onRspQryProduct(const std::string&, bool is_last) = 0;
+
   virtual void onRspQryInstrument(const std::string&, bool is_last) = 0;
 
   virtual void onRspQryDepthMarketData(const std::string&, bool is_last) = 0;
+
+  virtual void onRspQryExchangeMarginRate(const std::string&, bool is_last) = 0;
+
+  virtual void onRspQryExchangeMarginRateAdjust(const std::string&, bool is_last) = 0;
 
   virtual ~TraderCallback() {
   }
@@ -66,6 +76,21 @@ class TraderService {
       double price,
       int volume) = 0;
 
+  virtual int32_t closeBuyOrder(
+      const std::string& instru,
+      double price,
+      int volume) = 0;
+
+  virtual int32_t closeBuyOrderFAK(
+      const std::string& instru,
+      double price,
+      int volume) = 0;
+
+  virtual int32_t closeBuyOrderFOK(
+      const std::string& instru,
+      double price,
+      int volume) = 0;
+
   virtual int32_t openSellOrder(
       const std::string& instru,
       double price,
@@ -80,6 +105,27 @@ class TraderService {
       const std::string& instru,
       double price,
       int volume) = 0;
+
+  virtual int32_t closeSellOrder(
+      const std::string& instru,
+      double price,
+      int volume) = 0;
+
+  virtual int32_t closeSellOrderFAK(
+      const std::string& instru,
+      double price,
+      int volume) = 0;
+
+  virtual int32_t closeSellOrderFOK(
+      const std::string& instru,
+      double price,
+      int volume) = 0;
+
+  virtual void cancelOrder(int32_t order_ref) = 0;
+
+  virtual void cancelOrder(
+      const std::string& exchange_id,
+      const std::string& order_sys_id) = 0;
 
   virtual void queryOrder(
       const std::string& instru,
@@ -115,9 +161,8 @@ class TraderService {
   virtual void queryExchange(
       const std::string& exchange) = 0;
 
-  // virtual int queryProduct(
-  //     const std::string& product_id,
-  //     ProductClassType pc) = 0;
+  virtual void queryProduct(
+      const std::string& product_id) = 0;
 
   virtual void queryInstrument(
       const std::string& instru,
@@ -128,13 +173,11 @@ class TraderService {
   virtual void queryDepthMarketData(
       const std::string& instru) = 0;
 
-  // virtual int queryExchangeMarginRate(
-  //     const std::string& instru,
-  //     HedgeFlagType hedge_flag) = 0;
+  virtual void queryExchangeMarginRate(
+      const std::string& instru) = 0;
 
-  // virtual int queryExchangeMarginRateAdjust(
-  //     const std::string& instru,
-  //     HedgeFlagType hedge_flag) = 0;
+  virtual void queryExchangeMarginRateAdjust(
+      const std::string& instru) = 0;
 
   virtual ~TraderService() {}
 

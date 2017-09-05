@@ -17,6 +17,16 @@ class TraderServiceTest :
     soil::json::load_from_file(&config, "trader.json");
     soil::log::init(config);
 
+    soil::json::get_item_value(&instru,
+                               config,
+                               "/tests/instru");
+    soil::json::get_item_value(&price,
+                               config,
+                               "/tests/price");
+    soil::json::get_item_value(&volume,
+                               config,
+                               "/tests/volume");
+
     cond.reset(soil::STimer::create());
     service.reset(TraderService::create(config, this));
   }
@@ -68,6 +78,15 @@ class TraderServiceTest :
     }
   }
 
+  virtual void onRspOrderAction(const std::string& rsp,
+                                bool is_last) {
+    LOG_INFO("onRspOrderAction:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
   virtual void onRtnOrder(const std::string& rtn) {
     LOG_INFO("onRtnOrder:\n {}", rtn);
   }
@@ -78,6 +97,10 @@ class TraderServiceTest :
 
   virtual void onErrRtnOrderInsert(const std::string& rtn) {
     LOG_INFO("onErrRtnOrderInsert:\n {}", rtn);
+  }
+
+  virtual void onErrRtnOrderAction(const std::string& rtn) {
+    LOG_INFO("onErrRtnOrderAction:\n {}", rtn);
   }
 
   virtual void onRspQryInvestorPosition(
@@ -152,6 +175,14 @@ class TraderServiceTest :
 
   }
 
+  virtual void onRspQryProduct(const std::string& rsp, bool is_last) {
+    LOG_INFO("onRspQryProduct:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
   virtual void onRspQryInstrument(const std::string& rsp,
                                   bool is_last) {
     LOG_INFO("onRspQryInstrument:\n {}", rsp);
@@ -171,55 +202,50 @@ class TraderServiceTest :
     }
   }
 
+  virtual void onRspQryExchangeMarginRate(const std::string& rsp, bool is_last) {
+    LOG_INFO("onRspQryExchangeMarginRate:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
+  virtual void onRspQryExchangeMarginRateAdjust(const std::string& rsp, bool is_last) {
+    LOG_INFO("onRspQryExchangeMarginRateAdjust:\n {}", rsp);
+
+    if (is_last) {
+      notify();
+    }
+  }
+
 
  protected:
   rapidjson::Document config;
   std::unique_ptr<soil::STimer> cond;
   std::unique_ptr<TraderService> service;
+
+  std::string instru;
+  double price;
+  int volume;
+
 };
 
 TEST_F(TraderServiceTest, orderTest) {
-  std::string instru, exchange, order_sys_id;
-  std::string start_time, stop_time;
-  service->queryOrder("",
-                      exchange,
-                      order_sys_id,
-                      start_time,
-                      stop_time);
-  wait();
-  wait(1000);
-
-  std::string trade_id;
-  service->queryTrade("",
-                      exchange,
-                      trade_id,
-                      start_time,
-                      stop_time);
-  wait();
-  wait(1000);
-
-  instru = "cu1712";
-  double price = 5000;
-  int volume = 1;
   int32_t order_ref = service->openBuyOrder(instru,
                                             price,
                                             volume);
   LOG_INFO("order_ref: {}", order_ref);
-
-  wait(1000);
-  service->queryOrder("",
-                      exchange,
-                      order_sys_id,
-                      start_time,
-                      stop_time);
   wait();
-  wait(1000);
 
-  service->queryTrade("",
-                      exchange,
-                      trade_id,
-                      start_time,
-                      stop_time);
+  service->cancelOrder(order_ref);
+  wait();
+
+  wait(1000);
+  service->queryOrder("", "", "", "", "");
+  wait();
+
+  wait(1000);
+  service->queryTrade("", "", "", "", "");
   wait();
 
   SUCCEED();
@@ -228,6 +254,8 @@ TEST_F(TraderServiceTest, orderTest) {
 TEST_F(TraderServiceTest, queryTest) {
   std::string trading_day = service->tradingDay();
   LOG_INFO("{}", trading_day);
+
+  std::string instru = "cu1712";
 
   wait(1000);
   service->queryInvestor();
@@ -242,26 +270,6 @@ TEST_F(TraderServiceTest, queryTest) {
   wait();
   wait(1000);
 
-  service->queryExchange("");
-  wait();
-  wait(1000);
-
-  service->queryInstrument("", "", "", "");
-  wait();
-  wait(1000);
-
-  service->queryInstruMarginRate("");
-  wait();
-  wait(1000);
-
-  service->queryInstruCommissionRate("");
-  wait();
-  wait(1000);
-
-  service->queryDepthMarketData("");
-  wait();
-  wait(1000);
-
   service->queryPosition("");
   wait();
   wait(1000);
@@ -272,33 +280,38 @@ TEST_F(TraderServiceTest, queryTest) {
 
   service->queryTrade("", "", "", "", "");
   wait();
+  wait(1000);
+
+  service->queryExchange("");
+  wait();
+  wait(1000);
+
+  service->queryProduct("");
+  wait();
+  wait(1000);
+
+  service->queryInstrument("", "", "", "");
+  wait();
+  wait(1000);
+
+  service->queryInstruMarginRate(instru);
+  wait();
+  wait(1000);
+
+  service->queryInstruCommissionRate(instru);
+  wait();
+  wait(1000);
+
+  service->queryDepthMarketData("");
+  wait();
+  wait(1000);
+
+  service->queryExchangeMarginRate(instru);
+  wait();
+  wait(1000);
+
+  service->queryExchangeMarginRateAdjust(instru);
+  wait();
 }
-
-// TEST_F(TraderServiceImplTest, queryExchangeMarginRateTest) {
-//   wait(1000);
-//   service_->queryExchangeMarginRate("", HF_SPECULATION);
-//   rsp_expect_ = "OnRspQryExchangeMarginRate";
-//   wait();
-
-//   GTEST_SUCCEED();
-// }
-
-// TEST_F(TraderServiceImplTest, queryExchangeMarginRateAdjustTest) {
-//   wait(1000);
-//   service_->queryExchangeMarginRateAdjust("", HF_SPECULATION);
-//   rsp_expect_ = "OnRspQryExchangeMarginRateAdjust";
-//   wait();
-
-//   GTEST_SUCCEED();
-// }
-
-// TEST_F(TraderServiceImplTest, queryProductTest) {
-//   wait(1000);
-//   service_->queryProduct("", PC_Futures);
-//   rsp_expect_ = "OnRspQryProduct";
-//   wait();
-
-//   GTEST_SUCCEED();
-// }
 
 };  // namespace cata

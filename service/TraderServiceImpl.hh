@@ -42,6 +42,22 @@ class TraderServiceImpl : public TraderService {
       double price,
       int volume);
 
+  virtual int32_t closeBuyOrder(
+      const std::string& instru,
+      double price,
+      int volume);
+
+  virtual int32_t closeBuyOrderFAK(
+      const std::string& instru,
+      double price,
+      int volume);
+
+  virtual int32_t closeBuyOrderFOK(
+      const std::string& instru,
+      double price,
+      int volume);
+
+
   virtual int32_t openSellOrder(
       const std::string& instru,
       double price,
@@ -56,6 +72,27 @@ class TraderServiceImpl : public TraderService {
       const std::string& instru,
       double price,
       int volume);
+
+  virtual int32_t closeSellOrder(
+      const std::string& instru,
+      double price,
+      int volume);
+
+  virtual int32_t closeSellOrderFAK(
+      const std::string& instru,
+      double price,
+      int volume);
+
+  virtual int32_t closeSellOrderFOK(
+      const std::string& instru,
+      double price,
+      int volume);
+
+  virtual void cancelOrder(int32_t order_ref);
+
+  virtual void cancelOrder(
+      const std::string& exchange_id,
+      const std::string& order_sys_id);
 
   virtual void queryOrder(
       const std::string& instru,
@@ -91,9 +128,8 @@ class TraderServiceImpl : public TraderService {
   virtual void queryExchange(
       const std::string& exchange);
 
-  // virtual int queryProduct(
-  //     const std::string& product_id,
-  //     ProductClassType pc);
+  virtual void queryProduct(
+      const std::string& product_id);
 
   virtual void queryInstrument(
       const std::string& instru,
@@ -104,13 +140,11 @@ class TraderServiceImpl : public TraderService {
   virtual void queryDepthMarketData(
       const std::string& instru);
 
-  // virtual int queryExchangeMarginRate(
-  //     const std::string& instru,
-  //     HedgeFlagType hedge_flag);
+  virtual void queryExchangeMarginRate(
+      const std::string& instru);
 
-  // virtual int queryExchangeMarginRateAdjust(
-  //     const std::string& instru,
-  //     HedgeFlagType hedge_flag);
+  virtual void queryExchangeMarginRateAdjust(
+      const std::string& instru);
 
   void login();
 
@@ -137,13 +171,22 @@ class TraderServiceImpl : public TraderService {
   std::shared_ptr<CThostFtdcInputOrderField>
   reqOrderMessage(
     const std::string& instru,
-    double price, int volume);
+    double price,
+    int volume,
+    TThostFtdcDirectionType direction = THOST_FTDC_D_Buy,
+    TThostFtdcOffsetFlagType offset_flag = THOST_FTDC_OF_Open,
+    TThostFtdcTimeConditionType time_condition = THOST_FTDC_TC_GFD,
+    TThostFtdcVolumeConditionType volume_condition = THOST_FTDC_VC_AV);
 
   int32_t orderGo(
       std::shared_ptr<CThostFtdcInputOrderField> req);
 
   int reqID() {
     return ++request_id_;
+  }
+
+  std::string orderRef(int32_t order_ref) {
+    return fmt::format("{:0>12}", order_ref);
   }
 
   void wait(const std::string& hint = "") {

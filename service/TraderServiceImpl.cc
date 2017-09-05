@@ -79,11 +79,6 @@ int32_t TraderServiceImpl::openBuyOrder(
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume);
 
-  req->Direction = THOST_FTDC_D_Buy;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
-
-  LOG_DEBUG("{}", *req);
-
   return orderGo(req);
 }
 
@@ -94,15 +89,10 @@ int32_t TraderServiceImpl::openBuyOrderFAK(
   LOG_TRACE("TraderServiceImpl::openBuyOrderFAK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
-      req = reqOrderMessage(instru, price, volume);
-
-  req->Direction = THOST_FTDC_D_Buy;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
-
-  req->TimeCondition = THOST_FTDC_TC_IOC;
-
-  LOG_DEBUG("{}", *req);
-
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Buy,
+                            THOST_FTDC_OF_Open,
+                            THOST_FTDC_TC_IOC);
   return orderGo(req);
 }
 
@@ -113,16 +103,54 @@ int32_t TraderServiceImpl::openBuyOrderFOK(
   LOG_TRACE("TraderServiceImpl::openBuyOrderFOK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
-      req = reqOrderMessage(instru, price, volume);
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Buy,
+                            THOST_FTDC_OF_Open,
+                            THOST_FTDC_TC_IOC,
+                            THOST_FTDC_VC_CV);
 
-  req->Direction = THOST_FTDC_D_Buy;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
+  return orderGo(req);
+}
 
-  req->TimeCondition = THOST_FTDC_TC_IOC;
-  req->VolumeCondition = THOST_FTDC_VC_CV;
+int32_t TraderServiceImpl::closeBuyOrder(
+    const std::string& instru,
+    double price,
+    int volume) {
+  LOG_TRACE("TraderServiceImpl::closeBuyOrder()");
 
-  LOG_DEBUG("{}", *req);
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Buy,
+                            THOST_FTDC_OF_Close);
+  return orderGo(req);
+}
 
+int32_t TraderServiceImpl::closeBuyOrderFAK(
+    const std::string& instru,
+    double price,
+    int volume) {
+  LOG_TRACE("TraderServiceImpl::closeBuyOrderFAK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Buy,
+                            THOST_FTDC_OF_Close,
+                            THOST_FTDC_TC_IOC);
+  return orderGo(req);
+}
+
+int32_t TraderServiceImpl::closeBuyOrderFOK(
+    const std::string& instru,
+    double price,
+    int volume) {
+  LOG_TRACE("TraderServiceImpl::closeBuyOrderFOK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Buy,
+                            THOST_FTDC_OF_Close,
+                            THOST_FTDC_TC_IOC,
+                            THOST_FTDC_VC_CV);
   return orderGo(req);
 }
 
@@ -133,12 +161,8 @@ int32_t TraderServiceImpl::openSellOrder(
   LOG_TRACE("TraderServiceImpl::openSellOrder()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
-      req = reqOrderMessage(instru, price, volume);
-
-  req->Direction = THOST_FTDC_D_Sell;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
-
-  LOG_DEBUG("{}", *req);
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Sell);
 
   return orderGo(req);
 }
@@ -150,14 +174,10 @@ int32_t TraderServiceImpl::openSellOrderFAK(
   LOG_TRACE("TraderServiceImpl::openSellOrderFAK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
-      req = reqOrderMessage(instru, price, volume);
-
-  req->Direction = THOST_FTDC_D_Sell;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
-
-  req->TimeCondition = THOST_FTDC_TC_IOC;
-
-  LOG_DEBUG("{}", *req);
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Sell,
+                            THOST_FTDC_OF_Open,
+                            THOST_FTDC_TC_IOC);
 
   return orderGo(req);
 }
@@ -169,17 +189,127 @@ int32_t TraderServiceImpl::openSellOrderFOK(
   LOG_TRACE("TraderServiceImpl::openSellOrderFOK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
-      req = reqOrderMessage(instru, price, volume);
-
-  req->Direction = THOST_FTDC_D_Sell;
-  req->CombOffsetFlag[0] = THOST_FTDC_OF_Open;
-
-  req->TimeCondition = THOST_FTDC_TC_IOC;
-  req->VolumeCondition = THOST_FTDC_VC_CV;
-
-  LOG_DEBUG("{}", *req);
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Sell,
+                            THOST_FTDC_OF_Open,
+                            THOST_FTDC_TC_IOC,
+                            THOST_FTDC_VC_CV);
 
   return orderGo(req);
+}
+
+int32_t TraderServiceImpl::closeSellOrder(
+    const std::string& instru,
+    double price,
+    int volume) {
+  LOG_TRACE("TraderServiceImpl::closeSellOrder()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Sell,
+                            THOST_FTDC_OF_Close);
+
+  return orderGo(req);
+}
+
+int32_t TraderServiceImpl::closeSellOrderFAK(
+    const std::string& instru,
+    double price,
+    int volume) {
+  LOG_TRACE("TraderServiceImpl::closeSellOrderFAK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Sell,
+                            THOST_FTDC_OF_Close,
+                            THOST_FTDC_TC_IOC);
+
+  return orderGo(req);
+}
+
+int32_t TraderServiceImpl::closeSellOrderFOK(
+    const std::string& instru,
+    double price,
+    int volume) {
+  LOG_TRACE("TraderServiceImpl::closeSellOrderFOK()");
+
+  std::shared_ptr<CThostFtdcInputOrderField>
+      req = reqOrderMessage(instru, price, volume,
+                            THOST_FTDC_D_Sell,
+                            THOST_FTDC_OF_Close,
+                            THOST_FTDC_TC_IOC,
+                            THOST_FTDC_VC_CV);
+
+  return orderGo(req);
+}
+
+void TraderServiceImpl::cancelOrder(
+    int32_t order_ref) {
+  LOG_TRACE("TraderServiceImpl::cancelOrder()");
+
+  CThostFtdcInputOrderActionField req;
+  memset(&req, 0x0, sizeof(req));
+
+  S_INPUT(&req, CThostFtdcInputOrderActionField, BrokerID, options_->broker_id.data());
+  S_INPUT(&req, CThostFtdcInputOrderActionField,
+          InvestorID, options_->investor_id.data());
+  S_INPUT(&req, CThostFtdcInputOrderActionField,
+          UserID, options_->user_id.data());
+
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          OrderRef,
+          orderRef(order_ref).data());
+
+  req.FrontID = front_id_;
+  req.SessionID = session_id_;
+  req.ActionFlag = THOST_FTDC_AF_Delete;
+  
+  LOG_DEBUG("{}", req);
+
+  int req_id = reqID();
+  int ret = trader_api_->ReqOrderAction(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("cancel order failed."
+                    " return code {}", ret));
+  }
+}
+
+void TraderServiceImpl::cancelOrder(
+    const std::string& exchange_id,
+    const std::string& order_sys_id) {
+  LOG_TRACE("TraderServiceImpl::cancelOrder()");
+
+  CThostFtdcInputOrderActionField req;
+  memset(&req, 0x0, sizeof(req));
+
+  S_INPUT(&req, CThostFtdcInputOrderActionField, BrokerID, options_->broker_id.data());
+  S_INPUT(&req, CThostFtdcInputOrderActionField,
+          InvestorID, options_->investor_id.data());
+  S_INPUT(&req, CThostFtdcInputOrderActionField,
+          UserID, options_->user_id.data());
+
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          ExchangeID,
+          exchange_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          OrderSysID,
+          order_sys_id.data());
+
+  req.ActionFlag = THOST_FTDC_AF_Delete;
+  
+  LOG_DEBUG("{}", req);
+
+  int req_id = reqID();
+  int ret = trader_api_->ReqOrderAction(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("cancel order failed."
+                    " return code {}", ret));
+  }
 }
 
 void TraderServiceImpl::queryOrder(
@@ -418,28 +548,25 @@ void TraderServiceImpl::queryExchange(
   }
 }
 
-// int TraderServiceImpl::queryProduct(
-//     const std::string& product_id,
-//     ProductClassType pc) {
-//   LOG_TRACE("TraderServiceImpl::queryProduct()";
+void TraderServiceImpl::queryProduct(
+    const std::string& product_id) {
+  LOG_TRACE("TraderServiceImpl::queryProduct()");
 
-//   CThostFtdcQryProductField req;
-//   memset(&req, 0x0, sizeof(req));
+  CThostFtdcQryProductField req;
+  memset(&req, 0x0, sizeof(req));
 
-//   S_INPUT(&req, CThostFtdcQryProductField, ProductID, product_id.data());
-//   req.ProductClass = pc;
+  S_INPUT(&req, CThostFtdcQryProductField, ProductID, product_id.data());
 
-//   TRADER_DEBUG <<req;
+  LOG_DEBUG("{}", req);
 
-//   int req_id = reqID();
-//   int ret = trader_api_->ReqQryProduct(&req, req_id);
-//   if (ret != 0) {
-//     TRADER_ERROR <<"return code " <<ret;
-//     throw std::runtime_error("query product failed.");
-//   }
-
-//   return req_id;
-// }
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryProduct(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("query product failed."
+                    " return code is {}", ret));
+  }
+}
 
 void TraderServiceImpl::queryInstrument(
     const std::string& instru,
@@ -488,57 +615,53 @@ void TraderServiceImpl::queryDepthMarketData(
   }
 }
 
-// int TraderServiceImpl::queryExchangeMarginRate(
-//     const std::string& instru,
-//     HedgeFlagType hedge_flag) {
-//   LOG_TRACE("TraderServiceImpl::queryExchangeMarginRate()";
+void TraderServiceImpl::queryExchangeMarginRate(
+    const std::string& instru) {
+  LOG_TRACE("TraderServiceImpl::queryExchangeMarginRate()");
 
-//   CThostFtdcQryExchangeMarginRateField req;
-//   memset(&req, 0x0, sizeof(req));
+  CThostFtdcQryExchangeMarginRateField req;
+  memset(&req, 0x0, sizeof(req));
 
-//   S_INPUT(&req, CThostFtdcQryExchangeMarginRateField,
-//           BrokerID, options_->broker_id.data());
-//   S_INPUT(&req, CThostFtdcQryExchangeMarginRateField,
-//           InstrumentID, instru.data());
-//   req.HedgeFlag = hedge_flag;
+  S_INPUT(&req, CThostFtdcQryExchangeMarginRateField,
+          BrokerID, options_->broker_id.data());
+  S_INPUT(&req, CThostFtdcQryExchangeMarginRateField,
+          InstrumentID, instru.data());
+  req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-//   TRADER_DEBUG <<req;
+  LOG_DEBUG("{}", req);
 
-//   int req_id = reqID();
-//   int ret = trader_api_->ReqQryExchangeMarginRate(&req, req_id);
-//   if (ret != 0) {
-//     TRADER_ERROR <<"return code " <<ret;
-//     throw std::runtime_error("query exchange margin rate failed.");
-//   }
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryExchangeMarginRate(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("query exchange margin rate failed."
+                    " return code is {}", ret));
+  }
+}
 
-//   return req_id;
-// }
+void TraderServiceImpl::queryExchangeMarginRateAdjust(
+    const std::string& instru) {
+  LOG_TRACE("TraderServiceImpl::queryExchangeMarginRateAdjust()");
 
-// int TraderServiceImpl::queryExchangeMarginRateAdjust(
-//     const std::string& instru,
-//     HedgeFlagType hedge_flag) {
-//   LOG_TRACE("TraderServiceImpl::queryExchangeMarginRateAdjust()";
+  CThostFtdcQryExchangeMarginRateAdjustField req;
+  memset(&req, 0x0, sizeof(req));
 
-//   CThostFtdcQryExchangeMarginRateAdjustField req;
-//   memset(&req, 0x0, sizeof(req));
+  S_INPUT(&req, CThostFtdcQryExchangeMarginRateAdjustField,
+          BrokerID, options_->broker_id.data());
+  S_INPUT(&req, CThostFtdcQryExchangeMarginRateAdjustField,
+          InstrumentID, instru.data());
+  req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-//   S_INPUT(&req, CThostFtdcQryExchangeMarginRateAdjustField,
-//           BrokerID, options_->broker_id.data());
-//   S_INPUT(&req, CThostFtdcQryExchangeMarginRateAdjustField,
-//           InstrumentID, instru.data());
-//   req.HedgeFlag = hedge_flag;
+  LOG_DEBUG("{}", req);
 
-//   TRADER_DEBUG <<req;
-
-//   int req_id = reqID();
-//   int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, req_id);
-//   if (ret != 0) {
-//     TRADER_ERROR <<"return code " <<ret;
-//     throw std::runtime_error("query exchange margin rate adjust failed.");
-//   }
-
-//   return req_id;
-// }
+  int req_id = reqID();
+  int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, req_id);
+  if (ret != 0) {
+    throw std::runtime_error(
+        fmt::format("query exchange margin rate adjust failed."
+                    " return code is {}", ret));
+  }
+}
 
 void TraderServiceImpl::login() {
   LOG_TRACE("TraderServiceImpl::login()");
@@ -665,7 +788,12 @@ void TraderServiceImpl::settlementInfoConfirm() {
 std::shared_ptr<CThostFtdcInputOrderField>
 TraderServiceImpl::reqOrderMessage(
     const std::string& instru,
-    double price, int volume) {
+    double price,
+    int volume,
+    TThostFtdcDirectionType direction,
+    TThostFtdcOffsetFlagType offset_flag,
+    TThostFtdcTimeConditionType time_condition,
+    TThostFtdcVolumeConditionType volume_condition) {
   std::shared_ptr<CThostFtdcInputOrderField> req
       (new CThostFtdcInputOrderField());
 
@@ -676,8 +804,6 @@ TraderServiceImpl::reqOrderMessage(
   S_INPUT(req.get(), CThostFtdcInputOrderField,
           UserID, options_->user_id.data());
   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
-  req->TimeCondition = THOST_FTDC_TC_GFD;
-  req->VolumeCondition = THOST_FTDC_VC_AV;
   req->MinVolume = 1;
   req->ContingentCondition = THOST_FTDC_CC_Immediately;
   req->ForceCloseReason = THOST_FTDC_FCC_NotForceClose;
@@ -688,6 +814,12 @@ TraderServiceImpl::reqOrderMessage(
   S_INPUT(req.get(), CThostFtdcInputOrderField, InstrumentID, instru.data());
   req->LimitPrice = price;
   req->VolumeTotalOriginal = volume;
+
+
+  req->Direction = direction;
+  req->CombOffsetFlag[0] = offset_flag;
+  req->TimeCondition = time_condition;
+  req->VolumeCondition = volume_condition;
 
   return req;
 }
@@ -700,7 +832,8 @@ int32_t TraderServiceImpl::orderGo(
   S_INPUT(req.get(),
           CThostFtdcInputOrderField,
           OrderRef,
-          fmt::format("{:0>13}", order_ref).data());
+          orderRef(order_ref).data());
+  LOG_DEBUG("{}", *req);
 
   int result = trader_api_->ReqOrderInsert(req.get(),
                                            reqID());

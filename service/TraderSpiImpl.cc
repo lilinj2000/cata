@@ -127,6 +127,22 @@ void TraderSpiImpl::OnRspOrderAction(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspOrderAction()");
+
+  if (pInputOrderAction) {
+    LOG_DEBUG("{}", *pInputOrderAction);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pInputOrderAction) {
+        callback()->onRspOrderAction(
+            fmt::format("{}", *pInputOrderAction),
+            bIsLast);
+      } else {
+        callback()->onRspOrderAction("", bIsLast);
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRspQueryMaxOrderVolume(
@@ -422,6 +438,23 @@ void TraderSpiImpl::OnRspQryProduct(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryProduct()");
+
+  if (pProduct) {
+    LOG_DEBUG("{}", *pProduct);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pProduct) {
+        callback()->onRspQryProduct(
+            fmt::format("{}", *pProduct),
+            bIsLast);
+      } else {
+        callback()->onRspQryProduct("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQryInstrument(
@@ -539,6 +572,23 @@ void TraderSpiImpl::OnRspQryExchangeMarginRate(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryExchangeMarginRate()");
+
+  if (pExchangeMarginRate) {
+    LOG_DEBUG("{}", *pExchangeMarginRate);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pExchangeMarginRate) {
+        callback()->onRspQryExchangeMarginRate(
+            fmt::format("{}", *pExchangeMarginRate),
+            bIsLast);
+      } else {
+        callback()->onRspQryExchangeMarginRate("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQryExchangeMarginRateAdjust(
@@ -546,6 +596,23 @@ void TraderSpiImpl::OnRspQryExchangeMarginRateAdjust(
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID, bool bIsLast) {
   LOG_TRACE("TraderSpiImpl::OnRspQryExchangeMarginRateAdjust()");
+
+  if (pExchangeMarginRateAdjust) {
+    LOG_DEBUG("{}", *pExchangeMarginRateAdjust);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pExchangeMarginRateAdjust) {
+        callback()->onRspQryExchangeMarginRateAdjust(
+            fmt::format("{}", *pExchangeMarginRateAdjust),
+            bIsLast);
+      } else {
+        callback()->onRspQryExchangeMarginRateAdjust("", bIsLast);
+      }
+    }
+  }
+
 }
 
 void TraderSpiImpl::OnRspQryExchangeRate(
@@ -701,6 +768,21 @@ void TraderSpiImpl::OnErrRtnOrderAction(
       CThostFtdcOrderActionField *pOrderAction,
       CThostFtdcRspInfoField *pRspInfo) {
   LOG_TRACE("TraderSpiImpl::OnErrRtnOrderAction()");
+
+  if (pOrderAction) {
+    LOG_DEBUG("{}", *pOrderAction);
+  }
+
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pOrderAction) {
+        callback()->onErrRtnOrderAction(
+            fmt::format("{}", *pOrderAction));
+      } else {
+        callback()->onErrRtnOrderAction("");
+      }
+    }
+  }
 }
 
 void TraderSpiImpl::OnRtnInstrumentStatus(

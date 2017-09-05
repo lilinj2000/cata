@@ -19,7 +19,7 @@ cata_trader = {
     # password = y888888
     # investor_id = 037135
 
-    "front_address": "tcp://180.168.146.187:10000",
+    "front_address": "tcp://180.168.146.187:10030",
     "broker_id": "9999",
     "user_id": "037135",
     "password": "y888888",
@@ -48,8 +48,15 @@ log = {
     "sinks": [sink1, sink2]
     }
 
+tests = {
+    "instru": "cu1712",
+    "price": 50010,
+    "volume": 1
+    }
+
 config = {
     "cata_trader": cata_trader,
+    "tests": tests,
     "log": log
     } 
 
