@@ -244,17 +244,25 @@ int32_t TraderServiceImpl::closeSellOrderFOK(
 }
 
 void TraderServiceImpl::cancelOrder(
-    int32_t order_ref) {
+    int32_t order_ref,
+    const std::string& instru) {
   LOG_TRACE("TraderServiceImpl::cancelOrder()");
 
   CThostFtdcInputOrderActionField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcInputOrderActionField, BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcInputOrderActionField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcInputOrderActionField,
-          UserID, options_->user_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          BrokerID,
+          options_->broker_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          InvestorID,
+          options_->investor_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          UserID,
+          options_->user_id.data());
 
   S_INPUT(&req,
           CThostFtdcInputOrderActionField,
@@ -264,7 +272,10 @@ void TraderServiceImpl::cancelOrder(
   req.FrontID = front_id_;
   req.SessionID = session_id_;
   req.ActionFlag = THOST_FTDC_AF_Delete;
-  
+
+  S_INPUT(&req, CThostFtdcInputOrderActionField,
+          InstrumentID, instru.data());
+
   LOG_DEBUG("{}", req);
 
   int req_id = reqID();
@@ -278,17 +289,25 @@ void TraderServiceImpl::cancelOrder(
 
 void TraderServiceImpl::cancelOrder(
     const std::string& exchange_id,
-    const std::string& order_sys_id) {
+    const std::string& order_sys_id,
+    const std::string& instru) {
   LOG_TRACE("TraderServiceImpl::cancelOrder()");
 
   CThostFtdcInputOrderActionField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcInputOrderActionField, BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcInputOrderActionField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcInputOrderActionField,
-          UserID, options_->user_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          BrokerID,
+          options_->broker_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          InvestorID,
+          options_->investor_id.data());
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          UserID,
+          options_->user_id.data());
 
   S_INPUT(&req,
           CThostFtdcInputOrderActionField,
@@ -300,7 +319,12 @@ void TraderServiceImpl::cancelOrder(
           order_sys_id.data());
 
   req.ActionFlag = THOST_FTDC_AF_Delete;
-  
+
+  S_INPUT(&req,
+          CThostFtdcInputOrderActionField,
+          InstrumentID,
+          instru.data());
+
   LOG_DEBUG("{}", req);
 
   int req_id = reqID();
@@ -422,7 +446,6 @@ void TraderServiceImpl::queryAccount(
         fmt::format("query account failed."
                     " return code {}", ret));
   }
-
 }
 
 void TraderServiceImpl::queryInvestor() {

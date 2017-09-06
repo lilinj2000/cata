@@ -336,7 +336,6 @@ void TraderSpiImpl::OnRspQryInvestor(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQryTradingCode(
@@ -360,7 +359,6 @@ void TraderSpiImpl::OnRspQryTradingCode(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQryInstrumentMarginRate(
@@ -430,7 +428,6 @@ void TraderSpiImpl::OnRspQryExchange(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQryProduct(
@@ -454,7 +451,6 @@ void TraderSpiImpl::OnRspQryProduct(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQryInstrument(
@@ -501,7 +497,6 @@ void TraderSpiImpl::OnRspQryDepthMarketData(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQrySettlementInfo(
@@ -588,7 +583,6 @@ void TraderSpiImpl::OnRspQryExchangeMarginRate(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQryExchangeMarginRateAdjust(
@@ -612,7 +606,6 @@ void TraderSpiImpl::OnRspQryExchangeMarginRateAdjust(
       }
     }
   }
-
 }
 
 void TraderSpiImpl::OnRspQryExchangeRate(

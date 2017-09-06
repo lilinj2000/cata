@@ -37,9 +37,11 @@ class TraderCallback {
 
   virtual void onRspQryTradingCode(const std::string&, bool is_last) = 0;
 
-  virtual void onRspQryInstrumentMarginRate(const std::string&, bool is_last) = 0;
+  virtual void onRspQryInstrumentMarginRate(
+      const std::string&, bool is_last) = 0;
 
-  virtual void onRspQryInstrumentCommissionRate(const std::string&, bool is_last) = 0;
+  virtual void onRspQryInstrumentCommissionRate(
+      const std::string&, bool is_last) = 0;
 
   virtual void onRspQryExchange(const std::string&, bool is_last) = 0;
 
@@ -51,7 +53,8 @@ class TraderCallback {
 
   virtual void onRspQryExchangeMarginRate(const std::string&, bool is_last) = 0;
 
-  virtual void onRspQryExchangeMarginRateAdjust(const std::string&, bool is_last) = 0;
+  virtual void onRspQryExchangeMarginRateAdjust(
+      const std::string&, bool is_last) = 0;
 
   virtual ~TraderCallback() {
   }
@@ -121,11 +124,14 @@ class TraderService {
       double price,
       int volume) = 0;
 
-  virtual void cancelOrder(int32_t order_ref) = 0;
+  virtual void cancelOrder(
+      int32_t order_ref,
+      const std::string& instru) = 0;
 
   virtual void cancelOrder(
       const std::string& exchange_id,
-      const std::string& order_sys_id) = 0;
+      const std::string& order_sys_id,
+      const std::string& instru) = 0;
 
   virtual void queryOrder(
       const std::string& instru,

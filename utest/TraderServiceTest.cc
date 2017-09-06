@@ -59,7 +59,7 @@ class TraderServiceTest :
       notify();
     }
   }
-  
+
   virtual void onRspQryTrade(const std::string& rsp,
                              bool is_last) {
     LOG_INFO("onRspQryTrade:\n {}", rsp);
@@ -111,7 +111,6 @@ class TraderServiceTest :
     if (is_last) {
       notify();
     }
-
   }
 
   virtual void onRspQryTradingAccount(
@@ -122,7 +121,6 @@ class TraderServiceTest :
     if (is_last) {
       notify();
     }
-
   }
 
   virtual void onRspQryInvestor(
@@ -161,7 +159,6 @@ class TraderServiceTest :
     if (is_last) {
       notify();
     }
-
   }
 
   virtual void onRspQryExchange(
@@ -172,7 +169,6 @@ class TraderServiceTest :
     if (is_last) {
       notify();
     }
-
   }
 
   virtual void onRspQryProduct(const std::string& rsp, bool is_last) {
@@ -190,11 +186,11 @@ class TraderServiceTest :
     if (is_last) {
       notify();
     }
-
   }
 
-  virtual void onRspQryDepthMarketData(const std::string& rsp,
-                                       bool is_last) {
+  virtual void onRspQryDepthMarketData(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspQryDepthMarketData:\n {}", rsp);
 
     if (is_last) {
@@ -202,7 +198,9 @@ class TraderServiceTest :
     }
   }
 
-  virtual void onRspQryExchangeMarginRate(const std::string& rsp, bool is_last) {
+  virtual void onRspQryExchangeMarginRate(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspQryExchangeMarginRate:\n {}", rsp);
 
     if (is_last) {
@@ -210,7 +208,9 @@ class TraderServiceTest :
     }
   }
 
-  virtual void onRspQryExchangeMarginRateAdjust(const std::string& rsp, bool is_last) {
+  virtual void onRspQryExchangeMarginRateAdjust(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspQryExchangeMarginRateAdjust:\n {}", rsp);
 
     if (is_last) {
@@ -227,7 +227,6 @@ class TraderServiceTest :
   std::string instru;
   double price;
   int volume;
-
 };
 
 TEST_F(TraderServiceTest, orderTest) {
@@ -235,10 +234,10 @@ TEST_F(TraderServiceTest, orderTest) {
                                             price,
                                             volume);
   LOG_INFO("order_ref: {}", order_ref);
-  wait();
+  wait(2000);
 
-  service->cancelOrder(order_ref);
-  wait();
+  service->cancelOrder(order_ref, instru);
+  wait(2000);
 
   wait(1000);
   service->queryOrder("", "", "", "", "");

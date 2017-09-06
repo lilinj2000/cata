@@ -88,11 +88,14 @@ class TraderServiceImpl : public TraderService {
       double price,
       int volume);
 
-  virtual void cancelOrder(int32_t order_ref);
+  virtual void cancelOrder(
+      int32_t order_ref,
+      const std::string& instru);
 
   virtual void cancelOrder(
       const std::string& exchange_id,
-      const std::string& order_sys_id);
+      const std::string& order_sys_id,
+      const std::string& instru);
 
   virtual void queryOrder(
       const std::string& instru,
