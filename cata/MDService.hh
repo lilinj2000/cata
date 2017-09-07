@@ -14,17 +14,27 @@ class MDCallback {
  public:
   virtual void onRspError(const std::string& rsp) = 0;
 
-  virtual void onRspSubMarketData(const std::string& rsp) = 0;
+  virtual void onRspSubMarketData(
+      const std::string& rsp,
+      bool is_last) = 0;
 
-  virtual void onRspSubForQuoteRsp(const std::string& rsp) = 0;
+  virtual void onRspSubForQuoteRsp(
+      const std::string& rsp,
+      bool is_last) = 0;
 
-  virtual void onRspUnSubMarketData(const std::string& rsp) = 0;
+  virtual void onRspUnSubMarketData(
+      const std::string& rsp,
+      bool is_last) = 0;
 
-  virtual void onRspUnSubForQuoteRsp(const std::string& rsp) = 0;
+  virtual void onRspUnSubForQuoteRsp(
+      const std::string& rsp,
+      bool is_last) = 0;
 
-  virtual void onRtnDepthMarketData(const std::string& rtn_md) = 0;
+  virtual void onRtnDepthMarketData(
+      const std::string& rtn_md) = 0;
 
-  virtual void onRtnForQuoteRsp(const std::string& rtn_quote) = 0;
+  virtual void onRtnForQuoteRsp(
+      const std::string& rtn_quote) = 0;
 
   virtual ~MDCallback() {
   }

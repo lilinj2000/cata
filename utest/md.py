@@ -48,9 +48,14 @@ log = {
     "sinks": [sink1, sink2]
     }
 
+tests = {
+    "instru": "cu1712"
+    }
+
 config = {
     "cata_md": cata_md,
-    "log": log
+    "log": log,
+    "tests": tests
     } 
 
 with open('md.json', 'w') as f:

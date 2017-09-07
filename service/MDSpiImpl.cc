@@ -81,8 +81,13 @@ void MDSpiImpl::OnRspSubMarketData(
 
   if (!isRspError(pRspInfo)) {
     if (callback()) {
-      callback()->onRspSubMarketData(
-          fmt::format("{}", *pSpecificInstrument));
+      if (pSpecificInstrument) {
+        callback()->onRspSubMarketData(
+            fmt::format("{}", *pSpecificInstrument),
+            bIsLast);
+      } else {
+        callback()->onRspSubMarketData("", bIsLast);
+      }
     }
   }
 }
@@ -99,8 +104,13 @@ void MDSpiImpl::OnRspSubForQuoteRsp(
 
   if (!isRspError(pRspInfo)) {
     if (callback()) {
+      if (pSpecificInstrument) {
       callback()->onRspSubForQuoteRsp(
-          fmt::format("{}", *pSpecificInstrument));
+          fmt::format("{}", *pSpecificInstrument),
+          bIsLast);
+      } else {
+        callback()->onRspSubForQuoteRsp("", bIsLast);
+      }
     }
   }
 }
@@ -109,18 +119,23 @@ void MDSpiImpl::OnRspUnSubMarketData(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
     CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast) {
-    LOG_TRACE("MDSpiImpl::OnRspUnSubMarketData()");
+  LOG_TRACE("MDSpiImpl::OnRspUnSubMarketData()");
 
-    if (pSpecificInstrument) {
-      LOG_DEBUG("{}", *pSpecificInstrument);
-    }
+  if (pSpecificInstrument) {
+    LOG_DEBUG("{}", *pSpecificInstrument);
+  }
 
-    if (!isRspError(pRspInfo)) {
-      if (callback()) {
+  if (!isRspError(pRspInfo)) {
+    if (callback()) {
+      if (pSpecificInstrument) {
         callback()->onRspUnSubMarketData(
-            fmt::format("{}", *pSpecificInstrument));
+            fmt::format("{}", *pSpecificInstrument),
+            bIsLast);
+      } else {
+        callback()->onRspUnSubMarketData("", bIsLast);
       }
     }
+  }
 }
 
 void MDSpiImpl::OnRspUnSubForQuoteRsp(
@@ -135,8 +150,13 @@ void MDSpiImpl::OnRspUnSubForQuoteRsp(
 
   if (!isRspError(pRspInfo)) {
     if (callback()) {
-      callback()->onRspUnSubForQuoteRsp(
-          fmt::format("{}", *pSpecificInstrument));
+      if (pSpecificInstrument) {
+        callback()->onRspUnSubForQuoteRsp(
+            fmt::format("{}", *pSpecificInstrument),
+            bIsLast);
+      } else {
+        callback()->onRspUnSubForQuoteRsp("", bIsLast);
+      }
     }
   }
 }
@@ -149,7 +169,7 @@ void MDSpiImpl::OnRtnDepthMarketData(
     LOG_DEBUG("{}", *pDepthMarketData);
   }
 
-  if (callback()) {
+  if (callback() && pDepthMarketData) {
     callback()->onRtnDepthMarketData(
         fmt::format("{}", *pDepthMarketData));
   }
@@ -163,7 +183,7 @@ void MDSpiImpl::OnRtnForQuoteRsp(
     LOG_DEBUG("{}", *pForQuoteRsp);
   }
 
-  if (callback()) {
+  if (callback() && pForQuoteRsp) {
     callback()->onRtnForQuoteRsp(
         fmt::format("{}", *pForQuoteRsp));
   }

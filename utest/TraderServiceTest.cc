@@ -41,50 +41,42 @@ class TraderServiceTest :
     cond->wait(ms);
   }
 
-  void notify() {
-    cond->notifyAll();
+  void notify(bool is_last) {
+    if (is_last) {
+      cond->notifyAll();
+    }
   }
 
   virtual void onRspError(const std::string& rsp) {
     LOG_INFO("onRspError:\n {}", rsp);
-
-    notify();
   }
 
   virtual void onRspQryOrder(const std::string& rsp,
                              bool is_last) {
     LOG_INFO("onRspQryOrder:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryTrade(const std::string& rsp,
                              bool is_last) {
     LOG_INFO("onRspQryTrade:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspOrderInsert(const std::string& rsp,
                                 bool is_last) {
     LOG_INFO("onRspOrderInsert:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspOrderAction(const std::string& rsp,
                                 bool is_last) {
     LOG_INFO("onRspOrderAction:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRtnOrder(const std::string& rtn) {
@@ -108,9 +100,7 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryInvestorPosition:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryTradingAccount(
@@ -118,9 +108,7 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryTradingAccount:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryInvestor(
@@ -128,9 +116,7 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryInvestor:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryTradingCode(
@@ -138,27 +124,21 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryTradingCode:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryInstrumentMarginRate(
       const std::string& rsp,
       bool is_last) {
     LOG_INFO("onRspQryInstrumentMarginRate:\n {}", rsp);
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryInstrumentCommissionRate(
       const std::string& rsp,
       bool is_last) {
     LOG_INFO("onRspQryInstrumentCommissionRate:\n {}", rsp);
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryExchange(
@@ -166,26 +146,20 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryExchange:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryProduct(const std::string& rsp, bool is_last) {
     LOG_INFO("onRspQryProduct:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryInstrument(const std::string& rsp,
                                   bool is_last) {
     LOG_INFO("onRspQryInstrument:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryDepthMarketData(
@@ -193,9 +167,7 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryDepthMarketData:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryExchangeMarginRate(
@@ -203,9 +175,7 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryExchangeMarginRate:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
 
   virtual void onRspQryExchangeMarginRateAdjust(
@@ -213,11 +183,8 @@ class TraderServiceTest :
       bool is_last) {
     LOG_INFO("onRspQryExchangeMarginRateAdjust:\n {}", rsp);
 
-    if (is_last) {
-      notify();
-    }
+    notify(is_last);
   }
-
 
  protected:
   rapidjson::Document config;
