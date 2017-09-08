@@ -13,48 +13,79 @@ class TraderCallback {
  public:
   virtual void onRspError(const std::string&) = 0;
 
-  virtual void onRspQryOrder(const std::string&, bool is_last) = 0;
+  virtual void onRspQryOrder(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryTrade(const std::string&, bool is_last) = 0;
+  virtual void onRspQryTrade(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspOrderInsert(const std::string&, bool is_last) = 0;
+  virtual void onRspOrderInsert(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspOrderAction(const std::string&, bool is_last) = 0;
+  virtual void onRspOrderAction(
+      const std::string&,
+      bool is_last) = 0;
 
   virtual void onRtnOrder(const std::string&) = 0;
 
   virtual void onRtnTrade(const std::string&) = 0;
 
-  virtual void onErrRtnOrderInsert(const std::string&) = 0;
+  virtual void onErrRtnOrderInsert(
+      const std::string&) = 0;
 
-  virtual void onErrRtnOrderAction(const std::string&) = 0;
+  virtual void onErrRtnOrderAction(
+      const std::string&) = 0;
 
-  virtual void onRspQryInvestorPosition(const std::string&, bool is_last) = 0;
+  virtual void onRspQryInvestorPosition(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryTradingAccount(const std::string&, bool is_last) = 0;
+  virtual void onRspQryTradingAccount(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryInvestor(const std::string&, bool is_last) = 0;
+  virtual void onRspQryInvestor(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryTradingCode(const std::string&, bool is_last) = 0;
+  virtual void onRspQryTradingCode(
+      const std::string&,
+      bool is_last) = 0;
 
   virtual void onRspQryInstrumentMarginRate(
-      const std::string&, bool is_last) = 0;
+      const std::string&,
+      bool is_last) = 0;
 
   virtual void onRspQryInstrumentCommissionRate(
-      const std::string&, bool is_last) = 0;
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryExchange(const std::string&, bool is_last) = 0;
+  virtual void onRspQryExchange(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryProduct(const std::string&, bool is_last) = 0;
+  virtual void onRspQryProduct(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryInstrument(const std::string&, bool is_last) = 0;
+  virtual void onRspQryInstrument(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryDepthMarketData(const std::string&, bool is_last) = 0;
+  virtual void onRspQryDepthMarketData(
+      const std::string&,
+      bool is_last) = 0;
 
-  virtual void onRspQryExchangeMarginRate(const std::string&, bool is_last) = 0;
+  virtual void onRspQryExchangeMarginRate(
+      const std::string&,
+      bool is_last) = 0;
 
   virtual void onRspQryExchangeMarginRateAdjust(
-      const std::string&, bool is_last) = 0;
+      const std::string&,
+      bool is_last) = 0;
 
   virtual ~TraderCallback() {
   }

@@ -47,51 +47,60 @@ class TraderServiceTest :
     }
   }
 
-  virtual void onRspError(const std::string& rsp) {
+  virtual void onRspError(
+      const std::string& rsp) {
     LOG_INFO("onRspError:\n {}", rsp);
   }
 
-  virtual void onRspQryOrder(const std::string& rsp,
-                             bool is_last) {
+  virtual void onRspQryOrder(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspQryOrder:\n {}", rsp);
 
     notify(is_last);
   }
 
-  virtual void onRspQryTrade(const std::string& rsp,
-                             bool is_last) {
+  virtual void onRspQryTrade(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspQryTrade:\n {}", rsp);
 
     notify(is_last);
   }
 
-  virtual void onRspOrderInsert(const std::string& rsp,
-                                bool is_last) {
+  virtual void onRspOrderInsert(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspOrderInsert:\n {}", rsp);
 
     notify(is_last);
   }
 
-  virtual void onRspOrderAction(const std::string& rsp,
-                                bool is_last) {
+  virtual void onRspOrderAction(
+      const std::string& rsp,
+      bool is_last) {
     LOG_INFO("onRspOrderAction:\n {}", rsp);
 
     notify(is_last);
   }
 
-  virtual void onRtnOrder(const std::string& rtn) {
+  virtual void onRtnOrder(
+      const std::string& rtn) {
     LOG_INFO("onRtnOrder:\n {}", rtn);
   }
 
-  virtual void onRtnTrade(const std::string& rtn) {
+  virtual void onRtnTrade(
+      const std::string& rtn) {
     LOG_INFO("onRtnTrade:\n {}", rtn);
   }
 
-  virtual void onErrRtnOrderInsert(const std::string& rtn) {
+  virtual void onErrRtnOrderInsert(
+      const std::string& rtn) {
     LOG_INFO("onErrRtnOrderInsert:\n {}", rtn);
   }
 
-  virtual void onErrRtnOrderAction(const std::string& rtn) {
+  virtual void onErrRtnOrderAction(
+      const std::string& rtn) {
     LOG_INFO("onErrRtnOrderAction:\n {}", rtn);
   }
 
