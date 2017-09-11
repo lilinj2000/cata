@@ -10,6 +10,37 @@
 
 namespace cata {
 
+#define INPUT_BROKER_ID(O, S)  \
+  S_INPUT(O,                                    \
+          S,                                    \
+          BrokerID,                             \
+          options_->broker_id.data())
+
+#define INPUT_USER_ID(O, S) \
+  S_INPUT(O,                                    \
+          S,                                    \
+          UserID,                               \
+          options_->user_id.data())
+
+#define INPUT_INVESTOR_ID(O, S)                 \
+  S_INPUT(O,                                    \
+          S,                                    \
+          InvestorID,                           \
+          options_->investor_id.data())
+
+#define INPUT_ID_OF_BI(O, S) \
+  INPUT_BROKER_ID(O, S);      \
+  INPUT_INVESTOR_ID(O, S)
+
+#define INPUT_ID_OF_BU(O, S) \
+  INPUT_BROKER_ID(O, S);      \
+  INPUT_USER_ID(O, S)
+
+#define INPUT_ID_OF_BUI(O, S) \
+  INPUT_BROKER_ID(O, S);      \
+  INPUT_USER_ID(O, S);        \
+  INPUT_INVESTOR_ID(O, S)
+
 TraderServiceImpl::TraderServiceImpl(
     const rapidjson::Document& doc,
     TraderCallback* callback) :
@@ -251,18 +282,9 @@ void TraderServiceImpl::cancelOrder(
   CThostFtdcInputOrderActionField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req,
-          CThostFtdcInputOrderActionField,
-          BrokerID,
-          options_->broker_id.data());
-  S_INPUT(&req,
-          CThostFtdcInputOrderActionField,
-          InvestorID,
-          options_->investor_id.data());
-  S_INPUT(&req,
-          CThostFtdcInputOrderActionField,
-          UserID,
-          options_->user_id.data());
+  INPUT_ID_OF_BUI(
+      &req,
+      CThostFtdcInputOrderActionField);
 
   S_INPUT(&req,
           CThostFtdcInputOrderActionField,
@@ -296,18 +318,9 @@ void TraderServiceImpl::cancelOrder(
   CThostFtdcInputOrderActionField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req,
-          CThostFtdcInputOrderActionField,
-          BrokerID,
-          options_->broker_id.data());
-  S_INPUT(&req,
-          CThostFtdcInputOrderActionField,
-          InvestorID,
-          options_->investor_id.data());
-  S_INPUT(&req,
-          CThostFtdcInputOrderActionField,
-          UserID,
-          options_->user_id.data());
+  INPUT_ID_OF_BUI(
+      &req,
+      CThostFtdcInputOrderActionField);
 
   S_INPUT(&req,
           CThostFtdcInputOrderActionField,
@@ -347,14 +360,29 @@ void TraderServiceImpl::queryOrder(
   CThostFtdcQryOrderField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryOrderField, BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryOrderField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcQryOrderField, InstrumentID, instru.data());
-  S_INPUT(&req, CThostFtdcQryOrderField, ExchangeID, exchange.data());
-  S_INPUT(&req, CThostFtdcQryOrderField, OrderSysID, order_sys_id.data());
-  S_INPUT(&req, CThostFtdcQryOrderField, InsertTimeStart, start_time.data());
-  S_INPUT(&req, CThostFtdcQryOrderField, InsertTimeEnd, stop_time.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryOrderField);
+  S_INPUT(&req,
+          CThostFtdcQryOrderField,
+          InstrumentID,
+          instru.data());
+  S_INPUT(&req,
+          CThostFtdcQryOrderField,
+          ExchangeID,
+          exchange.data());
+  S_INPUT(&req,
+          CThostFtdcQryOrderField,
+          OrderSysID,
+          order_sys_id.data());
+  S_INPUT(&req,
+          CThostFtdcQryOrderField,
+          InsertTimeStart,
+          start_time.data());
+  S_INPUT(&req,
+          CThostFtdcQryOrderField,
+          InsertTimeEnd,
+          stop_time.data());
 
   LOG_DEBUG("{}", req);
 
@@ -378,14 +406,29 @@ void TraderServiceImpl::queryTrade(
   CThostFtdcQryTradeField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryTradeField, BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryTradeField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcQryTradeField, InstrumentID, instru.data());
-  S_INPUT(&req, CThostFtdcQryTradeField, ExchangeID, exchange.data());
-  S_INPUT(&req, CThostFtdcQryTradeField, TradeID, trade_id.data());
-  S_INPUT(&req, CThostFtdcQryTradeField, TradeTimeStart, start_time.data());
-  S_INPUT(&req, CThostFtdcQryTradeField, TradeTimeEnd, stop_time.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryTradeField);
+  S_INPUT(&req,
+          CThostFtdcQryTradeField,
+          InstrumentID,
+          instru.data());
+  S_INPUT(&req,
+          CThostFtdcQryTradeField,
+          ExchangeID,
+          exchange.data());
+  S_INPUT(&req,
+          CThostFtdcQryTradeField,
+          TradeID,
+          trade_id.data());
+  S_INPUT(&req,
+          CThostFtdcQryTradeField,
+          TradeTimeStart,
+          start_time.data());
+  S_INPUT(&req,
+          CThostFtdcQryTradeField,
+          TradeTimeEnd,
+          stop_time.data());
 
   LOG_DEBUG("{}", req);
 
@@ -405,12 +448,13 @@ void TraderServiceImpl::queryPosition(
   CThostFtdcQryInvestorPositionField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryInvestorPositionField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryInvestorPositionField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcQryInvestorPositionField,
-          InstrumentID, instru.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryInvestorPositionField);
+  S_INPUT(&req,
+          CThostFtdcQryInvestorPositionField,
+          InstrumentID,
+          instru.data());
 
   LOG_DEBUG("{}", req);
 
@@ -430,12 +474,13 @@ void TraderServiceImpl::queryAccount(
   CThostFtdcQryTradingAccountField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryTradingAccountField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryTradingAccountField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcQryTradingAccountField,
-          CurrencyID, currency_id.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryTradingAccountField);
+  S_INPUT(&req,
+          CThostFtdcQryTradingAccountField,
+          CurrencyID,
+          currency_id.data());
 
   LOG_DEBUG("{}", req);
 
@@ -454,10 +499,9 @@ void TraderServiceImpl::queryInvestor() {
   CThostFtdcQryInvestorField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryInvestorField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryInvestorField,
-          InvestorID, options_->investor_id.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryInvestorField);
 
   LOG_DEBUG("{}", req);
 
@@ -477,17 +521,12 @@ void TraderServiceImpl::queryTradingCode(
   CThostFtdcQryTradingCodeField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryTradingCodeField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryTradingCodeField,
-          InvestorID, options_->investor_id.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryTradingCodeField);
 
   S_INPUT(&req, CThostFtdcQryTradingCodeField,
           ExchangeID, exchange.data());
-
-  // S_INPUT(&req, CThostFtdcQryTradingCodeField,
-  //         ClientID, client_id.data());
-  // req.ClientIDType = cidt;
 
   LOG_DEBUG("{}", req);
 
@@ -507,12 +546,14 @@ void TraderServiceImpl::queryInstruMarginRate(
   CThostFtdcQryInstrumentMarginRateField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcQryInstrumentMarginRateField,
-          InstrumentID, instru.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryInstrumentMarginRateField);
+
+  S_INPUT(&req,
+          CThostFtdcQryInstrumentMarginRateField,
+          InstrumentID,
+          instru.data());
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
   LOG_DEBUG("{}", req);
@@ -533,12 +574,13 @@ void TraderServiceImpl::queryInstruCommissionRate(
   CThostFtdcQryInstrumentCommissionRateField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryInstrumentCommissionRateField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryInstrumentCommissionRateField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(&req, CThostFtdcQryInstrumentCommissionRateField,
-          InstrumentID, instru.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQryInstrumentCommissionRateField);
+  S_INPUT(&req,
+          CThostFtdcQryInstrumentCommissionRateField,
+          InstrumentID,
+          instru.data());
 
   LOG_DEBUG("{}", req);
 
@@ -645,10 +687,9 @@ void TraderServiceImpl::queryExchangeMarginRate(
   CThostFtdcQryExchangeMarginRateField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryExchangeMarginRateField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryExchangeMarginRateField,
-          InstrumentID, instru.data());
+  INPUT_BROKER_ID(
+      &req,
+      CThostFtdcQryExchangeMarginRateField);
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
   LOG_DEBUG("{}", req);
@@ -669,10 +710,13 @@ void TraderServiceImpl::queryExchangeMarginRateAdjust(
   CThostFtdcQryExchangeMarginRateAdjustField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQryExchangeMarginRateAdjustField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQryExchangeMarginRateAdjustField,
-          InstrumentID, instru.data());
+  INPUT_BROKER_ID(
+      &req,
+      CThostFtdcQryExchangeMarginRateAdjustField);
+  S_INPUT(&req,
+          CThostFtdcQryExchangeMarginRateAdjustField,
+          InstrumentID,
+          instru.data());
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
   LOG_DEBUG("{}", req);
@@ -691,12 +735,14 @@ void TraderServiceImpl::login() {
 
   CThostFtdcReqUserLoginField req;
   memset(&req, 0x0, sizeof(req));
-  S_INPUT(&req, CThostFtdcReqUserLoginField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcReqUserLoginField,
-          UserID, options_->user_id.data());
-  S_INPUT(&req, CThostFtdcReqUserLoginField,
-          Password, options_->password.data());
+
+  INPUT_ID_OF_BU(
+      &req,
+      CThostFtdcReqUserLoginField);
+  S_INPUT(&req,
+          CThostFtdcReqUserLoginField,
+          Password,
+          options_->password.data());
 
   LOG_DEBUG("{}", req);
 
@@ -726,10 +772,9 @@ void TraderServiceImpl::logout() {
   CThostFtdcUserLogoutField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcUserLogoutField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcUserLogoutField,
-          UserID, options_->user_id.data());
+  INPUT_ID_OF_BU(
+      &req,
+      CThostFtdcUserLogoutField);
 
   LOG_DEBUG("{}", req);
 
@@ -748,10 +793,9 @@ void TraderServiceImpl::querySettlementInfo() {
   CThostFtdcQrySettlementInfoField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQrySettlementInfoField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQrySettlementInfoField,
-          InvestorID, options_->investor_id.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQrySettlementInfoField);
 
   LOG_DEBUG("{}", req);
 
@@ -771,10 +815,9 @@ void TraderServiceImpl::querySettlementInfoConfirm() {
   CThostFtdcQrySettlementInfoConfirmField req;
   memset(&req, 0x0, sizeof(req));
 
-  S_INPUT(&req, CThostFtdcQrySettlementInfoConfirmField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcQrySettlementInfoConfirmField,
-          InvestorID, options_->investor_id.data());
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcQrySettlementInfoConfirmField);
 
   LOG_DEBUG("{}", req);
 
@@ -792,10 +835,10 @@ void TraderServiceImpl::settlementInfoConfirm() {
 
   CThostFtdcSettlementInfoConfirmField req;
   memset(&req, 0x0, sizeof(req));
-  S_INPUT(&req, CThostFtdcSettlementInfoConfirmField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(&req, CThostFtdcSettlementInfoConfirmField,
-          InvestorID, options_->investor_id.data());
+
+  INPUT_ID_OF_BI(
+      &req,
+      CThostFtdcSettlementInfoConfirmField);
 
   LOG_DEBUG("{}", req);
 
@@ -820,12 +863,9 @@ TraderServiceImpl::reqOrderMessage(
   std::shared_ptr<CThostFtdcInputOrderField> req
       (new CThostFtdcInputOrderField());
 
-  S_INPUT(req.get(), CThostFtdcInputOrderField,
-          BrokerID, options_->broker_id.data());
-  S_INPUT(req.get(), CThostFtdcInputOrderField,
-          InvestorID, options_->investor_id.data());
-  S_INPUT(req.get(), CThostFtdcInputOrderField,
-          UserID, options_->user_id.data());
+  INPUT_ID_OF_BUI(
+      req.get(),
+      CThostFtdcInputOrderField);
   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
   req->MinVolume = 1;
   req->ContingentCondition = THOST_FTDC_CC_Immediately;
