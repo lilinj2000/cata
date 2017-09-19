@@ -31,7 +31,7 @@ class MDServiceTest :
   void TearDown() {
   }
 
-  void wait(int ms = -1) {
+  void wait(int ms = 2000) {
     cond->wait(ms);
   }
 
@@ -40,48 +40,6 @@ class MDServiceTest :
       cond->notifyAll();
     }
   }
-
-  virtual void onRspError(const std::string& rsp) {
-    LOG_INFO("onRspError: {}", rsp);
-  }
-
-  virtual void onRspSubMarketData(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspSubMarketData: {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspSubForQuoteRsp(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspSubForQuoteRsp: {}", rsp);
-    notify(is_last);
-  }
-
-  virtual void onRspUnSubMarketData(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspUnSubMarketData: {}", rsp);
-    notify(is_last);
-  }
-
-  virtual void onRspUnSubForQuoteRsp(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspUnSubForQuoteRsp: {}", rsp);
-    notify(is_last);
-  }
-
-  virtual void onRtnDepthMarketData(const std::string& rtn_md) {
-    LOG_INFO("onRtnDepthMarketData: {}", rtn_md);
-  }
-
-  virtual void onRtnForQuoteRsp(const std::string& rtn_quote) {
-    LOG_INFO("onRtnForQuoteRsp: {}", rtn_quote);
-  }
-
 
  protected:
   std::unique_ptr<cata::MDService> service;
@@ -92,7 +50,7 @@ class MDServiceTest :
 };
 
 TEST_F(MDServiceTest, mdTest) {
-  LOG_INFO("trading_day: {}", service->tradingDay());
+  SOIL_INFO("trading_day: {}", service->tradingDay());
 
   // std::string cu("cu1709");
   // std::unique_ptr<char> cu1(strdup("cu1709"));
@@ -101,8 +59,6 @@ TEST_F(MDServiceTest, mdTest) {
   char *c_instru = const_cast<char*>(instru.data());
   service->subMarketData(&c_instru, 1);
   wait();  // wait onRspSub
-
-  wait(2000);  // wait onRtn Depth md
 
   SUCCEED();
 }

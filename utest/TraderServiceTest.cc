@@ -37,7 +37,7 @@ class TraderServiceTest :
   void TearDown() {
   }
 
-  void wait(int ms = -1) {
+  void wait(int ms = 2000) {
     cond->wait(ms);
   }
 
@@ -45,154 +45,6 @@ class TraderServiceTest :
     if (is_last) {
       cond->notifyAll();
     }
-  }
-
-  virtual void onRspError(
-      const std::string& rsp) {
-    LOG_INFO("onRspError:\n {}", rsp);
-  }
-
-  virtual void onRspQryOrder(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryOrder:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryTrade(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryTrade:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspOrderInsert(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspOrderInsert:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspOrderAction(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspOrderAction:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRtnOrder(
-      const std::string& rtn) {
-    LOG_INFO("onRtnOrder:\n {}", rtn);
-  }
-
-  virtual void onRtnTrade(
-      const std::string& rtn) {
-    LOG_INFO("onRtnTrade:\n {}", rtn);
-  }
-
-  virtual void onErrRtnOrderInsert(
-      const std::string& rtn) {
-    LOG_INFO("onErrRtnOrderInsert:\n {}", rtn);
-  }
-
-  virtual void onErrRtnOrderAction(
-      const std::string& rtn) {
-    LOG_INFO("onErrRtnOrderAction:\n {}", rtn);
-  }
-
-  virtual void onRspQryInvestorPosition(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryInvestorPosition:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryTradingAccount(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryTradingAccount:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryInvestor(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryInvestor:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryTradingCode(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryTradingCode:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryInstrumentMarginRate(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryInstrumentMarginRate:\n {}", rsp);
-    notify(is_last);
-  }
-
-  virtual void onRspQryInstrumentCommissionRate(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryInstrumentCommissionRate:\n {}", rsp);
-    notify(is_last);
-  }
-
-  virtual void onRspQryExchange(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryExchange:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryProduct(const std::string& rsp, bool is_last) {
-    LOG_INFO("onRspQryProduct:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryInstrument(const std::string& rsp,
-                                  bool is_last) {
-    LOG_INFO("onRspQryInstrument:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryDepthMarketData(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryDepthMarketData:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryExchangeMarginRate(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryExchangeMarginRate:\n {}", rsp);
-
-    notify(is_last);
-  }
-
-  virtual void onRspQryExchangeMarginRateAdjust(
-      const std::string& rsp,
-      bool is_last) {
-    LOG_INFO("onRspQryExchangeMarginRateAdjust:\n {}", rsp);
-
-    notify(is_last);
   }
 
  protected:
@@ -209,17 +61,15 @@ TEST_F(TraderServiceTest, orderTest) {
   int32_t order_ref = service->openBuyOrder(instru,
                                             price,
                                             volume);
-  LOG_INFO("order_ref: {}", order_ref);
-  wait(2000);
+  SOIL_INFO("order_ref: {}", order_ref);
+  wait();
 
   service->cancelOrder(order_ref, instru);
-  wait(2000);
+  wait();
 
-  wait(1000);
   service->queryOrder("", "", "", "", "");
   wait();
 
-  wait(1000);
   service->queryTrade("", "", "", "", "");
   wait();
 
@@ -228,62 +78,47 @@ TEST_F(TraderServiceTest, orderTest) {
 
 TEST_F(TraderServiceTest, queryTest) {
   std::string trading_day = service->tradingDay();
-  LOG_INFO("{}", trading_day);
+  SOIL_INFO("{}", trading_day);
 
-  std::string instru = "cu1712";
-
-  wait(1000);
+  wait();
   service->queryInvestor();
   wait();
-  wait(1000);
 
   service->queryTradingCode("");
   wait();
-  wait(1000);
 
   service->queryAccount("");
   wait();
-  wait(1000);
 
   service->queryPosition("");
   wait();
-  wait(1000);
 
   service->queryOrder("", "", "", "", "");
   wait();
-  wait(1000);
 
   service->queryTrade("", "", "", "", "");
   wait();
-  wait(1000);
 
   service->queryExchange("");
   wait();
-  wait(1000);
 
   service->queryProduct("");
   wait();
-  wait(1000);
 
   service->queryInstrument("", "", "", "");
-  wait();
-  wait(1000);
+  wait(10000);
 
   service->queryInstruMarginRate(instru);
   wait();
-  wait(1000);
 
   service->queryInstruCommissionRate(instru);
   wait();
-  wait(1000);
 
   service->queryDepthMarketData("");
   wait();
-  wait(1000);
 
   service->queryExchangeMarginRate(instru);
   wait();
-  wait(1000);
 
   service->queryExchangeMarginRateAdjust(instru);
   wait();

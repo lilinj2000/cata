@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = traderflow mdflow
 
-TESTS = unittest.sh
+# TESTS = unittest.sh
 
 check_PROGRAMS = unittest_md unittest_trader
 
@@ -42,11 +42,11 @@ unittest_trader_LDADD = $(unittest_LDADD) \
 	../service/libcata_trader.la
 
 
-unittest_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
+unittest_ldflags = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
-unittest_md_LDFLAGS = $(unittest_LDFLAGS)
+unittest_md_LDFLAGS = $(unittest_ldflags)
 
-unittest_trader_LDFLAGS = $(unittest_LDFLAGS)
+unittest_trader_LDFLAGS = $(unittest_ldflags)
 
 
 # header files

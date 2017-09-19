@@ -21,283 +21,370 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
   // interface from CThostFtdcTraderSpi
   virtual void OnFrontConnected();
 
-  virtual void OnFrontDisconnected(int nReason);
+  virtual void OnFrontDisconnected(
+      int nReason);
 
-  virtual void OnHeartBeatWarning(int nTimeLapse);
+  virtual void OnHeartBeatWarning(
+      int nTimeLapse);
 
   virtual void OnRspAuthenticate(
-      CThostFtdcRspAuthenticateField *pRspAuthenticateField,  // NOLINT(whitespace/line_length)
+      CThostFtdcRspAuthenticateField *pRspAuthenticateField,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspUserLogin(
-      CThostFtdcRspUserLoginField *pRspUserLogin,  // NOLINT(whitespace/line_length)
+      CThostFtdcRspUserLoginField *pRspUserLogin,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspUserLogout(
-      CThostFtdcUserLogoutField *pUserLogout,  // NOLINT(whitespace/line_length)
+      CThostFtdcUserLogoutField *pUserLogout,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspUserPasswordUpdate(
-      CThostFtdcUserPasswordUpdateField *pUserPasswordUpdate,  // NOLINT(whitespace/line_length)
+      CThostFtdcUserPasswordUpdateField *pUserPasswordUpdate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspTradingAccountPasswordUpdate(
-      CThostFtdcTradingAccountPasswordUpdateField *pTradingAccountPasswordUpdate,  // NOLINT(whitespace/line_length)
+      CThostFtdcTradingAccountPasswordUpdateField *pTradingAccountPasswordUpdate, // NOLINT
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspOrderInsert(
-      CThostFtdcInputOrderField *pInputOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputOrderField *pInputOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspParkedOrderInsert(
-      CThostFtdcParkedOrderField *pParkedOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcParkedOrderField *pParkedOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspParkedOrderAction(
-      CThostFtdcParkedOrderActionField *pParkedOrderAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcParkedOrderActionField *pParkedOrderAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspOrderAction(
-      CThostFtdcInputOrderActionField *pInputOrderAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputOrderActionField *pInputOrderAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQueryMaxOrderVolume(
-      CThostFtdcQueryMaxOrderVolumeField *pQueryMaxOrderVolume,  // NOLINT(whitespace/line_length)
+      CThostFtdcQueryMaxOrderVolumeField *pQueryMaxOrderVolume,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspSettlementInfoConfirm(
-      CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm,  // NOLINT(whitespace/line_length)
+      CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspRemoveParkedOrder(
-      CThostFtdcRemoveParkedOrderField *pRemoveParkedOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcRemoveParkedOrderField *pRemoveParkedOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspRemoveParkedOrderAction(
-      CThostFtdcRemoveParkedOrderActionField *pRemoveParkedOrderAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcRemoveParkedOrderActionField *pRemoveParkedOrderAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspExecOrderInsert(
-      CThostFtdcInputExecOrderField *pInputExecOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputExecOrderField *pInputExecOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspExecOrderAction(
-      CThostFtdcInputExecOrderActionField *pInputExecOrderAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputExecOrderActionField *pInputExecOrderAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspForQuoteInsert(
-      CThostFtdcInputForQuoteField *pInputForQuote,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputForQuoteField *pInputForQuote,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQuoteInsert(
-      CThostFtdcInputQuoteField *pInputQuote,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputQuoteField *pInputQuote,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQuoteAction(
-      CThostFtdcInputQuoteActionField *pInputQuoteAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputQuoteActionField *pInputQuoteAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
+
+  virtual void OnRspBatchOrderAction(
+      CThostFtdcInputBatchOrderActionField *pInputBatchOrderAction,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspCombActionInsert(
-      CThostFtdcInputCombActionField *pInputCombAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcInputCombActionField *pInputCombAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryOrder(
-      CThostFtdcOrderField *pOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcOrderField *pOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryTrade(
-      CThostFtdcTradeField *pTrade,  // NOLINT(whitespace/line_length)
+      CThostFtdcTradeField *pTrade,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInvestorPosition(
-      CThostFtdcInvestorPositionField *pInvestorPosition,  // NOLINT(whitespace/line_length)
+      CThostFtdcInvestorPositionField *pInvestorPosition,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryTradingAccount(
-      CThostFtdcTradingAccountField *pTradingAccount,  // NOLINT(whitespace/line_length)
+      CThostFtdcTradingAccountField *pTradingAccount,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInvestor(
-      CThostFtdcInvestorField *pInvestor,  // NOLINT(whitespace/line_length)
+      CThostFtdcInvestorField *pInvestor,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryTradingCode(
-      CThostFtdcTradingCodeField *pTradingCode,  // NOLINT(whitespace/line_length)
+      CThostFtdcTradingCodeField *pTradingCode,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInstrumentMarginRate(
-      CThostFtdcInstrumentMarginRateField *pInstrumentMarginRate,  // NOLINT(whitespace/line_length)
+      CThostFtdcInstrumentMarginRateField *pInstrumentMarginRate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInstrumentCommissionRate(
-      CThostFtdcInstrumentCommissionRateField *pInstrumentCommissionRate,  // NOLINT(whitespace/line_length)
+      CThostFtdcInstrumentCommissionRateField *pInstrumentCommissionRate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryExchange(
-      CThostFtdcExchangeField *pExchange,  // NOLINT(whitespace/line_length)
+      CThostFtdcExchangeField *pExchange,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryProduct(
-      CThostFtdcProductField *pProduct,  // NOLINT(whitespace/line_length)
+      CThostFtdcProductField *pProduct,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInstrument(
-      CThostFtdcInstrumentField *pInstrument,  // NOLINT(whitespace/line_length)
+      CThostFtdcInstrumentField *pInstrument,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryDepthMarketData(
-      CThostFtdcDepthMarketDataField *pDepthMarketData,  // NOLINT(whitespace/line_length)
+      CThostFtdcDepthMarketDataField *pDepthMarketData,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQrySettlementInfo(
-      CThostFtdcSettlementInfoField *pSettlementInfo,  // NOLINT(whitespace/line_length)
+      CThostFtdcSettlementInfoField *pSettlementInfo,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryTransferBank(
-      CThostFtdcTransferBankField *pTransferBank,  // NOLINT(whitespace/line_length)
+      CThostFtdcTransferBankField *pTransferBank,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInvestorPositionDetail(
-      CThostFtdcInvestorPositionDetailField *pInvestorPositionDetail,  // NOLINT(whitespace/line_length)
+      CThostFtdcInvestorPositionDetailField *pInvestorPositionDetail,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryNotice(
-      CThostFtdcNoticeField *pNotice,  // NOLINT(whitespace/line_length)
+      CThostFtdcNoticeField *pNotice,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQrySettlementInfoConfirm(
-      CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm,  // NOLINT(whitespace/line_length)
+      CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInvestorPositionCombineDetail(
-      CThostFtdcInvestorPositionCombineDetailField *pInvestorPositionCombineDetail,  // NOLINT(whitespace/line_length)
+      CThostFtdcInvestorPositionCombineDetailField *pInvestorPositionCombineDetail, // NOLINT
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryCFMMCTradingAccountKey(
-      CThostFtdcCFMMCTradingAccountKeyField *pCFMMCTradingAccountKey,  // NOLINT(whitespace/line_length)
+      CThostFtdcCFMMCTradingAccountKeyField *pCFMMCTradingAccountKey,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryEWarrantOffset(
-      CThostFtdcEWarrantOffsetField *pEWarrantOffset,  // NOLINT(whitespace/line_length)
+      CThostFtdcEWarrantOffsetField *pEWarrantOffset,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryInvestorProductGroupMargin(
-      CThostFtdcInvestorProductGroupMarginField *pInvestorProductGroupMargin,  // NOLINT(whitespace/line_length)
+      CThostFtdcInvestorProductGroupMarginField *pInvestorProductGroupMargin,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryExchangeMarginRate(
-      CThostFtdcExchangeMarginRateField *pExchangeMarginRate,  // NOLINT(whitespace/line_length)
+      CThostFtdcExchangeMarginRateField *pExchangeMarginRate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryExchangeMarginRateAdjust(
-      CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust,  // NOLINT(whitespace/line_length)
+      CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryExchangeRate(
-      CThostFtdcExchangeRateField *pExchangeRate,  // NOLINT(whitespace/line_length)
+      CThostFtdcExchangeRateField *pExchangeRate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQrySecAgentACIDMap(
-      CThostFtdcSecAgentACIDMapField *pSecAgentACIDMap,  // NOLINT(whitespace/line_length)
+      CThostFtdcSecAgentACIDMapField *pSecAgentACIDMap,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryProductExchRate(
-      CThostFtdcProductExchRateField *pProductExchRate,  // NOLINT(whitespace/line_length)
+      CThostFtdcProductExchRateField *pProductExchRate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
+
+  virtual void OnRspQryProductGroup(
+      CThostFtdcProductGroupField *pProductGroup,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
+
+  virtual void OnRspQryMMInstrumentCommissionRate(
+      CThostFtdcMMInstrumentCommissionRateField *pMMInstrumentCommissionRate,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
+
+  virtual void OnRspQryMMOptionInstrCommRate(
+      CThostFtdcMMOptionInstrCommRateField *pMMOptionInstrCommRate,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
+
+  virtual void OnRspQryInstrumentOrderCommRate(
+      CThostFtdcInstrumentOrderCommRateField *pInstrumentOrderCommRate,
+      CThostFtdcRspInfoField *pRspInfo,
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryOptionInstrTradeCost(
-      CThostFtdcOptionInstrTradeCostField *pOptionInstrTradeCost,  // NOLINT(whitespace/line_length)
+      CThostFtdcOptionInstrTradeCostField *pOptionInstrTradeCost,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryOptionInstrCommRate(
-      CThostFtdcOptionInstrCommRateField *pOptionInstrCommRate,  // NOLINT(whitespace/line_length)
+      CThostFtdcOptionInstrCommRateField *pOptionInstrCommRate,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryExecOrder(
-      CThostFtdcExecOrderField *pExecOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcExecOrderField *pExecOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryForQuote(
-      CThostFtdcForQuoteField *pForQuote,  // NOLINT(whitespace/line_length)
+      CThostFtdcForQuoteField *pForQuote,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryQuote(
-      CThostFtdcQuoteField *pQuote,  // NOLINT(whitespace/line_length)
+      CThostFtdcQuoteField *pQuote,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryCombInstrumentGuard(
-      CThostFtdcCombInstrumentGuardField *pCombInstrumentGuard,  // NOLINT(whitespace/line_length)
+      CThostFtdcCombInstrumentGuardField *pCombInstrumentGuard,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryCombAction(
-      CThostFtdcCombActionField *pCombAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcCombActionField *pCombAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryTransferSerial(
-      CThostFtdcTransferSerialField *pTransferSerial,  // NOLINT(whitespace/line_length)
+      CThostFtdcTransferSerialField *pTransferSerial,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryAccountregister(
-      CThostFtdcAccountregisterField *pAccountregister,  // NOLINT(whitespace/line_length)
+      CThostFtdcAccountregisterField *pAccountregister,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspError(
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRtnOrder(
       CThostFtdcOrderField *pOrder);
@@ -305,16 +392,11 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
   virtual void OnRtnTrade(
       CThostFtdcTradeField *pTrade);
 
-  virtual void OnErrRtnOrderInsert(
-      CThostFtdcInputOrderField *pInputOrder,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnOrderAction(
-      CThostFtdcOrderActionField *pOrderAction,
-      CThostFtdcRspInfoField *pRspInfo);
-
   virtual void OnRtnInstrumentStatus(
       CThostFtdcInstrumentStatusField *pInstrumentStatus);
+
+  virtual void OnRtnBulletin(
+      CThostFtdcBulletinField *pBulletin);
 
   virtual void OnRtnTradingNotice(
       CThostFtdcTradingNoticeInfoField *pTradingNoticeInfo);
@@ -325,28 +407,8 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
   virtual void OnRtnExecOrder(
       CThostFtdcExecOrderField *pExecOrder);
 
-  virtual void OnErrRtnExecOrderInsert(
-      CThostFtdcInputExecOrderField *pInputExecOrder,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnExecOrderAction(
-      CThostFtdcExecOrderActionField *pExecOrderAction,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnForQuoteInsert(
-      CThostFtdcInputForQuoteField *pInputForQuote,
-      CThostFtdcRspInfoField *pRspInfo);
-
   virtual void OnRtnQuote(
       CThostFtdcQuoteField *pQuote);
-
-  virtual void OnErrRtnQuoteInsert(
-      CThostFtdcInputQuoteField *pInputQuote,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnQuoteAction(
-      CThostFtdcQuoteActionField *pQuoteAction,
-      CThostFtdcRspInfoField *pRspInfo);
 
   virtual void OnRtnForQuoteRsp(
       CThostFtdcForQuoteRspField *pForQuoteRsp);
@@ -357,44 +419,47 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
   virtual void OnRtnCombAction(
       CThostFtdcCombActionField *pCombAction);
 
-  virtual void OnErrRtnCombActionInsert(
-      CThostFtdcInputCombActionField *pInputCombAction,
-      CThostFtdcRspInfoField *pRspInfo);
-
   virtual void OnRspQryContractBank(
-      CThostFtdcContractBankField *pContractBank,  // NOLINT(whitespace/line_length)
+      CThostFtdcContractBankField *pContractBank,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryParkedOrder(
-      CThostFtdcParkedOrderField *pParkedOrder,  // NOLINT(whitespace/line_length)
+      CThostFtdcParkedOrderField *pParkedOrder,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryParkedOrderAction(
-      CThostFtdcParkedOrderActionField *pParkedOrderAction,  // NOLINT(whitespace/line_length)
+      CThostFtdcParkedOrderActionField *pParkedOrderAction,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryTradingNotice(
-      CThostFtdcTradingNoticeField *pTradingNotice,  // NOLINT(whitespace/line_length)
+      CThostFtdcTradingNoticeField *pTradingNotice,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryBrokerTradingParams(
-      CThostFtdcBrokerTradingParamsField *pBrokerTradingParams,  // NOLINT(whitespace/line_length)
+      CThostFtdcBrokerTradingParamsField *pBrokerTradingParams,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQryBrokerTradingAlgos(
-      CThostFtdcBrokerTradingAlgosField *pBrokerTradingAlgos,  // NOLINT(whitespace/line_length)
+      CThostFtdcBrokerTradingAlgosField *pBrokerTradingAlgos,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQueryCFMMCTradingAccountToken(
-      CThostFtdcQueryCFMMCTradingAccountTokenField *pQueryCFMMCTradingAccountToken,  // NOLINT(whitespace/line_length)
+      CThostFtdcQueryCFMMCTradingAccountTokenField *pQueryCFMMCTradingAccountToken, // NOLINT
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRtnFromBankToFutureByBank(
       CThostFtdcRspTransferField *pRspTransfer);
@@ -423,26 +488,6 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
   virtual void OnRtnQueryBankBalanceByFuture(
       CThostFtdcNotifyQueryAccountField *pNotifyQueryAccount);
 
-  virtual void OnErrRtnBankToFutureByFuture(
-      CThostFtdcReqTransferField *pReqTransfer,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnFutureToBankByFuture(
-      CThostFtdcReqTransferField *pReqTransfer,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnRepealBankToFutureByFutureManual(
-      CThostFtdcReqRepealField *pReqRepeal,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnRepealFutureToBankByFutureManual(
-      CThostFtdcReqRepealField *pReqRepeal,
-      CThostFtdcRspInfoField *pRspInfo);
-
-  virtual void OnErrRtnQueryBankBalanceByFuture(
-      CThostFtdcReqQueryAccountField *pReqQueryAccount,
-      CThostFtdcRspInfoField *pRspInfo);
-
   virtual void OnRtnRepealFromBankToFutureByFuture(
       CThostFtdcRspRepealField *pRspRepeal);
 
@@ -450,19 +495,22 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
       CThostFtdcRspRepealField *pRspRepeal);
 
   virtual void OnRspFromBankToFutureByFuture(
-      CThostFtdcReqTransferField *pReqTransfer,  // NOLINT(whitespace/line_length)
+      CThostFtdcReqTransferField *pReqTransfer,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspFromFutureToBankByFuture(
-      CThostFtdcReqTransferField *pReqTransfer,  // NOLINT(whitespace/line_length)
+      CThostFtdcReqTransferField *pReqTransfer,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRspQueryBankAccountMoneyByFuture(
-      CThostFtdcReqQueryAccountField *pReqQueryAccount,  // NOLINT(whitespace/line_length)
+      CThostFtdcReqQueryAccountField *pReqQueryAccount,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
   virtual void OnRtnOpenAccountByBank(
       CThostFtdcOpenAccountField *pOpenAccount);
@@ -474,7 +522,8 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
       CThostFtdcChangeAccountField *pChangeAccount);
 
  protected:
-  bool isRspError(CThostFtdcRspInfoField *pRspInfo);
+  bool isRspError(
+      CThostFtdcRspInfoField *pRspInfo);
 
   TraderCallback* callback() {
     return service_->callback();

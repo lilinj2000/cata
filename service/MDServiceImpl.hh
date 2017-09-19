@@ -7,7 +7,7 @@
 #include "ThostFtdcMdApi.h"
 #include <string>
 #include <memory>
-#include "rapidjson/Document.h"
+#include "rapidjson/document.h"
 #include "cata/MDService.hh"
 #include "soil/STimer.hh"
 

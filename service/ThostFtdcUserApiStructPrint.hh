@@ -6,7 +6,6 @@
 
 #include <ostream>
 #include "ThostFtdcUserApiStruct.h"
-#include "soil/String.hh"
 
 template< typename CharT, typename TraitsT >
 std::basic_ostream< CharT, TraitsT >& operator<<(
@@ -49,7 +48,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"OneTimePassword\": \""
        <<aReqUserLoginField.OneTimePassword  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ClientIPAddress\": \""
-       <<aReqUserLoginField.ClientIPAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqUserLoginField.ClientIPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LoginRemark\": \""
+       <<aReqUserLoginField.LoginRemark  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -488,7 +489,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"{" <<std::endl;
     os <<"    \"CThostFtdcInstrumentField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aInstrumentField.InstrumentID <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ExchangeID\": \""
        <<aInstrumentField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentName\": \""
@@ -498,7 +499,7 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ProductID\": \""
        <<aInstrumentField.ProductID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ProductClass\": \""
-       <<soil::toString(aInstrumentField.ProductClass) <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.ProductClass  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"DeliveryYear\": \""
        <<aInstrumentField.DeliveryYear  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"DeliveryMonth\": \""
@@ -526,29 +527,29 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"EndDelivDate\": \""
        <<aInstrumentField.EndDelivDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstLifePhase\": \""
-       <<soil::toString(aInstrumentField.InstLifePhase)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.InstLifePhase  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsTrading\": \""
        <<aInstrumentField.IsTrading  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"PositionType\": \""
-       <<soil::toString(aInstrumentField.PositionType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.PositionType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"PositionDateType\": \""
-       <<soil::toString(aInstrumentField.PositionDateType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.PositionDateType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"LongMarginRatio\": \""
        <<aInstrumentField.LongMarginRatio  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ShortMarginRatio\": \""
        <<aInstrumentField.ShortMarginRatio  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"MaxMarginSideAlgorithm\": \""
-       <<soil::toString(aInstrumentField.MaxMarginSideAlgorithm)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.MaxMarginSideAlgorithm  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UnderlyingInstrID\": \""
        <<aInstrumentField.UnderlyingInstrID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"StrikePrice\": \""
        <<aInstrumentField.StrikePrice  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"OptionsType\": \""
-       <<soil::toString(aInstrumentField.OptionsType)  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.OptionsType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UnderlyingMultiple\": \""
        <<aInstrumentField.UnderlyingMultiple  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CombinationType\": \""
-       <<soil::toString(aInstrumentField.CombinationType)  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInstrumentField.CombinationType  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1451,7 +1452,11 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"OneTimePassword\": \""
        <<aLoginInfoField.OneTimePassword  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"INETime\": \""
-       <<aLoginInfoField.INETime  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aLoginInfoField.INETime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IsQryControl\": \""
+       <<aLoginInfoField.IsQryControl  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LoginRemark\": \""
+       <<aLoginInfoField.LoginRemark  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1563,7 +1568,21 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"UserForceClose\": \""
        <<aInputOrderField.UserForceClose  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsSwapOrder\": \""
-       <<aInputOrderField.IsSwapOrder  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputOrderField.IsSwapOrder  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aInputOrderField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aInputOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aInputOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aInputOrderField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1688,7 +1707,19 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ZCETotalTradedVolume\": \""
        <<aOrderField.ZCETotalTradedVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsSwapOrder\": \""
-       <<aOrderField.IsSwapOrder  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aOrderField.IsSwapOrder  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aOrderField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1783,7 +1814,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ClearingPartID\": \""
        <<aExchangeOrderField.ClearingPartID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"SequenceNo\": \""
-       <<aExchangeOrderField.SequenceNo  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeOrderField.SequenceNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExchangeOrderField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1847,7 +1884,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"UserID\": \""
        <<aInputOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aInputOrderActionField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputOrderActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1908,7 +1951,15 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"StatusMsg\": \""
        <<aOrderActionField.StatusMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aOrderActionField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aOrderActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aOrderActionField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -1951,7 +2002,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"OrderActionStatus\": \""
        <<aExchangeOrderActionField.OrderActionStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UserID\": \""
-       <<aExchangeOrderActionField.UserID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExchangeOrderActionField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -2137,7 +2194,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ProtocolInfo\": \""
        <<aUserSessionField.ProtocolInfo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"MacAddress\": \""
-       <<aUserSessionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aUserSessionField.MacAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LoginRemark\": \""
+       <<aUserSessionField.LoginRemark  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3240,7 +3299,11 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"AShortMarginRatioByVolume\": \""
        <<aOptionInstrMarginAdjustField.AShortMarginRatioByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsRelative\": \""
-       <<aOptionInstrMarginAdjustField.IsRelative  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aOptionInstrMarginAdjustField.IsRelative  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MShortMarginRatioByMoney\": \""
+       <<aOptionInstrMarginAdjustField.MShortMarginRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MShortMarginRatioByVolume\": \""
+       <<aOptionInstrMarginAdjustField.MShortMarginRatioByVolume  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3400,7 +3463,21 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ReservePositionFlag\": \""
        <<aInputExecOrderField.ReservePositionFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CloseFlag\": \""
-       <<aInputExecOrderField.CloseFlag  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputExecOrderField.CloseFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aInputExecOrderField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputExecOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aInputExecOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aInputExecOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aInputExecOrderField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputExecOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputExecOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3435,7 +3512,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"UserID\": \""
        <<aInputExecOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aInputExecOrderActionField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputExecOrderActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputExecOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputExecOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputExecOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3522,7 +3605,19 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ActiveUserID\": \""
        <<aExecOrderField.ActiveUserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"BrokerExecOrderSeq\": \""
-       <<aExecOrderField.BrokerExecOrderSeq  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExecOrderField.BrokerExecOrderSeq  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExecOrderField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aExecOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aExecOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aExecOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExecOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExecOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3581,7 +3676,15 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"StatusMsg\": \""
        <<aExecOrderActionField.StatusMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aExecOrderActionField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExecOrderActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExecOrderActionField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aExecOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExecOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExecOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3671,7 +3774,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ClearingPartID\": \""
        <<aExchangeExecOrderField.ClearingPartID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"SequenceNo\": \""
-       <<aExchangeExecOrderField.SequenceNo  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeExecOrderField.SequenceNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExchangeExecOrderField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeExecOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeExecOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3750,7 +3859,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"UserID\": \""
        <<aExchangeExecOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ActionType\": \""
-       <<aExchangeExecOrderActionField.ActionType  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeExecOrderActionField.ActionType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExchangeExecOrderActionField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeExecOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeExecOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3809,6 +3924,20 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
        <<aErrExecOrderField.ReservePositionFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CloseFlag\": \""
        <<aErrExecOrderField.CloseFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aErrExecOrderField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aErrExecOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aErrExecOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aErrExecOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aErrExecOrderField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aErrExecOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aErrExecOrderField.MacAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorID\": \""
        <<aErrExecOrderField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
@@ -3863,6 +3992,12 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
        <<aErrExecOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
        <<aErrExecOrderActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aErrExecOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aErrExecOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aErrExecOrderActionField.MacAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorID\": \""
        <<aErrExecOrderActionField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
@@ -3944,7 +4079,15 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ForQuoteRef\": \""
        <<aInputForQuoteField.ForQuoteRef  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UserID\": \""
-       <<aInputForQuoteField.UserID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputForQuoteField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aInputForQuoteField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputForQuoteField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputForQuoteField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputForQuoteField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -3995,7 +4138,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ActiveUserID\": \""
        <<aForQuoteField.ActiveUserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"BrokerForQutoSeq\": \""
-       <<aForQuoteField.BrokerForQutoSeq  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aForQuoteField.BrokerForQutoSeq  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aForQuoteField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aForQuoteField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aForQuoteField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4049,7 +4198,11 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"InsertTime\": \""
        <<aExchangeForQuoteField.InsertTime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ForQuoteStatus\": \""
-       <<aExchangeForQuoteField.ForQuoteStatus  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeForQuoteField.ForQuoteStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeForQuoteField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeForQuoteField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4117,7 +4270,17 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"BidOrderRef\": \""
        <<aInputQuoteField.BidOrderRef  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ForQuoteSysID\": \""
-       <<aInputQuoteField.ForQuoteSysID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputQuoteField.ForQuoteSysID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aInputQuoteField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputQuoteField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aInputQuoteField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputQuoteField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputQuoteField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4152,7 +4315,15 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"UserID\": \""
        <<aInputQuoteActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aInputQuoteActionField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputQuoteActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputQuoteActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aInputQuoteActionField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputQuoteActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputQuoteActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4251,7 +4422,19 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"BidOrderRef\": \""
        <<aQuoteField.BidOrderRef  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ForQuoteSysID\": \""
-       <<aQuoteField.ForQuoteSysID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aQuoteField.ForQuoteSysID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aQuoteField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aQuoteField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aQuoteField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aQuoteField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aQuoteField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aQuoteField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4308,7 +4491,15 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"StatusMsg\": \""
        <<aQuoteActionField.StatusMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
-       <<aQuoteActionField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aQuoteActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aQuoteActionField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aQuoteActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aQuoteActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aQuoteActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4406,7 +4597,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"BidOrderSysID\": \""
        <<aExchangeQuoteField.BidOrderSysID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ForQuoteSysID\": \""
-       <<aExchangeQuoteField.ForQuoteSysID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeQuoteField.ForQuoteSysID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aExchangeQuoteField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeQuoteField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeQuoteField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4483,7 +4680,11 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"OrderActionStatus\": \""
        <<aExchangeQuoteActionField.OrderActionStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UserID\": \""
-       <<aExchangeQuoteActionField.UserID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeQuoteActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeQuoteActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeQuoteActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4567,7 +4768,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"InvestorID\": \""
        <<aStrikeOffsetField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"Offset\": \""
-       <<aStrikeOffsetField.Offset  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aStrikeOffsetField.Offset  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OffsetType\": \""
+       <<aStrikeOffsetField.OffsetType  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4585,6 +4788,146 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
        <<aQryStrikeOffsetField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
        <<aQryStrikeOffsetField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcInputBatchOrderActionField const& aInputBatchOrderActionField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcInputBatchOrderActionField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aInputBatchOrderActionField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aInputBatchOrderActionField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OrderActionRef\": \""
+       <<aInputBatchOrderActionField.OrderActionRef  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"RequestID\": \""
+       <<aInputBatchOrderActionField.RequestID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"FrontID\": \""
+       <<aInputBatchOrderActionField.FrontID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SessionID\": \""
+       <<aInputBatchOrderActionField.SessionID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aInputBatchOrderActionField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"UserID\": \""
+       <<aInputBatchOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aInputBatchOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputBatchOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputBatchOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcBatchOrderActionField const& aBatchOrderActionField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcBatchOrderActionField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aBatchOrderActionField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aBatchOrderActionField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OrderActionRef\": \""
+       <<aBatchOrderActionField.OrderActionRef  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"RequestID\": \""
+       <<aBatchOrderActionField.RequestID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"FrontID\": \""
+       <<aBatchOrderActionField.FrontID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SessionID\": \""
+       <<aBatchOrderActionField.SessionID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aBatchOrderActionField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ActionDate\": \""
+       <<aBatchOrderActionField.ActionDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ActionTime\": \""
+       <<aBatchOrderActionField.ActionTime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TraderID\": \""
+       <<aBatchOrderActionField.TraderID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstallID\": \""
+       <<aBatchOrderActionField.InstallID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ActionLocalID\": \""
+       <<aBatchOrderActionField.ActionLocalID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ParticipantID\": \""
+       <<aBatchOrderActionField.ParticipantID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aBatchOrderActionField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BusinessUnit\": \""
+       <<aBatchOrderActionField.BusinessUnit  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OrderActionStatus\": \""
+       <<aBatchOrderActionField.OrderActionStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"UserID\": \""
+       <<aBatchOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"StatusMsg\": \""
+       <<aBatchOrderActionField.StatusMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aBatchOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aBatchOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aBatchOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcExchangeBatchOrderActionField const& aExchangeBatchOrderActionField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcExchangeBatchOrderActionField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aExchangeBatchOrderActionField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ActionDate\": \""
+       <<aExchangeBatchOrderActionField.ActionDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ActionTime\": \""
+       <<aExchangeBatchOrderActionField.ActionTime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TraderID\": \""
+       <<aExchangeBatchOrderActionField.TraderID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstallID\": \""
+       <<aExchangeBatchOrderActionField.InstallID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ActionLocalID\": \""
+       <<aExchangeBatchOrderActionField.ActionLocalID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ParticipantID\": \""
+       <<aExchangeBatchOrderActionField.ParticipantID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aExchangeBatchOrderActionField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BusinessUnit\": \""
+       <<aExchangeBatchOrderActionField.BusinessUnit  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OrderActionStatus\": \""
+       <<aExchangeBatchOrderActionField.OrderActionStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"UserID\": \""
+       <<aExchangeBatchOrderActionField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeBatchOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeBatchOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryBatchOrderActionField const& aQryBatchOrderActionField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryBatchOrderActionField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aQryBatchOrderActionField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aQryBatchOrderActionField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aQryBatchOrderActionField.ExchangeID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4645,7 +4988,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"CombDirection\": \""
        <<aInputCombActionField.CombDirection  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"HedgeFlag\": \""
-       <<aInputCombActionField.HedgeFlag  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aInputCombActionField.HedgeFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aInputCombActionField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aInputCombActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aInputCombActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4706,7 +5055,11 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"UserProductInfo\": \""
        <<aCombActionField.UserProductInfo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"StatusMsg\": \""
-       <<aCombActionField.StatusMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aCombActionField.StatusMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aCombActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aCombActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4768,7 +5121,11 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"SettlementID\": \""
        <<aExchangeCombActionField.SettlementID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"SequenceNo\": \""
-       <<aExchangeCombActionField.SequenceNo  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aExchangeCombActionField.SequenceNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aExchangeCombActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aExchangeCombActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -4820,6 +5177,186 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"    \"CThostFtdcQryProductExchRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ProductID\": \""
        <<aQryProductExchRateField.ProductID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryForQuoteParamField const& aQryForQuoteParamField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryForQuoteParamField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aQryForQuoteParamField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aQryForQuoteParamField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aQryForQuoteParamField.ExchangeID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcForQuoteParamField const& aForQuoteParamField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcForQuoteParamField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aForQuoteParamField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aForQuoteParamField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aForQuoteParamField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LastPrice\": \""
+       <<aForQuoteParamField.LastPrice  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"PriceInterval\": \""
+       <<aForQuoteParamField.PriceInterval  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcMMOptionInstrCommRateField const& aMMOptionInstrCommRateField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcMMOptionInstrCommRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aMMOptionInstrCommRateField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorRange\": \""
+       <<aMMOptionInstrCommRateField.InvestorRange  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aMMOptionInstrCommRateField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aMMOptionInstrCommRateField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OpenRatioByMoney\": \""
+       <<aMMOptionInstrCommRateField.OpenRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OpenRatioByVolume\": \""
+       <<aMMOptionInstrCommRateField.OpenRatioByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseRatioByMoney\": \""
+       <<aMMOptionInstrCommRateField.CloseRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseRatioByVolume\": \""
+       <<aMMOptionInstrCommRateField.CloseRatioByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseTodayRatioByMoney\": \""
+       <<aMMOptionInstrCommRateField.CloseTodayRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseTodayRatioByVolume\": \""
+       <<aMMOptionInstrCommRateField.CloseTodayRatioByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"StrikeRatioByMoney\": \""
+       <<aMMOptionInstrCommRateField.StrikeRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"StrikeRatioByVolume\": \""
+       <<aMMOptionInstrCommRateField.StrikeRatioByVolume  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryMMOptionInstrCommRateField const& aQryMMOptionInstrCommRateField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryMMOptionInstrCommRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aQryMMOptionInstrCommRateField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aQryMMOptionInstrCommRateField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aQryMMOptionInstrCommRateField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcMMInstrumentCommissionRateField const& aMMInstrumentCommissionRateField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcMMInstrumentCommissionRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aMMInstrumentCommissionRateField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorRange\": \""
+       <<aMMInstrumentCommissionRateField.InvestorRange  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aMMInstrumentCommissionRateField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aMMInstrumentCommissionRateField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OpenRatioByMoney\": \""
+       <<aMMInstrumentCommissionRateField.OpenRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OpenRatioByVolume\": \""
+       <<aMMInstrumentCommissionRateField.OpenRatioByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseRatioByMoney\": \""
+       <<aMMInstrumentCommissionRateField.CloseRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseRatioByVolume\": \""
+       <<aMMInstrumentCommissionRateField.CloseRatioByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseTodayRatioByMoney\": \""
+       <<aMMInstrumentCommissionRateField.CloseTodayRatioByMoney  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CloseTodayRatioByVolume\": \""
+       <<aMMInstrumentCommissionRateField.CloseTodayRatioByVolume  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryMMInstrumentCommissionRateField const& aQryMMInstrumentCommissionRateField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryMMInstrumentCommissionRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aQryMMInstrumentCommissionRateField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aQryMMInstrumentCommissionRateField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aQryMMInstrumentCommissionRateField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcInstrumentOrderCommRateField const& aInstrumentOrderCommRateField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcInstrumentOrderCommRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aInstrumentOrderCommRateField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorRange\": \""
+       <<aInstrumentOrderCommRateField.InvestorRange  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aInstrumentOrderCommRateField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aInstrumentOrderCommRateField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"HedgeFlag\": \""
+       <<aInstrumentOrderCommRateField.HedgeFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OrderCommByVolume\": \""
+       <<aInstrumentOrderCommRateField.OrderCommByVolume  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"OrderActionCommByVolume\": \""
+       <<aInstrumentOrderCommRateField.OrderActionCommByVolume  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryInstrumentOrderCommRateField const& aQryInstrumentOrderCommRateField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryInstrumentOrderCommRateField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aQryInstrumentOrderCommRateField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestorID\": \""
+       <<aQryInstrumentOrderCommRateField.InvestorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstrumentID\": \""
+       <<aQryInstrumentOrderCommRateField.InstrumentID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -5851,7 +6388,19 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorMsg\": \""
        <<aParkedOrderField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsSwapOrder\": \""
-       <<aParkedOrderField.IsSwapOrder  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aParkedOrderField.IsSwapOrder  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aParkedOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aParkedOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aParkedOrderField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aParkedOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aParkedOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aParkedOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -5900,7 +6449,13 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aParkedOrderActionField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aParkedOrderActionField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aParkedOrderActionField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aParkedOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aParkedOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aParkedOrderActionField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -6204,7 +6759,21 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorMsg\": \""
        <<aErrOrderField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsSwapOrder\": \""
-       <<aErrOrderField.IsSwapOrder  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aErrOrderField.IsSwapOrder  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aErrOrderField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aErrOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aErrOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aErrOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ClientID\": \""
+       <<aErrOrderField.ClientID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aErrOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aErrOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -6333,7 +6902,19 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorMsg\": \""
        <<aErrorConditionalOrderField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"IsSwapOrder\": \""
-       <<aErrorConditionalOrderField.IsSwapOrder  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aErrorConditionalOrderField.IsSwapOrder  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aErrorConditionalOrderField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aErrorConditionalOrderField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aErrorConditionalOrderField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aErrorConditionalOrderField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aErrorConditionalOrderField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aErrorConditionalOrderField.MacAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -6410,6 +6991,14 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
        <<aErrOrderActionField.StatusMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"InstrumentID\": \""
        <<aErrOrderActionField.InstrumentID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BranchID\": \""
+       <<aErrOrderActionField.BranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InvestUnitID\": \""
+       <<aErrOrderActionField.InvestUnitID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aErrOrderActionField.IPAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MacAddress\": \""
+       <<aErrOrderActionField.MacAddress  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorID\": \""
        <<aErrOrderActionField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
@@ -6964,6 +7553,94 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
 template< typename CharT, typename TraitsT >
 std::basic_ostream< CharT, TraitsT >& operator<<(
     std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryProductGroupField const& aQryProductGroupField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryProductGroupField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ProductID\": \""
+       <<aQryProductGroupField.ProductID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aQryProductGroupField.ExchangeID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcProductGroupField const& aProductGroupField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcProductGroupField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ProductID\": \""
+       <<aProductGroupField.ProductID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aProductGroupField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ProductGroupID\": \""
+       <<aProductGroupField.ProductGroupID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcBulletinField const& aBulletinField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcBulletinField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aBulletinField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradingDay\": \""
+       <<aBulletinField.TradingDay  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BulletinID\": \""
+       <<aBulletinField.BulletinID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SequenceNo\": \""
+       <<aBulletinField.SequenceNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"NewsType\": \""
+       <<aBulletinField.NewsType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"NewsUrgency\": \""
+       <<aBulletinField.NewsUrgency  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SendTime\": \""
+       <<aBulletinField.SendTime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Abstract\": \""
+       <<aBulletinField.Abstract  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ComeFrom\": \""
+       <<aBulletinField.ComeFrom  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Content\": \""
+       <<aBulletinField.Content  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"URLLink\": \""
+       <<aBulletinField.URLLink  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MarketID\": \""
+       <<aBulletinField.MarketID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcQryBulletinField const& aQryBulletinField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcQryBulletinField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ExchangeID\": \""
+       <<aQryBulletinField.ExchangeID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BulletinID\": \""
+       <<aQryBulletinField.BulletinID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SequenceNo\": \""
+       <<aQryBulletinField.SequenceNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"NewsType\": \""
+       <<aQryBulletinField.NewsType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"NewsUrgency\": \""
+       <<aQryBulletinField.NewsUrgency  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
     CThostFtdcReqOpenAccountField const& aReqOpenAccountField) {  // NOLINT(whitespace/line_length)
     os <<std::endl;
     os <<"{" <<std::endl;
@@ -7055,7 +7732,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"TID\": \""
        <<aReqOpenAccountField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UserID\": \""
-       <<aReqOpenAccountField.UserID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqOpenAccountField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqOpenAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7154,7 +7833,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"TID\": \""
        <<aReqCancelAccountField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UserID\": \""
-       <<aReqCancelAccountField.UserID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqCancelAccountField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqCancelAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7245,7 +7926,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"TID\": \""
        <<aReqChangeAccountField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"Digest\": \""
-       <<aReqChangeAccountField.Digest  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqChangeAccountField.Digest  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqChangeAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7342,7 +8025,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"TID\": \""
        <<aReqTransferField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"TransferStatus\": \""
-       <<aReqTransferField.TransferStatus  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqTransferField.TransferStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqTransferField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7443,7 +8128,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aRspTransferField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aRspTransferField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aRspTransferField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aRspTransferField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7554,7 +8241,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"TID\": \""
        <<aReqRepealField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"TransferStatus\": \""
-       <<aReqRepealField.TransferStatus  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqRepealField.TransferStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqRepealField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7669,7 +8358,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aRspRepealField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aRspRepealField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aRspRepealField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aRspRepealField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7752,7 +8443,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"RequestID\": \""
        <<aReqQueryAccountField.RequestID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"TID\": \""
-       <<aReqQueryAccountField.TID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqQueryAccountField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqQueryAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -7839,7 +8532,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"BankUseAmount\": \""
        <<aRspQueryAccountField.BankUseAmount  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"BankFetchAmount\": \""
-       <<aRspQueryAccountField.BankFetchAmount  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aRspQueryAccountField.BankFetchAmount  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aRspQueryAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -8126,7 +8821,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"TradeAmount\": \""
        <<aReqQueryTradeResultBySerialField.TradeAmount  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"Digest\": \""
-       <<aReqQueryTradeResultBySerialField.Digest  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aReqQueryTradeResultBySerialField.Digest  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aReqQueryTradeResultBySerialField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -8311,7 +9008,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"IdentifiedCardNo\": \""
        <<aVerifyCustInfoField.IdentifiedCardNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CustType\": \""
-       <<aVerifyCustInfoField.CustType  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aVerifyCustInfoField.CustType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aVerifyCustInfoField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -8336,7 +9035,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"Password\": \""
        <<aVerifyFuturePasswordAndCustInfoField.Password  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CurrencyID\": \""
-       <<aVerifyFuturePasswordAndCustInfoField.CurrencyID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aVerifyFuturePasswordAndCustInfoField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aVerifyFuturePasswordAndCustInfoField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -8558,7 +9259,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aNotifyQueryAccountField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aNotifyQueryAccountField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aNotifyQueryAccountField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aNotifyQueryAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -8883,7 +9586,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"CustType\": \""
        <<aAccountregisterField.CustType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"BankAccType\": \""
-       <<aAccountregisterField.BankAccType  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aAccountregisterField.BankAccType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aAccountregisterField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -8986,7 +9691,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aOpenAccountField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aOpenAccountField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aOpenAccountField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aOpenAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -9089,7 +9796,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aCancelAccountField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aCancelAccountField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aCancelAccountField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aCancelAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -9184,7 +9893,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"ErrorID\": \""
        <<aChangeAccountField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"ErrorMsg\": \""
-       <<aChangeAccountField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aChangeAccountField.ErrorMsg  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LongCustomerName\": \""
+       <<aChangeAccountField.LongCustomerName  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -9322,7 +10033,9 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
     os <<"        \"BrokerID\": \""
        <<aLoginForbiddenUserField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"UserID\": \""
-       <<aLoginForbiddenUserField.UserID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+       <<aLoginForbiddenUserField.UserID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IPAddress\": \""
+       <<aLoginForbiddenUserField.IPAddress  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }
@@ -9374,6 +10087,184 @@ std::basic_ostream< CharT, TraitsT >& operator<<(
        <<aTradingAccountReserveField.Reserve  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"        \"CurrencyID\": \""
        <<aTradingAccountReserveField.CurrencyID  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcReserveOpenAccountConfirmField const& aReserveOpenAccountConfirmField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcReserveOpenAccountConfirmField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradeCode\": \""
+       <<aReserveOpenAccountConfirmField.TradeCode  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankID\": \""
+       <<aReserveOpenAccountConfirmField.BankID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankBranchID\": \""
+       <<aReserveOpenAccountConfirmField.BankBranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aReserveOpenAccountConfirmField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerBranchID\": \""
+       <<aReserveOpenAccountConfirmField.BrokerBranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradeDate\": \""
+       <<aReserveOpenAccountConfirmField.TradeDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradeTime\": \""
+       <<aReserveOpenAccountConfirmField.TradeTime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankSerial\": \""
+       <<aReserveOpenAccountConfirmField.BankSerial  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradingDay\": \""
+       <<aReserveOpenAccountConfirmField.TradingDay  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"PlateSerial\": \""
+       <<aReserveOpenAccountConfirmField.PlateSerial  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LastFragment\": \""
+       <<aReserveOpenAccountConfirmField.LastFragment  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SessionID\": \""
+       <<aReserveOpenAccountConfirmField.SessionID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CustomerName\": \""
+       <<aReserveOpenAccountConfirmField.CustomerName  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IdCardType\": \""
+       <<aReserveOpenAccountConfirmField.IdCardType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IdentifiedCardNo\": \""
+       <<aReserveOpenAccountConfirmField.IdentifiedCardNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Gender\": \""
+       <<aReserveOpenAccountConfirmField.Gender  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CountryCode\": \""
+       <<aReserveOpenAccountConfirmField.CountryCode  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CustType\": \""
+       <<aReserveOpenAccountConfirmField.CustType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Address\": \""
+       <<aReserveOpenAccountConfirmField.Address  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ZipCode\": \""
+       <<aReserveOpenAccountConfirmField.ZipCode  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Telephone\": \""
+       <<aReserveOpenAccountConfirmField.Telephone  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MobilePhone\": \""
+       <<aReserveOpenAccountConfirmField.MobilePhone  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Fax\": \""
+       <<aReserveOpenAccountConfirmField.Fax  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"EMail\": \""
+       <<aReserveOpenAccountConfirmField.EMail  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MoneyAccountStatus\": \""
+       <<aReserveOpenAccountConfirmField.MoneyAccountStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankAccount\": \""
+       <<aReserveOpenAccountConfirmField.BankAccount  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankPassWord\": \""
+       <<aReserveOpenAccountConfirmField.BankPassWord  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstallID\": \""
+       <<aReserveOpenAccountConfirmField.InstallID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"VerifyCertNoFlag\": \""
+       <<aReserveOpenAccountConfirmField.VerifyCertNoFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aReserveOpenAccountConfirmField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Digest\": \""
+       <<aReserveOpenAccountConfirmField.Digest  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankAccType\": \""
+       <<aReserveOpenAccountConfirmField.BankAccType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerIDByBank\": \""
+       <<aReserveOpenAccountConfirmField.BrokerIDByBank  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TID\": \""
+       <<aReserveOpenAccountConfirmField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"AccountID\": \""
+       <<aReserveOpenAccountConfirmField.AccountID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Password\": \""
+       <<aReserveOpenAccountConfirmField.Password  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankReserveOpenSeq\": \""
+       <<aReserveOpenAccountConfirmField.BankReserveOpenSeq  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BookDate\": \""
+       <<aReserveOpenAccountConfirmField.BookDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BookPsw\": \""
+       <<aReserveOpenAccountConfirmField.BookPsw  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ErrorID\": \""
+       <<aReserveOpenAccountConfirmField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ErrorMsg\": \""
+       <<aReserveOpenAccountConfirmField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"    }" <<std::endl;
+    os <<"}" <<std::endl;
+}
+
+template< typename CharT, typename TraitsT >
+std::basic_ostream< CharT, TraitsT >& operator<<(
+    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)
+    CThostFtdcReserveOpenAccountField const& aReserveOpenAccountField) {  // NOLINT(whitespace/line_length)
+    os <<std::endl;
+    os <<"{" <<std::endl;
+    os <<"    \"CThostFtdcReserveOpenAccountField\": {" <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradeCode\": \""
+       <<aReserveOpenAccountField.TradeCode  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankID\": \""
+       <<aReserveOpenAccountField.BankID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankBranchID\": \""
+       <<aReserveOpenAccountField.BankBranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerID\": \""
+       <<aReserveOpenAccountField.BrokerID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerBranchID\": \""
+       <<aReserveOpenAccountField.BrokerBranchID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradeDate\": \""
+       <<aReserveOpenAccountField.TradeDate  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradeTime\": \""
+       <<aReserveOpenAccountField.TradeTime  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankSerial\": \""
+       <<aReserveOpenAccountField.BankSerial  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TradingDay\": \""
+       <<aReserveOpenAccountField.TradingDay  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"PlateSerial\": \""
+       <<aReserveOpenAccountField.PlateSerial  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"LastFragment\": \""
+       <<aReserveOpenAccountField.LastFragment  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"SessionID\": \""
+       <<aReserveOpenAccountField.SessionID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CustomerName\": \""
+       <<aReserveOpenAccountField.CustomerName  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IdCardType\": \""
+       <<aReserveOpenAccountField.IdCardType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"IdentifiedCardNo\": \""
+       <<aReserveOpenAccountField.IdentifiedCardNo  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Gender\": \""
+       <<aReserveOpenAccountField.Gender  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CountryCode\": \""
+       <<aReserveOpenAccountField.CountryCode  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CustType\": \""
+       <<aReserveOpenAccountField.CustType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Address\": \""
+       <<aReserveOpenAccountField.Address  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ZipCode\": \""
+       <<aReserveOpenAccountField.ZipCode  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Telephone\": \""
+       <<aReserveOpenAccountField.Telephone  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MobilePhone\": \""
+       <<aReserveOpenAccountField.MobilePhone  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Fax\": \""
+       <<aReserveOpenAccountField.Fax  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"EMail\": \""
+       <<aReserveOpenAccountField.EMail  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"MoneyAccountStatus\": \""
+       <<aReserveOpenAccountField.MoneyAccountStatus  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankAccount\": \""
+       <<aReserveOpenAccountField.BankAccount  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankPassWord\": \""
+       <<aReserveOpenAccountField.BankPassWord  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"InstallID\": \""
+       <<aReserveOpenAccountField.InstallID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"VerifyCertNoFlag\": \""
+       <<aReserveOpenAccountField.VerifyCertNoFlag  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"CurrencyID\": \""
+       <<aReserveOpenAccountField.CurrencyID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"Digest\": \""
+       <<aReserveOpenAccountField.Digest  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BankAccType\": \""
+       <<aReserveOpenAccountField.BankAccType  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"BrokerIDByBank\": \""
+       <<aReserveOpenAccountField.BrokerIDByBank  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"TID\": \""
+       <<aReserveOpenAccountField.TID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ReserveOpenAccStas\": \""
+       <<aReserveOpenAccountField.ReserveOpenAccStas  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ErrorID\": \""
+       <<aReserveOpenAccountField.ErrorID  <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)
+    os <<"        \"ErrorMsg\": \""
+       <<aReserveOpenAccountField.ErrorMsg  <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)
     os <<"    }" <<std::endl;
     os <<"}" <<std::endl;
 }

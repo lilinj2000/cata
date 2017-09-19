@@ -53,6 +53,7 @@ libcata_trader_la_LDFLAGS = $(libcata_la_LDFLAGS)
 
 # header files
 noinst_HEADERS = \
+	Helper.hh \
 	MDOptions.hh \
 	MDSpiImpl.hh \
 	MDServiceImpl.hh \

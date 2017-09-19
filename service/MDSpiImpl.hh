@@ -19,9 +19,11 @@ class MDSpiImpl : public CThostFtdcMdSpi {
   // interface from CThostFtdcMdSpi
   virtual void OnFrontConnected();
 
-  virtual void OnFrontDisconnected(int nReason);
+  virtual void OnFrontDisconnected(
+      int nReason);
 
-  virtual void OnHeartBeatWarning(int nTimeLapse);
+  virtual void OnHeartBeatWarning(
+      int nTimeLapse);
 
   virtual void OnRspUserLogin(
       CThostFtdcRspUserLoginField *pRspUserLogin,
@@ -46,12 +48,13 @@ class MDSpiImpl : public CThostFtdcMdSpi {
       int nRequestID,
       bool bIsLast);
 
-  virtual void OnRspSubForQuoteRsp(
+  virtual void OnRspUnSubMarketData(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
       CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID, bool bIsLast);
+      int nRequestID,
+      bool bIsLast);
 
-  virtual void OnRspUnSubMarketData(
+  virtual void OnRspSubForQuoteRsp(
       CThostFtdcSpecificInstrumentField *pSpecificInstrument,
       CThostFtdcRspInfoField *pRspInfo,
       int nRequestID,
@@ -66,11 +69,10 @@ class MDSpiImpl : public CThostFtdcMdSpi {
   virtual void OnRtnDepthMarketData(
       CThostFtdcDepthMarketDataField *pDepthMarketData);
 
-  virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp);
+  virtual void OnRtnForQuoteRsp(
+      CThostFtdcForQuoteRspField *pForQuoteRsp);
 
  protected:
-  bool isRspError(CThostFtdcRspInfoField *pRspInfo);
-
   MDCallback* callback() {
     return service_->callback();
   }

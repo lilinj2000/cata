@@ -36,8 +36,9 @@ AC_SUBST(LT_CURRENT)
 AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
-home_3rd=~/3rd
-home_libs=~/libs
+node=`uname -n`
+home_3rd=~/3rd/${node}
+home_libs=~/libs/${node}
 
 ###########################
 # gcov coverage reporting

@@ -50,7 +50,7 @@ TraderServiceImpl::TraderServiceImpl(
     front_id_(-1),
     session_id_(-1),
     max_order_ref_(-1) {
-  LOG_TRACE("TraderServiceImpl::TraderServiceImpl()");
+  SOIL_TRACE("TraderServiceImpl::TraderServiceImpl()");
 
   cond_.reset(soil::STimer::create());
   options_.reset(new TraderOptions(doc));
@@ -59,7 +59,7 @@ TraderServiceImpl::TraderServiceImpl(
       CThostFtdcTraderApi::CreateFtdcTraderApi(
           options_->flow_path.data());
 
-  LOG_INFO("The Api version is {}",
+  SOIL_INFO("The Api version is {}",
            trader_api_->GetApiVersion());
 
   trader_spi_.reset(new TraderSpiImpl(this));
@@ -85,7 +85,7 @@ TraderServiceImpl::TraderServiceImpl(
 }
 
 TraderServiceImpl::~TraderServiceImpl() {
-  LOG_TRACE("TraderServiceImpl::~TraderServiceImpl()");
+  SOIL_TRACE("TraderServiceImpl::~TraderServiceImpl()");
 
   logout();
   wait();
@@ -96,7 +96,7 @@ TraderServiceImpl::~TraderServiceImpl() {
 }
 
 std::string TraderServiceImpl::tradingDay() {
-  LOG_TRACE("TraderServiceImpl::tradingDate()");
+  SOIL_TRACE("TraderServiceImpl::tradingDate()");
 
   return trader_api_->GetTradingDay();
 }
@@ -105,7 +105,7 @@ int32_t TraderServiceImpl::openBuyOrder(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::openBuyOrder()");
+  SOIL_TRACE("TraderServiceImpl::openBuyOrder()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume);
@@ -117,7 +117,7 @@ int32_t TraderServiceImpl::openBuyOrderFAK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::openBuyOrderFAK()");
+  SOIL_TRACE("TraderServiceImpl::openBuyOrderFAK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -131,7 +131,7 @@ int32_t TraderServiceImpl::openBuyOrderFOK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::openBuyOrderFOK()");
+  SOIL_TRACE("TraderServiceImpl::openBuyOrderFOK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -147,7 +147,7 @@ int32_t TraderServiceImpl::closeBuyOrder(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::closeBuyOrder()");
+  SOIL_TRACE("TraderServiceImpl::closeBuyOrder()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -160,7 +160,7 @@ int32_t TraderServiceImpl::closeBuyOrderFAK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::closeBuyOrderFAK()");
+  SOIL_TRACE("TraderServiceImpl::closeBuyOrderFAK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -174,7 +174,7 @@ int32_t TraderServiceImpl::closeBuyOrderFOK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::closeBuyOrderFOK()");
+  SOIL_TRACE("TraderServiceImpl::closeBuyOrderFOK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -189,7 +189,7 @@ int32_t TraderServiceImpl::openSellOrder(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::openSellOrder()");
+  SOIL_TRACE("TraderServiceImpl::openSellOrder()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -202,7 +202,7 @@ int32_t TraderServiceImpl::openSellOrderFAK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::openSellOrderFAK()");
+  SOIL_TRACE("TraderServiceImpl::openSellOrderFAK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -217,7 +217,7 @@ int32_t TraderServiceImpl::openSellOrderFOK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::openSellOrderFOK()");
+  SOIL_TRACE("TraderServiceImpl::openSellOrderFOK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -233,7 +233,7 @@ int32_t TraderServiceImpl::closeSellOrder(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::closeSellOrder()");
+  SOIL_TRACE("TraderServiceImpl::closeSellOrder()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -247,7 +247,7 @@ int32_t TraderServiceImpl::closeSellOrderFAK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::closeSellOrderFAK()");
+  SOIL_TRACE("TraderServiceImpl::closeSellOrderFAK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -262,7 +262,7 @@ int32_t TraderServiceImpl::closeSellOrderFOK(
     const std::string& instru,
     double price,
     int volume) {
-  LOG_TRACE("TraderServiceImpl::closeSellOrderFOK()");
+  SOIL_TRACE("TraderServiceImpl::closeSellOrderFOK()");
 
   std::shared_ptr<CThostFtdcInputOrderField>
       req = reqOrderMessage(instru, price, volume,
@@ -277,7 +277,7 @@ int32_t TraderServiceImpl::closeSellOrderFOK(
 void TraderServiceImpl::cancelOrder(
     int32_t order_ref,
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::cancelOrder()");
+  SOIL_TRACE("TraderServiceImpl::cancelOrder()");
 
   CThostFtdcInputOrderActionField req;
   memset(&req, 0x0, sizeof(req));
@@ -298,7 +298,7 @@ void TraderServiceImpl::cancelOrder(
   S_INPUT(&req, CThostFtdcInputOrderActionField,
           InstrumentID, instru.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqOrderAction(&req, req_id);
@@ -313,7 +313,7 @@ void TraderServiceImpl::cancelOrder(
     const std::string& exchange_id,
     const std::string& order_sys_id,
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::cancelOrder()");
+  SOIL_TRACE("TraderServiceImpl::cancelOrder()");
 
   CThostFtdcInputOrderActionField req;
   memset(&req, 0x0, sizeof(req));
@@ -338,7 +338,7 @@ void TraderServiceImpl::cancelOrder(
           InstrumentID,
           instru.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqOrderAction(&req, req_id);
@@ -355,7 +355,7 @@ void TraderServiceImpl::queryOrder(
     const std::string& order_sys_id,
     const std::string& start_time,
     const std::string& stop_time) {
-  LOG_TRACE("TraderServiceImpl::queryOrder()");
+  SOIL_TRACE("TraderServiceImpl::queryOrder()");
 
   CThostFtdcQryOrderField req;
   memset(&req, 0x0, sizeof(req));
@@ -384,7 +384,7 @@ void TraderServiceImpl::queryOrder(
           InsertTimeEnd,
           stop_time.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryOrder(&req, req_id);
@@ -401,7 +401,7 @@ void TraderServiceImpl::queryTrade(
     const std::string& trade_id,
     const std::string& start_time,
     const std::string& stop_time) {
-  LOG_TRACE("TraderServiceImpl::queryTrade()");
+  SOIL_TRACE("TraderServiceImpl::queryTrade()");
 
   CThostFtdcQryTradeField req;
   memset(&req, 0x0, sizeof(req));
@@ -430,7 +430,7 @@ void TraderServiceImpl::queryTrade(
           TradeTimeEnd,
           stop_time.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryTrade(&req, req_id);
@@ -443,7 +443,7 @@ void TraderServiceImpl::queryTrade(
 
 void TraderServiceImpl::queryPosition(
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::queryPosition()");
+  SOIL_TRACE("TraderServiceImpl::queryPosition()");
 
   CThostFtdcQryInvestorPositionField req;
   memset(&req, 0x0, sizeof(req));
@@ -456,7 +456,7 @@ void TraderServiceImpl::queryPosition(
           InstrumentID,
           instru.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInvestorPosition(&req, req_id);
@@ -469,7 +469,7 @@ void TraderServiceImpl::queryPosition(
 
 void TraderServiceImpl::queryAccount(
     const std::string& currency_id) {
-  LOG_TRACE("TraderServiceImpl::queryAccount()");
+  SOIL_TRACE("TraderServiceImpl::queryAccount()");
 
   CThostFtdcQryTradingAccountField req;
   memset(&req, 0x0, sizeof(req));
@@ -482,7 +482,7 @@ void TraderServiceImpl::queryAccount(
           CurrencyID,
           currency_id.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryTradingAccount(&req, req_id);
@@ -494,7 +494,7 @@ void TraderServiceImpl::queryAccount(
 }
 
 void TraderServiceImpl::queryInvestor() {
-  LOG_TRACE("TraderServiceImpl::queryInvestor()");
+  SOIL_TRACE("TraderServiceImpl::queryInvestor()");
 
   CThostFtdcQryInvestorField req;
   memset(&req, 0x0, sizeof(req));
@@ -503,7 +503,7 @@ void TraderServiceImpl::queryInvestor() {
       &req,
       CThostFtdcQryInvestorField);
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInvestor(&req, req_id);
@@ -516,7 +516,7 @@ void TraderServiceImpl::queryInvestor() {
 
 void TraderServiceImpl::queryTradingCode(
     const std::string& exchange) {
-  LOG_TRACE("TraderServiceImpl::queryTradingCode()");
+  SOIL_TRACE("TraderServiceImpl::queryTradingCode()");
 
   CThostFtdcQryTradingCodeField req;
   memset(&req, 0x0, sizeof(req));
@@ -528,7 +528,7 @@ void TraderServiceImpl::queryTradingCode(
   S_INPUT(&req, CThostFtdcQryTradingCodeField,
           ExchangeID, exchange.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryTradingCode(&req, req_id);
@@ -541,7 +541,7 @@ void TraderServiceImpl::queryTradingCode(
 
 void TraderServiceImpl::queryInstruMarginRate(
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::queryInstruMarginRate()");
+  SOIL_TRACE("TraderServiceImpl::queryInstruMarginRate()");
 
   CThostFtdcQryInstrumentMarginRateField req;
   memset(&req, 0x0, sizeof(req));
@@ -556,7 +556,7 @@ void TraderServiceImpl::queryInstruMarginRate(
           instru.data());
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInstrumentMarginRate(&req, req_id);
@@ -569,7 +569,7 @@ void TraderServiceImpl::queryInstruMarginRate(
 
 void TraderServiceImpl::queryInstruCommissionRate(
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::queryInstruCommissionRate()");
+  SOIL_TRACE("TraderServiceImpl::queryInstruCommissionRate()");
 
   CThostFtdcQryInstrumentCommissionRateField req;
   memset(&req, 0x0, sizeof(req));
@@ -582,7 +582,7 @@ void TraderServiceImpl::queryInstruCommissionRate(
           InstrumentID,
           instru.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInstrumentCommissionRate(&req, req_id);
@@ -595,14 +595,14 @@ void TraderServiceImpl::queryInstruCommissionRate(
 
 void TraderServiceImpl::queryExchange(
     const std::string& exchange) {
-  LOG_TRACE("TraderServiceImpl::queryExchange()");
+  SOIL_TRACE("TraderServiceImpl::queryExchange()");
 
   CThostFtdcQryExchangeField req;
   memset(&req, 0x0, sizeof(req));
 
   S_INPUT(&req, CThostFtdcQryExchangeField, ExchangeID, exchange.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryExchange(&req, req_id);
@@ -615,14 +615,14 @@ void TraderServiceImpl::queryExchange(
 
 void TraderServiceImpl::queryProduct(
     const std::string& product_id) {
-  LOG_TRACE("TraderServiceImpl::queryProduct()");
+  SOIL_TRACE("TraderServiceImpl::queryProduct()");
 
   CThostFtdcQryProductField req;
   memset(&req, 0x0, sizeof(req));
 
   S_INPUT(&req, CThostFtdcQryProductField, ProductID, product_id.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryProduct(&req, req_id);
@@ -638,7 +638,7 @@ void TraderServiceImpl::queryInstrument(
     const std::string& exchange,
     const std::string& exchange_instru_id,
     const std::string& product_id) {
-  LOG_TRACE("TraderServiceImpl::queryInstrument()");
+  SOIL_TRACE("TraderServiceImpl::queryInstrument()");
 
   CThostFtdcQryInstrumentField req;
   memset(&req, 0x0, sizeof(req));
@@ -649,7 +649,7 @@ void TraderServiceImpl::queryInstrument(
           ExchangeInstID, exchange_instru_id.data());
   S_INPUT(&req, CThostFtdcQryInstrumentField, ProductID, product_id.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInstrument(&req, req_id);
@@ -662,14 +662,14 @@ void TraderServiceImpl::queryInstrument(
 
 void TraderServiceImpl::queryDepthMarketData(
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::queryDepthMarketData()");
+  SOIL_TRACE("TraderServiceImpl::queryDepthMarketData()");
 
   CThostFtdcQryDepthMarketDataField req;
   memset(&req, 0x0, sizeof(req));
 
   S_INPUT(&req, CThostFtdcQryDepthMarketDataField, InstrumentID, instru.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryDepthMarketData(&req, req_id);
@@ -682,7 +682,7 @@ void TraderServiceImpl::queryDepthMarketData(
 
 void TraderServiceImpl::queryExchangeMarginRate(
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::queryExchangeMarginRate()");
+  SOIL_TRACE("TraderServiceImpl::queryExchangeMarginRate()");
 
   CThostFtdcQryExchangeMarginRateField req;
   memset(&req, 0x0, sizeof(req));
@@ -692,7 +692,7 @@ void TraderServiceImpl::queryExchangeMarginRate(
       CThostFtdcQryExchangeMarginRateField);
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryExchangeMarginRate(&req, req_id);
@@ -705,7 +705,7 @@ void TraderServiceImpl::queryExchangeMarginRate(
 
 void TraderServiceImpl::queryExchangeMarginRateAdjust(
     const std::string& instru) {
-  LOG_TRACE("TraderServiceImpl::queryExchangeMarginRateAdjust()");
+  SOIL_TRACE("TraderServiceImpl::queryExchangeMarginRateAdjust()");
 
   CThostFtdcQryExchangeMarginRateAdjustField req;
   memset(&req, 0x0, sizeof(req));
@@ -719,7 +719,7 @@ void TraderServiceImpl::queryExchangeMarginRateAdjust(
           instru.data());
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, req_id);
@@ -731,7 +731,7 @@ void TraderServiceImpl::queryExchangeMarginRateAdjust(
 }
 
 void TraderServiceImpl::login() {
-  LOG_TRACE("TraderServiceImpl::login()");
+  SOIL_TRACE("TraderServiceImpl::login()");
 
   CThostFtdcReqUserLoginField req;
   memset(&req, 0x0, sizeof(req));
@@ -744,7 +744,7 @@ void TraderServiceImpl::login() {
           Password,
           options_->password.data());
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int result = trader_api_->ReqUserLogin(&req, reqID());
 
@@ -757,7 +757,7 @@ void TraderServiceImpl::login() {
 
 void TraderServiceImpl::rspLogin(
     const CThostFtdcRspUserLoginField* rsp) {
-  LOG_TRACE("TraderServiceImpl::rspLogin()");
+  SOIL_TRACE("TraderServiceImpl::rspLogin()");
 
   front_id_ = rsp->FrontID;
   session_id_ = rsp->SessionID;
@@ -767,7 +767,7 @@ void TraderServiceImpl::rspLogin(
 }
 
 void TraderServiceImpl::logout() {
-  LOG_TRACE("TraderServiceImpl::logout()");
+  SOIL_TRACE("TraderServiceImpl::logout()");
 
   CThostFtdcUserLogoutField req;
   memset(&req, 0x0, sizeof(req));
@@ -776,7 +776,7 @@ void TraderServiceImpl::logout() {
       &req,
       CThostFtdcUserLogoutField);
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int result = trader_api_->ReqUserLogout(&req, reqID());
 
@@ -788,7 +788,7 @@ void TraderServiceImpl::logout() {
 }
 
 void TraderServiceImpl::querySettlementInfo() {
-  LOG_TRACE("TraderSerivceImpl::querySettlementInfo()");
+  SOIL_TRACE("TraderSerivceImpl::querySettlementInfo()");
 
   CThostFtdcQrySettlementInfoField req;
   memset(&req, 0x0, sizeof(req));
@@ -797,7 +797,7 @@ void TraderServiceImpl::querySettlementInfo() {
       &req,
       CThostFtdcQrySettlementInfoField);
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int result = trader_api_->ReqQrySettlementInfo(&req, reqID());
 
@@ -810,7 +810,7 @@ void TraderServiceImpl::querySettlementInfo() {
 }
 
 void TraderServiceImpl::querySettlementInfoConfirm() {
-  LOG_TRACE("TraderSerivceImpl::querySettlementInfoConfirm()");
+  SOIL_TRACE("TraderSerivceImpl::querySettlementInfoConfirm()");
 
   CThostFtdcQrySettlementInfoConfirmField req;
   memset(&req, 0x0, sizeof(req));
@@ -819,7 +819,7 @@ void TraderServiceImpl::querySettlementInfoConfirm() {
       &req,
       CThostFtdcQrySettlementInfoConfirmField);
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int result = trader_api_->ReqQrySettlementInfoConfirm(&req, reqID());
 
@@ -831,7 +831,7 @@ void TraderServiceImpl::querySettlementInfoConfirm() {
 }
 
 void TraderServiceImpl::settlementInfoConfirm() {
-  LOG_TRACE("TraderSerivceImpl::settlementInfoConfirm()");
+  SOIL_TRACE("TraderSerivceImpl::settlementInfoConfirm()");
 
   CThostFtdcSettlementInfoConfirmField req;
   memset(&req, 0x0, sizeof(req));
@@ -840,7 +840,7 @@ void TraderServiceImpl::settlementInfoConfirm() {
       &req,
       CThostFtdcSettlementInfoConfirmField);
 
-  LOG_DEBUG("{}", req);
+  SOIL_DEBUG("{}", req);
 
   int result = trader_api_->ReqSettlementInfoConfirm(&req, reqID());
 
@@ -889,14 +889,14 @@ TraderServiceImpl::reqOrderMessage(
 
 int32_t TraderServiceImpl::orderGo(
     std::shared_ptr<CThostFtdcInputOrderField> req) {
-  LOG_TRACE("TraderServiceImpl::orderGo()");
+  SOIL_TRACE("TraderServiceImpl::orderGo()");
 
   int32_t order_ref = ++max_order_ref_;
   S_INPUT(req.get(),
           CThostFtdcInputOrderField,
           OrderRef,
           orderRef(order_ref).data());
-  LOG_DEBUG("{}", *req);
+  SOIL_DEBUG("{}", *req);
 
   int result = trader_api_->ReqOrderInsert(req.get(),
                                            reqID());

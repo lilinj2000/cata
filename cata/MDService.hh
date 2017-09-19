@@ -5,36 +5,89 @@
 #define CATA_MDSERVICE_HH
 
 #include <string>
-#include <set>
-#include "rapidjson/Document.h"
+#include "soil/json.hh"
+#include "soil/Log.hh"
 
 namespace cata {
 
 class MDCallback {
  public:
-  virtual void onRspError(const std::string& rsp) = 0;
+  virtual void onRspError(
+      const std::string& theRspInfo,
+      int nRequestID,
+      bool bIsLast) {
+    SOIL_FUNC_TRACE;
+
+    SOIL_DEBUG_PRINT(theRspInfo);
+    SOIL_DEBUG_PRINT(nRequestID);
+    SOIL_DEBUG_PRINT(bIsLast);
+  }
 
   virtual void onRspSubMarketData(
-      const std::string& rsp,
-      bool is_last) = 0;
+      const std::string& theSpecificInstrument,
+      const std::string& theRspInfo,
+      int nRequestID,
+      bool bIsLast) {
+    SOIL_FUNC_TRACE;
 
-  virtual void onRspSubForQuoteRsp(
-      const std::string& rsp,
-      bool is_last) = 0;
+    SOIL_DEBUG_PRINT(theSpecificInstrument);
+    SOIL_DEBUG_PRINT(theRspInfo);
+    SOIL_DEBUG_PRINT(nRequestID);
+    SOIL_DEBUG_PRINT(bIsLast);
+  }
 
   virtual void onRspUnSubMarketData(
-      const std::string& rsp,
-      bool is_last) = 0;
+      const std::string& theSpecificInstrument,
+      const std::string& theRspInfo,
+      int nRequestID,
+      bool bIsLast) {
+    SOIL_FUNC_TRACE;
+
+    SOIL_DEBUG_PRINT(theSpecificInstrument);
+    SOIL_DEBUG_PRINT(theRspInfo);
+    SOIL_DEBUG_PRINT(nRequestID);
+    SOIL_DEBUG_PRINT(bIsLast);
+  }
+
+  virtual void onRspSubForQuoteRsp(
+      const std::string& theSpecificInstrument,
+      const std::string& theRspInfo,
+      int nRequestID,
+      bool bIsLast) {
+    SOIL_FUNC_TRACE;
+
+    SOIL_DEBUG_PRINT(theSpecificInstrument);
+    SOIL_DEBUG_PRINT(theRspInfo);
+    SOIL_DEBUG_PRINT(nRequestID);
+    SOIL_DEBUG_PRINT(bIsLast);
+  }
 
   virtual void onRspUnSubForQuoteRsp(
-      const std::string& rsp,
-      bool is_last) = 0;
+      const std::string& theSpecificInstrument,
+      const std::string& theRspInfo,
+      int nRequestID,
+      bool bIsLast) {
+    SOIL_FUNC_TRACE;
+
+    SOIL_DEBUG_PRINT(theSpecificInstrument);
+    SOIL_DEBUG_PRINT(theRspInfo);
+    SOIL_DEBUG_PRINT(nRequestID);
+    SOIL_DEBUG_PRINT(bIsLast);
+  }
 
   virtual void onRtnDepthMarketData(
-      const std::string& rtn_md) = 0;
+      const std::string& theDepthMarketData) {
+    SOIL_FUNC_TRACE;
+
+    SOIL_DEBUG_PRINT(theDepthMarketData);
+  }
 
   virtual void onRtnForQuoteRsp(
-      const std::string& rtn_quote) = 0;
+      const std::string& theForQuoteRsp) {
+    SOIL_FUNC_TRACE;
+
+    SOIL_DEBUG_PRINT(theForQuoteRsp);
+  }
 
   virtual ~MDCallback() {
   }
