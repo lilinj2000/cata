@@ -7,7 +7,8 @@ SUBDIRS = traderflow mdflow
 check_PROGRAMS = unittest_md unittest_trader
 
 unittest_md_SOURCES = \
-	MDServiceTest.cc
+	MDServiceTest.cc \
+	MessageTest.cc
 
 unittest_trader_SOURCES = \
 	TraderServiceTest.cc

@@ -49,7 +49,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_unittest_md_OBJECTS = unittest_md-MDServiceTest.$(OBJEXT)
+am_unittest_md_OBJECTS = unittest_md-MDServiceTest.$(OBJEXT) \
+	unittest_md-MessageTest.$(OBJEXT)
 unittest_md_OBJECTS = $(am_unittest_md_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -275,7 +276,8 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = traderflow mdflow
 unittest_md_SOURCES = \
-	MDServiceTest.cc
+	MDServiceTest.cc \
+	MessageTest.cc
 
 unittest_trader_SOURCES = \
 	TraderServiceTest.cc
@@ -370,6 +372,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MDServiceTest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MessageTest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_trader-TraderServiceTest.Po@am__quote@
 
 .cc.o:
@@ -406,6 +409,20 @@ unittest_md-MDServiceTest.obj: MDServiceTest.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceTest.cc' object='unittest_md-MDServiceTest.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceTest.obj `if test -f 'MDServiceTest.cc'; then $(CYGPATH_W) 'MDServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceTest.cc'; fi`
+
+unittest_md-MessageTest.o: MessageTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MessageTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MessageTest.Tpo -c -o unittest_md-MessageTest.o `test -f 'MessageTest.cc' || echo '$(srcdir)/'`MessageTest.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MessageTest.Tpo $(DEPDIR)/unittest_md-MessageTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MessageTest.cc' object='unittest_md-MessageTest.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.o `test -f 'MessageTest.cc' || echo '$(srcdir)/'`MessageTest.cc
+
+unittest_md-MessageTest.obj: MessageTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MessageTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MessageTest.Tpo -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MessageTest.Tpo $(DEPDIR)/unittest_md-MessageTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MessageTest.cc' object='unittest_md-MessageTest.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
 
 unittest_trader-TraderServiceTest.o: TraderServiceTest.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceTest.o -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceTest.Tpo -c -o unittest_trader-TraderServiceTest.o `test -f 'TraderServiceTest.cc' || echo '$(srcdir)/'`TraderServiceTest.cc
