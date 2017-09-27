@@ -482,7 +482,7 @@ void TraderServiceImpl::queryAccount(
           CurrencyID,
           currency_id.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryTradingAccount(&req, req_id);
@@ -503,7 +503,7 @@ void TraderServiceImpl::queryInvestor() {
       &req,
       CThostFtdcQryInvestorField);
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInvestor(&req, req_id);
@@ -528,7 +528,7 @@ void TraderServiceImpl::queryTradingCode(
   S_INPUT(&req, CThostFtdcQryTradingCodeField,
           ExchangeID, exchange.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryTradingCode(&req, req_id);
@@ -556,7 +556,7 @@ void TraderServiceImpl::queryInstruMarginRate(
           instru.data());
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInstrumentMarginRate(&req, req_id);
@@ -582,7 +582,7 @@ void TraderServiceImpl::queryInstruCommissionRate(
           InstrumentID,
           instru.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInstrumentCommissionRate(&req, req_id);
@@ -602,7 +602,7 @@ void TraderServiceImpl::queryExchange(
 
   S_INPUT(&req, CThostFtdcQryExchangeField, ExchangeID, exchange.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryExchange(&req, req_id);
@@ -622,7 +622,7 @@ void TraderServiceImpl::queryProduct(
 
   S_INPUT(&req, CThostFtdcQryProductField, ProductID, product_id.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryProduct(&req, req_id);
@@ -649,7 +649,7 @@ void TraderServiceImpl::queryInstrument(
           ExchangeInstID, exchange_instru_id.data());
   S_INPUT(&req, CThostFtdcQryInstrumentField, ProductID, product_id.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryInstrument(&req, req_id);
@@ -669,7 +669,7 @@ void TraderServiceImpl::queryDepthMarketData(
 
   S_INPUT(&req, CThostFtdcQryDepthMarketDataField, InstrumentID, instru.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryDepthMarketData(&req, req_id);
@@ -692,7 +692,7 @@ void TraderServiceImpl::queryExchangeMarginRate(
       CThostFtdcQryExchangeMarginRateField);
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryExchangeMarginRate(&req, req_id);
@@ -719,7 +719,7 @@ void TraderServiceImpl::queryExchangeMarginRateAdjust(
           instru.data());
   req.HedgeFlag = THOST_FTDC_HF_Speculation;
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int req_id = reqID();
   int ret = trader_api_->ReqQryExchangeMarginRateAdjust(&req, req_id);
@@ -744,7 +744,7 @@ void TraderServiceImpl::login() {
           Password,
           options_->password.data());
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int result = trader_api_->ReqUserLogin(&req, reqID());
 
@@ -776,7 +776,7 @@ void TraderServiceImpl::logout() {
       &req,
       CThostFtdcUserLogoutField);
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int result = trader_api_->ReqUserLogout(&req, reqID());
 
@@ -797,7 +797,7 @@ void TraderServiceImpl::querySettlementInfo() {
       &req,
       CThostFtdcQrySettlementInfoField);
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int result = trader_api_->ReqQrySettlementInfo(&req, reqID());
 
@@ -819,7 +819,7 @@ void TraderServiceImpl::querySettlementInfoConfirm() {
       &req,
       CThostFtdcQrySettlementInfoConfirmField);
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int result = trader_api_->ReqQrySettlementInfoConfirm(&req, reqID());
 
@@ -840,7 +840,7 @@ void TraderServiceImpl::settlementInfoConfirm() {
       &req,
       CThostFtdcSettlementInfoConfirmField);
 
-  SOIL_DEBUG("{}", req);
+  SOIL_DEBUG_PRINT(req);
 
   int result = trader_api_->ReqSettlementInfoConfirm(&req, reqID());
 

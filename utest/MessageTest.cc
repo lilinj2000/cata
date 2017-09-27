@@ -18,12 +18,14 @@ TEST(MessageTest, instrumentFieldTest) {
   SOIL_DEBUG_PRINT(rsp);
 
   std::string rsp_str = fmt::format("{}", rsp);
-  std::string esp_str = soil::json::escape_string(rsp_str);
-  SOIL_DEBUG_PRINT(esp_str);
+  SOIL_DEBUG_PRINT(rsp_str);
 
   rapidjson::Document doc;
-  if (doc.Parse(esp_str).HasParseError()) {
-    SOIL_DEBUG_PRINT(soil::json::get_parse_error(doc, esp_str));
+  if (doc.Parse(rsp_str).HasParseError()) {
+    SOIL_DEBUG_PRINT(
+        soil::json::get_parse_error(
+            doc,
+            rsp_str));
     FAIL();
   }
 

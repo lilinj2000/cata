@@ -22,22 +22,19 @@ tab = '    '
 first_field = False
 
 header_file = open('ThostFtdcUserApiStructPrint.hh', 'wb')
-# cpp_file = open('FtdcUserApiStructPrint.cc', 'wb')
 
 header_file.write('// Copyright (c) 2010\n')
 header_file.write('// All rights reserved.\n\n')
-header_file.write('#ifndef THOST_FTDC_USERAPI_STRUCT_PRINT_HH_\n')
-header_file.write('#define THOST_FTDC_USERAPI_STRUCT_PRINT_HH_\n\n')
+header_file.write('#ifndef THOST_FTDC_USERAPI_STRUCT_PRINT_HH\n')
+header_file.write('#define THOST_FTDC_USERAPI_STRUCT_PRINT_HH\n\n')
 
 header_file.write('#include <ostream>\n')
-header_file.write('#include "ThostFtdcUserApiStruct.h"\n\n')
+header_file.write('#include "ThostFtdcUserApiStruct.h"\n')
+header_file.write('#include "soil/json.hh"\n\n')
 
-# header_file.write('namespace ctp\n')
-# header_file.write('{\n')
-
-# cpp_file.write('#include "FtdcUserApiStructPrint.hh"\n\n')
-# cpp_file.write('namespace ctp\n')
-# cpp_file.write('{\n')
+header_file.write('using rapidjson::StringBuffer;\n')
+header_file.write('using rapidjson::PrettyWriter;\n')
+header_file.write('using soil::json::write_value;\n\n')
 
 for line in file:
     # print line
@@ -46,10 +43,8 @@ for line in file:
         # print '%s' % result.groups()
         struct_name = result.group(1)
         object_name = 'a' + struct_name.replace('CThostFtdc', '')
-        # header_file.write('std::ostream& operator<<(std::ostream&, const %s&);\n\n' % struct_name)
-        header_file.write('template< typename CharT, typename TraitsT >\n')
-        header_file.write('std::basic_ostream< CharT, TraitsT >& operator<<(\n')
-        header_file.write('    std::basic_ostream< CharT, TraitsT >& os,  // NOLINT(runtime/references)\n')
+        header_file.write('inline std::ostream& operator<<(\n')
+        header_file.write('    std::ostream& os,\n')
         header_file.write('    %s const& %s)' % (struct_name, object_name))
         # print '%s' % object_name
         # cpp_file.write('std::ostream& operator<<(std::ostream& os, const %s& %s)\n' % (struct_name, object_name))
@@ -59,16 +54,13 @@ for line in file:
     if result:
         # print 'left brace: %s' % line
         struct_status = True
-        header_file.write(' {  // NOLINT(whitespace/line_length)\n')
-        header_file.write('    os <<std::endl;\n')
-        header_file.write('    os <<"{" <<std::endl;\n')
-        header_file.write(r'    os <<"    \"%s\": {" <<std::endl;  // NOLINT(whitespace/line_length)' %  struct_name)
-        header_file.write('\n')
+        header_file.write(' {  // NOLINT\n')
+        header_file.write('    StringBuffer sb;\n')
+        header_file.write('    PrettyWriter<StringBuffer> writer(sb);\n\n')
+        header_file.write('    writer.StartObject();\n')
+        header_file.write('    writer.Key(\"%s\");\n' % struct_name)
+        header_file.write('        writer.StartObject();\n')
 
-        # cpp_file.write('{\n')
-        # cpp_file.write('    os <<"{" <<std::endl;\n')
-        # cpp_file.write(r'    os <<"    \"%s\": {" <<std::endl;' %  struct_name)
-        # cpp_file.write('\n')
         first_field = True
         continue
 
@@ -76,17 +68,12 @@ for line in file:
     if result:
         # print 'right brace: %s' % line
         struct_status = False
-        header_file.write(r' <<"\"" <<std::endl;  // NOLINT(whitespace/line_length)')
-        header_file.write('\n')
-        header_file.write('    os <<"    }" <<std::endl;\n')
-        header_file.write('    os <<"}" <<std::endl;\n')
+        header_file.write('        writer.EndObject();\n')
+        header_file.write('    writer.EndObject();\n\n')
+        header_file.write('    os <<sb.GetString();\n\n')
+        header_file.write('    return os;\n')
         header_file.write('}\n\n')
 
-        # cpp_file.write(r' <<"\"" <<std::endl;')
-        # cpp_file.write('\n')
-        # cpp_file.write('    os <<"    }" <<std::endl;\n')
-        # cpp_file.write('    os <<"}" <<std::endl;\n')
-        # cpp_file.write('}\n\n')
         continue
 
     result = comment_pattern.search(line)
@@ -100,24 +87,15 @@ for line in file:
         if struct_status:
             # print 'field: %s.%s' % (struct_name, result.group(2))
             # fieldname: obj.filed_value
-            if not first_field:
-                header_file.write(r' <<"\"," <<std::endl;  // NOLINT(whitespace/line_length)')
-                header_file.write('\n')
-
-                # cpp_file.write(r' <<"\"," <<std::endl;')
-                # cpp_file.write('\n')
-
-            # cpp_file.write(r'    os <<"        \"%s\": \"" <<%s.%s ' % (result.group(2), object_name, result.group(2)))
-            header_file.write(r'    os <<"        \"%s\": \""' % result.group(2))
-            header_file.write('\n')
-            header_file.write(r'       <<%s.%s ' % (object_name, result.group(2)))
-            first_field = False
+            header_file.write('        writer.Key(\"%s\");\n' % result.group(2))
+            header_file.write('        write_value(\n')
+            header_file.write('            &writer,\n')
+            header_file.write('            %s.%s);\n' % (object_name, result.group(2)))
         continue
 
     # print line
 
-
-header_file.write('#endif  // FTDC_USERAPI_STRUCT_PRINT_HH_\n')
+header_file.write('#endif\n')
 
     
 
