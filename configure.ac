@@ -131,7 +131,7 @@ AC_ARG_WITH([gtest],
 AC_SUBST([GTEST_HOME])
 
 GTEST_CPPFLAGS=-I$GTEST_HOME/include
-GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a"
+GTEST_LIBADD="$GTEST_HOME/lib/libgtest.a $GTEST_HOME/lib/libgtest_main.a $GTEST_HOME/lib/libgmock.a"
 AC_SUBST(GTEST_CPPFLAGS)
 AC_SUBST(GTEST_LIBADD)
 

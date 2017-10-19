@@ -50,7 +50,8 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am_unittest_md_OBJECTS = unittest_md-MDServiceTest.$(OBJEXT) \
-	unittest_md-MessageTest.$(OBJEXT)
+	unittest_md-MessageTest.$(OBJEXT) \
+	unittest_md-MDServiceImplTest.$(OBJEXT)
 unittest_md_OBJECTS = $(am_unittest_md_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -277,7 +278,8 @@ AUTOMAKE_OPTIONS = foreign
 SUBDIRS = traderflow mdflow
 unittest_md_SOURCES = \
 	MDServiceTest.cc \
-	MessageTest.cc
+	MessageTest.cc \
+	MDServiceImplTest.cc
 
 unittest_trader_SOURCES = \
 	TraderServiceTest.cc
@@ -371,6 +373,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MDServiceImplTest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MDServiceTest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MessageTest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_trader-TraderServiceTest.Po@am__quote@
@@ -423,6 +426,20 @@ unittest_md-MessageTest.obj: MessageTest.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MessageTest.cc' object='unittest_md-MessageTest.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
+
+unittest_md-MDServiceImplTest.o: MDServiceImplTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceImplTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo -c -o unittest_md-MDServiceImplTest.o `test -f 'MDServiceImplTest.cc' || echo '$(srcdir)/'`MDServiceImplTest.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo $(DEPDIR)/unittest_md-MDServiceImplTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceImplTest.cc' object='unittest_md-MDServiceImplTest.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceImplTest.o `test -f 'MDServiceImplTest.cc' || echo '$(srcdir)/'`MDServiceImplTest.cc
+
+unittest_md-MDServiceImplTest.obj: MDServiceImplTest.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceImplTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo -c -o unittest_md-MDServiceImplTest.obj `if test -f 'MDServiceImplTest.cc'; then $(CYGPATH_W) 'MDServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceImplTest.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo $(DEPDIR)/unittest_md-MDServiceImplTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceImplTest.cc' object='unittest_md-MDServiceImplTest.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceImplTest.obj `if test -f 'MDServiceImplTest.cc'; then $(CYGPATH_W) 'MDServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceImplTest.cc'; fi`
 
 unittest_trader-TraderServiceTest.o: TraderServiceTest.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceTest.o -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceTest.Tpo -c -o unittest_trader-TraderServiceTest.o `test -f 'TraderServiceTest.cc' || echo '$(srcdir)/'`TraderServiceTest.cc

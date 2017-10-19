@@ -4,9 +4,10 @@
 #ifndef CATA_MDSERVICE_IMPL_HH
 #define CATA_MDSERVICE_IMPL_HH
 
-#include "ThostFtdcMdApi.h"
 #include <string>
 #include <memory>
+#include <set>
+#include "MdApiService.hh"
 #include "rapidjson/document.h"
 #include "cata/MDService.hh"
 #include "soil/STimer.hh"
@@ -16,11 +17,14 @@ namespace cata {
 class MDOptions;
 class MDSpiImpl;
 
+typedef std::set<std::string> InstrusType;
+
 class MDServiceImpl : public MDService {
  public:
   MDServiceImpl(
       const rapidjson::Document& doc,
-      MDCallback* callback);
+      MDCallback* callback,
+      MdApiService* mdApiService);
 
   virtual ~MDServiceImpl();
 
@@ -35,6 +39,8 @@ class MDServiceImpl : public MDService {
   virtual std::string tradingDay();
 
   void login();
+
+  void onRspLogin();
 
   void wait(const std::string& hint = "");
   void notify();
@@ -52,6 +58,9 @@ class MDServiceImpl : public MDService {
   MDCallback* callback_;
 
   std::unique_ptr<soil::STimer> cond_;
+
+  InstrusType md_instrus_;  // sub market data
+  InstrusType qd_instrus_;  // sub quote data
 };
 
 };  // namespace cata

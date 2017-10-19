@@ -52,7 +52,7 @@ void MDSpiImpl::OnRspUserLogin(
 
   bool error = ((pRspInfo) && (pRspInfo->ErrorID != 0));
   if (!error) {
-    service_->notify();
+    service_->onRspLogin();
   }
 }
 

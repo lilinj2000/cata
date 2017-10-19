@@ -11,7 +11,8 @@ namespace cata {
 
 MDServiceImpl::MDServiceImpl(
     const rapidjson::Document& doc,
-    MDCallback* callback) :
+    MDCallback* callback,
+    MdApiService* mdApiService) :
     md_api_(nullptr),
     callback_(callback) {
   SOIL_TRACE("MDServiceImpl::MDServiceImpl()");
@@ -30,7 +31,7 @@ MDServiceImpl::MDServiceImpl(
     is_multi = true;
   }
 
-  md_api_ = CThostFtdcMdApi::CreateFtdcMdApi(
+  md_api_ = mdApiService->create(
       options_->flow_path.data(),
       is_udp,
       is_multi);
@@ -60,6 +61,10 @@ void MDServiceImpl::subMarketData(char *instrus[], int count) {
     throw std::runtime_error(
         fmt::format("SubscribeMarketData failed, return code {}", result));
   }
+
+  for (size_t i = 0; i < count; ++i) {
+    md_instrus_.insert(instrus[i]);
+  }
 }
 
 void MDServiceImpl::unsubMarketData(char *instrus[], int count) {
@@ -69,6 +74,10 @@ void MDServiceImpl::unsubMarketData(char *instrus[], int count) {
   if (result != 0) {
     throw std::runtime_error(
         fmt::format("UnSubscribeMarketData failed, return code {}", result));
+  }
+
+  for (size_t i = 0; i < count; ++i) {
+    md_instrus_.erase(instrus[i]);
   }
 }
 
@@ -80,6 +89,10 @@ void MDServiceImpl::subQuoteData(char *instrus[], int count) {
     throw std::runtime_error(
         fmt::format("SubscribeForQuoteRsp failed, return code {}", result));
   }
+
+  for (size_t i = 0; i < count; ++i) {
+    qd_instrus_.insert(instrus[i]);
+  }
 }
 
 void MDServiceImpl::unsubQuoteData(char *instrus[], int count) {
@@ -89,6 +102,10 @@ void MDServiceImpl::unsubQuoteData(char *instrus[], int count) {
   if (result != 0) {
     throw std::runtime_error(
         fmt::format("UnSubscribeForQuoteRsp failed, return code {}", result));
+  }
+
+  for (size_t i = 0; i < count; ++i) {
+    qd_instrus_.erase(instrus[i]);
   }
 }
 
@@ -118,6 +135,22 @@ void MDServiceImpl::login() {
   }
 }
 
+void MDServiceImpl::onRspLogin() {
+  SOIL_FUNC_TRACE;
+
+  for (auto& instru : md_instrus_) {
+    char *c_instru = const_cast<char*>(instru.data());
+    subMarketData(&c_instru, 1);
+  }
+
+  for (auto& instru : qd_instrus_) {
+    char *c_instru = const_cast<char*>(instru.data());
+    subQuoteData(&c_instru, 1);
+  }
+
+  notify();
+}
+
 void MDServiceImpl::wait(const std::string& hint) {
   if (cond_->wait(2000)) {
     if (!hint.empty())
@@ -132,7 +165,12 @@ void MDServiceImpl::notify() {
 MDService* MDService::create(
     const rapidjson::Document& doc,
     MDCallback* callback) {
-  return new MDServiceImpl(doc, callback);
+
+  ThostFtdcMdApiService theMdApiService;
+  return new MDServiceImpl(
+      doc,
+      callback,
+      &theMdApiService);
 }
 
 }  // namespace cata

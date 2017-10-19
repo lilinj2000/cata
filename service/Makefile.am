@@ -57,6 +57,7 @@ noinst_HEADERS = \
 	MDOptions.hh \
 	MDSpiImpl.hh \
 	MDServiceImpl.hh \
+	MdApiService.hh \
 	TraderOptions.hh \
 	TraderSpiImpl.hh \
 	TraderServiceImpl.hh

@@ -8,7 +8,8 @@ check_PROGRAMS = unittest_md unittest_trader
 
 unittest_md_SOURCES = \
 	MDServiceTest.cc \
-	MessageTest.cc
+	MessageTest.cc \
+	MDServiceImplTest.cc
 
 unittest_trader_SOURCES = \
 	TraderServiceTest.cc
