@@ -23,6 +23,7 @@ unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(RAPIDJSON_CPPFLAGS) \
 		$(FMT_CPPFLAGS) \
 		$(SPDLOG_CPPFLAGS) \
+		$(READERWRITERQUEUE_CPPFLAGS) \
 		$(COVERAGE_CXXFLAGS)
 
 unittest_md_CPPFLAGS = $(unittest_CPPFLAGS)
@@ -44,7 +45,7 @@ unittest_trader_LDADD = $(unittest_LDADD) \
 	../service/libcata_trader.la
 
 
-unittest_ldflags = $(LIBADD_DL) -Wl,--no-as-needed -pthread
+unittest_ldflags = $(LIBADD_DL) -Wl,--no-as-needed -pthread -lrt
 
 unittest_md_LDFLAGS = $(unittest_ldflags)
 

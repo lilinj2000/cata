@@ -12,7 +12,7 @@ namespace cata {
 MDServiceImpl::MDServiceImpl(
     const rapidjson::Document& doc,
     MDCallback* callback,
-    MdApiService* mdApiService) :
+    MdApiFactory* mdApiFactory) :
     md_api_(nullptr),
     callback_(callback) {
   SOIL_TRACE("MDServiceImpl::MDServiceImpl()");
@@ -31,7 +31,7 @@ MDServiceImpl::MDServiceImpl(
     is_multi = true;
   }
 
-  md_api_ = mdApiService->create(
+  md_api_ = mdApiFactory->create(
       options_->flow_path.data(),
       is_udp,
       is_multi);
@@ -166,11 +166,11 @@ MDService* MDService::create(
     const rapidjson::Document& doc,
     MDCallback* callback) {
 
-  ThostFtdcMdApiService theMdApiService;
+  ThostFtdcMdApiFactory theMdApiFactory;
   return new MDServiceImpl(
       doc,
       callback,
-      &theMdApiService);
+      &theMdApiFactory);
 }
 
 }  // namespace cata

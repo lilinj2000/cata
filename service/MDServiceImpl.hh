@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 #include <set>
-#include "MdApiService.hh"
+#include "MdApiFactory.hh"
 #include "rapidjson/document.h"
 #include "cata/MDService.hh"
 #include "soil/STimer.hh"
@@ -24,7 +24,7 @@ class MDServiceImpl : public MDService {
   MDServiceImpl(
       const rapidjson::Document& doc,
       MDCallback* callback,
-      MdApiService* mdApiService);
+      MdApiFactory* mdApiFactory);
 
   virtual ~MDServiceImpl();
 

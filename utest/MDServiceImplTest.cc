@@ -4,34 +4,38 @@
 #include <memory>
 #include "gtest/gtest.h"
 #include "service/MDServiceImpl.hh"
-#include "CThostFtdcMdApiMock.hh"
+#include "MockCThostFtdcMdApi.hh"
 #include "soil/json.hh"
 #include "soil/STimer.hh"
 #include "soil/Log.hh"
 
 namespace cata {
 
-class MdApiServiceFake :
-      public MdApiService {
+using ::testing::NiceMock;
+
+class FakeMdApiFactory :
+      public MdApiFactory {
  public:
+  FakeMdApiFactory() {
+    mock_ = new NiceMock<MockCThostFtdcMdApi>();
+  }
+
   virtual CThostFtdcMdApi* create(
       const char *pszFlowPath = "",
       const bool bIsUsingUdp = false,
       const bool bIsMulticast = false) {
-    return api_mock.get();
+    return mock_;
   }
 
-  virtual ~MdApiServiceFake() {
+  virtual ~FakeMdApiFactory() {
   }
 
-  CThostFtdcMdApiMock& mock() {
-    api_mock.reset(new CThostFtdcMdApiMock());
-
-    return *api_mock;
+  NiceMock<MockCThostFtdcMdApi>& mock() {
+    return *mock_;
   }
 
  private:
-  std::unique_ptr<CThostFtdcMdApiMock> api_mock;
+  NiceMock<MockCThostFtdcMdApi>* mock_;
 };
 
 class MDServiceImplTest :
@@ -69,21 +73,27 @@ class MDServiceImplTest :
   std::string instru;
 };
 
-TEST_F(MDServiceImplTest, loginTest) {
+TEST_F(MDServiceImplTest, mdTest) {
   std::unique_ptr<MDServiceImpl> service;
-  std::unique_ptr<MdApiServiceFake> api_service;
-  api_service.reset(new MdApiServiceFake());
+  std::unique_ptr<FakeMdApiFactory> factory;
+  factory.reset(new FakeMdApiFactory());
 
-  CThostFtdcMdApiMock& mock = api_service->mock();
-  mock.DelegateToFake();
-  EXPECT_CALL(mock, RegisterSpi(_));
-  EXPECT_CALL(mock, RegisterFront(_));
-  EXPECT_CALL(mock, Init());
+  NiceMock<MockCThostFtdcMdApi>& mock(factory->mock());
 
   service.reset(new MDServiceImpl(
       config,
       this,
-      api_service.get()));
+      factory.get()));
+
+  SOIL_INFO("trading_day: {}",
+            service->tradingDay());
+
+  char *c_instru = const_cast<char*>(instru.data());
+  service->subMarketData(&c_instru, 1);
+  wait();  // wait onRspSub
+
+  mock.Init();  // network reconnect
+  wait();
 
   SUCCEED();
 }
