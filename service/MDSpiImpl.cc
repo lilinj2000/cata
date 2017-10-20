@@ -21,6 +21,7 @@ MDSpiImpl::~MDSpiImpl() {
 void MDSpiImpl::OnFrontConnected() {
   SOIL_FUNC_TRACE;
 
+  SOIL_INFO("OnFrontConnected");
   service_->login();
 }
 
@@ -28,14 +29,16 @@ void MDSpiImpl::OnFrontDisconnected(
     int nReason) {
   SOIL_FUNC_TRACE;
 
-  SOIL_DEBUG_PRINT(nReason);
+  SOIL_ERROR("OnFrontDisconnected: {:x}",
+             nReason);
 }
 
 void MDSpiImpl::OnHeartBeatWarning(
     int nTimeLapse) {
   SOIL_FUNC_TRACE;
 
-  SOIL_DEBUG_PRINT(nTimeLapse);
+  SOIL_WARN("OnHeartBeatWarning: {}",
+            nTimeLapse);
 }
 
 void MDSpiImpl::OnRspUserLogin(

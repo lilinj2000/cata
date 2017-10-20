@@ -20,21 +20,24 @@ TraderSpiImpl::~TraderSpiImpl() {
 void TraderSpiImpl::OnFrontConnected() {
   SOIL_FUNC_TRACE;
 
+  SOIL_INFO("OnFrontConnected");
   service_->login();
 }
 
 void TraderSpiImpl::OnFrontDisconnected(
     int nReason) {
   SOIL_FUNC_TRACE;
-
-  SOIL_DEBUG_PRINT(nReason);
+  
+  SOIL_ERROR("OnFrontDisconnected: {:x}",
+             nReason);
 }
 
 void TraderSpiImpl::OnHeartBeatWarning(
     int nTimeLapse) {
   SOIL_FUNC_TRACE;
 
-  SOIL_DEBUG_PRINT(nTimeLapse);
+  SOIL_WARN("OnHeartBeatWarning: {}",
+            nTimeLapse);
 }
 
 void TraderSpiImpl::OnRspAuthenticate(
