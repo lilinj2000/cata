@@ -29,7 +29,7 @@ void MDSpiImpl::OnFrontDisconnected(
     int nReason) {
   SOIL_FUNC_TRACE;
 
-  SOIL_ERROR("OnFrontDisconnected: {:x}",
+  SOIL_ERROR("OnFrontDisconnected: {:#x}",
              nReason);
 }
 
