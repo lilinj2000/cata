@@ -87,8 +87,12 @@ TraderServiceImpl::TraderServiceImpl(
 TraderServiceImpl::~TraderServiceImpl() {
   SOIL_TRACE("TraderServiceImpl::~TraderServiceImpl()");
 
-  logout();
-  wait();
+  try {
+    logout();
+    wait();
+  } catch (std::exception& e) {
+    SOIL_ERROR("Error: {}", e.what());
+  }
 
   trader_api_->RegisterSpi(nullptr);
   trader_api_->Release();
