@@ -3,7 +3,7 @@
 import json
 
 cata_trader = { 
-    "flow_path": "traderflow/",
+    "flow_path": "./",
 
     # ctpfz
     # front_address = tcp://ctpfz1-front1.citicsf.com:51213
@@ -37,7 +37,7 @@ sink1 = {
 sink2 = {
     "sink": {
         "type": "rotating_file_sink_mt",
-        "file_name": "logs/trader.log",
+        "file_name": "trader.log",
         "max_file_size": 5000000,
         "max_files": 10
         }
@@ -49,7 +49,7 @@ log = {
     }
 
 tests = {
-    "instru": "cu1712",
+    "instru": "cu1804",
     "price": 50010,
     "volume": 1
     }

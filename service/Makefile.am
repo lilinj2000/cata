@@ -5,14 +5,14 @@ lib_LTLIBRARIES = \
 	libcata_trader.la
 
 libcata_md_la_SOURCES = \
-	MDOptions.cc \
-	MDSpiImpl.cc \
-	MDServiceImpl.cc
+	md_options.cc \
+	md_spi_impl.cc \
+	md_service_impl.cc
 
 libcata_trader_la_SOURCES = \
-	TraderOptions.cc \
-	TraderSpiImpl.cc \
-	TraderServiceImpl.cc
+	trader_options.cc \
+	trader_spi_impl.cc \
+	trader_service_impl.cc
 
 
 libcata_la_CPPFLAGS = \
@@ -53,11 +53,11 @@ libcata_trader_la_LDFLAGS = $(libcata_la_LDFLAGS)
 
 # header files
 noinst_HEADERS = \
-	Helper.hh \
-	MDOptions.hh \
-	MDSpiImpl.hh \
-	MDServiceImpl.hh \
-	MdApiFactory.hh \
-	TraderOptions.hh \
-	TraderSpiImpl.hh \
-	TraderServiceImpl.hh
+	helper.h \
+	md_options.h \
+	md_spi_impl.h \
+	md_service_impl.h \
+	md_api_factory.h \
+	trader_options.h \
+	trader_spi_impl.h \
+	trader_service_impl.h

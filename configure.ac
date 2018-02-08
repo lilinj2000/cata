@@ -165,8 +165,6 @@ AC_OUTPUT([
 	Makefile
 	cata/Makefile
 	service/Makefile
-	utest/traderflow/Makefile
-	utest/mdflow/Makefile
 	utest/Makefile])
 
 

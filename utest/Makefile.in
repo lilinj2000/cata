@@ -49,9 +49,9 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_unittest_md_OBJECTS = unittest_md-MDServiceTest.$(OBJEXT) \
-	unittest_md-MessageTest.$(OBJEXT) \
-	unittest_md-MDServiceImplTest.$(OBJEXT)
+am_unittest_md_OBJECTS = unittest_md-md_service_test.$(OBJEXT) \
+	unittest_md-message_test.$(OBJEXT) \
+	unittest_md-md_service_impl_test.$(OBJEXT)
 unittest_md_OBJECTS = $(am_unittest_md_OBJECTS)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -63,7 +63,7 @@ unittest_md_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(unittest_md_LDFLAGS) $(LDFLAGS) -o $@
 am_unittest_trader_OBJECTS =  \
-	unittest_trader-TraderServiceTest.$(OBJEXT)
+	unittest_trader-trader_service_test.$(OBJEXT)
 unittest_trader_OBJECTS = $(am_unittest_trader_OBJECTS)
 unittest_trader_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 	../service/libcata_trader.la
@@ -277,14 +277,14 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = traderflow mdflow
+SUBDIRS = 
 unittest_md_SOURCES = \
-	MDServiceTest.cc \
-	MessageTest.cc \
-	MDServiceImplTest.cc
+	md_service_test.cc \
+	message_test.cc \
+	md_service_impl_test.cc
 
 unittest_trader_SOURCES = \
-	TraderServiceTest.cc
+	trader_service_test.cc
 
 unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(BOOST_CPPFLAGS) \
@@ -376,10 +376,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MDServiceImplTest.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MDServiceTest.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-MessageTest.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_trader-TraderServiceTest.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-md_service_impl_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-md_service_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-message_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_trader-trader_service_test.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -402,61 +402,61 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
 
-unittest_md-MDServiceTest.o: MDServiceTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceTest.Tpo -c -o unittest_md-MDServiceTest.o `test -f 'MDServiceTest.cc' || echo '$(srcdir)/'`MDServiceTest.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MDServiceTest.Tpo $(DEPDIR)/unittest_md-MDServiceTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceTest.cc' object='unittest_md-MDServiceTest.o' libtool=no @AMDEPBACKSLASH@
+unittest_md-md_service_test.o: md_service_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-md_service_test.o -MD -MP -MF $(DEPDIR)/unittest_md-md_service_test.Tpo -c -o unittest_md-md_service_test.o `test -f 'md_service_test.cc' || echo '$(srcdir)/'`md_service_test.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-md_service_test.Tpo $(DEPDIR)/unittest_md-md_service_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_test.cc' object='unittest_md-md_service_test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceTest.o `test -f 'MDServiceTest.cc' || echo '$(srcdir)/'`MDServiceTest.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_test.o `test -f 'md_service_test.cc' || echo '$(srcdir)/'`md_service_test.cc
 
-unittest_md-MDServiceTest.obj: MDServiceTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceTest.Tpo -c -o unittest_md-MDServiceTest.obj `if test -f 'MDServiceTest.cc'; then $(CYGPATH_W) 'MDServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceTest.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MDServiceTest.Tpo $(DEPDIR)/unittest_md-MDServiceTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceTest.cc' object='unittest_md-MDServiceTest.obj' libtool=no @AMDEPBACKSLASH@
+unittest_md-md_service_test.obj: md_service_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-md_service_test.obj -MD -MP -MF $(DEPDIR)/unittest_md-md_service_test.Tpo -c -o unittest_md-md_service_test.obj `if test -f 'md_service_test.cc'; then $(CYGPATH_W) 'md_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_test.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-md_service_test.Tpo $(DEPDIR)/unittest_md-md_service_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_test.cc' object='unittest_md-md_service_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceTest.obj `if test -f 'MDServiceTest.cc'; then $(CYGPATH_W) 'MDServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceTest.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_test.obj `if test -f 'md_service_test.cc'; then $(CYGPATH_W) 'md_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_test.cc'; fi`
 
-unittest_md-MessageTest.o: MessageTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MessageTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MessageTest.Tpo -c -o unittest_md-MessageTest.o `test -f 'MessageTest.cc' || echo '$(srcdir)/'`MessageTest.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MessageTest.Tpo $(DEPDIR)/unittest_md-MessageTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MessageTest.cc' object='unittest_md-MessageTest.o' libtool=no @AMDEPBACKSLASH@
+unittest_md-message_test.o: message_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-message_test.o -MD -MP -MF $(DEPDIR)/unittest_md-message_test.Tpo -c -o unittest_md-message_test.o `test -f 'message_test.cc' || echo '$(srcdir)/'`message_test.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-message_test.Tpo $(DEPDIR)/unittest_md-message_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='message_test.cc' object='unittest_md-message_test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.o `test -f 'MessageTest.cc' || echo '$(srcdir)/'`MessageTest.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-message_test.o `test -f 'message_test.cc' || echo '$(srcdir)/'`message_test.cc
 
-unittest_md-MessageTest.obj: MessageTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MessageTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MessageTest.Tpo -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MessageTest.Tpo $(DEPDIR)/unittest_md-MessageTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MessageTest.cc' object='unittest_md-MessageTest.obj' libtool=no @AMDEPBACKSLASH@
+unittest_md-message_test.obj: message_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-message_test.obj -MD -MP -MF $(DEPDIR)/unittest_md-message_test.Tpo -c -o unittest_md-message_test.obj `if test -f 'message_test.cc'; then $(CYGPATH_W) 'message_test.cc'; else $(CYGPATH_W) '$(srcdir)/message_test.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-message_test.Tpo $(DEPDIR)/unittest_md-message_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='message_test.cc' object='unittest_md-message_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MessageTest.obj `if test -f 'MessageTest.cc'; then $(CYGPATH_W) 'MessageTest.cc'; else $(CYGPATH_W) '$(srcdir)/MessageTest.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-message_test.obj `if test -f 'message_test.cc'; then $(CYGPATH_W) 'message_test.cc'; else $(CYGPATH_W) '$(srcdir)/message_test.cc'; fi`
 
-unittest_md-MDServiceImplTest.o: MDServiceImplTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceImplTest.o -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo -c -o unittest_md-MDServiceImplTest.o `test -f 'MDServiceImplTest.cc' || echo '$(srcdir)/'`MDServiceImplTest.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo $(DEPDIR)/unittest_md-MDServiceImplTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceImplTest.cc' object='unittest_md-MDServiceImplTest.o' libtool=no @AMDEPBACKSLASH@
+unittest_md-md_service_impl_test.o: md_service_impl_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-md_service_impl_test.o -MD -MP -MF $(DEPDIR)/unittest_md-md_service_impl_test.Tpo -c -o unittest_md-md_service_impl_test.o `test -f 'md_service_impl_test.cc' || echo '$(srcdir)/'`md_service_impl_test.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-md_service_impl_test.Tpo $(DEPDIR)/unittest_md-md_service_impl_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_impl_test.cc' object='unittest_md-md_service_impl_test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceImplTest.o `test -f 'MDServiceImplTest.cc' || echo '$(srcdir)/'`MDServiceImplTest.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_impl_test.o `test -f 'md_service_impl_test.cc' || echo '$(srcdir)/'`md_service_impl_test.cc
 
-unittest_md-MDServiceImplTest.obj: MDServiceImplTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-MDServiceImplTest.obj -MD -MP -MF $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo -c -o unittest_md-MDServiceImplTest.obj `if test -f 'MDServiceImplTest.cc'; then $(CYGPATH_W) 'MDServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceImplTest.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-MDServiceImplTest.Tpo $(DEPDIR)/unittest_md-MDServiceImplTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='MDServiceImplTest.cc' object='unittest_md-MDServiceImplTest.obj' libtool=no @AMDEPBACKSLASH@
+unittest_md-md_service_impl_test.obj: md_service_impl_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-md_service_impl_test.obj -MD -MP -MF $(DEPDIR)/unittest_md-md_service_impl_test.Tpo -c -o unittest_md-md_service_impl_test.obj `if test -f 'md_service_impl_test.cc'; then $(CYGPATH_W) 'md_service_impl_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_impl_test.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-md_service_impl_test.Tpo $(DEPDIR)/unittest_md-md_service_impl_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_impl_test.cc' object='unittest_md-md_service_impl_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-MDServiceImplTest.obj `if test -f 'MDServiceImplTest.cc'; then $(CYGPATH_W) 'MDServiceImplTest.cc'; else $(CYGPATH_W) '$(srcdir)/MDServiceImplTest.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_impl_test.obj `if test -f 'md_service_impl_test.cc'; then $(CYGPATH_W) 'md_service_impl_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_impl_test.cc'; fi`
 
-unittest_trader-TraderServiceTest.o: TraderServiceTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceTest.o -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceTest.Tpo -c -o unittest_trader-TraderServiceTest.o `test -f 'TraderServiceTest.cc' || echo '$(srcdir)/'`TraderServiceTest.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-TraderServiceTest.Tpo $(DEPDIR)/unittest_trader-TraderServiceTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderServiceTest.cc' object='unittest_trader-TraderServiceTest.o' libtool=no @AMDEPBACKSLASH@
+unittest_trader-trader_service_test.o: trader_service_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-trader_service_test.o -MD -MP -MF $(DEPDIR)/unittest_trader-trader_service_test.Tpo -c -o unittest_trader-trader_service_test.o `test -f 'trader_service_test.cc' || echo '$(srcdir)/'`trader_service_test.cc
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-trader_service_test.Tpo $(DEPDIR)/unittest_trader-trader_service_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trader_service_test.cc' object='unittest_trader-trader_service_test.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-TraderServiceTest.o `test -f 'TraderServiceTest.cc' || echo '$(srcdir)/'`TraderServiceTest.cc
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-trader_service_test.o `test -f 'trader_service_test.cc' || echo '$(srcdir)/'`trader_service_test.cc
 
-unittest_trader-TraderServiceTest.obj: TraderServiceTest.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-TraderServiceTest.obj -MD -MP -MF $(DEPDIR)/unittest_trader-TraderServiceTest.Tpo -c -o unittest_trader-TraderServiceTest.obj `if test -f 'TraderServiceTest.cc'; then $(CYGPATH_W) 'TraderServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/TraderServiceTest.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-TraderServiceTest.Tpo $(DEPDIR)/unittest_trader-TraderServiceTest.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='TraderServiceTest.cc' object='unittest_trader-TraderServiceTest.obj' libtool=no @AMDEPBACKSLASH@
+unittest_trader-trader_service_test.obj: trader_service_test.cc
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-trader_service_test.obj -MD -MP -MF $(DEPDIR)/unittest_trader-trader_service_test.Tpo -c -o unittest_trader-trader_service_test.obj `if test -f 'trader_service_test.cc'; then $(CYGPATH_W) 'trader_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/trader_service_test.cc'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-trader_service_test.Tpo $(DEPDIR)/unittest_trader-trader_service_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trader_service_test.cc' object='unittest_trader-trader_service_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-TraderServiceTest.obj `if test -f 'TraderServiceTest.cc'; then $(CYGPATH_W) 'TraderServiceTest.cc'; else $(CYGPATH_W) '$(srcdir)/TraderServiceTest.cc'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-trader_service_test.obj `if test -f 'trader_service_test.cc'; then $(CYGPATH_W) 'trader_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/trader_service_test.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

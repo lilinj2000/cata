@@ -1,18 +1,18 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = traderflow mdflow
+SUBDIRS = 
 
 # TESTS = unittest.sh
 
 check_PROGRAMS = unittest_md unittest_trader
 
 unittest_md_SOURCES = \
-	MDServiceTest.cc \
-	MessageTest.cc \
-	MDServiceImplTest.cc
+	md_service_test.cc \
+	message_test.cc \
+	md_service_impl_test.cc
 
 unittest_trader_SOURCES = \
-	TraderServiceTest.cc
+	trader_service_test.cc
 
 
 unittest_CPPFLAGS = -I$(top_srcdir) \
