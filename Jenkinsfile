@@ -17,7 +17,19 @@ pipeline {
         sh '''
 cpplint --output=vs7 --recursive .
 cppcheck --enable=all --inconclusive --xml --xml-version=2 . 2> cppcheck.xml
+cppcheck-htmlreport --title="$JOB_NAME" --file=cppcheck.xml  --report-dir=./cppcheck-report
 	'''
+	archiveArtifacts 'cppcheck.xml'
+	archiveArtifacts 'cppcheck-report/*'
+
+	publishHTML([allowMissing: false,
+	 alwaysLinkToLastBuild: false,
+	 keepAll: false,
+	 reportDir: 'cppcheck-report',
+	 reportFiles: 'index.html',
+	 reportName: 'cppcheck Report',
+	 reportTitles: ''])
+
       }
     }
 

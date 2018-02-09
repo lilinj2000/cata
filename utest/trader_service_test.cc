@@ -136,10 +136,10 @@ TEST_F(TraderServiceTest, queryTest) {
   service->queryInstrument("", "", "", "");
   wait(10000);
 
-  service->queryInstruMarginRate(prod);
+  service->queryInstruMarginRate(instru);
   wait();
 
-  service->queryInstruCommissionRate(prod);
+  service->queryInstruCommissionRate(instru);
   wait();
 
   service->queryDepthMarketData("");
