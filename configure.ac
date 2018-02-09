@@ -37,8 +37,17 @@ AC_SUBST(LT_REVISION)
 AC_SUBST(LT_AGE)
 
 node=`uname -n`
-home_3rd=~/3rd/${node}
-home_libs=~/libs/${node}
+
+AC_ARG_VAR(home_3rd, home path of 3rd)
+if test "x$home_3rd" = "x"; then
+   home_3rd=~/3rd/${node}
+fi
+
+AC_ARG_VAR(home_libs, home path of libs)
+if test "x$home_libs" = "x"; then
+   home_libs=~/libs/${node}
+fi
+
 
 ###########################
 # gcov coverage reporting

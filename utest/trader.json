@@ -29,6 +29,7 @@
     "tests": {
         "instru": "cu1804", 
         "price": 50010, 
+        "prod": "cu", 
         "volume": 1
     }
 }

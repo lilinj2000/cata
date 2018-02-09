@@ -820,6 +820,8 @@ LCOV
 SHTOOL
 HAVE_GCOV_FALSE
 HAVE_GCOV_TRUE
+home_libs
+home_3rd
 LT_AGE
 LT_REVISION
 LT_CURRENT
@@ -969,7 +971,9 @@ CCC
 CC
 CFLAGS
 CPP
-CXXCPP'
+CXXCPP
+home_3rd
+home_libs'
 
 
 # Initialize some variables set by options.
@@ -1639,6 +1643,8 @@ Some influential environment variables:
   CFLAGS      C compiler flags
   CPP         C preprocessor
   CXXCPP      C++ preprocessor
+  home_3rd    home path of 3rd
+  home_libs   home path of libs
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -15702,8 +15708,17 @@ LT_AGE=0
 
 
 node=`uname -n`
-home_3rd=~/3rd/${node}
-home_libs=~/libs/${node}
+
+
+if test "x$home_3rd" = "x"; then
+   home_3rd=~/3rd/${node}
+fi
+
+
+if test "x$home_libs" = "x"; then
+   home_libs=~/libs/${node}
+fi
+
 
 ###########################
 # gcov coverage reporting

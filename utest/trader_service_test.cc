@@ -41,6 +41,9 @@ class TraderServiceTest :
     soil::json::load_from_file(&config, "trader.json");
     soil::log::init(config);
 
+    soil::json::get_item_value(&prod,
+                               config,
+                               "/tests/prod");
     soil::json::get_item_value(&instru,
                                config,
                                "/tests/instru");
@@ -76,6 +79,7 @@ class TraderServiceTest :
   std::unique_ptr<soil::STimer> cond;
   std::unique_ptr<TraderService> service;
 
+  std::string prod;
   std::string instru;
   double price;
   int volume;
@@ -132,10 +136,10 @@ TEST_F(TraderServiceTest, queryTest) {
   service->queryInstrument("", "", "", "");
   wait(10000);
 
-  service->queryInstruMarginRate(instru);
+  service->queryInstruMarginRate(prod);
   wait();
 
-  service->queryInstruCommissionRate(instru);
+  service->queryInstruCommissionRate(prod);
   wait();
 
   service->queryDepthMarketData("");

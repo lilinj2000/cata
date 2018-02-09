@@ -49,6 +49,7 @@ log = {
     }
 
 tests = {
+    "prod": "cu",
     "instru": "cu1804",
     "price": 50010,
     "volume": 1
