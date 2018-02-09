@@ -12,6 +12,15 @@ pipeline {
   }
 
   stages {
+    stage('code check') {
+      steps {
+        sh '''
+cpplint --output=vs7 --recursive .
+cppcheck --enable=all --inconclusive --xml --xml-version=2 . 2> cppcheck.xml
+	'''
+      }
+    }
+
     stage('build') {
       steps {
         sh '''
