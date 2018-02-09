@@ -25,8 +25,8 @@
 //
 
 
-#ifndef THOST_FTDC_USERAPI_STRUCT_PRINT_H_
-#define THOST_FTDC_USERAPI_STRUCT_PRINT_H_
+#ifndef SERVICE_API_STRUCT_PRINT_H_
+#define SERVICE_API_STRUCT_PRINT_H_
 
 #include <ostream>
 #include "ThostFtdcUserApiStruct.h"
@@ -19010,4 +19010,4 @@ inline std::ostream& operator<<(
     return os;
 }
 
-#endif
+#endif  // SERVICE_API_STRUCT_PRINT_H_

@@ -25,14 +25,14 @@
 //
 
 
-#ifndef CATA_MDSERVICE_IMPL_H_
-#define CATA_MDSERVICE_IMPL_H_
+#ifndef SERVICE_MD_SERVICE_IMPL_H_
+#define SERVICE_MD_SERVICE_IMPL_H_
 
 #include <string>
 #include <memory>
 #include <set>
 
-#include "md_api_factory.h"
+#include "service/md_api_factory.h"
 #include "rapidjson/document.h"
 #include "cata/md_service.h"
 #include "soil/s_timer.h"
@@ -90,4 +90,4 @@ class MDServiceImpl : public MDService {
 
 };  // namespace cata
 
-#endif
+#endif  // SERVICE_MD_SERVICE_IMPL_H_

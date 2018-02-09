@@ -25,10 +25,12 @@
 //
 
 
-#ifndef MOCKCTHOSTFTDCMDAPI_H_
-#define MOCKCTHOSTFTDCMDAPI_H_
+#ifndef UTEST_MOCK_MD_API_H_
+#define UTEST_MOCK_MD_API_H_
 
-#include <thread>
+#include <set>
+#include <string>
+#include <thread>  // NOLINT
 #include "ThostFtdcMdApi.h"
 #include "gmock/gmock.h"
 #include "soil/log.h"
@@ -81,7 +83,7 @@ class MockCThostFtdcMdApi :
 
     spi_ = pSpi;
   }
-  
+
   void Init() {
     SOIL_FUNC_TRACE;
 
@@ -115,7 +117,7 @@ class MockCThostFtdcMdApi :
       int nCount) {
     SOIL_FUNC_TRACE;
 
-    for (size_t i = 0; i<nCount; ++i) {
+    for (size_t i = 0; i < nCount; ++i) {
       md_instrus_.insert(ppInstrumentID[i]);
     }
 
@@ -218,4 +220,4 @@ class MockCThostFtdcMdApi :
   std::set<std::string> md_instrus_;
 };
 
-#endif
+#endif  // UTEST_MOCK_MD_API_H_

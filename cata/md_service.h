@@ -25,8 +25,8 @@
 //
 
 
-#ifndef CATA_MDSERVICE_H_
-#define CATA_MDSERVICE_H_
+#ifndef CATA_MD_SERVICE_H_
+#define CATA_MD_SERVICE_H_
 
 #include <string>
 #include "soil/json.h"
@@ -138,4 +138,4 @@ class MDService {
 
 };  // namespace cata
 
-#endif  // CATA_MDSERVICE_HH
+#endif  // CATA_MD_SERVICE_H_

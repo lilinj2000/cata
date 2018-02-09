@@ -25,8 +25,8 @@
 //
 
 
-#ifndef CATA_TRADEROPTIONS_H_
-#define CATA_TRADEROPTIONS_H_
+#ifndef SERVICE_TRADER_OPTIONS_H_
+#define SERVICE_TRADER_OPTIONS_H_
 
 #include <string>
 #include "soil/json.h"
@@ -51,4 +51,4 @@ class TraderOptions {
 
 }  // namespace cata
 
-#endif
+#endif  // SERVICE_TRADER_OPTIONS_H_

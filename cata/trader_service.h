@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 // -----------------------------------------------------------------------------
-// File: TraderService.h
+// File: trader_service.h
 // -----------------------------------------------------------------------------
 //
 // [file_descrition]
@@ -1232,4 +1232,4 @@ class TraderService {
 
 };  // namespace cata
 
-#endif  // CATA_TRADER_SERVICE_HH
+#endif  // CATA_TRADER_SERVICE_H_

@@ -25,12 +25,12 @@
 //
 
 
-#ifndef CATA_MDSPI_IMPL_H_
-#define CATA_MDSPI_IMPL_H_
+#ifndef SERVICE_MD_SPI_IMPL_H_
+#define SERVICE_MD_SPI_IMPL_H_
 
 #include <memory>
 #include "ThostFtdcMdApi.h"
-#include "md_service_impl.h"
+#include "service/md_service_impl.h"
 
 namespace cata {
 
@@ -107,4 +107,4 @@ class MDSpiImpl : public CThostFtdcMdSpi {
 
 };  // namespace cata
 
-#endif  // CATA_MDSPI_IMPL_H
+#endif  // SERVICE_MD_SPI_IMPL_H_

@@ -25,8 +25,8 @@
 //
 
 
-#ifndef CATA_TRADERSERVICE_IMPL_H_
-#define CATA_TRADERSERVICE_IMPL_H_
+#ifndef SERVICE_TRADER_SERVICE_IMPL_H_
+#define SERVICE_TRADER_SERVICE_IMPL_H_
 
 #include "ThostFtdcTraderApi.h"
 #include <memory>
@@ -240,4 +240,4 @@ class TraderServiceImpl : public TraderService {
 
 };  // namespace cata
 
-#endif  // CATA_TRADERSERVICE_IMPL_HH
+#endif  // SERVICE_TRADER_SERVICE_IMPL_H_

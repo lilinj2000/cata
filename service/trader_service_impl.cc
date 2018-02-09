@@ -24,10 +24,10 @@
 //
 //
 
-#include "trader_service_impl.h"
-#include "trader_options.h"
-#include "trader_spi_impl.h"
-#include "api_struct_print.h"
+#include "service/trader_service_impl.h"
+#include "service/trader_options.h"
+#include "service/trader_spi_impl.h"
+#include "service/api_struct_print.h"
 #include "soil/macro.h"
 #include "soil/log.h"
 

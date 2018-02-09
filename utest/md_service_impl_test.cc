@@ -28,7 +28,7 @@
 #include <memory>
 #include "gtest/gtest.h"
 #include "service/md_service_impl.h"
-#include "mock_md_api.h"
+#include "utest/mock_md_api.h"
 #include "soil/json.h"
 #include "soil/s_timer.h"
 #include "soil/log.h"

@@ -25,8 +25,8 @@
 //
 
 
-#ifndef CATA_HELPER_H_
-#define CATA_HELPER_H_
+#ifndef SERVICE_HELPER_H_
+#define SERVICE_HELPER_H_
 
 #define CATA_ON_RSP_ERROR_CALLBACK(C, E, I, L)  \
   if (callback()) {                             \
@@ -51,4 +51,4 @@
         R ? fmt::format("{}", *R) : "");        \
   }
 
-#endif
+#endif  // SERVICE_HELPER_H_

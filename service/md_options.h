@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 // -----------------------------------------------------------------------------
-// File: MDOptions.h
+// File: md_options.h
 // -----------------------------------------------------------------------------
 //
 // [file_descrition]
@@ -25,8 +25,8 @@
 //
 
 
-#ifndef CATA_MDOPTIONS_H_
-#define CATA_MDOPTIONS_H_
+#ifndef SERVICE_MD_OPTIONS_H_
+#define SERVICE_MD_OPTIONS_H_
 
 #include <string>
 #include "soil/json.h"
@@ -51,4 +51,4 @@ class MDOptions {
 
 }  // namespace cata
 
-#endif
+#endif  // SERVICE_MD_OPTIONS_H_

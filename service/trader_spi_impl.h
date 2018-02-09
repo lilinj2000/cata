@@ -25,12 +25,12 @@
 //
 
 
-#ifndef CATA_TRADERSPI_IMPL_H_
-#define CATA_TRADERSPI_IMPL_H_
+#ifndef SERVICE_TRADER_SPI_IMPL_H_
+#define SERVICE_TRADER_SPI_IMPL_H_
 
 #include <memory>
 #include "ThostFtdcTraderApi.h"
-#include "trader_service_impl.h"
+#include "service/trader_service_impl.h"
 
 namespace cata {
 
@@ -559,4 +559,4 @@ class TraderSpiImpl : public CThostFtdcTraderSpi {
 
 };  // namespace cata
 
-#endif
+#endif  // SERVICE_TRADER_SPI_IMPL_H_
