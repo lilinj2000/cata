@@ -42,14 +42,7 @@ make install
 	'''
       }
     }
-/*
-    stage('utest') {
-      steps {
-        sh 'make check'
-        junit(testResults: 'utest/test_detail.xml', allowEmptyResults: true)
-      }
-    }
-*/
+  }
 
   post { 
     always { 
