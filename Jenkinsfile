@@ -12,7 +12,7 @@ pipeline {
   }
 
   stages {
-    stage('code check') {
+    stage('code static check') {
       steps {
         sh '''
 cpplint --output=vs7 --recursive .
@@ -27,18 +27,18 @@ cppcheck-htmlreport --title="$JOB_NAME" --file=cppcheck.xml  --report-dir=./cppc
 	 keepAll: false,
 	 reportDir: 'cppcheck-report',
 	 reportFiles: 'index.html',
-	 reportName: 'cppcheck Report',
+	 reportName: 'cppcheck report',
 	 reportTitles: ''])
 
       }
     }
 
-    stage('build') {
+    stage('build && install') {
       steps {
         sh '''
 home_cata=${home_libs}/cata
 ./configure --prefix=${home_cata}
-make
+make install
 	'''
       }
     }
@@ -50,10 +50,11 @@ make
       }
     }
 */
-    stage('install') {
-      steps {
-        sh 'make install'
-      }
-    }
+
+  post { 
+    always { 
+      cleanWs()
+     }
   }
+
 }
