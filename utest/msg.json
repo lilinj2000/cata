@@ -10,7 +10,7 @@
             }, 
             {
                 "sink": {
-                    "file_name": "logs/msg.log", 
+                    "file_name": "msg.log", 
                     "max_file_size": 5000000, 
                     "max_files": 10, 
                     "type": "rotating_file_sink_mt"

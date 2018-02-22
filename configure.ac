@@ -174,6 +174,7 @@ AC_OUTPUT([
 	Makefile
 	cata/Makefile
 	service/Makefile
-	utest/Makefile])
+	utest/Makefile
+	test/Makefile])
 
 

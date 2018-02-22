@@ -4,4 +4,3 @@
 
 ./unittest_md
 
-./unittest_trader

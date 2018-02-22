@@ -1,7 +1,7 @@
 {
     "cata_md": {
         "broker_id": "", 
-        "flow_path": "mdflow/", 
+        "flow_path": "./", 
         "front_address": "tcp://180.168.146.187:10010", 
         "password": "", 
         "protocol": "tcp", 

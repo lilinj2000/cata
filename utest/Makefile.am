@@ -2,18 +2,13 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = 
 
-# TESTS = unittest.sh
+TESTS = unittest.sh
 
-check_PROGRAMS = unittest_md unittest_trader
+check_PROGRAMS = unittest_md 
 
 unittest_md_SOURCES = \
-	md_service_test.cc \
 	message_test.cc \
 	md_service_impl_test.cc
-
-unittest_trader_SOURCES = \
-	trader_service_test.cc
-
 
 unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(BOOST_CPPFLAGS) \
@@ -28,8 +23,6 @@ unittest_CPPFLAGS = -I$(top_srcdir) \
 
 unittest_md_CPPFLAGS = $(unittest_CPPFLAGS)
 
-unittest_trader_CPPFLAGS = $(unittest_CPPFLAGS)
-
 unittest_LDADD = \
 	$(GTEST_LIBADD) \
 	$(BOOST_LIBADD) \
@@ -41,20 +34,15 @@ unittest_LDADD = \
 unittest_md_LDADD = $(unittest_LDADD) \
 	../service/libcata_md.la
 
-unittest_trader_LDADD = $(unittest_LDADD) \
-	../service/libcata_trader.la
-
 
 unittest_ldflags = $(LIBADD_DL) -Wl,--no-as-needed -pthread -lrt
 
 unittest_md_LDFLAGS = $(unittest_ldflags)
 
-unittest_trader_LDFLAGS = $(unittest_ldflags)
-
 
 # header files
 noinst_HEADERS = 
 
-EXTRA_DIST = env.sh md.json trader.json
+EXTRA_DIST = env.sh
 
 

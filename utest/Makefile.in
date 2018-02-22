@@ -34,7 +34,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = unittest_md$(EXEEXT) unittest_trader$(EXEEXT)
+check_PROGRAMS = unittest_md$(EXEEXT)
 subdir = utest
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
@@ -49,8 +49,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_unittest_md_OBJECTS = unittest_md-md_service_test.$(OBJEXT) \
-	unittest_md-message_test.$(OBJEXT) \
+am_unittest_md_OBJECTS = unittest_md-message_test.$(OBJEXT) \
 	unittest_md-md_service_impl_test.$(OBJEXT)
 unittest_md_OBJECTS = $(am_unittest_md_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -62,14 +61,6 @@ unittest_md_DEPENDENCIES = $(am__DEPENDENCIES_2) \
 unittest_md_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(unittest_md_LDFLAGS) $(LDFLAGS) -o $@
-am_unittest_trader_OBJECTS =  \
-	unittest_trader-trader_service_test.$(OBJEXT)
-unittest_trader_OBJECTS = $(am_unittest_trader_OBJECTS)
-unittest_trader_DEPENDENCIES = $(am__DEPENDENCIES_2) \
-	../service/libcata_trader.la
-unittest_trader_LINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(unittest_trader_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -83,8 +74,8 @@ CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(unittest_md_SOURCES) $(unittest_trader_SOURCES)
-DIST_SOURCES = $(unittest_md_SOURCES) $(unittest_trader_SOURCES)
+SOURCES = $(unittest_md_SOURCES)
+DIST_SOURCES = $(unittest_md_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -100,6 +91,8 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir
 ETAGS = etags
 CTAGS = ctags
+am__tty_colors = \
+red=; grn=; lgn=; blu=; std=
 DIST_SUBDIRS = $(SUBDIRS)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -280,13 +273,10 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 SUBDIRS = 
+TESTS = unittest.sh
 unittest_md_SOURCES = \
-	md_service_test.cc \
 	message_test.cc \
 	md_service_impl_test.cc
-
-unittest_trader_SOURCES = \
-	trader_service_test.cc
 
 unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(BOOST_CPPFLAGS) \
@@ -300,7 +290,6 @@ unittest_CPPFLAGS = -I$(top_srcdir) \
 		$(COVERAGE_CXXFLAGS)
 
 unittest_md_CPPFLAGS = $(unittest_CPPFLAGS)
-unittest_trader_CPPFLAGS = $(unittest_CPPFLAGS)
 unittest_LDADD = \
 	$(GTEST_LIBADD) \
 	$(BOOST_LIBADD) \
@@ -312,16 +301,12 @@ unittest_LDADD = \
 unittest_md_LDADD = $(unittest_LDADD) \
 	../service/libcata_md.la
 
-unittest_trader_LDADD = $(unittest_LDADD) \
-	../service/libcata_trader.la
-
 unittest_ldflags = $(LIBADD_DL) -Wl,--no-as-needed -pthread -lrt
 unittest_md_LDFLAGS = $(unittest_ldflags)
-unittest_trader_LDFLAGS = $(unittest_ldflags)
 
 # header files
 noinst_HEADERS = 
-EXTRA_DIST = env.sh md.json trader.json
+EXTRA_DIST = env.sh
 all: all-recursive
 
 .SUFFIXES:
@@ -368,9 +353,6 @@ clean-checkPROGRAMS:
 unittest_md$(EXEEXT): $(unittest_md_OBJECTS) $(unittest_md_DEPENDENCIES) 
 	@rm -f unittest_md$(EXEEXT)
 	$(unittest_md_LINK) $(unittest_md_OBJECTS) $(unittest_md_LDADD) $(LIBS)
-unittest_trader$(EXEEXT): $(unittest_trader_OBJECTS) $(unittest_trader_DEPENDENCIES) 
-	@rm -f unittest_trader$(EXEEXT)
-	$(unittest_trader_LINK) $(unittest_trader_OBJECTS) $(unittest_trader_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -379,9 +361,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-md_service_impl_test.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-md_service_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_md-message_test.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/unittest_trader-trader_service_test.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -403,20 +383,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
-
-unittest_md-md_service_test.o: md_service_test.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-md_service_test.o -MD -MP -MF $(DEPDIR)/unittest_md-md_service_test.Tpo -c -o unittest_md-md_service_test.o `test -f 'md_service_test.cc' || echo '$(srcdir)/'`md_service_test.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-md_service_test.Tpo $(DEPDIR)/unittest_md-md_service_test.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_test.cc' object='unittest_md-md_service_test.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_test.o `test -f 'md_service_test.cc' || echo '$(srcdir)/'`md_service_test.cc
-
-unittest_md-md_service_test.obj: md_service_test.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-md_service_test.obj -MD -MP -MF $(DEPDIR)/unittest_md-md_service_test.Tpo -c -o unittest_md-md_service_test.obj `if test -f 'md_service_test.cc'; then $(CYGPATH_W) 'md_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_test.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_md-md_service_test.Tpo $(DEPDIR)/unittest_md-md_service_test.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_test.cc' object='unittest_md-md_service_test.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_test.obj `if test -f 'md_service_test.cc'; then $(CYGPATH_W) 'md_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_test.cc'; fi`
 
 unittest_md-message_test.o: message_test.cc
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_md-message_test.o -MD -MP -MF $(DEPDIR)/unittest_md-message_test.Tpo -c -o unittest_md-message_test.o `test -f 'message_test.cc' || echo '$(srcdir)/'`message_test.cc
@@ -445,20 +411,6 @@ unittest_md-md_service_impl_test.obj: md_service_impl_test.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='md_service_impl_test.cc' object='unittest_md-md_service_impl_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_md-md_service_impl_test.obj `if test -f 'md_service_impl_test.cc'; then $(CYGPATH_W) 'md_service_impl_test.cc'; else $(CYGPATH_W) '$(srcdir)/md_service_impl_test.cc'; fi`
-
-unittest_trader-trader_service_test.o: trader_service_test.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-trader_service_test.o -MD -MP -MF $(DEPDIR)/unittest_trader-trader_service_test.Tpo -c -o unittest_trader-trader_service_test.o `test -f 'trader_service_test.cc' || echo '$(srcdir)/'`trader_service_test.cc
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-trader_service_test.Tpo $(DEPDIR)/unittest_trader-trader_service_test.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trader_service_test.cc' object='unittest_trader-trader_service_test.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-trader_service_test.o `test -f 'trader_service_test.cc' || echo '$(srcdir)/'`trader_service_test.cc
-
-unittest_trader-trader_service_test.obj: trader_service_test.cc
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT unittest_trader-trader_service_test.obj -MD -MP -MF $(DEPDIR)/unittest_trader-trader_service_test.Tpo -c -o unittest_trader-trader_service_test.obj `if test -f 'trader_service_test.cc'; then $(CYGPATH_W) 'trader_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/trader_service_test.cc'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/unittest_trader-trader_service_test.Tpo $(DEPDIR)/unittest_trader-trader_service_test.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trader_service_test.cc' object='unittest_trader-trader_service_test.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unittest_trader_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o unittest_trader-trader_service_test.obj `if test -f 'trader_service_test.cc'; then $(CYGPATH_W) 'trader_service_test.cc'; else $(CYGPATH_W) '$(srcdir)/trader_service_test.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -601,6 +553,98 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
+check-TESTS: $(TESTS)
+	@failed=0; all=0; xfail=0; xpass=0; skip=0; \
+	srcdir=$(srcdir); export srcdir; \
+	list=' $(TESTS) '; \
+	$(am__tty_colors); \
+	if test -n "$$list"; then \
+	  for tst in $$list; do \
+	    if test -f ./$$tst; then dir=./; \
+	    elif test -f $$tst; then dir=; \
+	    else dir="$(srcdir)/"; fi; \
+	    if $(TESTS_ENVIRONMENT) $${dir}$$tst; then \
+	      all=`expr $$all + 1`; \
+	      case " $(XFAIL_TESTS) " in \
+	      *[\ \	]$$tst[\ \	]*) \
+		xpass=`expr $$xpass + 1`; \
+		failed=`expr $$failed + 1`; \
+		col=$$red; res=XPASS; \
+	      ;; \
+	      *) \
+		col=$$grn; res=PASS; \
+	      ;; \
+	      esac; \
+	    elif test $$? -ne 77; then \
+	      all=`expr $$all + 1`; \
+	      case " $(XFAIL_TESTS) " in \
+	      *[\ \	]$$tst[\ \	]*) \
+		xfail=`expr $$xfail + 1`; \
+		col=$$lgn; res=XFAIL; \
+	      ;; \
+	      *) \
+		failed=`expr $$failed + 1`; \
+		col=$$red; res=FAIL; \
+	      ;; \
+	      esac; \
+	    else \
+	      skip=`expr $$skip + 1`; \
+	      col=$$blu; res=SKIP; \
+	    fi; \
+	    echo "$${col}$$res$${std}: $$tst"; \
+	  done; \
+	  if test "$$all" -eq 1; then \
+	    tests="test"; \
+	    All=""; \
+	  else \
+	    tests="tests"; \
+	    All="All "; \
+	  fi; \
+	  if test "$$failed" -eq 0; then \
+	    if test "$$xfail" -eq 0; then \
+	      banner="$$All$$all $$tests passed"; \
+	    else \
+	      if test "$$xfail" -eq 1; then failures=failure; else failures=failures; fi; \
+	      banner="$$All$$all $$tests behaved as expected ($$xfail expected $$failures)"; \
+	    fi; \
+	  else \
+	    if test "$$xpass" -eq 0; then \
+	      banner="$$failed of $$all $$tests failed"; \
+	    else \
+	      if test "$$xpass" -eq 1; then passes=pass; else passes=passes; fi; \
+	      banner="$$failed of $$all $$tests did not behave as expected ($$xpass unexpected $$passes)"; \
+	    fi; \
+	  fi; \
+	  dashes="$$banner"; \
+	  skipped=""; \
+	  if test "$$skip" -ne 0; then \
+	    if test "$$skip" -eq 1; then \
+	      skipped="($$skip test was not run)"; \
+	    else \
+	      skipped="($$skip tests were not run)"; \
+	    fi; \
+	    test `echo "$$skipped" | wc -c` -le `echo "$$banner" | wc -c` || \
+	      dashes="$$skipped"; \
+	  fi; \
+	  report=""; \
+	  if test "$$failed" -ne 0 && test -n "$(PACKAGE_BUGREPORT)"; then \
+	    report="Please report to $(PACKAGE_BUGREPORT)"; \
+	    test `echo "$$report" | wc -c` -le `echo "$$banner" | wc -c` || \
+	      dashes="$$report"; \
+	  fi; \
+	  dashes=`echo "$$dashes" | sed s/./=/g`; \
+	  if test "$$failed" -eq 0; then \
+	    echo "$$grn$$dashes"; \
+	  else \
+	    echo "$$red$$dashes"; \
+	  fi; \
+	  echo "$$banner"; \
+	  test -z "$$skipped" || echo "$$skipped"; \
+	  test -z "$$report" || echo "$$report"; \
+	  echo "$$dashes$$std"; \
+	  test "$$failed" -eq 0; \
+	else :; fi
+
 distdir: $(DISTFILES)
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
@@ -661,6 +705,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
+	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-recursive
 all-am: Makefile $(HEADERS)
 installdirs: installdirs-recursive
@@ -765,19 +810,19 @@ uninstall-am:
 	ctags-recursive install-am install-strip tags-recursive
 
 .PHONY: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) CTAGS GTAGS \
-	all all-am check check-am clean clean-checkPROGRAMS \
-	clean-generic clean-libtool ctags ctags-recursive distclean \
-	distclean-compile distclean-generic distclean-libtool \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-recursive \
-	uninstall uninstall-am
+	all all-am check check-TESTS check-am clean \
+	clean-checkPROGRAMS clean-generic clean-libtool ctags \
+	ctags-recursive distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-recursive uninstall uninstall-am
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

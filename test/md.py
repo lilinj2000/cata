@@ -3,7 +3,7 @@
 import json
 
 cata_md = { 
-    "flow_path": "mdflow/",
+    "flow_path": "./",
 
     # ctpfz
     # front_address = tcp://ctpfz1-front1.citicsf.com:51213
@@ -37,7 +37,7 @@ sink1 = {
 sink2 = {
     "sink": {
         "type": "rotating_file_sink_mt",
-        "file_name": "logs/md.log",
+        "file_name": "md.log",
         "max_file_size": 5000000,
         "max_files": 10
         }

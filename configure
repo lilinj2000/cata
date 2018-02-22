@@ -16061,7 +16061,7 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 
 
 
-ac_config_files="$ac_config_files Makefile cata/Makefile service/Makefile utest/Makefile"
+ac_config_files="$ac_config_files Makefile cata/Makefile service/Makefile utest/Makefile test/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -17083,6 +17083,7 @@ do
     "cata/Makefile") CONFIG_FILES="$CONFIG_FILES cata/Makefile" ;;
     "service/Makefile") CONFIG_FILES="$CONFIG_FILES service/Makefile" ;;
     "utest/Makefile") CONFIG_FILES="$CONFIG_FILES utest/Makefile" ;;
+    "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
 
   *) { { $as_echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 $as_echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
