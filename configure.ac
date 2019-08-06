@@ -127,7 +127,7 @@ AC_SUBST(READERWRITERQUEUE_CPPFLAGS)
 
 dnl thost api lib
 dnl CTP_HOME=$home_3rd/v6.3.6_20141230traderapi_linux64
-CTP_HOME=$home_3rd/v6.3.6_20160606_api_tradeapi_linux64
+CTP_HOME=$home_3rd/v6.3.15_20190220_api_tradeapi_se_linux64
 AC_ARG_WITH([ctp],
     [AS_HELP_STRING([--with-ctp],
         [path of the ctp api, defaults to $CTP_HOME])],
@@ -136,8 +136,8 @@ AC_ARG_WITH([ctp],
 AC_SUBST([CTP_HOME])
 
 CTP_CPPFLAGS=-I$CTP_HOME
-CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi"
-CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi"
+CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi_se"
+CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi_se"
 AC_SUBST(CTP_CPPFLAGS)
 AC_SUBST(CTP_MD_LIBADD)
 AC_SUBST(CTP_TRADER_LIBADD)

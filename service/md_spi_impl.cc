@@ -24,7 +24,6 @@
 //
 //
 
-
 #include "service/md_spi_impl.h"
 
 #include "fmt/format.h"
@@ -34,43 +33,33 @@
 
 namespace cata {
 
-MDSpiImpl::MDSpiImpl(MDServiceImpl* service) :
-    service_(service) {
-  SOIL_TRACE("MDSpiImpl::MDSpiImpl()");
+MDSpiImpl::MDSpiImpl(MDServiceImpl *service) : service_(service) {
+  SOIL_FUNC_TRACE;
 }
 
-MDSpiImpl::~MDSpiImpl() {
-  SOIL_TRACE("MDSpiImpl::~MDSpiImpl()");
-}
+MDSpiImpl::~MDSpiImpl() { SOIL_FUNC_TRACE; }
 
 void MDSpiImpl::OnFrontConnected() {
   SOIL_FUNC_TRACE;
 
-  SOIL_INFO("OnFrontConnected");
   service_->login();
 }
 
-void MDSpiImpl::OnFrontDisconnected(
-    int nReason) {
+void MDSpiImpl::OnFrontDisconnected(int nReason) {
   SOIL_FUNC_TRACE;
 
-  SOIL_ERROR("OnFrontDisconnected: {:#x}",
-             nReason);
+  SOIL_ERROR("OnFrontDisconnected: {:#x}", nReason);
 }
 
-void MDSpiImpl::OnHeartBeatWarning(
-    int nTimeLapse) {
+void MDSpiImpl::OnHeartBeatWarning(int nTimeLapse) {
   SOIL_FUNC_TRACE;
 
-  SOIL_WARN("OnHeartBeatWarning: {}",
-            nTimeLapse);
+  SOIL_WARN("OnHeartBeatWarning: {}", nTimeLapse);
 }
 
-void MDSpiImpl::OnRspUserLogin(
-    CThostFtdcRspUserLoginField *pRspUserLogin,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+void MDSpiImpl::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
+                               CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                               bool bIsLast) {
   SOIL_FUNC_TRACE;
 
   SOIL_DEBUG_IF_PRINT(pRspUserLogin);
@@ -84,11 +73,9 @@ void MDSpiImpl::OnRspUserLogin(
   }
 }
 
-void MDSpiImpl::OnRspUserLogout(
-    CThostFtdcUserLogoutField *pUserLogout,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+void MDSpiImpl::OnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout,
+                                CThostFtdcRspInfoField *pRspInfo,
+                                int nRequestID, bool bIsLast) {
   SOIL_FUNC_TRACE;
 
   SOIL_DEBUG_IF_PRINT(pUserLogout);
@@ -97,95 +84,60 @@ void MDSpiImpl::OnRspUserLogout(
   SOIL_DEBUG_PRINT(bIsLast);
 }
 
-void MDSpiImpl::OnRspError(
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+void MDSpiImpl::OnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                           bool bIsLast) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RSP_ERROR_CALLBACK(
-      onRspError,
-      pRspInfo,
-      nRequestID,
-      bIsLast);
+  CATA_ON_RSP_ERROR_CALLBACK(onRspError, pRspInfo, nRequestID, bIsLast);
 }
 
 void MDSpiImpl::OnRspSubMarketData(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+    CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RSP_CALLBACK(
-      onRspSubMarketData,
-      pSpecificInstrument,
-      pRspInfo,
-      nRequestID,
-      bIsLast);
+  CATA_ON_RSP_CALLBACK(onRspSubMarketData, pSpecificInstrument, pRspInfo,
+                       nRequestID, bIsLast);
 }
 
 void MDSpiImpl::OnRspUnSubMarketData(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+    CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RSP_CALLBACK(
-      onRspUnSubMarketData,
-      pSpecificInstrument,
-      pRspInfo,
-      nRequestID,
-      bIsLast);
+  CATA_ON_RSP_CALLBACK(onRspUnSubMarketData, pSpecificInstrument, pRspInfo,
+                       nRequestID, bIsLast);
 }
 
 void MDSpiImpl::OnRspSubForQuoteRsp(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+    CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RSP_CALLBACK(
-      onRspSubForQuoteRsp,
-      pSpecificInstrument,
-      pRspInfo,
-      nRequestID,
-      bIsLast);
+  CATA_ON_RSP_CALLBACK(onRspSubForQuoteRsp, pSpecificInstrument, pRspInfo,
+                       nRequestID, bIsLast);
 }
 
 void MDSpiImpl::OnRspUnSubForQuoteRsp(
     CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-    CThostFtdcRspInfoField *pRspInfo,
-    int nRequestID,
-    bool bIsLast) {
+    CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RSP_CALLBACK(
-      onRspUnSubForQuoteRsp,
-      pSpecificInstrument,
-      pRspInfo,
-      nRequestID,
-      bIsLast);
+  CATA_ON_RSP_CALLBACK(onRspUnSubForQuoteRsp, pSpecificInstrument, pRspInfo,
+                       nRequestID, bIsLast);
 }
 
 void MDSpiImpl::OnRtnDepthMarketData(
     CThostFtdcDepthMarketDataField *pDepthMarketData) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RTN_CALLBACK(
-      onRtnDepthMarketData,
-      pDepthMarketData);
+  CATA_ON_RTN_CALLBACK(onRtnDepthMarketData, pDepthMarketData);
 }
 
-void MDSpiImpl::OnRtnForQuoteRsp(
-    CThostFtdcForQuoteRspField *pForQuoteRsp) {
+void MDSpiImpl::OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp) {
   SOIL_FUNC_TRACE;
 
-  CATA_ON_RTN_CALLBACK(
-      onRtnForQuoteRsp,
-      pForQuoteRsp);
+  CATA_ON_RTN_CALLBACK(onRtnForQuoteRsp, pForQuoteRsp);
 }
 
-}  // namespace cata
+} // namespace cata

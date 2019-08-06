@@ -15677,7 +15677,7 @@ fi
 READERWRITERQUEUE_CPPFLAGS="-I$READERWRITERQUEUE_HOME/include"
 
 
-CTP_HOME=$home_3rd/v6.3.6_20160606_api_tradeapi_linux64
+CTP_HOME=$home_3rd/v6.3.15_20190220_api_tradeapi_se_linux64
 
 # Check whether --with-ctp was given.
 if test "${with_ctp+set}" = set; then :
@@ -15689,8 +15689,8 @@ fi
 
 
 CTP_CPPFLAGS=-I$CTP_HOME
-CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi"
-CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi"
+CTP_MD_LIBADD="-L$CTP_HOME -lthostmduserapi_se"
+CTP_TRADER_LIBADD="-L$CTP_HOME -lthosttraderapi_se"
 
 
 

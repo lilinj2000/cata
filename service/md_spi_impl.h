@@ -24,87 +24,71 @@
 //
 //
 
-
 #ifndef SERVICE_MD_SPI_IMPL_H_
 #define SERVICE_MD_SPI_IMPL_H_
 
-#include <memory>
 #include "ThostFtdcMdApi.h"
 #include "service/md_service_impl.h"
+#include <memory>
 
 namespace cata {
 
 class MDSpiImpl : public CThostFtdcMdSpi {
- public:
-  explicit MDSpiImpl(MDServiceImpl* service);
+public:
+  explicit MDSpiImpl(MDServiceImpl *service);
 
   virtual ~MDSpiImpl();
 
   // interface from CThostFtdcMdSpi
   virtual void OnFrontConnected();
 
-  virtual void OnFrontDisconnected(
-      int nReason);
+  virtual void OnFrontDisconnected(int nReason);
 
-  virtual void OnHeartBeatWarning(
-      int nTimeLapse);
+  virtual void OnHeartBeatWarning(int nTimeLapse);
 
-  virtual void OnRspUserLogin(
-      CThostFtdcRspUserLoginField *pRspUserLogin,
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
+                              CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                              bool bIsLast);
 
-  virtual void OnRspUserLogout(
-      CThostFtdcUserLogoutField *pUserLogout,
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void OnRspUserLogout(CThostFtdcUserLogoutField *pUserLogout,
+                               CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                               bool bIsLast);
 
-  virtual void OnRspError(
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void OnRspError(CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                          bool bIsLast);
 
-  virtual void OnRspSubMarketData(
-      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void
+  OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+                     CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                     bool bIsLast);
 
-  virtual void OnRspUnSubMarketData(
-      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void
+  OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+                       CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                       bool bIsLast);
 
-  virtual void OnRspSubForQuoteRsp(
-      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void
+  OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+                      CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                      bool bIsLast);
 
-  virtual void OnRspUnSubForQuoteRsp(
-      CThostFtdcSpecificInstrumentField *pSpecificInstrument,
-      CThostFtdcRspInfoField *pRspInfo,
-      int nRequestID,
-      bool bIsLast);
+  virtual void
+  OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField *pSpecificInstrument,
+                        CThostFtdcRspInfoField *pRspInfo, int nRequestID,
+                        bool bIsLast);
 
-  virtual void OnRtnDepthMarketData(
-      CThostFtdcDepthMarketDataField *pDepthMarketData);
+  virtual void
+  OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *pDepthMarketData);
 
-  virtual void OnRtnForQuoteRsp(
-      CThostFtdcForQuoteRspField *pForQuoteRsp);
+  virtual void OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp);
 
- protected:
-  MDCallback* callback() {
-    return service_->callback();
-  }
+protected:
+  MDCallback *callback() { return service_->callback(); }
 
- private:
-  MDServiceImpl* service_;
+private:
+  MDServiceImpl *service_;
 };
 
-};  // namespace cata
+}; // namespace cata
 
-#endif  // SERVICE_MD_SPI_IMPL_H_
+#endif // SERVICE_MD_SPI_IMPL_H_
