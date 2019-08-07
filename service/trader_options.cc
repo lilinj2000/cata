@@ -43,6 +43,11 @@ TraderOptions::TraderOptions(
   get_item_value(&password, doc, "/cata_trader/password");
   get_item_value(&investor_id, doc, "/cata_trader/investor_id");
 
+  get_item_value(&app_id, doc, "/cata_trader/app_id");
+  get_item_value(&auth_code, doc, "/cata_trader/auth_code");
+
+  get_item_value(&exchange_id, doc, "/cata_trader/exchange_id");
+
   return;
 }
 

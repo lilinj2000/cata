@@ -86,20 +86,20 @@ class TraderServiceTest :
 };
 
 TEST_F(TraderServiceTest, orderTest) {
-  int32_t order_ref = service->openBuyOrder(instru,
+  int32_t order_ref = service->openBuyOrderFOK(instru,
                                             price,
                                             volume);
   SOIL_INFO("order_ref: {}", order_ref);
   wait();
 
-  service->cancelOrder(order_ref, instru);
-  wait();
+  // service->cancelOrder(order_ref, instru);
+  // wait();
 
-  service->queryOrder("", "", "", "", "");
-  wait();
+  // service->queryOrder("", "", "", "", "");
+  // wait();
 
-  service->queryTrade("", "", "", "", "");
-  wait();
+  // service->queryTrade("", "", "", "", "");
+  // wait();
 
   SUCCEED();
 }

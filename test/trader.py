@@ -19,12 +19,14 @@ cata_trader = {
     # password = y888888
     # investor_id = 037135
 
-    "front_address": "tcp://180.168.146.187:10030",
+    "front_address": "tcp://180.168.146.187:10100",
     "broker_id": "9999",
     "user_id": "037135",
     "password": "y888888",
-
-    "investor_id": "037135"
+    "investor_id": "037135",
+    "app_id": "simnow_client_test",
+    "auth_code": "0000000000000000",
+    "exchange_id": "SHFE"
     }
 
 sink1 = {
@@ -50,8 +52,8 @@ log = {
 
 tests = {
     "prod": "cu",
-    "instru": "cu1804",
-    "price": 50010,
+    "instru": "cu2005",
+    "price": 45000,
     "volume": 1
     }
 

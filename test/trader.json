@@ -1,8 +1,11 @@
 {
     "cata_trader": {
+        "app_id": "simnow_client_test", 
+        "auth_code": "0000000000000000", 
         "broker_id": "9999", 
+        "exchange_id": "SHFE", 
         "flow_path": "./", 
-        "front_address": "tcp://180.168.146.187:10030", 
+        "front_address": "tcp://180.168.146.187:10100", 
         "investor_id": "037135", 
         "password": "y888888", 
         "user_id": "037135"
@@ -27,8 +30,8 @@
         ]
     }, 
     "tests": {
-        "instru": "cu1804", 
-        "price": 50010, 
+        "instru": "cu2005", 
+        "price": 45000, 
         "prod": "cu", 
         "volume": 1
     }

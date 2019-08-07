@@ -47,6 +47,12 @@ class TraderOptions {
   std::string password;
 
   std::string investor_id;
+
+  std::string app_id;
+  std::string auth_code;
+
+  std::string exchange_id;
+
 };
 
 }  // namespace cata

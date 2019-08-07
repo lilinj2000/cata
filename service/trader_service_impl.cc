@@ -51,6 +51,12 @@ namespace cata {
           InvestorID,                           \
           options_->investor_id.data())
 
+#define INPUT_EXCHANGE_ID(O, S)                 \
+  S_INPUT(O,                                    \
+          S,                                    \
+          ExchangeID,                           \
+          options_->exchange_id.data())
+
 #define INPUT_ID_OF_BI(O, S) \
   INPUT_BROKER_ID(O, S);      \
   INPUT_INVESTOR_ID(O, S)
@@ -110,12 +116,12 @@ TraderServiceImpl::TraderServiceImpl(
 TraderServiceImpl::~TraderServiceImpl() {
   SOIL_TRACE("TraderServiceImpl::~TraderServiceImpl()");
 
-  try {
-    logout();
-    wait();
-  } catch (std::exception& e) {
-    SOIL_ERROR("Error: {}", e.what());
-  }
+  // try {
+  //   logout();
+  //   wait();
+  // } catch (std::exception& e) {
+  //   SOIL_ERROR("Error: {}", e.what());
+  // }
 
   trader_api_->RegisterSpi(nullptr);
   trader_api_->Release();
@@ -757,8 +763,38 @@ void TraderServiceImpl::queryExchangeMarginRateAdjust(
   }
 }
 
+void TraderServiceImpl::reqAuthenticate() {
+  SOIL_FUNC_TRACE;
+
+  CThostFtdcReqAuthenticateField  req;
+  memset(&req, 0x0, sizeof(req));
+
+  INPUT_ID_OF_BU(
+      &req,
+      CThostFtdcReqAuthenticateField);
+  
+  S_INPUT(&req,
+          CThostFtdcReqAuthenticateField,
+          AppID,
+          options_->app_id.data());
+  S_INPUT(&req,
+          CThostFtdcReqAuthenticateField,
+          AuthCode,
+          options_->auth_code.data());
+
+  SOIL_DEBUG_PRINT(req);
+
+  int result = trader_api_->ReqAuthenticate(&req, reqID());
+
+  if (result != 0) {
+    throw std::runtime_error(
+        fmt::format("reqAuthenticate failed, return code {}",
+                    result));
+  }
+}
+
 void TraderServiceImpl::login() {
-  SOIL_TRACE("TraderServiceImpl::login()");
+  SOIL_FUNC_TRACE;
 
   CThostFtdcReqUserLoginField req;
   memset(&req, 0x0, sizeof(req));
@@ -893,6 +929,8 @@ TraderServiceImpl::reqOrderMessage(
   INPUT_ID_OF_BUI(
       req.get(),
       CThostFtdcInputOrderField);
+  INPUT_EXCHANGE_ID(req.get(), CThostFtdcInputOrderField);
+  
   req->OrderPriceType = THOST_FTDC_OPT_LimitPrice;
   req->MinVolume = 1;
   req->ContingentCondition = THOST_FTDC_CC_Immediately;

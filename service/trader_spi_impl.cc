@@ -40,7 +40,7 @@ TraderSpiImpl::~TraderSpiImpl() { SOIL_FUNC_TRACE; }
 void TraderSpiImpl::OnFrontConnected() {
   SOIL_FUNC_TRACE;
 
-  service_->login();
+  service_->reqAuthenticate();
 }
 
 void TraderSpiImpl::OnFrontDisconnected(int nReason) {
@@ -62,6 +62,10 @@ void TraderSpiImpl::OnRspAuthenticate(
 
   CATA_ON_RSP_CALLBACK(onRspAuthenticate, pRspAuthenticateField, pRspInfo,
                        nRequestID, bIsLast);
+
+  if (!isRspError(pRspInfo)) {
+    service_->login();
+  }
 }
 
 void TraderSpiImpl::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin,
@@ -185,6 +189,10 @@ void TraderSpiImpl::OnRspSettlementInfoConfirm(
     CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm,
     CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {
   SOIL_FUNC_TRACE;
+
+  if (!isRspError(pRspInfo)) {
+    service_->notify();
+  }
 
   CATA_ON_RSP_CALLBACK(onRspSettlementInfoConfirm, pSettlementInfoConfirm,
                        pRspInfo, nRequestID, bIsLast);
