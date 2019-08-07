@@ -19,14 +19,23 @@ cata_trader = {
     # password = y888888
     # investor_id = 037135
 
-    "front_address": "tcp://180.168.146.187:10100",
-    "broker_id": "9999",
-    "user_id": "037135",
-    "password": "y888888",
-    "investor_id": "037135",
-    "app_id": "simnow_client_test",
-    "auth_code": "0000000000000000",
-    "exchange_id": "SHFE"
+    #"front_address": "tcp://180.168.146.187:10100",
+    #"broker_id": "9999",
+    #"user_id": "037135",
+    #"password": "y888888",
+    #"investor_id": "037135",
+    #"app_id": "simnow_client_test",
+    #"auth_code": "0000000000000000",
+    #"exchange_id": "SHFE"
+
+    "front_address": "tcp://172.31.108.48:51305",
+    "broker_id": "66666",
+    "user_id": "01306",
+    "password": "Test@123456",
+    "investor_id": "01306",
+    "app_id": "Client_FF_1.0.0",
+    "auth_code": "7IMPN6OAUGNFCCCF",
+    "exchange_id": "CFFEX"
     }
 
 sink1 = {

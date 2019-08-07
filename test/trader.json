@@ -1,14 +1,14 @@
 {
     "cata_trader": {
-        "app_id": "simnow_client_test", 
-        "auth_code": "0000000000000000", 
-        "broker_id": "9999", 
-        "exchange_id": "SHFE", 
+        "app_id": "client_xxx_1.0.1", 
+        "auth_code": "0D6V7N1CIBWUT1CT", 
+        "broker_id": "66666", 
+        "exchange_id": "CFFEX", 
         "flow_path": "./", 
-        "front_address": "tcp://180.168.146.187:10100", 
-        "investor_id": "037135", 
-        "password": "y888888", 
-        "user_id": "037135"
+        "front_address": "tcp://172.31.108.48:51305", 
+        "investor_id": "01306", 
+        "password": "Test@123456", 
+        "user_id": "01306"
     }, 
     "log": {
         "level": "trace", 
